@@ -24,12 +24,34 @@ export interface PostrunClientOptions {
 
 const DEFAULT_BASE_URL = 'https://api.postrun.ai/v1';
 
+/**
+ * The API parses object-valued query params (e.g. the `metadata` filter) as a
+ * single URL-encoded JSON string. openapi-fetch's default emits bracket form
+ * (`metadata[tier]=pro`), which the server never reads — silently dropping the
+ * filter. Serialize objects as JSON; scalars normally.
+ */
+function serializeQuery(query: Record<string, unknown>): string {
+  const parts: string[] = [];
+
+  for (const [key, value] of Object.entries(query)) {
+    if (value === undefined || value === null) {
+      continue;
+    }
+
+    const raw = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(raw)}`);
+  }
+
+  return parts.join('&');
+}
+
 /** Construct a typed client. The browser only ever holds the scoped token. */
 export function createPostrunClient(
   options: PostrunClientOptions,
 ): PostrunClient {
   const client = createOpenApiClient<paths>({
     baseUrl: options.baseUrl ?? DEFAULT_BASE_URL,
+    querySerializer: serializeQuery,
   });
 
   client.use({

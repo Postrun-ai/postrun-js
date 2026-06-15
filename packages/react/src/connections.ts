@@ -1,10 +1,44 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { unwrap } from '@postrun/js';
-import type { SelectAccountInput } from '@postrun/js';
+import type { ConnectablePlatform, SelectAccountInput } from '@postrun/js';
 
 import { usePostrun } from './context';
 import { connectionKeys } from './keys';
+import { navigate } from './navigate';
+
+export interface ConnectParams {
+  /** The profile to attach the new connection to. */
+  profileId: string;
+  /** The platform to connect (X, LinkedIn, Meta, …). */
+  platform: ConnectablePlatform;
+}
+
+/**
+ * Start a connect flow: mint a session and redirect the browser to the hosted
+ * connect URL on postrun.ai, where the full white-labeled OAuth journey runs and
+ * the user is returned to the host app. Bare-bones by design — the OAuth UI is
+ * ours and hosted, so the host app just calls `mutate({ profileId, platform })`.
+ * On return, the new connection appears via `useConnections`.
+ */
+export function useConnect() {
+  const { client, queryClient } = usePostrun();
+  return useMutation(
+    {
+      mutationFn: async ({ profileId, platform }: ConnectParams) => {
+        const session = unwrap(
+          await client.POST('/profiles/{id}/connect', {
+            params: { path: { id: profileId } },
+            body: { platform },
+          }),
+        );
+        navigate(session.connect_url);
+        return session;
+      },
+    },
+    queryClient,
+  );
+}
 
 /** List a profile's connected accounts. */
 export function useConnections(profileId: string) {

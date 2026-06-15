@@ -20,10 +20,12 @@ export {
   useDeleteProfile,
 } from './profiles';
 export {
+  useConnect,
   useConnections,
   useConnection,
   useDiscoverableAccounts,
   useSelectAccount,
   useDisconnect,
 } from './connections';
+export type { ConnectParams } from './connections';
 export { profileKeys, connectionKeys } from './keys';

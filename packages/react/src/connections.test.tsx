@@ -2,13 +2,17 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, expect, test, vi } from 'vitest';
 
 import {
+  useConnect,
   useConnection,
   useConnections,
   useDisconnect,
   useDiscoverableAccounts,
   useSelectAccount,
 } from './connections';
+import { navigate } from './navigate';
 import { recordFetch, testWrapper } from './test-utils';
+
+vi.mock('./navigate', () => ({ navigate: vi.fn() }));
 
 const CONNECTION = {
   id: 'conn_1',
@@ -98,6 +102,28 @@ test('useSelectAccount activates the connection by id', async () => {
   expect(new URL(calls[0]!.url).pathname).toMatch(/\/connections\/conn_1$/);
   expect(await calls[0]!.json()).toEqual({ external_account_id: 'acc_1' });
   expect(activated).toEqual(ACTIVE);
+});
+
+test('useConnect creates a session and redirects the browser to the hosted connect URL', async () => {
+  const SESSION = {
+    connect_session_token: 'cst_123',
+    connect_url: 'https://postrun.ai/connect/cst_123',
+    expires_at: '2026-01-01T00:00:00Z',
+  };
+  const calls = recordFetch(SESSION, 201);
+
+  const { result } = renderHook(() => useConnect(), {
+    wrapper: testWrapper(),
+  });
+
+  await act(async () => {
+    await result.current.mutateAsync({ profileId: 'prof_1', platform: 'x' });
+  });
+
+  expect(calls[0]!.method).toBe('POST');
+  expect(new URL(calls[0]!.url).pathname).toMatch(/\/profiles\/prof_1\/connect$/);
+  expect(await calls[0]!.json()).toEqual({ platform: 'x' });
+  expect(navigate).toHaveBeenCalledWith(SESSION.connect_url);
 });
 
 test('useDisconnect deletes a connection by id', async () => {

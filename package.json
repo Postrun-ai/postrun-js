@@ -1,0 +1,37 @@
+{
+  "name": "postrun-js",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Official JavaScript SDK + React hooks/components for the Postrun API",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": {
+    "name": "Postrun",
+    "url": "https://postrun.ai"
+  },
+  "homepage": "https://postrun.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/postrun/postrun-js.git"
+  },
+  "packageManager": "pnpm@11.4.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "clean": "turbo clean && rm -rf node_modules",
+    "generate": "turbo generate",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.11",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.3"
+  }
+}

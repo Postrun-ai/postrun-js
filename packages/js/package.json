@@ -1,0 +1,45 @@
+{
+  "name": "@postrun/js",
+  "version": "0.0.0",
+  "description": "Typed JavaScript client + client-side validation for the Postrun API",
+  "license": "SEE LICENSE IN ../../LICENSE",
+  "homepage": "https://postrun.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/postrun/postrun-js.git",
+    "directory": "packages/js"
+  },
+  "type": "module",
+  "files": ["dist", "LICENSE"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./schemas": {
+      "types": "./dist/schemas/index.d.ts",
+      "import": "./dist/schemas/index.js",
+      "require": "./dist/schemas/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "generate": "echo 'TODO: openapi-typescript + orval (zod) from https://api.postrun.ai/v1/openapi.json'"
+  },
+  "dependencies": {
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.0"
+  }
+}

@@ -34,8 +34,6 @@ pnpm test
 
 ## License
 
-Source-available under [**PolyForm Shield 1.0.0**](./LICENSE). Plain terms: you
-(and your customers) may use, modify, and ship this freely inside your own
-products. You may **not** use it to build or operate a product that competes with
-Postrun. This is intentionally _source-available_, not OSI open-source — the
-competitor carve-out is the whole point.
+[Apache-2.0](./LICENSE) — use, modify, and ship it freely in your own products,
+with an explicit patent grant. The Postrun **name and marks** are trademarks (see
+[NOTICE](./NOTICE)); the license covers the code, not the brand.

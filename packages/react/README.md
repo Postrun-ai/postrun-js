@@ -38,5 +38,5 @@ shipped** — that's your product and your taste. Build it from the hooks above.
 
 ## License
 
-Source-available under [PolyForm Shield 1.0.0](../../LICENSE): use it freely in
-your product; you may not use it to build a competing API.
+[Apache-2.0](../../LICENSE) — use it freely in your product, with an explicit
+patent grant. "Postrun" is a trademark (see [NOTICE](../../NOTICE)).

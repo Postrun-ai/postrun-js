@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Official JavaScript SDK + React hooks/components for the Postrun API",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "Apache-2.0",
   "author": {
     "name": "Postrun",
     "url": "https://postrun.ai"

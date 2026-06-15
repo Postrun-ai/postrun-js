@@ -34,5 +34,5 @@ API — instant feedback, no network round-trip, identical to the server `dry_ru
 
 ## License
 
-Source-available under [PolyForm Shield 1.0.0](../../LICENSE): use it freely in
-your product; you may not use it to build a competing API.
+[Apache-2.0](../../LICENSE) — use it freely in your product, with an explicit
+patent grant. "Postrun" is a trademark (see [NOTICE](../../NOTICE)).

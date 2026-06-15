@@ -15,3 +15,13 @@ export const profileKeys = {
   details: () => [...profileKeys.all, 'detail'] as const,
   detail: (id: string) => [...profileKeys.details(), id] as const,
 };
+
+/** Query-key factory for connections (lists keyed by owning profile). */
+export const connectionKeys = {
+  all: [ROOT, 'connections'] as const,
+  lists: () => [...connectionKeys.all, 'list'] as const,
+  list: (profileId: string) => [...connectionKeys.lists(), profileId] as const,
+  details: () => [...connectionKeys.all, 'detail'] as const,
+  detail: (id: string) => [...connectionKeys.details(), id] as const,
+  accounts: (id: string) => [...connectionKeys.all, 'accounts', id] as const,
+};

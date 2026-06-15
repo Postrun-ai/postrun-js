@@ -20,6 +20,12 @@ export type {
   ListProfilesQuery,
   CreateProfileInput,
   UpdateProfileInput,
+  Connection,
+  ConnectionList,
+  ConnectSession,
+  ConnectablePlatform,
+  DiscoverableAccountList,
+  SelectAccountInput,
 } from './resources';
 
 export type { paths, components, operations } from './generated/types';

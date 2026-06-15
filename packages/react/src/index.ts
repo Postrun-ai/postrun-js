@@ -19,4 +19,11 @@ export {
   useUpdateProfile,
   useDeleteProfile,
 } from './profiles';
-export { profileKeys } from './keys';
+export {
+  useConnections,
+  useConnection,
+  useDiscoverableAccounts,
+  useSelectAccount,
+  useDisconnect,
+} from './connections';
+export { profileKeys, connectionKeys } from './keys';

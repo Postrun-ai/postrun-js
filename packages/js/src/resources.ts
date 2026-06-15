@@ -30,3 +30,28 @@ export type CreateProfileInput =
 export type UpdateProfileInput = NonNullable<
   operations['profiles.update']['requestBody']
 >['content']['application/json'];
+
+/** A connected social/ads account on a profile. */
+export type Connection =
+  operations['connections.get']['responses']['200']['content']['application/json'];
+
+/** A page of a profile's connections. */
+export type ConnectionList =
+  operations['connections.listByProfile']['responses']['200']['content']['application/json'];
+
+/** The session returned when starting a connect (OAuth) flow. */
+export type ConnectSession =
+  operations['connections.connect']['responses']['201']['content']['application/json'];
+
+/** A platform a connection can start an OAuth connect flow for. */
+export type ConnectablePlatform =
+  operations['connections.connect']['requestBody']['content']['application/json']['platform'];
+
+/** Accounts discoverable on a pending connection, for the selection step. */
+export type DiscoverableAccountList =
+  operations['connections.listAccounts']['responses']['200']['content']['application/json'];
+
+/** Request body to select an account on a pending connection. */
+export type SelectAccountInput = NonNullable<
+  operations['connections.select']['requestBody']
+>['content']['application/json'];

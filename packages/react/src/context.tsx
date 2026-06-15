@@ -1,4 +1,11 @@
-import { createContext, createElement, useContext, useMemo } from 'react';
+import {
+  createContext,
+  createElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import type { ReactNode } from 'react';
 
 import { createPostrunClient } from '@postrun/js';
@@ -14,6 +21,7 @@ export interface PostrunContextValue {
 }
 
 const PostrunContext = createContext<PostrunContextValue | null>(null);
+PostrunContext.displayName = 'PostrunContext';
 
 export interface PostrunProviderProps {
   /**
@@ -32,9 +40,22 @@ export function PostrunProvider({
   baseUrl,
   children,
 }: PostrunProviderProps) {
+  // Keep the latest `getToken` in a ref so the client can always call the
+  // freshest closure WITHOUT being rebuilt when callers pass a new arrow each
+  // render (the common case). The client is constructed once per `baseUrl`.
+  const getTokenRef = useRef(getToken);
+  useEffect(() => {
+    getTokenRef.current = getToken;
+  }, [getToken]);
+
   const value = useMemo<PostrunContextValue>(
-    () => ({ client: createPostrunClient({ getToken, baseUrl }) }),
-    [getToken, baseUrl],
+    () => ({
+      client: createPostrunClient({
+        getToken: () => getTokenRef.current(),
+        baseUrl,
+      }),
+    }),
+    [baseUrl],
   );
 
   return createElement(PostrunContext.Provider, { value }, children);

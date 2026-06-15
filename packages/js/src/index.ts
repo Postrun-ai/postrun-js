@@ -14,4 +14,12 @@ export type { PostrunClient, PostrunClientOptions } from './client';
 export { PostrunError, unwrap } from './errors';
 export type { PostrunProblem } from './errors';
 
+export type {
+  Profile,
+  ProfileList,
+  ListProfilesQuery,
+  CreateProfileInput,
+  UpdateProfileInput,
+} from './resources';
+
 export type { paths, components, operations } from './generated/types';

@@ -1,7 +1,8 @@
 import { createContext, createElement, useContext, useMemo } from 'react';
 import type { ReactNode } from 'react';
 
-import { PostrunClient } from '@postrun/js';
+import { createPostrunClient } from '@postrun/js';
+import type { PostrunClient } from '@postrun/js';
 
 /**
  * The value every hook and component reads from context: a configured client.
@@ -32,7 +33,7 @@ export function PostrunProvider({
   children,
 }: PostrunProviderProps) {
   const value = useMemo<PostrunContextValue>(
-    () => ({ client: new PostrunClient({ getToken, baseUrl }) }),
+    () => ({ client: createPostrunClient({ getToken, baseUrl }) }),
     [getToken, baseUrl],
   );
 

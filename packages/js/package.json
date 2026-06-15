@@ -32,12 +32,15 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "generate": "echo 'TODO: openapi-typescript + orval (zod) from https://api.postrun.ai/v1/openapi.json'"
+    "generate": "openapi-typescript ./openapi.json --output ./src/generated/types.ts && prettier --write ./src/generated/types.ts"
   },
   "dependencies": {
+    "openapi-fetch": "^0.13.5",
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "openapi-typescript": "^7.6.1",
+    "prettier": "^3.4.2",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3",
     "vitest": "^3.0.0"

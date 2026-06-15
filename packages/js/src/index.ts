@@ -1,9 +1,17 @@
 /**
  * @postrun/js — typed JavaScript client for the Postrun API.
  *
- * Entry points:
- *   import { PostrunClient } from '@postrun/js';
- *   import { ... } from '@postrun/js/schemas';   // client-side validation (no HTTP)
+ *   import { createPostrunClient, unwrap } from '@postrun/js';
+ *   import type { paths } from '@postrun/js';        // raw spec types
+ *   import { ... } from '@postrun/js/schemas';        // client-side validation (soon)
+ *
+ * The client is built on openapi-fetch over types generated from the public
+ * OpenAPI spec, so every call is strongly typed end-to-end.
  */
-export { PostrunClient } from './client';
-export type { PostrunClientOptions } from './client';
+export { createPostrunClient } from './client';
+export type { PostrunClient, PostrunClientOptions } from './client';
+
+export { PostrunError, unwrap } from './errors';
+export type { PostrunProblem } from './errors';
+
+export type { paths, components, operations } from './generated/types';

@@ -138,6 +138,22 @@ test('maps top-level fields to the request body', () => {
   });
 });
 
+test('throws on a document upload without explicit settings (cannot auto-derive)', () => {
+  // A LinkedIn document post needs content_kind: 'document' + a title we can't
+  // derive — auto-deriving it as single_image would publish the PDF as an image.
+  expect(() =>
+    buildCreatePost(
+      { profileId: 'p', content: { media: [media('d1', 'document')] }, channels: ['linkedin'] },
+      conns,
+    ),
+  ).toThrow(/document/i);
+});
+
+test('buildUpdatePost throws on an empty edit (no field changes)', () => {
+  expect(() => buildUpdatePost({})).toThrow(/at least one/i);
+  expect(() => buildUpdatePost({ dryRun: true })).toThrow(/at least one/i);
+});
+
 test('buildUpdatePost (light edit) sends only the envelope, no variants', () => {
   const body = buildUpdatePost({ scheduleAt: '2026-06-20T14:00:00Z', tags: ['q3'] });
   expect(body.variants).toBeUndefined();

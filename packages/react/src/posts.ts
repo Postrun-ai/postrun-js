@@ -76,6 +76,9 @@ export function useCreatePost(profileId: string) {
     error: mutation.error,
     data: mutation.data,
     reset: mutation.reset,
+    // The profile's connections must load before `create` can resolve a channel;
+    // gate on this so a call during loading isn't mislabeled "not connected".
+    isReady: connections.isSuccess,
     connectedChannels: connected
       .map((connection) => connection.platform)
       .filter(isPostPlatform),

@@ -19,6 +19,14 @@ export const POST_PLATFORMS = [
   'instagram',
 ] as const satisfies readonly PostPlatform[];
 
+// Compile-time EXHAUSTIVENESS: if the contract adds a posting platform that
+// isn't in POST_PLATFORMS (and so isn't dispatched in buildVariants), this fails
+// the build — `satisfies` alone only proves the listed members are valid.
+type AssertExhaustive<T extends never> = T;
+type _PostPlatformsExhaustive = AssertExhaustive<
+  Exclude<PostPlatform, (typeof POST_PLATFORMS)[number]>
+>;
+
 /** Narrow any platform string to a posting platform. */
 export function isPostPlatform(value: string): value is PostPlatform {
   return POST_PLATFORMS.some((platform) => platform === value);
@@ -131,6 +139,21 @@ function toMediaRefs(media: readonly MediaInput[]) {
   return media.map((item) => ({ media_id: item.id }));
 }
 
+/**
+ * A document asset (LinkedIn PDF/DOC/…) can't be auto-composed: it needs
+ * `content_kind: 'document'` and a `settings.document.title` we can't derive, and
+ * deriving it as `single_image` would silently publish the file as an image. So
+ * refuse the auto-path and tell the caller to be explicit.
+ */
+function guardNoDocument(media: readonly MediaInput[]): void {
+  if (media.some((item) => item.kind === 'document')) {
+    throw new ComposeError(
+      "A document upload can't be auto-composed. Pass an explicit postType and settings " +
+        '(LinkedIn documents need settings: { content_kind: "document", document: { title } }).',
+    );
+  }
+}
+
 function countKinds(media: readonly MediaInput[]) {
   let images = 0;
   let videos = 0;
@@ -150,6 +173,7 @@ function countKinds(media: readonly MediaInput[]) {
 function deriveStandardPostType(
   media: readonly MediaInput[],
 ): PostTypeFor<'x'> & PostTypeFor<'linkedin'> {
+  guardNoDocument(media);
   if (media.length === 0) return 'text';
   const { images, videos } = countKinds(media);
   if (videos >= 1) return 'video';
@@ -195,6 +219,7 @@ function buildLinkedIn(
 }
 
 function deriveFacebookPostType(media: readonly MediaInput[]): PostTypeFor<'facebook_page'> {
+  guardNoDocument(media);
   if (media.length === 0) return 'text';
   const { images, videos } = countKinds(media);
   if (videos >= 1) return 'reel';
@@ -217,6 +242,7 @@ function buildFacebook(
 }
 
 function deriveInstagramPostType(media: readonly MediaInput[]): PostTypeFor<'instagram'> {
+  guardNoDocument(media);
   if (media.length === 0) {
     throw new ComposeError('Instagram requires at least one media item.');
   }
@@ -318,10 +344,30 @@ export interface ComposeUpdateInput {
  * (the API's PATCH replaces it); without it, only the envelope (schedule, tags,
  * publish mode…) changes and the variants are left untouched.
  */
+/** The envelope fields the API counts as a real edit (`dry_run` deliberately not). */
+const MUTABLE_ENVELOPE_KEYS = [
+  'publish',
+  'scheduleAt',
+  'externalId',
+  'metadata',
+  'tags',
+  'notes',
+] as const satisfies readonly (keyof ComposeUpdateInput)[];
+
 export function buildUpdatePost(
   input: ComposeUpdateInput,
   connections: readonly ConnectionRef[] = [],
 ): UpdatePostInput {
+  const changesEnvelope = MUTABLE_ENVELOPE_KEYS.some(
+    (key) => input[key] !== undefined,
+  );
+  if (!input.channels && !changesEnvelope) {
+    throw new ComposeError(
+      'A post update must change at least one field — pass content/channels or an ' +
+        'envelope field (publish, scheduleAt, tags, …).',
+    );
+  }
+
   return {
     publish: input.publish,
     schedule_at: input.scheduleAt,

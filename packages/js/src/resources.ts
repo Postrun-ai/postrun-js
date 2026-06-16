@@ -73,6 +73,14 @@ export type PostVariantInput = CreatePostBody['variants'][number];
  * hand-declared. */
 export type XPostVariant = Extract<PostVariantInput, { platform: 'x' }>;
 
+/** The LinkedIn member of the write variant union — typed native settings
+ * (`content_kind`, `visibility`, `article`, `poll`, `document`, `mentions`).
+ * Narrowed from the contract, never hand-declared. */
+export type LinkedInPostVariant = Extract<
+  PostVariantInput,
+  { platform: 'linkedin' }
+>;
+
 /** A post — its variants, schedule, and derived status (the read resource). */
 export type Post =
   operations['posts.get']['responses']['200']['content']['application/json'];

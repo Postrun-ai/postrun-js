@@ -1,8 +1,8 @@
 import type { XPostVariant } from '@postrun/js';
 import { describe, expect, it } from 'vitest';
 
-import type { XPreviewAuthor } from '../types';
-import { type ResolvedMedia, toTweet } from './to-tweet';
+import type { ResolvedMedia, XPreviewAuthor } from '../types';
+import { toTweet } from './to-tweet';
 
 const author: XPreviewAuthor = {
   name: 'Acme Studio',

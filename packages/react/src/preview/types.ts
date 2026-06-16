@@ -12,7 +12,7 @@ import type { MediaKind } from '@postrun/js';
  * exist are a local `File`.
  */
 
-/** The author identity rendered in the preview header. */
+/** The author identity rendered in an X preview header. */
 export interface XPreviewAuthor {
   /** Display name, e.g. "Acme Studio". */
   name: string;
@@ -24,17 +24,30 @@ export interface XPreviewAuthor {
   verified?: boolean;
 }
 
+/** The author identity rendered in a LinkedIn preview header. LinkedIn shows a
+ * name + a one-line headline (role/tagline), not an `@handle`. */
+export interface LinkedInPreviewAuthor {
+  /** Display name, e.g. "Acme Studio". */
+  name: string;
+  /** One-line headline under the name, e.g. "Founder & CEO at Acme". */
+  headline?: string;
+  /** Avatar image URL. Omit for a neutral placeholder. */
+  avatarUrl?: string;
+  /** Show the verified badge. Default false. */
+  verified?: boolean;
+}
+
 /** The media kinds a social preview can render (documents are not previewable
  * here) — derived from the SDK's `MediaKind`, never re-listed. */
 export type PreviewMediaKind = Extract<MediaKind, 'image' | 'video' | 'gif'>;
 
 /**
- * One resolved media item for the preview. Provide a `url` (e.g. the processed
- * `MediaResource.per_platform.x.url`) OR a `file` (a compose-time blob, before
- * upload) — the component turns a `file` into an object URL and revokes it on
- * unmount. An item with neither is skipped.
+ * One media item to preview. Provide a `url` (e.g. the processed
+ * `MediaResource.per_platform.<platform>.url`) OR a `file` (a compose-time blob,
+ * before upload) — the component turns a `file` into an object URL and revokes it
+ * on unmount. An item with neither is skipped.
  */
-export interface XPreviewMedia {
+export interface PreviewMedia {
   kind: PreviewMediaKind;
   url?: string;
   file?: File;
@@ -48,6 +61,20 @@ export interface XPreviewMedia {
   posterUrl?: string;
 }
 
+/** @deprecated Use {@link PreviewMedia}. Kept as an alias for back-compat. */
+export type XPreviewMedia = PreviewMedia;
+
+/** A media item with its pixels already resolved to a single URL by the
+ * component (shared by every platform preview's renderer). */
+export interface ResolvedMedia {
+  kind: PreviewMediaKind;
+  src: string;
+  width?: number;
+  height?: number;
+  alt?: string;
+  posterSrc?: string;
+}
+
 /**
  * Content for the nested quoted card. Supplied separately because our schema
  * carries only an opaque `quote_tweet_id` (no quoted text/author).
@@ -55,5 +82,5 @@ export interface XPreviewMedia {
 export interface XPreviewQuotedTweet {
   author: XPreviewAuthor;
   body?: string;
-  media?: XPreviewMedia[];
+  media?: PreviewMedia[];
 }

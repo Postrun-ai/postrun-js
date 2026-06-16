@@ -1,7 +1,7 @@
 'use client';
 
 import type { XPostVariant } from '@postrun/js';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 import {
   QuotedTweet,
@@ -15,12 +15,13 @@ import {
 } from 'react-tweet';
 
 import type {
+  PreviewMedia,
   XPreviewAuthor,
-  XPreviewMedia,
   XPreviewQuotedTweet,
 } from '../types';
+import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
 import { XPreviewActions } from './XPreviewActions';
-import { type ResolvedMedia, toTweet } from './to-tweet';
+import { toTweet } from './to-tweet';
 
 export interface XPostPreviewProps {
   /** The X variant from our schema — the content source, untouched. */
@@ -28,7 +29,7 @@ export interface XPostPreviewProps {
   /** Author identity (not stored on our connection — supplied by you). */
   author: XPreviewAuthor;
   /** Resolved media pixels (URLs or compose-time File blobs). */
-  media?: XPreviewMedia[];
+  media?: PreviewMedia[];
   /** Content for the quoted card when `settings.quote_tweet_id` is set. */
   quotedTweet?: XPreviewQuotedTweet;
   /** The replied-to account's handle (our schema only stores the parent id). */
@@ -44,92 +45,6 @@ export interface XPostPreviewProps {
   style?: CSSProperties;
   /** Override react-tweet's internal pieces (e.g. `next/image` avatars). */
   components?: TwitterComponents;
-}
-
-/** Build a content signature so object-URL work only re-runs when the media
- * actually changes — not on every parent re-render that passes a new array. */
-function mediaSignature(media: readonly XPreviewMedia[] | undefined): string {
-  return (media ?? [])
-    .map((item) => {
-      const source = item.url ?? fileKey(item.file);
-      const size = `${item.width ?? ''}x${item.height ?? ''}`;
-      return `${item.kind}|${source}|${item.posterUrl ?? ''}|${size}|${item.alt ?? ''}`;
-    })
-    .join('§');
-}
-
-function fileKey(file: File | undefined): string {
-  return file ? `${file.name}:${file.size}:${file.lastModified}` : '';
-}
-
-/** Per-item alt-text fallback source (the variant's media refs). */
-type AltFallbacks = readonly { alt_text_override?: string | null }[] | undefined;
-
-/**
- * Resolve each media item to a concrete `src`. URL-backed items resolve
- * SYNCHRONOUSLY (the common, processed-asset path — no first-paint flash);
- * compose-time `File` items get an object URL minted in an effect and revoked on
- * change/unmount. Keyed on a content signature, so the resolved array is stable
- * across parent re-renders that don't change the media — the heavy work (object
- * URLs) never churns and the downstream tweet mapping stays memoized. Alt text
- * falls back to the variant media's `alt_text_override`.
- */
-function useResolvedMedia(
-  media: readonly XPreviewMedia[] | undefined,
-  altFallbacks: AltFallbacks,
-  altSignature: string,
-): ResolvedMedia[] {
-  const signature = mediaSignature(media);
-  const [objectUrls, setObjectUrls] = useState<Record<number, string>>({});
-
-  useEffect(() => {
-    const created: string[] = [];
-    const next: Record<number, string> = {};
-    (media ?? []).forEach((item, index) => {
-      if (!item.url && item.file) {
-        const url = URL.createObjectURL(item.file);
-        created.push(url);
-        next[index] = url;
-      }
-    });
-    setObjectUrls(next);
-    return () => {
-      for (const url of created) {
-        URL.revokeObjectURL(url);
-      }
-    };
-    // `signature` captures every File identity that needs an object URL.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signature]);
-
-  return useMemo(
-    () =>
-      (media ?? []).flatMap((item, index): ResolvedMedia[] => {
-        const src = item.url ?? objectUrls[index];
-        if (!src) {
-          return [];
-        }
-        return [
-          {
-            kind: item.kind,
-            src,
-            width: item.width,
-            height: item.height,
-            alt: item.alt ?? altFallbacks?.[index]?.alt_text_override ?? undefined,
-            posterSrc: item.posterUrl,
-          },
-        ];
-      }),
-    // `signature` + `altSignature` capture the content; `objectUrls` flips once
-    // File blobs resolve. Referencing `media`/`altFallbacks` directly is safe.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [signature, altSignature, objectUrls],
-  );
-}
-
-/** Stable string of the per-item alt fallbacks, for memo keying. */
-function altSignatureOf(media: AltFallbacks): string {
-  return (media ?? []).map((m) => m?.alt_text_override ?? '').join('§');
 }
 
 /**

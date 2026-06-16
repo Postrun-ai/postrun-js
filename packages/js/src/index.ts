@@ -28,6 +28,7 @@ export type {
   SelectAccountInput,
   PostVariantInput,
   XPostVariant,
+  LinkedInPostVariant,
   Post,
   PostList,
   ListPostsQuery,

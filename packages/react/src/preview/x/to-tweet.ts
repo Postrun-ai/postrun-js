@@ -10,7 +10,7 @@ import type {
   VideoInfo,
 } from 'react-tweet/api';
 
-import type { PreviewMediaKind, XPreviewAuthor } from '../types';
+import type { ResolvedMedia, XPreviewAuthor } from '../types';
 import { extractEntities } from './entities';
 
 /**
@@ -21,16 +21,6 @@ import { extractEntities } from './entities';
  * `react-tweet` reads is filled with a real value — no casts — and engagement
  * metrics are honest zeros (a draft has no likes).
  */
-
-/** A media item with its pixels already resolved to a URL by the component. */
-export interface ResolvedMedia {
-  kind: PreviewMediaKind;
-  src: string;
-  width?: number;
-  height?: number;
-  alt?: string;
-  posterSrc?: string;
-}
 
 /** Quoted-card content with media already resolved. */
 export interface ResolvedQuotedTweet {

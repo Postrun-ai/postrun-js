@@ -45,10 +45,13 @@ export {
 } from './posts';
 export { profileKeys, connectionKeys, mediaKeys, postKeys } from './keys';
 
-export { XPostPreview } from './preview';
+export { XPostPreview, LinkedInPostPreview } from './preview';
 export type {
   XPostPreviewProps,
+  LinkedInPostPreviewProps,
   XPreviewAuthor,
+  LinkedInPreviewAuthor,
+  PreviewMedia,
   XPreviewMedia,
   XPreviewQuotedTweet,
   PreviewMediaKind,

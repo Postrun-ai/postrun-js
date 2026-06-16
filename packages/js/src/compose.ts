@@ -8,7 +8,21 @@ import type {
   PostVariantInput,
   PublishMode,
   SettingsFor,
+  UpdatePostInput,
 } from './resources';
+
+/** The posting platforms (type-checked against the contract via `satisfies`). */
+export const POST_PLATFORMS = [
+  'x',
+  'linkedin',
+  'facebook_page',
+  'instagram',
+] as const satisfies readonly PostPlatform[];
+
+/** Narrow any platform string to a posting platform. */
+export function isPostPlatform(value: string): value is PostPlatform {
+  return POST_PLATFORMS.some((platform) => platform === value);
+}
 
 /* --------------------------------- types --------------------------------- */
 
@@ -240,6 +254,27 @@ function buildInstagram(
 
 /* ---------------------------------- build --------------------------------- */
 
+/** Build the typed `variants[]` from base content + per-channel overrides. */
+function buildVariants(
+  content: PostContent,
+  channels: Channels,
+  connections: readonly ConnectionRef[],
+): PostVariantInput[] {
+  const overrides = toOverrides(channels);
+  const ctx: BuildContext = { content, connections };
+  const variants: PostVariantInput[] = [];
+
+  if (overrides.x) variants.push(buildX(overrides.x, ctx));
+  if (overrides.linkedin) variants.push(buildLinkedIn(overrides.linkedin, ctx));
+  if (overrides.facebook_page) variants.push(buildFacebook(overrides.facebook_page, ctx));
+  if (overrides.instagram) variants.push(buildInstagram(overrides.instagram, ctx));
+
+  if (variants.length === 0) {
+    throw new ComposeError('At least one channel is required.');
+  }
+  return variants;
+}
+
 /**
  * Turn an ergonomic `{ content, channels }` compose input into the exact
  * `CreatePostInput` the API expects — resolving each channel's connection,
@@ -251,19 +286,6 @@ export function buildCreatePost(
   input: ComposePostInput,
   connections: readonly ConnectionRef[],
 ): CreatePostInput {
-  const overrides = toOverrides(input.channels);
-  const ctx: BuildContext = { content: input.content, connections };
-  const variants: PostVariantInput[] = [];
-
-  if (overrides.x) variants.push(buildX(overrides.x, ctx));
-  if (overrides.linkedin) variants.push(buildLinkedIn(overrides.linkedin, ctx));
-  if (overrides.facebook_page) variants.push(buildFacebook(overrides.facebook_page, ctx));
-  if (overrides.instagram) variants.push(buildInstagram(overrides.instagram, ctx));
-
-  if (variants.length === 0) {
-    throw new ComposeError('At least one channel is required.');
-  }
-
   return {
     profile_id: input.profileId,
     publish: input.publish,
@@ -273,6 +295,43 @@ export function buildCreatePost(
     tags: input.tags ? [...input.tags] : undefined,
     notes: input.notes,
     dry_run: input.dryRun,
-    variants,
+    variants: buildVariants(input.content, input.channels, connections),
+  };
+}
+
+/** A post edit. Omit `channels` for a light edit (reschedule/retag); include it
+ *  to rebuild the variant set (PATCH replaces it). */
+export interface ComposeUpdateInput {
+  content?: PostContent;
+  channels?: Channels;
+  publish?: PublishMode;
+  scheduleAt?: string;
+  externalId?: string;
+  metadata?: PostMetadata;
+  tags?: readonly string[];
+  notes?: string;
+  dryRun?: boolean;
+}
+
+/**
+ * Build an `UpdatePostInput`. With `channels`, the full variant set is rebuilt
+ * (the API's PATCH replaces it); without it, only the envelope (schedule, tags,
+ * publish mode…) changes and the variants are left untouched.
+ */
+export function buildUpdatePost(
+  input: ComposeUpdateInput,
+  connections: readonly ConnectionRef[] = [],
+): UpdatePostInput {
+  return {
+    publish: input.publish,
+    schedule_at: input.scheduleAt,
+    external_id: input.externalId,
+    metadata: input.metadata,
+    tags: input.tags ? [...input.tags] : undefined,
+    notes: input.notes,
+    dry_run: input.dryRun,
+    variants: input.channels
+      ? buildVariants(input.content ?? {}, input.channels, connections)
+      : undefined,
   };
 }

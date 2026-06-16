@@ -36,7 +36,13 @@ export {
 } from './media';
 export type { MediaUploadStatus, MediaUploadOptions } from './media';
 export { UploadError } from './upload-bytes';
-export { usePosts, usePost, useDeletePost } from './posts';
+export {
+  usePosts,
+  usePost,
+  useCreatePost,
+  useUpdatePost,
+  useDeletePost,
+} from './posts';
 export { profileKeys, connectionKeys, mediaKeys, postKeys } from './keys';
 
 export { XPostPreview } from './preview';

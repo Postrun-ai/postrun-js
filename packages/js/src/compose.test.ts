@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { buildCreatePost } from './compose';
+import { buildCreatePost, buildUpdatePost } from './compose';
 import type { MediaKind } from './resources';
 
 const conns = [
@@ -136,6 +136,21 @@ test('maps top-level fields to the request body', () => {
     dry_run: true,
     metadata: { campaign: 'x' },
   });
+});
+
+test('buildUpdatePost (light edit) sends only the envelope, no variants', () => {
+  const body = buildUpdatePost({ scheduleAt: '2026-06-20T14:00:00Z', tags: ['q3'] });
+  expect(body.variants).toBeUndefined();
+  expect(body).toMatchObject({ schedule_at: '2026-06-20T14:00:00Z', tags: ['q3'] });
+});
+
+test('buildUpdatePost (content edit) rebuilds the variant set', () => {
+  const body = buildUpdatePost(
+    { content: { body: 'Revised' }, channels: ['x', 'linkedin'] },
+    conns,
+  );
+  expect(body.variants).toHaveLength(2);
+  expect(body.variants!.find((v) => v.platform === 'x')!.body).toBe('Revised');
 });
 
 test('settings are typed per platform (compile-time)', () => {

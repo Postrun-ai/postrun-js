@@ -89,6 +89,11 @@ export type ListPostsQuery = NonNullable<
 /** The full create-post request body — what `buildCreatePost` produces. */
 export type CreatePostInput = CreatePostBody;
 
+/** The update-post request body — what `buildUpdatePost` produces. */
+export type UpdatePostInput = NonNullable<
+  operations['posts.update']['requestBody']
+>['content']['application/json'];
+
 /** A posting platform — the variant discriminator (x / linkedin / …). */
 export type PostPlatform = PostVariantInput['platform'];
 

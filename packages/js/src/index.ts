@@ -31,6 +31,12 @@ export type {
   Post,
   PostList,
   ListPostsQuery,
+  CreatePostInput,
+  PostPlatform,
+  PostTypeFor,
+  SettingsFor,
+  PublishMode,
+  PostMetadata,
   MediaKind,
   MediaResource,
   MediaTarget,
@@ -39,5 +45,15 @@ export type {
   CreateMediaInput,
   UpdateMediaInput,
 } from './resources';
+
+export { buildCreatePost, ComposeError } from './compose';
+export type {
+  ComposePostInput,
+  PostContent,
+  ChannelOverride,
+  Channels,
+  MediaInput,
+  ConnectionRef,
+} from './compose';
 
 export type { paths, components, operations } from './generated/types';

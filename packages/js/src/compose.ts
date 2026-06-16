@@ -1,0 +1,278 @@
+import type {
+  Connection,
+  CreatePostInput,
+  MediaResource,
+  PostMetadata,
+  PostPlatform,
+  PostTypeFor,
+  PostVariantInput,
+  PublishMode,
+  SettingsFor,
+} from './resources';
+
+/* --------------------------------- types --------------------------------- */
+
+/** A media attachment — the uploaded asset (or just its id + kind). */
+export type MediaInput = Pick<MediaResource, 'id' | 'kind'>;
+
+/** Base content, shared across channels unless a channel overrides it. */
+export interface PostContent {
+  body?: string;
+  media?: readonly MediaInput[];
+}
+
+/**
+ * Per-channel overrides. `settings` is a PARTIAL of this platform's native shape
+ * — the customer overrides specific fields and the builder fills the dependent
+ * ones (LinkedIn `content_kind`, Instagram `media_type`). Still strongly typed:
+ * an Instagram setting on an X channel is a compile error.
+ */
+export interface ChannelOverride<P extends PostPlatform> {
+  body?: string;
+  media?: readonly MediaInput[];
+  postType?: PostTypeFor<P>;
+  settings?: Partial<SettingsFor<P>>;
+  connectionId?: string;
+}
+
+/** Either a broadcast list of platforms, or a per-platform override map. */
+export type Channels =
+  | readonly PostPlatform[]
+  | { [P in PostPlatform]?: ChannelOverride<P> };
+
+export interface ComposePostInput {
+  profileId: string;
+  content: PostContent;
+  channels: Channels;
+  publish?: PublishMode;
+  scheduleAt?: string;
+  externalId?: string;
+  metadata?: PostMetadata;
+  tags?: readonly string[];
+  notes?: string;
+  dryRun?: boolean;
+}
+
+/** The connections a build resolves against (accepts a full `Connection[]`). */
+export type ConnectionRef = Pick<Connection, 'id' | 'platform'>;
+
+/** Thrown when a post can't be composed (no connection, missing media, …). */
+export class ComposeError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ComposeError';
+  }
+}
+
+type VariantFor<P extends PostPlatform> = Extract<PostVariantInput, { platform: P }>;
+
+interface BuildContext {
+  content: PostContent;
+  connections: readonly ConnectionRef[];
+}
+
+/* -------------------------------- helpers -------------------------------- */
+
+/** A custom guard — `Array.isArray` doesn't narrow a `readonly` array union. */
+function isPlatformList(channels: Channels): channels is readonly PostPlatform[] {
+  return Array.isArray(channels);
+}
+
+function toOverrides(channels: Channels): { [P in PostPlatform]?: ChannelOverride<P> } {
+  if (!isPlatformList(channels)) {
+    return channels;
+  }
+  const overrides: { [P in PostPlatform]?: ChannelOverride<P> } = {};
+  for (const platform of channels) {
+    overrides[platform] = {};
+  }
+  return overrides;
+}
+
+function resolveConnectionId<P extends PostPlatform>(
+  platform: P,
+  override: ChannelOverride<P>,
+  connections: readonly ConnectionRef[],
+): string {
+  if (override.connectionId) {
+    return override.connectionId;
+  }
+  const match = connections.find((connection) => connection.platform === platform);
+  if (!match) {
+    throw new ComposeError(
+      `No connection for "${platform}" on this profile. Connect the account or pass connectionId.`,
+    );
+  }
+  return match.id;
+}
+
+function resolveMedia<P extends PostPlatform>(
+  override: ChannelOverride<P>,
+  content: PostContent,
+): readonly MediaInput[] {
+  return override.media ?? content.media ?? [];
+}
+
+function toMediaRefs(media: readonly MediaInput[]) {
+  return media.map((item) => ({ media_id: item.id }));
+}
+
+function countKinds(media: readonly MediaInput[]) {
+  let images = 0;
+  let videos = 0;
+  for (const item of media) {
+    if (item.kind === 'video') {
+      videos += 1;
+    } else if (item.kind === 'image' || item.kind === 'gif') {
+      images += 1;
+    }
+  }
+  return { images, videos };
+}
+
+/* --------------------------- per-platform builders ------------------------ */
+
+/** X and LinkedIn share the text/single/multi/video shape. */
+function deriveStandardPostType(
+  media: readonly MediaInput[],
+): PostTypeFor<'x'> & PostTypeFor<'linkedin'> {
+  if (media.length === 0) return 'text';
+  const { images, videos } = countKinds(media);
+  if (videos >= 1) return 'video';
+  return images >= 2 ? 'multi_image' : 'single_image';
+}
+
+function buildX(override: ChannelOverride<'x'>, ctx: BuildContext): VariantFor<'x'> {
+  const media = resolveMedia(override, ctx.content);
+  return {
+    platform: 'x',
+    post_type: override.postType ?? deriveStandardPostType(media),
+    connection_id: resolveConnectionId('x', override, ctx.connections),
+    body: override.body ?? ctx.content.body,
+    media: toMediaRefs(media),
+    settings: override.settings ?? {},
+  };
+}
+
+function linkedInContentKind(
+  postType: PostTypeFor<'linkedin'>,
+): NonNullable<SettingsFor<'linkedin'>['content_kind']> {
+  return postType;
+}
+
+function buildLinkedIn(
+  override: ChannelOverride<'linkedin'>,
+  ctx: BuildContext,
+): VariantFor<'linkedin'> {
+  const media = resolveMedia(override, ctx.content);
+  const postType = override.postType ?? deriveStandardPostType(media);
+  return {
+    platform: 'linkedin',
+    post_type: postType,
+    connection_id: resolveConnectionId('linkedin', override, ctx.connections),
+    body: override.body ?? ctx.content.body,
+    media: toMediaRefs(media),
+    settings: {
+      visibility: 'PUBLIC',
+      content_kind: linkedInContentKind(postType),
+      ...override.settings,
+    },
+  };
+}
+
+function deriveFacebookPostType(media: readonly MediaInput[]): PostTypeFor<'facebook_page'> {
+  if (media.length === 0) return 'text';
+  const { images, videos } = countKinds(media);
+  if (videos >= 1) return 'reel';
+  return images >= 2 ? 'multi_image' : 'single_image';
+}
+
+function buildFacebook(
+  override: ChannelOverride<'facebook_page'>,
+  ctx: BuildContext,
+): VariantFor<'facebook_page'> {
+  const media = resolveMedia(override, ctx.content);
+  return {
+    platform: 'facebook_page',
+    post_type: override.postType ?? deriveFacebookPostType(media),
+    connection_id: resolveConnectionId('facebook_page', override, ctx.connections),
+    body: override.body ?? ctx.content.body,
+    media: toMediaRefs(media),
+    settings: override.settings ?? {},
+  };
+}
+
+function deriveInstagramPostType(media: readonly MediaInput[]): PostTypeFor<'instagram'> {
+  if (media.length === 0) {
+    throw new ComposeError('Instagram requires at least one media item.');
+  }
+  const { images, videos } = countKinds(media);
+  if (videos >= 1) return 'reel';
+  return images >= 2 ? 'carousel' : 'single_image';
+}
+
+function instagramMediaType(
+  postType: PostTypeFor<'instagram'>,
+): NonNullable<SettingsFor<'instagram'>['media_type']> {
+  if (postType === 'carousel') return 'CAROUSEL';
+  if (postType === 'reel') return 'REELS';
+  return 'IMAGE';
+}
+
+function buildInstagram(
+  override: ChannelOverride<'instagram'>,
+  ctx: BuildContext,
+): VariantFor<'instagram'> {
+  const media = resolveMedia(override, ctx.content);
+  const postType = override.postType ?? deriveInstagramPostType(media);
+  return {
+    platform: 'instagram',
+    post_type: postType,
+    connection_id: resolveConnectionId('instagram', override, ctx.connections),
+    body: override.body ?? ctx.content.body,
+    media: toMediaRefs(media),
+    settings: {
+      media_type: instagramMediaType(postType),
+      ...override.settings,
+    },
+  };
+}
+
+/* ---------------------------------- build --------------------------------- */
+
+/**
+ * Turn an ergonomic `{ content, channels }` compose input into the exact
+ * `CreatePostInput` the API expects — resolving each channel's connection,
+ * deriving `post_type` from the media, and filling the platform-dependent
+ * settings (LinkedIn `content_kind`, Instagram `media_type`). The customer never
+ * assembles a `variants[]` by hand, and never sees a `connection_id`.
+ */
+export function buildCreatePost(
+  input: ComposePostInput,
+  connections: readonly ConnectionRef[],
+): CreatePostInput {
+  const overrides = toOverrides(input.channels);
+  const ctx: BuildContext = { content: input.content, connections };
+  const variants: PostVariantInput[] = [];
+
+  if (overrides.x) variants.push(buildX(overrides.x, ctx));
+  if (overrides.linkedin) variants.push(buildLinkedIn(overrides.linkedin, ctx));
+  if (overrides.facebook_page) variants.push(buildFacebook(overrides.facebook_page, ctx));
+  if (overrides.instagram) variants.push(buildInstagram(overrides.instagram, ctx));
+
+  if (variants.length === 0) {
+    throw new ComposeError('At least one channel is required.');
+  }
+
+  return {
+    profile_id: input.profileId,
+    publish: input.publish,
+    schedule_at: input.scheduleAt,
+    external_id: input.externalId,
+    metadata: input.metadata,
+    tags: input.tags ? [...input.tags] : undefined,
+    notes: input.notes,
+    dry_run: input.dryRun,
+    variants,
+  };
+}

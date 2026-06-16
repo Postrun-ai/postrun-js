@@ -86,6 +86,30 @@ export type ListPostsQuery = NonNullable<
   operations['posts.list']['parameters']['query']
 >;
 
+/** The full create-post request body — what `buildCreatePost` produces. */
+export type CreatePostInput = CreatePostBody;
+
+/** A posting platform — the variant discriminator (x / linkedin / …). */
+export type PostPlatform = PostVariantInput['platform'];
+
+/** The allowed `post_type` union for a given platform. */
+export type PostTypeFor<P extends PostPlatform> = Extract<
+  PostVariantInput,
+  { platform: P }
+>['post_type'];
+
+/** The native `settings` shape for a given platform (typed per channel). */
+export type SettingsFor<P extends PostPlatform> = Extract<
+  PostVariantInput,
+  { platform: P }
+>['settings'];
+
+/** Publish mode: `now` | `schedule` | `draft`. */
+export type PublishMode = NonNullable<CreatePostBody['publish']>;
+
+/** Customer metadata on a post (the shared scalar map). */
+export type PostMetadata = NonNullable<CreatePostBody['metadata']>;
+
 /** A media asset (image/video/gif/document) with its per-platform renditions. */
 export type MediaResource =
   operations['media.get']['responses']['200']['content']['application/json'];

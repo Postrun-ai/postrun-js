@@ -1,10 +1,15 @@
-import {
+import twitterText from 'twitter-text';
+import type { TweetEntities } from 'react-tweet/api';
+
+// twitter-text's ESM entry exposes a single default object (no named exports),
+// so a default import is the only form that resolves across bundlers — named
+// imports compile under @types but break in esbuild/rollup at the consumer.
+const {
   extractCashtagsWithIndices,
   extractHashtagsWithIndices,
   extractMentionsWithIndices,
   extractUrlsWithIndices,
-} from 'twitter-text';
-import type { TweetEntities } from 'react-tweet/api';
+} = twitterText;
 
 /**
  * Extract the X text entities (hashtags, @mentions, URLs, $cashtags) from a post

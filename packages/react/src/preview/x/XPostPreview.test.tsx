@@ -84,6 +84,20 @@ describe('<XPostPreview>', () => {
     expect(screen.getByAltText('a cat')).toBeDefined();
   });
 
+  it("falls back to the variant media's alt_text_override when no alt is given", () => {
+    render(
+      <XPostPreview
+        variant={xVariant({
+          post_type: 'single_image',
+          media: [{ media_id: 'med_1', alt_text_override: 'from the asset' }],
+        })}
+        author={author}
+        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg' }]}
+      />,
+    );
+    expect(screen.getByAltText('from the asset')).toBeDefined();
+  });
+
   it('renders the quoted card from quotedTweet', () => {
     render(
       <XPostPreview

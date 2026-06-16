@@ -89,6 +89,12 @@ describe('toTweet — body → text + entities', () => {
     });
     expect(tweet.text).toBe('');
   });
+
+  it('sets display_text_range in codepoints (astral-safe), not UTF-16 units', () => {
+    const body = 'hi 🙌 there'; // 9 codepoints, 10 UTF-16 units
+    const tweet = toTweet({ variant: xVariant({ body }), author });
+    expect(tweet.display_text_range).toEqual([0, Array.from(body).length]);
+  });
 });
 
 describe('toTweet — media', () => {
@@ -196,6 +202,15 @@ describe('toTweet — reply context', () => {
       author,
     });
     expect(tweet.in_reply_to_screen_name).toBeUndefined();
+  });
+
+  it('sets the parent status id so the reply link is a real URL, not /status/undefined', () => {
+    const tweet = toTweet({
+      variant: xVariant({ settings: { reply: { in_reply_to_tweet_id: '99' } } }),
+      author,
+      replyToHandle: 'someone',
+    });
+    expect(tweet.in_reply_to_status_id_str).toBe('99');
   });
 });
 

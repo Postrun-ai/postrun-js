@@ -62,52 +62,74 @@ function fileKey(file: File | undefined): string {
   return file ? `${file.name}:${file.size}:${file.lastModified}` : '';
 }
 
+/** Per-item alt-text fallback source (the variant's media refs). */
+type AltFallbacks = readonly { alt_text_override?: string | null }[] | undefined;
+
 /**
- * Resolve each media item to a concrete `src`, minting an object URL for any
- * compose-time `File` and revoking it on change/unmount. Keyed on the content
- * signature, so a parent re-render with the same media neither re-creates URLs
- * nor re-renders the card.
+ * Resolve each media item to a concrete `src`. URL-backed items resolve
+ * SYNCHRONOUSLY (the common, processed-asset path — no first-paint flash);
+ * compose-time `File` items get an object URL minted in an effect and revoked on
+ * change/unmount. Keyed on a content signature, so the resolved array is stable
+ * across parent re-renders that don't change the media — the heavy work (object
+ * URLs) never churns and the downstream tweet mapping stays memoized. Alt text
+ * falls back to the variant media's `alt_text_override`.
  */
 function useResolvedMedia(
   media: readonly XPreviewMedia[] | undefined,
+  altFallbacks: AltFallbacks,
+  altSignature: string,
 ): ResolvedMedia[] {
   const signature = mediaSignature(media);
-  const [resolved, setResolved] = useState<ResolvedMedia[]>([]);
+  const [objectUrls, setObjectUrls] = useState<Record<number, string>>({});
 
   useEffect(() => {
     const created: string[] = [];
-    const items = (media ?? []).flatMap((item): ResolvedMedia[] => {
-      let src = item.url;
-      if (!src && item.file) {
-        src = URL.createObjectURL(item.file);
-        created.push(src);
+    const next: Record<number, string> = {};
+    (media ?? []).forEach((item, index) => {
+      if (!item.url && item.file) {
+        const url = URL.createObjectURL(item.file);
+        created.push(url);
+        next[index] = url;
       }
-      if (!src) {
-        return [];
-      }
-      return [
-        {
-          kind: item.kind,
-          src,
-          width: item.width,
-          height: item.height,
-          alt: item.alt,
-          posterSrc: item.posterUrl,
-        },
-      ];
     });
-
-    setResolved(items);
+    setObjectUrls(next);
     return () => {
       for (const url of created) {
         URL.revokeObjectURL(url);
       }
     };
-    // `signature` captures every field that affects the resolved output.
+    // `signature` captures every File identity that needs an object URL.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signature]);
 
-  return resolved;
+  return useMemo(
+    () =>
+      (media ?? []).flatMap((item, index): ResolvedMedia[] => {
+        const src = item.url ?? objectUrls[index];
+        if (!src) {
+          return [];
+        }
+        return [
+          {
+            kind: item.kind,
+            src,
+            width: item.width,
+            height: item.height,
+            alt: item.alt ?? altFallbacks?.[index]?.alt_text_override ?? undefined,
+            posterSrc: item.posterUrl,
+          },
+        ];
+      }),
+    // `signature` + `altSignature` capture the content; `objectUrls` flips once
+    // File blobs resolve. Referencing `media`/`altFallbacks` directly is safe.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [signature, altSignature, objectUrls],
+  );
+}
+
+/** Stable string of the per-item alt fallbacks, for memo keying. */
+function altSignatureOf(media: AltFallbacks): string {
+  return (media ?? []).map((m) => m?.alt_text_override ?? '').join('§');
 }
 
 /**
@@ -129,8 +151,12 @@ function XPostPreviewImpl({
   style,
   components,
 }: XPostPreviewProps) {
-  const resolvedMedia = useResolvedMedia(media);
-  const resolvedQuotedMedia = useResolvedMedia(quotedTweet?.media);
+  const resolvedMedia = useResolvedMedia(
+    media,
+    variant.media,
+    altSignatureOf(variant.media),
+  );
+  const resolvedQuotedMedia = useResolvedMedia(quotedTweet?.media, undefined, '');
 
   const tweet = useMemo(() => {
     const resolvedQuoted = quotedTweet

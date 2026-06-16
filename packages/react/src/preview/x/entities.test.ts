@@ -50,6 +50,19 @@ describe('extractEntities', () => {
     expect(entities.symbols[0]?.text).toBe('TSLA');
   });
 
+  it('reports codepoint indices so highlighting survives astral chars (emoji)', () => {
+    // react-tweet slices `Array.from(text)` (codepoint-aware), so indices must be
+    // in codepoints, not UTF-16 units. An emoji before the hashtag is 2 UTF-16
+    // units but 1 codepoint — the index must account for that.
+    const text = 'ship it 🙌 #launch';
+    const codepoints = Array.from(text);
+    const entities = extractEntities(text);
+
+    expect(entities.hashtags).toHaveLength(1);
+    const [start, end] = entities.hashtags[0]!.indices;
+    expect(codepoints.slice(start, end).join('')).toBe('#launch');
+  });
+
   it('returns empty entity arrays for plain text', () => {
     const entities = extractEntities('just some plain words');
 

@@ -9,6 +9,7 @@ const {
   extractHashtagsWithIndices,
   extractMentionsWithIndices,
   extractUrlsWithIndices,
+  modifyIndicesFromUTF16ToUnicode,
 } = twitterText;
 
 /**
@@ -23,29 +24,36 @@ const {
  * (`screen_name`), which is all the renderer needs to draw the entity.
  */
 export function extractEntities(text: string): TweetEntities {
-  const hashtags = extractHashtagsWithIndices(text).map((h) => ({
-    text: h.hashtag,
-    indices: h.indices,
-  }));
+  const hashtags = extractHashtagsWithIndices(text);
+  const mentions = extractMentionsWithIndices(text);
+  const urls = extractUrlsWithIndices(text);
+  const cashtags = extractCashtagsWithIndices(text);
 
-  const user_mentions = extractMentionsWithIndices(text).map((m) => ({
-    id_str: '',
-    name: m.screenName,
-    screen_name: m.screenName,
-    indices: m.indices,
-  }));
+  // twitter-text's regex indices are UTF-16; react-tweet slices `Array.from(text)`
+  // (codepoint-aware), so convert in place — otherwise any astral char (emoji)
+  // before an entity shifts every later highlight. Converting one combined array
+  // keeps the per-list references in sync (the helper mutates `.indices`).
+  modifyIndicesFromUTF16ToUnicode(text, [
+    ...hashtags,
+    ...mentions,
+    ...urls,
+    ...cashtags,
+  ]);
 
-  const urls = extractUrlsWithIndices(text).map((u) => ({
-    display_url: u.url,
-    expanded_url: u.url,
-    url: u.url,
-    indices: u.indices,
-  }));
-
-  const symbols = extractCashtagsWithIndices(text).map((c) => ({
-    text: c.cashtag,
-    indices: c.indices,
-  }));
-
-  return { hashtags, urls, user_mentions, symbols };
+  return {
+    hashtags: hashtags.map((h) => ({ text: h.hashtag, indices: h.indices })),
+    user_mentions: mentions.map((m) => ({
+      id_str: '',
+      name: m.screenName,
+      screen_name: m.screenName,
+      indices: m.indices,
+    })),
+    urls: urls.map((u) => ({
+      display_url: u.url,
+      expanded_url: u.url,
+      url: u.url,
+      indices: u.indices,
+    })),
+    symbols: cashtags.map((c) => ({ text: c.cashtag, indices: c.indices })),
+  };
 }

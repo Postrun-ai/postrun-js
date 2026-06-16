@@ -62,6 +62,12 @@ const PLACEHOLDER_AVATAR =
 const FALLBACK_WIDTH = 1200;
 const FALLBACK_HEIGHT = 800;
 
+/** Length in Unicode codepoints (astral-aware), matching how react-tweet slices
+ * the body via `Array.from(text)`. */
+function codepointLength(text: string): number {
+  return Array.from(text).length;
+}
+
 function buildUser(author: XPreviewAuthor): TweetUser {
   const verified = author.verified ?? false;
   return {
@@ -168,7 +174,7 @@ function buildQuoted(
   return {
     lang: 'en',
     created_at: '',
-    display_text_range: [0, body.length],
+    display_text_range: [0, codepointLength(body)],
     entities: extractEntities(body),
     id_str: '',
     text: body,
@@ -197,20 +203,28 @@ export function toTweet(input: ToTweetInput): Tweet {
     quotedTweet,
     variant.settings?.quote_tweet_id !== undefined,
   );
-  const repliesToSomething = variant.settings?.reply !== undefined;
+  const reply = variant.settings?.reply;
 
   return {
     __typename: 'Tweet',
     ...tweetScaffold(),
-    display_text_range: [0, text.length],
+    // Codepoint length, not `text.length` (UTF-16) — react-tweet renders the
+    // body off `Array.from(text)`, so emoji must not shift the range.
+    display_text_range: [0, codepointLength(text)],
     entities: extractEntities(text),
     id_str: '',
     text,
     user: buildUser(author),
     ...(mediaDetails.length > 0 ? { mediaDetails } : {}),
     ...(quoted ? { quoted_tweet: quoted } : {}),
-    ...(repliesToSomething && replyToHandle
-      ? { in_reply_to_screen_name: replyToHandle }
+    // Both the handle AND the parent id are needed: enrichTweet builds the
+    // reply link as `…/${screen_name}/status/${status_id_str}`, so omitting the
+    // id yields a `/status/undefined` href.
+    ...(reply && replyToHandle
+      ? {
+          in_reply_to_screen_name: replyToHandle,
+          in_reply_to_status_id_str: reply.in_reply_to_tweet_id,
+        }
       : {}),
   };
 }

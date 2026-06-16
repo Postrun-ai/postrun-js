@@ -11,27 +11,6 @@ import type {
   UpdatePostInput,
 } from './resources';
 
-/** The posting platforms (type-checked against the contract via `satisfies`). */
-export const POST_PLATFORMS = [
-  'x',
-  'linkedin',
-  'facebook_page',
-  'instagram',
-] as const satisfies readonly PostPlatform[];
-
-// Compile-time EXHAUSTIVENESS: if the contract adds a posting platform that
-// isn't in POST_PLATFORMS (and so isn't dispatched in buildVariants), this fails
-// the build — `satisfies` alone only proves the listed members are valid.
-type AssertExhaustive<T extends never> = T;
-type _PostPlatformsExhaustive = AssertExhaustive<
-  Exclude<PostPlatform, (typeof POST_PLATFORMS)[number]>
->;
-
-/** Narrow any platform string to a posting platform. */
-export function isPostPlatform(value: string): value is PostPlatform {
-  return POST_PLATFORMS.some((platform) => platform === value);
-}
-
 /* --------------------------------- types --------------------------------- */
 
 /** A media attachment — the uploaded asset (or just its id + kind). */
@@ -44,28 +23,39 @@ export interface PostContent {
 }
 
 /**
- * Per-channel overrides. `settings` is a PARTIAL of this platform's native shape
- * — the customer overrides specific fields and the builder fills the dependent
- * ones (LinkedIn `content_kind`, Instagram `media_type`). Still strongly typed:
- * an Instagram setting on an X channel is a compile error.
+ * One channel's config. The SDK owns the plumbing (connection, media, assembly)
+ * and derives `post_type` from the media; the CUSTOMER owns `settings` — the
+ * platform's native, fully-typed config. An Instagram setting on an X channel is
+ * a compile error. `postType` is an optional override of the derived value.
  */
-export interface ChannelOverride<P extends PostPlatform> {
+export interface ChannelConfig<P extends PostPlatform> {
+  settings: SettingsFor<P>;
+  postType?: PostTypeFor<P>;
   body?: string;
   media?: readonly MediaInput[];
-  postType?: PostTypeFor<P>;
-  settings?: Partial<SettingsFor<P>>;
   connectionId?: string;
 }
 
-/** Either a broadcast list of platforms, or a per-platform override map. */
-export type Channels =
-  | readonly PostPlatform[]
-  | { [P in PostPlatform]?: ChannelOverride<P> };
+/** Channels keyed by platform — each value typed to that platform. */
+export type Channels = { [P in PostPlatform]?: ChannelConfig<P> };
 
 export interface ComposePostInput {
   profileId: string;
-  content: PostContent;
+  content?: PostContent;
   channels: Channels;
+  publish?: PublishMode;
+  scheduleAt?: string;
+  externalId?: string;
+  metadata?: PostMetadata;
+  tags?: readonly string[];
+  notes?: string;
+  dryRun?: boolean;
+}
+
+/** A post edit. Omit `channels` for a light edit; include it to rebuild variants. */
+export interface ComposeUpdateInput {
+  content?: PostContent;
+  channels?: Channels;
   publish?: PublishMode;
   scheduleAt?: string;
   externalId?: string;
@@ -78,7 +68,7 @@ export interface ComposePostInput {
 /** The connections a build resolves against (accepts a full `Connection[]`). */
 export type ConnectionRef = Pick<Connection, 'id' | 'platform'>;
 
-/** Thrown when a post can't be composed (no connection, missing media, …). */
+/** Thrown when a post can't be composed (no connection, unsupported media, …). */
 export class ComposeError extends Error {
   constructor(message: string) {
     super(message);
@@ -88,37 +78,176 @@ export class ComposeError extends Error {
 
 type VariantFor<P extends PostPlatform> = Extract<PostVariantInput, { platform: P }>;
 
-interface BuildContext {
-  content: PostContent;
-  connections: readonly ConnectionRef[];
+/* ----------------------------- platform handlers -------------------------- */
+
+/** What a handler receives once `post_type` is resolved (derived or explicit). */
+interface ResolvedChannel<P extends PostPlatform> {
+  settings: SettingsFor<P>;
+  postType: PostTypeFor<P>;
+  connectionId: string;
+  body: string | undefined;
+  media: readonly { media_id: string }[];
 }
 
-/* -------------------------------- helpers -------------------------------- */
-
-/** A custom guard — `Array.isArray` doesn't narrow a `readonly` array union. */
-function isPlatformList(channels: Channels): channels is readonly PostPlatform[] {
-  return Array.isArray(channels);
+/**
+ * Each platform implements two layers:
+ *  - `derivePostType` — the SUGAR: guess `post_type` from the media. Pure; only
+ *    runs when the caller doesn't pass `postType`.
+ *  - `buildVariant` — the explicit CORE: assemble the typed variant from a
+ *    resolved channel. Passes `settings` straight through (the customer owns it).
+ * Splitting them keeps the core stable and the derivation purely additive.
+ */
+interface PlatformHandler<P extends PostPlatform> {
+  derivePostType(media: readonly MediaInput[]): PostTypeFor<P>;
+  buildVariant(resolved: ResolvedChannel<P>): VariantFor<P>;
 }
 
-function toOverrides(channels: Channels): { [P in PostPlatform]?: ChannelOverride<P> } {
-  if (!isPlatformList(channels)) {
-    return channels;
+function countKinds(media: readonly MediaInput[]) {
+  let images = 0;
+  let videos = 0;
+  let documents = 0;
+  for (const item of media) {
+    if (item.kind === 'video') videos += 1;
+    else if (item.kind === 'document') documents += 1;
+    else images += 1; // image | gif
   }
-  const overrides: { [P in PostPlatform]?: ChannelOverride<P> } = {};
-  for (const platform of channels) {
-    overrides[platform] = {};
-  }
-  return overrides;
+  return { images, videos, documents };
 }
 
-function resolveConnectionId<P extends PostPlatform>(
-  platform: P,
-  override: ChannelOverride<P>,
+function rejectDocuments(media: readonly MediaInput[], platform: string): void {
+  if (countKinds(media).documents > 0) {
+    throw new ComposeError(`${platform} does not support document uploads.`);
+  }
+}
+
+/**
+ * X / LinkedIn / Facebook have no mixed-media placement: a post is text, images,
+ * OR a single video — never a blend. Reject the combos that have no valid
+ * post_type here (a clear local error), not as a server 422.
+ */
+function deriveSinglePlacement<V extends 'video' | 'reel'>(
+  media: readonly MediaInput[],
+  platform: string,
+  videoType: V,
+): 'single_image' | 'multi_image' | V {
+  const { images, videos } = countKinds(media);
+  if (images > 0 && videos > 0) {
+    throw new ComposeError(
+      `${platform} can't combine images and video in one post — split them into separate posts.`,
+    );
+  }
+  if (videos > 1) {
+    throw new ComposeError(`${platform} allows at most one video per post.`);
+  }
+  if (videos === 1) return videoType;
+  return images >= 2 ? 'multi_image' : 'single_image';
+}
+
+const xHandler: PlatformHandler<'x'> = {
+  derivePostType: (media) => {
+    if (media.length === 0) return 'text';
+    rejectDocuments(media, 'X');
+    return deriveSinglePlacement(media, 'X', 'video');
+  },
+  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+    platform: 'x',
+    post_type: postType,
+    connection_id: connectionId,
+    body,
+    media: [...media],
+    settings,
+  }),
+};
+
+const linkedInHandler: PlatformHandler<'linkedin'> = {
+  derivePostType: (media) => {
+    if (media.length === 0) return 'text';
+    if (countKinds(media).documents > 0) {
+      // A document rides as a `single_image` post_type; the customer sets
+      // `content_kind: 'document'` in settings — we don't infer it.
+      if (media.length > 1) {
+        throw new ComposeError('A LinkedIn document post takes a single document.');
+      }
+      return 'single_image';
+    }
+    return deriveSinglePlacement(media, 'LinkedIn', 'video');
+  },
+  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+    platform: 'linkedin',
+    post_type: postType,
+    connection_id: connectionId,
+    body,
+    media: [...media],
+    settings,
+  }),
+};
+
+const facebookHandler: PlatformHandler<'facebook_page'> = {
+  derivePostType: (media) => {
+    if (media.length === 0) return 'text';
+    rejectDocuments(media, 'Facebook');
+    return deriveSinglePlacement(media, 'Facebook', 'reel');
+  },
+  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+    platform: 'facebook_page',
+    post_type: postType,
+    connection_id: connectionId,
+    body,
+    media: [...media],
+    settings,
+  }),
+};
+
+const instagramHandler: PlatformHandler<'instagram'> = {
+  derivePostType: (media) => {
+    if (media.length === 0) {
+      throw new ComposeError('Instagram requires at least one media item.');
+    }
+    rejectDocuments(media, 'Instagram');
+    // 2+ items is always a carousel (the API allows it to mix image/gif/video);
+    // a lone item is a reel (video) or a single image.
+    if (media.length >= 2) return 'carousel';
+    return countKinds(media).videos === 1 ? 'reel' : 'single_image';
+  },
+  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+    platform: 'instagram',
+    post_type: postType,
+    connection_id: connectionId,
+    body,
+    media: [...media],
+    settings,
+  }),
+};
+
+/**
+ * The handler registry. A `Record<PostPlatform, …>` (no optional keys), so a
+ * platform the contract defines without a handler here is a COMPILE ERROR.
+ */
+const PLATFORM_HANDLERS: { [P in PostPlatform]: PlatformHandler<P> } = {
+  x: xHandler,
+  linkedin: linkedInHandler,
+  facebook_page: facebookHandler,
+  instagram: instagramHandler,
+};
+
+/** Narrow any platform string to a posting platform. */
+export function isPostPlatform(value: string): value is PostPlatform {
+  return Object.prototype.hasOwnProperty.call(PLATFORM_HANDLERS, value);
+}
+
+/** Posting platforms — the single source, derived from the handler registry
+ *  (the `.filter` type-guard narrows `string[]` → `PostPlatform[]`, cast-free). */
+export const POST_PLATFORMS: PostPlatform[] =
+  Object.keys(PLATFORM_HANDLERS).filter(isPostPlatform);
+
+/* -------------------------------- assembly -------------------------------- */
+
+function resolveConnectionId(
+  platform: PostPlatform,
+  connectionId: string | undefined,
   connections: readonly ConnectionRef[],
 ): string {
-  if (override.connectionId) {
-    return override.connectionId;
-  }
+  if (connectionId) return connectionId;
   const match = connections.find((connection) => connection.platform === platform);
   if (!match) {
     throw new ComposeError(
@@ -128,202 +257,39 @@ function resolveConnectionId<P extends PostPlatform>(
   return match.id;
 }
 
-function resolveMedia<P extends PostPlatform>(
-  override: ChannelOverride<P>,
+/** Resolve one channel into its typed variant. Generic over the concrete `P`, so
+ *  the handler / config / result stay correlated with no cast. */
+function buildChannel<P extends PostPlatform>(
+  handler: PlatformHandler<P>,
+  platform: P,
+  config: ChannelConfig<P>,
   content: PostContent,
-): readonly MediaInput[] {
-  return override.media ?? content.media ?? [];
+  connections: readonly ConnectionRef[],
+): VariantFor<P> {
+  const media = config.media ?? content.media ?? [];
+  return handler.buildVariant({
+    settings: config.settings,
+    postType: config.postType ?? handler.derivePostType(media),
+    connectionId: resolveConnectionId(platform, config.connectionId, connections),
+    body: config.body ?? content.body,
+    media: media.map((item) => ({ media_id: item.id })),
+  });
 }
 
-function toMediaRefs(media: readonly MediaInput[]) {
-  return media.map((item) => ({ media_id: item.id }));
-}
-
-/**
- * A document asset (LinkedIn PDF/DOC/…) can't be auto-composed: it needs
- * `content_kind: 'document'` and a `settings.document.title` we can't derive, and
- * deriving it as `single_image` would silently publish the file as an image. So
- * refuse the auto-path and tell the caller to be explicit.
- */
-function guardNoDocument(media: readonly MediaInput[]): void {
-  if (media.some((item) => item.kind === 'document')) {
-    throw new ComposeError(
-      "A document upload can't be auto-composed. Pass an explicit postType and settings " +
-        '(LinkedIn documents need settings: { content_kind: "document", document: { title } }).',
-    );
-  }
-}
-
-function countKinds(media: readonly MediaInput[]) {
-  let images = 0;
-  let videos = 0;
-  for (const item of media) {
-    if (item.kind === 'video') {
-      videos += 1;
-    } else if (item.kind === 'image' || item.kind === 'gif') {
-      images += 1;
-    }
-  }
-  return { images, videos };
-}
-
-/* --------------------------- per-platform builders ------------------------ */
-
-/**
- * X / LinkedIn / Facebook have no mixed-media placement: a post is either text,
- * images, or a single video — never a blend. Reject the mixes that have no valid
- * post_type here (a clear local error) instead of emitting a body the API 422s.
- */
-function guardSinglePlacement(media: readonly MediaInput[], platform: string): void {
-  const { images, videos } = countKinds(media);
-  if (images > 0 && videos > 0) {
-    throw new ComposeError(
-      `${platform} can't combine images and video in one post — split them into separate posts (or set postType explicitly).`,
-    );
-  }
-  if (videos > 1) {
-    throw new ComposeError(`${platform} allows at most one video per post.`);
-  }
-}
-
-/** X and LinkedIn share the text/single/multi/video shape. */
-function deriveStandardPostType(
-  media: readonly MediaInput[],
-  platform: string,
-): PostTypeFor<'x'> & PostTypeFor<'linkedin'> {
-  guardNoDocument(media);
-  if (media.length === 0) return 'text';
-  guardSinglePlacement(media, platform);
-  const { images } = countKinds(media);
-  if (images === 0) return 'video';
-  return images >= 2 ? 'multi_image' : 'single_image';
-}
-
-function buildX(override: ChannelOverride<'x'>, ctx: BuildContext): VariantFor<'x'> {
-  const media = resolveMedia(override, ctx.content);
-  return {
-    platform: 'x',
-    post_type: override.postType ?? deriveStandardPostType(media, 'X'),
-    connection_id: resolveConnectionId('x', override, ctx.connections),
-    body: override.body ?? ctx.content.body,
-    media: toMediaRefs(media),
-    settings: override.settings ?? {},
-  };
-}
-
-function linkedInContentKind(
-  postType: PostTypeFor<'linkedin'>,
-): NonNullable<SettingsFor<'linkedin'>['content_kind']> {
-  return postType;
-}
-
-function buildLinkedIn(
-  override: ChannelOverride<'linkedin'>,
-  ctx: BuildContext,
-): VariantFor<'linkedin'> {
-  const media = resolveMedia(override, ctx.content);
-  // A document post is signaled by `content_kind: 'document'` and rides on a
-  // single document asset (post_type `single_image`). Honor that signal without
-  // tripping the no-document derivation guard — the caller has been explicit.
-  const isDocument = override.settings?.content_kind === 'document';
-  const postType =
-    override.postType ??
-    (isDocument ? 'single_image' : deriveStandardPostType(media, 'LinkedIn'));
-  return {
-    platform: 'linkedin',
-    post_type: postType,
-    connection_id: resolveConnectionId('linkedin', override, ctx.connections),
-    body: override.body ?? ctx.content.body,
-    media: toMediaRefs(media),
-    settings: {
-      visibility: 'PUBLIC',
-      content_kind: linkedInContentKind(postType),
-      ...override.settings,
-    },
-  };
-}
-
-function deriveFacebookPostType(
-  media: readonly MediaInput[],
-  platform: string,
-): PostTypeFor<'facebook_page'> {
-  guardNoDocument(media);
-  if (media.length === 0) return 'text';
-  guardSinglePlacement(media, platform);
-  const { images } = countKinds(media);
-  if (images === 0) return 'reel';
-  return images >= 2 ? 'multi_image' : 'single_image';
-}
-
-function buildFacebook(
-  override: ChannelOverride<'facebook_page'>,
-  ctx: BuildContext,
-): VariantFor<'facebook_page'> {
-  const media = resolveMedia(override, ctx.content);
-  return {
-    platform: 'facebook_page',
-    post_type: override.postType ?? deriveFacebookPostType(media, 'Facebook'),
-    connection_id: resolveConnectionId('facebook_page', override, ctx.connections),
-    body: override.body ?? ctx.content.body,
-    media: toMediaRefs(media),
-    settings: override.settings ?? {},
-  };
-}
-
-function deriveInstagramPostType(media: readonly MediaInput[]): PostTypeFor<'instagram'> {
-  guardNoDocument(media);
-  if (media.length === 0) {
-    throw new ComposeError('Instagram requires at least one media item.');
-  }
-  // 2+ items is always a carousel — which the API allows to mix image/gif/video.
-  // A lone item is a reel (video) or a single image.
-  if (media.length >= 2) return 'carousel';
-  return countKinds(media).videos === 1 ? 'reel' : 'single_image';
-}
-
-function instagramMediaType(
-  postType: PostTypeFor<'instagram'>,
-): NonNullable<SettingsFor<'instagram'>['media_type']> {
-  if (postType === 'carousel') return 'CAROUSEL';
-  if (postType === 'reel') return 'REELS';
-  return 'IMAGE';
-}
-
-function buildInstagram(
-  override: ChannelOverride<'instagram'>,
-  ctx: BuildContext,
-): VariantFor<'instagram'> {
-  const media = resolveMedia(override, ctx.content);
-  const postType = override.postType ?? deriveInstagramPostType(media);
-  return {
-    platform: 'instagram',
-    post_type: postType,
-    connection_id: resolveConnectionId('instagram', override, ctx.connections),
-    body: override.body ?? ctx.content.body,
-    media: toMediaRefs(media),
-    settings: {
-      media_type: instagramMediaType(postType),
-      ...override.settings,
-    },
-  };
-}
-
-/* ---------------------------------- build --------------------------------- */
-
-/** Build the typed `variants[]` from base content + per-channel overrides. */
 function buildVariants(
   content: PostContent,
   channels: Channels,
   connections: readonly ConnectionRef[],
 ): PostVariantInput[] {
-  const overrides = toOverrides(channels);
-  const ctx: BuildContext = { content, connections };
   const variants: PostVariantInput[] = [];
 
-  if (overrides.x) variants.push(buildX(overrides.x, ctx));
-  if (overrides.linkedin) variants.push(buildLinkedIn(overrides.linkedin, ctx));
-  if (overrides.facebook_page) variants.push(buildFacebook(overrides.facebook_page, ctx));
-  if (overrides.instagram) variants.push(buildInstagram(overrides.instagram, ctx));
+  if (channels.x) variants.push(buildChannel(xHandler, 'x', channels.x, content, connections));
+  if (channels.linkedin)
+    variants.push(buildChannel(linkedInHandler, 'linkedin', channels.linkedin, content, connections));
+  if (channels.facebook_page)
+    variants.push(buildChannel(facebookHandler, 'facebook_page', channels.facebook_page, content, connections));
+  if (channels.instagram)
+    variants.push(buildChannel(instagramHandler, 'instagram', channels.instagram, content, connections));
 
   if (variants.length === 0) {
     throw new ComposeError('At least one channel is required.');
@@ -332,11 +298,11 @@ function buildVariants(
 }
 
 /**
- * Turn an ergonomic `{ content, channels }` compose input into the exact
+ * Turn an ergonomic `{ content, channels }` input into the exact
  * `CreatePostInput` the API expects — resolving each channel's connection,
- * deriving `post_type` from the media, and filling the platform-dependent
- * settings (LinkedIn `content_kind`, Instagram `media_type`). The customer never
- * assembles a `variants[]` by hand, and never sees a `connection_id`.
+ * attaching the shared/overridden media, and deriving `post_type` from that
+ * media. The customer never assembles `variants[]` or sees a `connection_id`,
+ * and owns each channel's typed `settings`.
  */
 export function buildCreatePost(
   input: ComposePostInput,
@@ -351,29 +317,10 @@ export function buildCreatePost(
     tags: input.tags ? [...input.tags] : undefined,
     notes: input.notes,
     dry_run: input.dryRun,
-    variants: buildVariants(input.content, input.channels, connections),
+    variants: buildVariants(input.content ?? {}, input.channels, connections),
   };
 }
 
-/** A post edit. Omit `channels` for a light edit (reschedule/retag); include it
- *  to rebuild the variant set (PATCH replaces it). */
-export interface ComposeUpdateInput {
-  content?: PostContent;
-  channels?: Channels;
-  publish?: PublishMode;
-  scheduleAt?: string;
-  externalId?: string;
-  metadata?: PostMetadata;
-  tags?: readonly string[];
-  notes?: string;
-  dryRun?: boolean;
-}
-
-/**
- * Build an `UpdatePostInput`. With `channels`, the full variant set is rebuilt
- * (the API's PATCH replaces it); without it, only the envelope (schedule, tags,
- * publish mode…) changes and the variants are left untouched.
- */
 /** The envelope fields the API counts as a real edit (`dry_run` deliberately not). */
 const MUTABLE_ENVELOPE_KEYS = [
   'publish',
@@ -384,13 +331,15 @@ const MUTABLE_ENVELOPE_KEYS = [
   'notes',
 ] as const satisfies readonly (keyof ComposeUpdateInput)[];
 
+/**
+ * Build an `UpdatePostInput`. With `channels`, the full variant set is rebuilt
+ * (the API's PATCH replaces it); without it, only the envelope changes.
+ */
 export function buildUpdatePost(
   input: ComposeUpdateInput,
   connections: readonly ConnectionRef[] = [],
 ): UpdatePostInput {
-  const changesEnvelope = MUTABLE_ENVELOPE_KEYS.some(
-    (key) => input[key] !== undefined,
-  );
+  const changesEnvelope = MUTABLE_ENVELOPE_KEYS.some((key) => input[key] !== undefined);
   if (!input.channels && !changesEnvelope) {
     throw new ComposeError(
       'A post update must change at least one field — pass content/channels or an ' +

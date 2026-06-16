@@ -109,7 +109,7 @@ test('useCreatePost resolves connections, builds the body, and posts', async () 
   await waitFor(() => expect(result.current.connectedChannels).toContain('x'));
 
   await act(async () => {
-    await result.current.create({ content: { body: 'hi' }, channels: ['x'] });
+    await result.current.create({ content: { body: 'hi' }, channels: { x: { settings: {} } } });
   });
 
   const post = calls.find(

@@ -13,57 +13,92 @@ const conns = [
 const media = (id: string, kind: MediaKind) => ({ id, kind });
 const img = (id: string) => media(id, 'image');
 const vid = (id: string) => media(id, 'video');
+const doc = (id: string) => media(id, 'document');
 
-test('broadcast array → one variant per channel with resolved connection ids', () => {
+/* ------------------------------- the cut --------------------------------- */
+
+test('derives post_type from media and passes settings through verbatim (no auto-fill)', () => {
   const post = buildCreatePost(
-    { profileId: 'prof_1', content: { body: 'Launch day!' }, channels: ['x', 'linkedin'] },
+    {
+      profileId: 'prof_1',
+      content: { body: 'Launch!', media: [img('m1')] },
+      channels: {
+        x: { settings: { reply_settings: 'following' } },
+        linkedin: { settings: { visibility: 'PUBLIC', content_kind: 'single_image' } },
+        instagram: { settings: {} },
+      },
+    },
     conns,
   );
 
-  expect(post.profile_id).toBe('prof_1');
-  expect(post.variants).toHaveLength(2);
   const x = post.variants.find((v) => v.platform === 'x')!;
+  expect(x.post_type).toBe('single_image'); // derived from the image
   expect(x.connection_id).toBe('conn_x');
-  expect(x.body).toBe('Launch day!');
-  expect(x.post_type).toBe('text');
+  expect(x.body).toBe('Launch!');
+  expect(x.settings).toEqual({ reply_settings: 'following' }); // passthrough — NOT auto-filled
+
+  const li = post.variants.find((v) => v.platform === 'linkedin')!;
+  // exactly what the customer passed — no derived content_kind, no PUBLIC default added by us
+  expect(li.settings).toEqual({ visibility: 'PUBLIC', content_kind: 'single_image' });
+
+  // No auto-fill: we do NOT inject media_type for the customer (they own settings).
+  const ig = post.variants.find((v) => v.platform === 'instagram')!;
+  expect(ig.settings).toEqual({});
 });
 
-test('derives post_type from media, per platform', () => {
+/* --------------------------- post_type derivation ------------------------- */
+
+test('derives post_type per platform from media count + kind', () => {
   const single = buildCreatePost(
-    { profileId: 'p', content: { media: [img('m1')] }, channels: ['x', 'instagram'] },
+    {
+      profileId: 'p',
+      content: { media: [img('m1')] },
+      channels: { x: { settings: {} }, instagram: { settings: { media_type: 'IMAGE' } } },
+    },
     conns,
   );
   expect(single.variants.find((v) => v.platform === 'x')!.post_type).toBe('single_image');
   expect(single.variants.find((v) => v.platform === 'instagram')!.post_type).toBe('single_image');
 
   const multi = buildCreatePost(
-    { profileId: 'p', content: { media: [img('m1'), img('m2')] }, channels: ['x', 'instagram'] },
+    {
+      profileId: 'p',
+      content: { media: [img('m1'), img('m2')] },
+      channels: { x: { settings: {} }, instagram: { settings: { media_type: 'CAROUSEL' } } },
+    },
     conns,
   );
   expect(multi.variants.find((v) => v.platform === 'x')!.post_type).toBe('multi_image');
   expect(multi.variants.find((v) => v.platform === 'instagram')!.post_type).toBe('carousel');
 
   const video = buildCreatePost(
-    { profileId: 'p', content: { media: [vid('m1')] }, channels: ['x', 'instagram'] },
+    {
+      profileId: 'p',
+      content: { media: [vid('m1')] },
+      channels: { x: { settings: {} }, instagram: { settings: { media_type: 'REELS' } } },
+    },
     conns,
   );
   expect(video.variants.find((v) => v.platform === 'x')!.post_type).toBe('video');
   expect(video.variants.find((v) => v.platform === 'instagram')!.post_type).toBe('reel');
 });
 
-test('Instagram derives a carousel for a 2+ mixed set (backend allows video in carousel)', () => {
+test('Instagram derives carousel for any 2+ item set (mixed image+video allowed)', () => {
   const post = buildCreatePost(
-    { profileId: 'p', content: { media: [img('m1'), vid('m2')] }, channels: ['instagram'] },
+    {
+      profileId: 'p',
+      content: { media: [img('m1'), vid('m2')] },
+      channels: { instagram: { settings: { media_type: 'CAROUSEL' } } },
+    },
     conns,
   );
   expect(post.variants[0]!.post_type).toBe('carousel');
-  expect(post.variants[0]!.settings).toMatchObject({ media_type: 'CAROUSEL' });
 });
 
-test('throws when mixing images and video on a single-placement platform (X)', () => {
+test('throws on image+video mix on a single-placement platform (X)', () => {
   expect(() =>
     buildCreatePost(
-      { profileId: 'p', content: { media: [img('m1'), vid('m2')] }, channels: ['x'] },
+      { profileId: 'p', content: { media: [img('m1'), vid('m2')] }, channels: { x: { settings: {} } } },
       conns,
     ),
   ).toThrow(/images and video/i);
@@ -72,53 +107,79 @@ test('throws when mixing images and video on a single-placement platform (X)', (
 test('throws on multiple videos for a single-video platform (X)', () => {
   expect(() =>
     buildCreatePost(
-      { profileId: 'p', content: { media: [vid('v1'), vid('v2')] }, channels: ['x'] },
+      { profileId: 'p', content: { media: [vid('v1'), vid('v2')] }, channels: { x: { settings: {} } } },
       conns,
     ),
   ).toThrow(/at most one video/i);
 });
 
-test('fills dependent settings (LinkedIn content_kind + visibility, Instagram media_type)', () => {
-  const post = buildCreatePost(
-    { profileId: 'p', content: { body: 'hi', media: [img('m1')] }, channels: ['linkedin', 'instagram'] },
-    conns,
-  );
-  expect(post.variants.find((v) => v.platform === 'linkedin')!.settings).toMatchObject({
-    visibility: 'PUBLIC',
-    content_kind: 'single_image',
-  });
-  expect(post.variants.find((v) => v.platform === 'instagram')!.settings).toMatchObject({
-    media_type: 'IMAGE',
-  });
+test('Instagram requires media', () => {
+  expect(() =>
+    buildCreatePost({ profileId: 'p', content: { body: 'hi' }, channels: { instagram: { settings: {} } } }, conns),
+  ).toThrow(/instagram.*media/i);
 });
 
-test('per-channel overrides: body, settings, and inheritance', () => {
+/* ------------------------------- documents -------------------------------- */
+
+test('LinkedIn document → single_image post_type, customer-owned content_kind passes through', () => {
   const post = buildCreatePost(
     {
       profileId: 'p',
-      content: { body: 'base', media: [img('m1')] },
+      content: { media: [doc('d1')] },
       channels: {
-        x: {},
-        instagram: { body: '🚀 #launch', settings: { location_id: '123' } },
-        linkedin: { settings: { visibility: 'CONNECTIONS' } },
+        linkedin: { settings: { visibility: 'PUBLIC', content_kind: 'document', document: { title: 'Q3' } } },
       },
     },
     conns,
   );
-  expect(post.variants.find((v) => v.platform === 'x')!.body).toBe('base');
-  expect(post.variants.find((v) => v.platform === 'instagram')!.body).toBe('🚀 #launch');
-  expect(post.variants.find((v) => v.platform === 'instagram')!.settings).toMatchObject({
-    location_id: '123',
-    media_type: 'IMAGE',
-  });
-  expect(post.variants.find((v) => v.platform === 'linkedin')!.settings).toMatchObject({
-    visibility: 'CONNECTIONS',
-  });
+  const v = post.variants[0]!;
+  expect(v.post_type).toBe('single_image');
+  expect(v.settings).toEqual({ visibility: 'PUBLIC', content_kind: 'document', document: { title: 'Q3' } });
+});
+
+test('throws on a document for a platform that does not support documents (X)', () => {
+  expect(() =>
+    buildCreatePost(
+      { profileId: 'p', content: { media: [doc('d1')] }, channels: { x: { settings: {} } } },
+      conns,
+    ),
+  ).toThrow(/document/i);
+});
+
+/* ----------------------------- overrides & plumbing ----------------------- */
+
+test('explicit postType overrides media derivation', () => {
+  const post = buildCreatePost(
+    { profileId: 'p', content: { media: [vid('v1')] }, channels: { x: { settings: {}, postType: 'video' } } },
+    conns,
+  );
+  expect(post.variants[0]!.post_type).toBe('video');
+});
+
+test('per-channel body + media override the shared base', () => {
+  const post = buildCreatePost(
+    {
+      profileId: 'p',
+      content: { body: 'base', media: [img('base')] },
+      channels: {
+        x: { settings: {} },
+        instagram: { settings: { media_type: 'REELS' }, body: '🚀', media: [vid('ig')] },
+      },
+    },
+    conns,
+  );
+  const x = post.variants.find((v) => v.platform === 'x')!;
+  expect(x.body).toBe('base');
+  expect(x.media).toEqual([{ media_id: 'base' }]);
+  const ig = post.variants.find((v) => v.platform === 'instagram')!;
+  expect(ig.body).toBe('🚀');
+  expect(ig.media).toEqual([{ media_id: 'ig' }]);
+  expect(ig.post_type).toBe('reel');
 });
 
 test('uses an explicit connectionId override', () => {
   const post = buildCreatePost(
-    { profileId: 'p', content: { body: 'hi' }, channels: { x: { connectionId: 'conn_x2' } } },
+    { profileId: 'p', content: { body: 'hi' }, channels: { x: { settings: {}, connectionId: 'conn_x2' } } },
     conns,
   );
   expect(post.variants[0]!.connection_id).toBe('conn_x2');
@@ -126,16 +187,16 @@ test('uses an explicit connectionId override', () => {
 
 test('throws a clear error when a channel has no connection', () => {
   expect(() =>
-    buildCreatePost({ profileId: 'p', content: { body: 'hi' }, channels: ['x'] }, [
+    buildCreatePost({ profileId: 'p', content: { body: 'hi' }, channels: { x: { settings: {} } } }, [
       { id: 'conn_li', platform: 'linkedin' },
     ]),
   ).toThrow(/connection.*x/i);
 });
 
-test('throws when Instagram has no media', () => {
-  expect(() =>
-    buildCreatePost({ profileId: 'p', content: { body: 'hi' }, channels: ['instagram'] }, conns),
-  ).toThrow(/instagram.*media/i);
+test('throws when no channels are given', () => {
+  expect(() => buildCreatePost({ profileId: 'p', content: { body: 'hi' }, channels: {} }, conns)).toThrow(
+    /at least one/i,
+  );
 });
 
 test('maps top-level fields to the request body', () => {
@@ -143,7 +204,7 @@ test('maps top-level fields to the request body', () => {
     {
       profileId: 'p',
       content: { body: 'hi' },
-      channels: ['x'],
+      channels: { x: { settings: {} } },
       publish: 'schedule',
       scheduleAt: '2026-06-20T14:00:00Z',
       tags: ['q3'],
@@ -165,21 +226,7 @@ test('maps top-level fields to the request body', () => {
   });
 });
 
-test('throws on a document upload without explicit settings (cannot auto-derive)', () => {
-  // A LinkedIn document post needs content_kind: 'document' + a title we can't
-  // derive — auto-deriving it as single_image would publish the PDF as an image.
-  expect(() =>
-    buildCreatePost(
-      { profileId: 'p', content: { media: [media('d1', 'document')] }, channels: ['linkedin'] },
-      conns,
-    ),
-  ).toThrow(/document/i);
-});
-
-test('buildUpdatePost throws on an empty edit (no field changes)', () => {
-  expect(() => buildUpdatePost({})).toThrow(/at least one/i);
-  expect(() => buildUpdatePost({ dryRun: true })).toThrow(/at least one/i);
-});
+/* ------------------------------- updates ---------------------------------- */
 
 test('buildUpdatePost (light edit) sends only the envelope, no variants', () => {
   const body = buildUpdatePost({ scheduleAt: '2026-06-20T14:00:00Z', tags: ['q3'] });
@@ -189,130 +236,22 @@ test('buildUpdatePost (light edit) sends only the envelope, no variants', () => 
 
 test('buildUpdatePost (content edit) rebuilds the variant set', () => {
   const body = buildUpdatePost(
-    { content: { body: 'Revised' }, channels: ['x', 'linkedin'] },
+    {
+      content: { body: 'Revised' },
+      channels: { x: { settings: {} }, linkedin: { settings: { visibility: 'PUBLIC', content_kind: 'text' } } },
+    },
     conns,
   );
   expect(body.variants).toHaveLength(2);
   expect(body.variants!.find((v) => v.platform === 'x')!.body).toBe('Revised');
 });
 
-/* ---------------- advanced settings × derivation interactions ---------------- */
-
-test('LinkedIn document post works from a content_kind:document signal (no explicit postType)', () => {
-  const post = buildCreatePost(
-    {
-      profileId: 'p',
-      content: { media: [media('d1', 'document')] },
-      channels: {
-        linkedin: { settings: { content_kind: 'document', document: { title: 'Q3 Report' } } },
-      },
-    },
-    conns,
-  );
-  const v = post.variants[0]!;
-  expect(v.post_type).toBe('single_image');
-  expect(v.settings).toMatchObject({
-    content_kind: 'document',
-    document: { title: 'Q3 Report' },
-    visibility: 'PUBLIC',
-  });
-  expect(v.media).toEqual([{ media_id: 'd1' }]);
+test('buildUpdatePost throws on an empty edit', () => {
+  expect(() => buildUpdatePost({})).toThrow(/at least one/i);
+  expect(() => buildUpdatePost({ dryRun: true })).toThrow(/at least one/i);
 });
 
-test('LinkedIn article post (no media) → text + content_kind:article', () => {
-  const post = buildCreatePost(
-    {
-      profileId: 'p',
-      content: { body: 'See the report' },
-      channels: {
-        linkedin: { settings: { content_kind: 'article', article: { source: 'https://ex.com/a' } } },
-      },
-    },
-    conns,
-  );
-  const v = post.variants[0]!;
-  expect(v.post_type).toBe('text');
-  expect(v.settings).toMatchObject({ content_kind: 'article', article: { source: 'https://ex.com/a' } });
-});
-
-test('LinkedIn poll post (no media) → text + content_kind:poll', () => {
-  const post = buildCreatePost(
-    {
-      profileId: 'p',
-      content: { body: 'Vote' },
-      channels: {
-        linkedin: {
-          settings: { content_kind: 'poll', poll: { question: 'A or B?', options: ['A', 'B'], duration: 'ONE_DAY' } },
-        },
-      },
-    },
-    conns,
-  );
-  expect(post.variants[0]!.post_type).toBe('text');
-  expect(post.variants[0]!.settings).toMatchObject({ content_kind: 'poll' });
-});
-
-test('Instagram reel carries reel-only settings (video → reel)', () => {
-  const post = buildCreatePost(
-    {
-      profileId: 'p',
-      content: { media: [vid('v1')] },
-      channels: { instagram: { settings: { share_to_feed: true, thumb_offset: 100 } } },
-    },
-    conns,
-  );
-  expect(post.variants[0]!.post_type).toBe('reel');
-  expect(post.variants[0]!.settings).toMatchObject({
-    media_type: 'REELS',
-    share_to_feed: true,
-    thumb_offset: 100,
-  });
-});
-
-test('X poll post (no media) → text + the poll', () => {
-  const post = buildCreatePost(
-    {
-      profileId: 'p',
-      content: {},
-      channels: { x: { settings: { poll: { options: ['A', 'B'], duration_minutes: 1440 } } } },
-    },
-    conns,
-  );
-  expect(post.variants[0]!.post_type).toBe('text');
-  expect(post.variants[0]!.settings).toMatchObject({ poll: { options: ['A', 'B'], duration_minutes: 1440 } });
-});
-
-test('X quote post (no media) → text + quote_tweet_id', () => {
-  const post = buildCreatePost(
-    { profileId: 'p', content: {}, channels: { x: { settings: { quote_tweet_id: '123' } } } },
-    conns,
-  );
-  expect(post.variants[0]!.post_type).toBe('text');
-  expect(post.variants[0]!.settings).toMatchObject({ quote_tweet_id: '123' });
-});
-
-test('explicit postType overrides media derivation', () => {
-  const post = buildCreatePost(
-    { profileId: 'p', content: { media: [vid('v1')] }, channels: { x: { postType: 'video' } } },
-    conns,
-  );
-  expect(post.variants[0]!.post_type).toBe('video');
-});
-
-test('per-channel media override replaces base media (and re-derives)', () => {
-  const post = buildCreatePost(
-    {
-      profileId: 'p',
-      content: { body: 'hi', media: [img('base')] },
-      channels: { x: {}, instagram: { media: [vid('ig_video')] } },
-    },
-    conns,
-  );
-  expect(post.variants.find((v) => v.platform === 'x')!.media).toEqual([{ media_id: 'base' }]);
-  const ig = post.variants.find((v) => v.platform === 'instagram')!;
-  expect(ig.media).toEqual([{ media_id: 'ig_video' }]);
-  expect(ig.post_type).toBe('reel');
-});
+/* ------------------------------ strong typing ----------------------------- */
 
 test('settings are typed per platform (compile-time)', () => {
   buildCreatePost(

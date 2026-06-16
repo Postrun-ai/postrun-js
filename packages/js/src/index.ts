@@ -59,7 +59,7 @@ export type {
   ComposePostInput,
   ComposeUpdateInput,
   PostContent,
-  ChannelOverride,
+  ChannelConfig,
   Channels,
   MediaInput,
   ConnectionRef,

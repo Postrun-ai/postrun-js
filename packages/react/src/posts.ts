@@ -15,9 +15,6 @@ import { postKeys } from './keys';
  * List posts — the calendar/queue data, filtered (profile_id / external_id /
  * metadata) and paginated. `data` is the typed `PostList` envelope, with each
  * post's derived status (draft / scheduled / publishing / published / failed).
- *
- * Reads only for now: `useCreatePost` / `useUpdatePost` land once the compose
- * (variant) write contract is finalized.
  */
 export function usePosts(query?: ListPostsQuery) {
   const { client, queryClient } = usePostrun();

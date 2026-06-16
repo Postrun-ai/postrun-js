@@ -169,14 +169,33 @@ function countKinds(media: readonly MediaInput[]) {
 
 /* --------------------------- per-platform builders ------------------------ */
 
+/**
+ * X / LinkedIn / Facebook have no mixed-media placement: a post is either text,
+ * images, or a single video — never a blend. Reject the mixes that have no valid
+ * post_type here (a clear local error) instead of emitting a body the API 422s.
+ */
+function guardSinglePlacement(media: readonly MediaInput[], platform: string): void {
+  const { images, videos } = countKinds(media);
+  if (images > 0 && videos > 0) {
+    throw new ComposeError(
+      `${platform} can't combine images and video in one post — split them into separate posts (or set postType explicitly).`,
+    );
+  }
+  if (videos > 1) {
+    throw new ComposeError(`${platform} allows at most one video per post.`);
+  }
+}
+
 /** X and LinkedIn share the text/single/multi/video shape. */
 function deriveStandardPostType(
   media: readonly MediaInput[],
+  platform: string,
 ): PostTypeFor<'x'> & PostTypeFor<'linkedin'> {
   guardNoDocument(media);
   if (media.length === 0) return 'text';
-  const { images, videos } = countKinds(media);
-  if (videos >= 1) return 'video';
+  guardSinglePlacement(media, platform);
+  const { images } = countKinds(media);
+  if (images === 0) return 'video';
   return images >= 2 ? 'multi_image' : 'single_image';
 }
 
@@ -184,7 +203,7 @@ function buildX(override: ChannelOverride<'x'>, ctx: BuildContext): VariantFor<'
   const media = resolveMedia(override, ctx.content);
   return {
     platform: 'x',
-    post_type: override.postType ?? deriveStandardPostType(media),
+    post_type: override.postType ?? deriveStandardPostType(media, 'X'),
     connection_id: resolveConnectionId('x', override, ctx.connections),
     body: override.body ?? ctx.content.body,
     media: toMediaRefs(media),
@@ -203,7 +222,13 @@ function buildLinkedIn(
   ctx: BuildContext,
 ): VariantFor<'linkedin'> {
   const media = resolveMedia(override, ctx.content);
-  const postType = override.postType ?? deriveStandardPostType(media);
+  // A document post is signaled by `content_kind: 'document'` and rides on a
+  // single document asset (post_type `single_image`). Honor that signal without
+  // tripping the no-document derivation guard — the caller has been explicit.
+  const isDocument = override.settings?.content_kind === 'document';
+  const postType =
+    override.postType ??
+    (isDocument ? 'single_image' : deriveStandardPostType(media, 'LinkedIn'));
   return {
     platform: 'linkedin',
     post_type: postType,
@@ -218,11 +243,15 @@ function buildLinkedIn(
   };
 }
 
-function deriveFacebookPostType(media: readonly MediaInput[]): PostTypeFor<'facebook_page'> {
+function deriveFacebookPostType(
+  media: readonly MediaInput[],
+  platform: string,
+): PostTypeFor<'facebook_page'> {
   guardNoDocument(media);
   if (media.length === 0) return 'text';
-  const { images, videos } = countKinds(media);
-  if (videos >= 1) return 'reel';
+  guardSinglePlacement(media, platform);
+  const { images } = countKinds(media);
+  if (images === 0) return 'reel';
   return images >= 2 ? 'multi_image' : 'single_image';
 }
 
@@ -233,7 +262,7 @@ function buildFacebook(
   const media = resolveMedia(override, ctx.content);
   return {
     platform: 'facebook_page',
-    post_type: override.postType ?? deriveFacebookPostType(media),
+    post_type: override.postType ?? deriveFacebookPostType(media, 'Facebook'),
     connection_id: resolveConnectionId('facebook_page', override, ctx.connections),
     body: override.body ?? ctx.content.body,
     media: toMediaRefs(media),
@@ -246,9 +275,10 @@ function deriveInstagramPostType(media: readonly MediaInput[]): PostTypeFor<'ins
   if (media.length === 0) {
     throw new ComposeError('Instagram requires at least one media item.');
   }
-  const { images, videos } = countKinds(media);
-  if (videos >= 1) return 'reel';
-  return images >= 2 ? 'carousel' : 'single_image';
+  // 2+ items is always a carousel — which the API allows to mix image/gif/video.
+  // A lone item is a reel (video) or a single image.
+  if (media.length >= 2) return 'carousel';
+  return countKinds(media).videos === 1 ? 'reel' : 'single_image';
 }
 
 function instagramMediaType(

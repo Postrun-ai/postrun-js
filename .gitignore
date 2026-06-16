@@ -15,3 +15,6 @@ CLAUDE.md
 
 # Superpowers brainstorm visual companion
 .superpowers/
+
+# Internal docs & brainstorming (not shipped in the public package)
+docs/superpowers/

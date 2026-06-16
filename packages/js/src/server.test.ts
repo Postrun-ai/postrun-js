@@ -29,15 +29,16 @@ function server() {
   });
 }
 
-test('mints a token: POSTs /tokens with the secret key as bearer, maps the response', async () => {
+test('mints a token: POSTs /tokens with the secret key as bearer, forwards the body, returns the data', async () => {
   const calls = recordFetch();
 
   const result = await server().tokens.mint({
-    profiles: { externalIds: ['acme-co'] },
+    profile_scope: { type: 'external_id', values: ['acme-co'] },
     scopes: ['posts:write', 'media:write'],
+    ttl_seconds: 900,
   });
 
-  expect(result).toEqual({ token: 'jwt.header.sig', expiresAt: '2026-06-15T12:15:00Z' });
+  expect(result).toEqual(MINTED);
 
   const req = calls[0]!;
   expect(req.method).toBe('POST');
@@ -46,28 +47,8 @@ test('mints a token: POSTs /tokens with the secret key as bearer, maps the respo
   expect(await req.json()).toEqual({
     profile_scope: { type: 'external_id', values: ['acme-co'] },
     scopes: ['posts:write', 'media:write'],
+    ttl_seconds: 900,
   });
-});
-
-test('maps the `ids` profile scope to the wire shape', async () => {
-  const calls = recordFetch();
-  await server().tokens.mint({ profiles: { ids: ['prof_1', 'prof_2'] }, scopes: ['posts:read'] });
-  expect((await calls[0]!.json()).profile_scope).toEqual({
-    type: 'ids',
-    values: ['prof_1', 'prof_2'],
-  });
-});
-
-test('maps the `all` profile scope to the wire shape', async () => {
-  const calls = recordFetch();
-  await server().tokens.mint({ profiles: 'all', scopes: ['posts:read'] });
-  expect((await calls[0]!.json()).profile_scope).toEqual({ type: 'all' });
-});
-
-test('passes ttlSeconds through as ttl_seconds', async () => {
-  const calls = recordFetch();
-  await server().tokens.mint({ profiles: 'all', scopes: ['posts:read'], ttlSeconds: 1800 });
-  expect((await calls[0]!.json()).ttl_seconds).toBe(1800);
 });
 
 test('surfaces an API rejection as a typed PostrunError', async () => {
@@ -77,16 +58,8 @@ test('surfaces an API rejection as a typed PostrunError', async () => {
     status: 401,
   });
   await expect(
-    server().tokens.mint({ profiles: 'all', scopes: ['posts:read'] }),
+    server().tokens.mint({ profile_scope: { type: 'all' }, scopes: ['posts:read'] }),
   ).rejects.toMatchObject({ name: 'PostrunError', status: 401, code: 'unauthorized' });
-});
-
-test('rejects minting with no scopes before hitting the network', async () => {
-  const calls = recordFetch();
-  await expect(
-    server().tokens.mint({ profiles: 'all', scopes: [] }),
-  ).rejects.toThrow(/at least one scope/i);
-  expect(calls).toHaveLength(0);
 });
 
 test('rejects an empty secret key', () => {
@@ -107,7 +80,7 @@ test('exposes a raw secret-authed client for other server-side calls', async () 
 test('scopes are typed to the closed union (compile-time)', async () => {
   recordFetch();
   await server().tokens.mint({
-    profiles: 'all',
+    profile_scope: { type: 'all' },
     // @ts-expect-error — 'ads:delete' is not a real scope
     scopes: ['ads:delete'],
   });

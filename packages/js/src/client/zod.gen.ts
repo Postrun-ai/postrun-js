@@ -385,6 +385,7 @@ export const zMediaCreateResponse = z.object({
             'publishing_unavailable',
             'x_duplicate_content',
             'x_not_authorized',
+            'x_rate_limited',
             'x_publish_failed',
             'x_media_upload_failed',
             'linkedin_duplicate_content',
@@ -483,6 +484,7 @@ export const zMediaCreateResponse = z.object({
                 'publishing_unavailable',
                 'x_duplicate_content',
                 'x_not_authorized',
+                'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
                 'linkedin_duplicate_content',
@@ -616,6 +618,7 @@ export const zMediaGetResponse = z.object({
             'publishing_unavailable',
             'x_duplicate_content',
             'x_not_authorized',
+            'x_rate_limited',
             'x_publish_failed',
             'x_media_upload_failed',
             'linkedin_duplicate_content',
@@ -714,6 +717,7 @@ export const zMediaGetResponse = z.object({
                 'publishing_unavailable',
                 'x_duplicate_content',
                 'x_not_authorized',
+                'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
                 'linkedin_duplicate_content',
@@ -845,6 +849,7 @@ export const zMediaUpdateResponse = z.object({
             'publishing_unavailable',
             'x_duplicate_content',
             'x_not_authorized',
+            'x_rate_limited',
             'x_publish_failed',
             'x_media_upload_failed',
             'linkedin_duplicate_content',
@@ -943,6 +948,7 @@ export const zMediaUpdateResponse = z.object({
                 'publishing_unavailable',
                 'x_duplicate_content',
                 'x_not_authorized',
+                'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
                 'linkedin_duplicate_content',
@@ -1239,11 +1245,7 @@ export const zPostsCreateBody = z.object({
                 alt_text_override: z.string().nullish()
             })).optional().default([]),
             settings: z.object({
-                link: z.url().optional(),
-                place: z.string().optional(),
-                targeting: z.object({
-                    geo_locations: z.unknown().optional()
-                }).optional()
+                link: z.url().optional()
             }).optional().default({})
         })
     ])).min(1)
@@ -1579,11 +1581,7 @@ export const zPostsUpdateBody = z.object({
                 alt_text_override: z.string().nullish()
             })).optional().default([]),
             settings: z.object({
-                link: z.url().optional(),
-                place: z.string().optional(),
-                targeting: z.object({
-                    geo_locations: z.unknown().optional()
-                }).optional()
+                link: z.url().optional()
             }).optional().default({})
         })
     ])).min(1).optional()

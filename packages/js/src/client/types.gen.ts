@@ -32,122 +32,207 @@ export type ProfilesListData = {
 
 export type ProfilesListErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -246,122 +331,207 @@ export type ProfilesCreateData = {
 
 export type ProfilesCreateErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -421,122 +591,207 @@ export type ProfilesDeleteData = {
 
 export type ProfilesDeleteErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -578,122 +833,207 @@ export type ProfilesGetData = {
 
 export type ProfilesGetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -772,122 +1112,207 @@ export type ProfilesUpdateData = {
 
 export type ProfilesUpdateErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -956,122 +1381,207 @@ export type ConnectionsListByProfileData = {
 
 export type ConnectionsListByProfileErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -1158,122 +1668,207 @@ export type ConnectionsDeleteData = {
 
 export type ConnectionsDeleteErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -1315,122 +1910,207 @@ export type ConnectionsGetData = {
 
 export type ConnectionsGetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -1497,140 +2177,207 @@ export type ConnectionsSelectData = {
 
 export type ConnectionsSelectErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'CONNECTION_REAUTH_REQUIRED';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'CONNECTION_NOT_PENDING';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress' | 'connection_reauth_required' | 'connection_not_pending';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'ACCOUNT_NOT_AVAILABLE';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused' | 'account_not_available';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -1692,138 +2439,236 @@ export type ConnectionsListAccountsData = {
 
 export type ConnectionsListAccountsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 501
+     * An RFC 9457 problem response.
      */
     501: {
-        defined: true;
-        code: 'NOT_IMPLEMENTED';
-        status: 501;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_implemented';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -1892,122 +2737,207 @@ export type ConnectionsConnectData = {
 
 export type ConnectionsConnectErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -2080,128 +3010,207 @@ export type MediaCreateData = {
 
 export type MediaCreateErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'SOURCE_URL_UNSUPPORTED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused' | 'source_url_unsupported';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -2222,7 +3231,7 @@ export type MediaCreateResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -2251,7 +3260,7 @@ export type MediaCreateResponses = {
                 bytes: number | null;
                 warnings: Array<string>;
                 errors: Array<{
-                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -2301,122 +3310,207 @@ export type MediaDeleteData = {
 
 export type MediaDeleteErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -2449,122 +3543,207 @@ export type MediaGetData = {
 
 export type MediaGetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -2585,7 +3764,7 @@ export type MediaGetResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -2614,7 +3793,7 @@ export type MediaGetResponses = {
                 bytes: number | null;
                 warnings: Array<string>;
                 errors: Array<{
-                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -2669,128 +3848,207 @@ export type MediaUpdateData = {
 
 export type MediaUpdateErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'MEDIA_PROCESSING';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress' | 'media_processing';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -2811,7 +4069,7 @@ export type MediaUpdateResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -2840,7 +4098,7 @@ export type MediaUpdateResponses = {
                 bytes: number | null;
                 warnings: Array<string>;
                 errors: Array<{
-                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -2900,122 +4158,207 @@ export type PostsListData = {
 
 export type PostsListErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -3475,16 +4818,6 @@ export type PostsCreateData = {
                  * URL to unfurl. A feed post needs a body (message) OR a link.
                  */
                 link?: string;
-                /**
-                 * Page id of a location to tag.
-                 */
-                place?: string;
-                /**
-                 * Optional geo gating (shape only; values are validated at publish).
-                 */
-                targeting?: {
-                    geo_locations?: unknown;
-                };
             };
         }>;
     };
@@ -3495,156 +4828,207 @@ export type PostsCreateData = {
 
 export type PostsCreateErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'INVALID_CONNECTION';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'INVALID_MEDIA';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'SCHEDULE_IN_PAST';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'NOT_PUBLISHABLE';
-        status: 422;
-        message: string;
-        data: {
-            errors: Array<{
-                code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
-                message: string;
-                hint?: string;
-                allowed?: Array<string>;
-                got?: string;
-                variant_index: number;
-                path: Array<string | number>;
-            }>;
-        };
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused' | 'internal_error' | 'not_publishable';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -3755,122 +5139,207 @@ export type PostsDeleteData = {
 
 export type PostsDeleteErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -3903,122 +5372,207 @@ export type PostsGetData = {
 
 export type PostsGetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -4440,16 +5994,6 @@ export type PostsUpdateData = {
                  * URL to unfurl. A feed post needs a body (message) OR a link.
                  */
                 link?: string;
-                /**
-                 * Page id of a location to tag.
-                 */
-                place?: string;
-                /**
-                 * Optional geo gating (shape only; values are validated at publish).
-                 */
-                targeting?: {
-                    geo_locations?: unknown;
-                };
             };
         }>;
     };
@@ -4465,156 +6009,207 @@ export type PostsUpdateData = {
 
 export type PostsUpdateErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'INVALID_CONNECTION';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'INVALID_MEDIA';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'SCHEDULE_IN_PAST';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'NOT_PUBLISHABLE';
-        status: 422;
-        message: string;
-        data: {
-            errors: Array<{
-                code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
-                message: string;
-                hint?: string;
-                allowed?: Array<string>;
-                got?: string;
-                variant_index: number;
-                path: Array<string | number>;
-            }>;
-        };
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused' | 'internal_error' | 'not_publishable';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -4725,122 +6320,207 @@ export type MetaAccountData = {
 
 export type MetaAccountErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -4926,122 +6606,207 @@ export type MetaInsightsData = {
 
 export type MetaInsightsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -5119,122 +6884,207 @@ export type MetaCampaignsData = {
 
 export type MetaCampaignsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -5326,122 +7176,207 @@ export type MetaCampaignData = {
 
 export type MetaCampaignErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -5523,122 +7458,207 @@ export type MetaAdsetsData = {
 
 export type MetaAdsetsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -5734,122 +7754,207 @@ export type MetaAdsetData = {
 
 export type MetaAdsetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -5935,122 +8040,207 @@ export type MetaAdsData = {
 
 export type MetaAdsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -6126,122 +8316,207 @@ export type MetaAdData = {
 
 export type MetaAdErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -6307,122 +8582,207 @@ export type GoogleGetAccountData = {
 
 export type GoogleGetAccountErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -6480,122 +8840,207 @@ export type GoogleGetInsightsData = {
 
 export type GoogleGetInsightsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -6645,122 +9090,207 @@ export type GoogleRunGaqlData = {
 
 export type GoogleRunGaqlErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -6805,122 +9335,207 @@ export type GoogleCreateBudgetData = {
 
 export type GoogleCreateBudgetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -6975,122 +9590,207 @@ export type GoogleDeleteBudgetData = {
 
 export type GoogleDeleteBudgetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -7149,122 +9849,207 @@ export type GoogleEditBudgetData = {
 
 export type GoogleEditBudgetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -7310,122 +10095,207 @@ export type GoogleListCampaignsData = {
 
 export type GoogleListCampaignsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -7488,122 +10358,207 @@ export type GoogleCreateCampaignData = {
 
 export type GoogleCreateCampaignErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -7658,122 +10613,207 @@ export type GoogleDeleteCampaignData = {
 
 export type GoogleDeleteCampaignErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -7823,122 +10863,207 @@ export type GoogleGetCampaignData = {
 
 export type GoogleGetCampaignErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -7986,122 +11111,207 @@ export type GoogleEditCampaignData = {
 
 export type GoogleEditCampaignErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -8156,122 +11366,207 @@ export type GooglePauseCampaignData = {
 
 export type GooglePauseCampaignErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -8314,122 +11609,207 @@ export type GoogleEnableCampaignData = {
 
 export type GoogleEnableCampaignErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -8463,122 +11843,207 @@ export type GoogleListAdGroupsData = {
 
 export type GoogleListAdGroupsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -8637,122 +12102,207 @@ export type GoogleCreateAdGroupData = {
 
 export type GoogleCreateAdGroupErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -8807,122 +12357,207 @@ export type GoogleDeleteAdGroupData = {
 
 export type GoogleDeleteAdGroupErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -8972,122 +12607,207 @@ export type GoogleGetAdGroupData = {
 
 export type GoogleGetAdGroupErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -9135,122 +12855,207 @@ export type GoogleEditAdGroupData = {
 
 export type GoogleEditAdGroupErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -9321,122 +13126,207 @@ export type GoogleSetAdGroupBidsData = {
 
 export type GoogleSetAdGroupBidsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -9491,122 +13381,207 @@ export type GooglePauseAdGroupData = {
 
 export type GooglePauseAdGroupErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -9649,122 +13624,207 @@ export type GoogleEnableAdGroupData = {
 
 export type GoogleEnableAdGroupErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -9798,122 +13858,207 @@ export type GoogleListAdsData = {
 
 export type GoogleListAdsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -9998,122 +14143,207 @@ export type GoogleCreateAdData = {
 
 export type GoogleCreateAdErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -10168,122 +14398,207 @@ export type GoogleDeleteAdData = {
 
 export type GoogleDeleteAdErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -10333,122 +14648,207 @@ export type GoogleGetAdData = {
 
 export type GoogleGetAdErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -10579,122 +14979,207 @@ export type GoogleCreateDisplayAdData = {
 
 export type GoogleCreateDisplayAdErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -10749,122 +15234,207 @@ export type GooglePauseAdData = {
 
 export type GooglePauseAdErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -10907,122 +15477,207 @@ export type GoogleEnableAdData = {
 
 export type GoogleEnableAdErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -11056,122 +15711,207 @@ export type GoogleListKeywordsData = {
 
 export type GoogleListKeywordsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -11235,122 +15975,207 @@ export type GoogleCreateKeywordData = {
 
 export type GoogleCreateKeywordErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -11405,122 +16230,207 @@ export type GoogleDeleteKeywordData = {
 
 export type GoogleDeleteKeywordErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -11570,122 +16480,207 @@ export type GoogleGetKeywordData = {
 
 export type GoogleGetKeywordErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -11734,122 +16729,207 @@ export type GoogleSetKeywordBidData = {
 
 export type GoogleSetKeywordBidErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -11904,122 +16984,207 @@ export type GooglePauseKeywordData = {
 
 export type GooglePauseKeywordErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -12062,122 +17227,207 @@ export type GoogleEnableKeywordData = {
 
 export type GoogleEnableKeywordErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -12211,122 +17461,207 @@ export type GoogleListConversionActionsData = {
 
 export type GoogleListConversionActionsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -12428,122 +17763,207 @@ export type GoogleCreateConversionActionData = {
 
 export type GoogleCreateConversionActionErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -12593,122 +18013,207 @@ export type GoogleGetConversionActionData = {
 
 export type GoogleGetConversionActionErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -12757,122 +18262,207 @@ export type GoogleListConversionGoalsData = {
 
 export type GoogleListConversionGoalsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -12925,122 +18515,207 @@ export type GoogleSetConversionGoalData = {
 
 export type GoogleSetConversionGoalErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -13147,122 +18822,207 @@ export type GoogleUploadConversionsData = {
 
 export type GoogleUploadConversionsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -13334,122 +19094,207 @@ export type GoogleUploadImageAssetData = {
 
 export type GoogleUploadImageAssetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -13531,122 +19376,207 @@ export type LogsListData = {
 
 export type LogsListErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -13781,122 +19711,207 @@ export type LogsGetData = {
 
 export type LogsGetErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -14010,122 +20025,207 @@ export type WebhooksListEndpointsData = {
 
 export type WebhooksListEndpointsErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -14216,122 +20316,207 @@ export type WebhooksCreateEndpointData = {
 
 export type WebhooksCreateEndpointErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -14389,122 +20574,207 @@ export type WebhooksDeleteEndpointData = {
 
 export type WebhooksDeleteEndpointErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -14546,122 +20816,207 @@ export type WebhooksGetEndpointData = {
 
 export type WebhooksGetEndpointErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -14736,122 +21091,207 @@ export type WebhooksUpdateEndpointData = {
 
 export type WebhooksUpdateEndpointErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -14904,122 +21344,207 @@ export type WebhooksCreatePortalData = {
 
 export type WebhooksCreatePortalErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -15048,122 +21573,207 @@ export type WebhooksListEventTypesData = {
 
 export type WebhooksListEventTypesErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -15205,122 +21815,207 @@ export type WebhooksPingData = {
 
 export type WebhooksPingErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 
@@ -15373,122 +22068,207 @@ export type TokensMintData = {
 
 export type TokensMintErrors = {
     /**
-     * 400
+     * An RFC 9457 problem response.
      */
     400: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_INVALID';
-        status: 400;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 401
+     * An RFC 9457 problem response.
      */
     401: {
-        defined: true;
-        code: 'UNAUTHORIZED';
-        status: 401;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 403
+     * An RFC 9457 problem response.
      */
     403: {
-        defined: true;
-        code: 'FORBIDDEN';
-        status: 403;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 404
+     * An RFC 9457 problem response.
      */
     404: {
-        defined: true;
-        code: 'NOT_FOUND';
-        status: 404;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 409
+     * An RFC 9457 problem response.
      */
     409: {
-        defined: true;
-        code: 'CONFLICT';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: true;
-        code: 'IDEMPOTENCY_REQUEST_IN_PROGRESS';
-        status: 409;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 422
+     * An RFC 9457 problem response.
      */
     422: {
-        defined: true;
-        code: 'IDEMPOTENCY_KEY_REUSED';
-        status: 422;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
     /**
-     * 429
+     * An RFC 9457 problem response.
      */
     429: {
-        defined: true;
-        code: 'TOO_MANY_REQUESTS';
-        status: 429;
-        message: string;
-        data?: unknown;
-    } | {
-        defined: false;
-        code: string;
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
         status: number;
-        message: string;
-        data?: unknown;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
     };
 };
 

@@ -37,3 +37,12 @@ export {
 export type { MediaUploadStatus, MediaUploadOptions } from './media';
 export { UploadError } from './upload-bytes';
 export { profileKeys, connectionKeys, mediaKeys } from './keys';
+
+export { XPostPreview } from './preview';
+export type {
+  XPostPreviewProps,
+  XPreviewAuthor,
+  XPreviewMedia,
+  XPreviewQuotedTweet,
+  PreviewMediaKind,
+} from './preview';

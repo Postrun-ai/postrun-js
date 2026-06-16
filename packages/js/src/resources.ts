@@ -73,6 +73,19 @@ export type PostVariantInput = CreatePostBody['variants'][number];
  * hand-declared. */
 export type XPostVariant = Extract<PostVariantInput, { platform: 'x' }>;
 
+/** A post — its variants, schedule, and derived status (the read resource). */
+export type Post =
+  operations['posts.get']['responses']['200']['content']['application/json'];
+
+/** A page of posts (the calendar/queue list). */
+export type PostList =
+  operations['posts.list']['responses']['200']['content']['application/json'];
+
+/** Query parameters for listing posts (filters + pagination). */
+export type ListPostsQuery = NonNullable<
+  operations['posts.list']['parameters']['query']
+>;
+
 /** A media asset (image/video/gif/document) with its per-platform renditions. */
 export type MediaResource =
   operations['media.get']['responses']['200']['content']['application/json'];

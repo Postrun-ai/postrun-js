@@ -1,4 +1,4 @@
-import type { ListProfilesQuery } from '@postrun/js';
+import type { ListPostsQuery, ListProfilesQuery } from '@postrun/js';
 
 /** Root namespace so our cache never collides with the host app's own queries. */
 const ROOT = 'postrun';
@@ -14,6 +14,15 @@ export const profileKeys = {
     [...profileKeys.lists(), query ?? {}] as const,
   details: () => [...profileKeys.all, 'detail'] as const,
   detail: (id: string) => [...profileKeys.details(), id] as const,
+};
+
+/** Query-key factory for posts (list filtered by query; detail by id). */
+export const postKeys = {
+  all: [ROOT, 'posts'] as const,
+  lists: () => [...postKeys.all, 'list'] as const,
+  list: (query?: ListPostsQuery) => [...postKeys.lists(), query ?? {}] as const,
+  details: () => [...postKeys.all, 'detail'] as const,
+  detail: (id: string) => [...postKeys.details(), id] as const,
 };
 
 /** Query-key factory for media assets (single-asset only; no list endpoint yet). */

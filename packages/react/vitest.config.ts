@@ -7,5 +7,9 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     include: ['src/**/*.test.{ts,tsx}'],
+    // react-tweet ships CSS-module imports; inline it so Vite transforms them
+    // (Node's ESM loader can't import `.css`). Production builds leave it
+    // external, so the consumer's bundler handles the CSS there.
+    server: { deps: { inline: ['react-tweet'] } },
   },
 });

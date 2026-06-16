@@ -1,6 +1,13 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { unwrap } from '@postrun/js';
+import {
+  profilesCreate,
+  profilesDelete,
+  profilesGet,
+  profilesList,
+  profilesUpdate,
+  unwrap,
+} from '@postrun/js';
 import type {
   CreateProfileInput,
   ListProfilesQuery,
@@ -22,7 +29,7 @@ export function useProfiles(query?: ListProfilesQuery) {
     {
       queryKey: profileKeys.list(query),
       queryFn: async () =>
-        unwrap(await client.GET('/profiles', { params: { query } })),
+        unwrap(await profilesList({ client, query })),
     },
     queryClient,
   );
@@ -35,9 +42,7 @@ export function useProfile(id: string) {
     {
       queryKey: profileKeys.detail(id),
       queryFn: async () =>
-        unwrap(
-          await client.GET('/profiles/{id}', { params: { path: { id } } }),
-        ),
+        unwrap(await profilesGet({ client, path: { id } })),
       enabled: Boolean(id),
     },
     queryClient,
@@ -50,7 +55,7 @@ export function useCreateProfile() {
   return useMutation(
     {
       mutationFn: async (body: CreateProfileInput) =>
-        unwrap(await client.POST('/profiles', { body })),
+        unwrap(await profilesCreate({ client, body })),
       onSuccess: () =>
         queryClient.invalidateQueries({ queryKey: profileKeys.lists() }),
     },
@@ -64,12 +69,7 @@ export function useUpdateProfile() {
   return useMutation(
     {
       mutationFn: async ({ id, ...body }: { id: string } & UpdateProfileInput) =>
-        unwrap(
-          await client.PATCH('/profiles/{id}', {
-            params: { path: { id } },
-            body,
-          }),
-        ),
+        unwrap(await profilesUpdate({ client, path: { id }, body })),
       onSuccess: (_result, { id }) => {
         queryClient.invalidateQueries({ queryKey: profileKeys.lists() });
         queryClient.invalidateQueries({ queryKey: profileKeys.detail(id) });
@@ -85,9 +85,7 @@ export function useDeleteProfile() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(
-          await client.DELETE('/profiles/{id}', { params: { path: { id } } }),
-        ),
+        unwrap(await profilesDelete({ client, path: { id } })),
       onSuccess: (_result, id) => {
         queryClient.invalidateQueries({ queryKey: profileKeys.lists() });
         queryClient.removeQueries({ queryKey: profileKeys.detail(id) });

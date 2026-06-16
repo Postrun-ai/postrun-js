@@ -2,6 +2,8 @@ import { act, render, renderHook } from '@testing-library/react';
 import { useState } from 'react';
 import { expect, test, vi } from 'vitest';
 
+import { profilesList } from '@postrun/js';
+
 import { PostrunProvider, usePostrun } from './context';
 
 /**
@@ -75,13 +77,13 @@ test('sends the freshest getToken result on every request (stable client, live t
 
   const { rerender } = render(<Tree token="tok-A" />);
   await act(async () => {
-    await client?.GET('/profiles');
+    if (client) await profilesList({ client });
   });
 
   // New token prop → new getToken closure; the stable client must pick it up.
   rerender(<Tree token="tok-B" />);
   await act(async () => {
-    await client?.GET('/profiles');
+    if (client) await profilesList({ client });
   });
 
   expect(sent).toEqual(['Bearer tok-A', 'Bearer tok-B']);

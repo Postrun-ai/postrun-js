@@ -1,6 +1,14 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { unwrap } from '@postrun/js';
+import {
+  connectionsConnect,
+  connectionsDelete,
+  connectionsGet,
+  connectionsListAccounts,
+  connectionsListByProfile,
+  connectionsSelect,
+  unwrap,
+} from '@postrun/js';
 import type { ConnectablePlatform, SelectAccountInput } from '@postrun/js';
 
 import { usePostrun } from './context';
@@ -27,8 +35,9 @@ export function useConnect() {
     {
       mutationFn: async ({ profileId, platform }: ConnectParams) => {
         const session = unwrap(
-          await client.POST('/profiles/{id}/connect', {
-            params: { path: { id: profileId } },
+          await connectionsConnect({
+            client,
+            path: { id: profileId },
             body: { platform },
           }),
         );
@@ -48,9 +57,7 @@ export function useConnections(profileId: string) {
       queryKey: connectionKeys.list(profileId),
       queryFn: async () =>
         unwrap(
-          await client.GET('/profiles/{id}/connections', {
-            params: { path: { id: profileId } },
-          }),
+          await connectionsListByProfile({ client, path: { id: profileId } }),
         ),
       enabled: Boolean(profileId),
     },
@@ -65,9 +72,7 @@ export function useConnection(id: string) {
     {
       queryKey: connectionKeys.detail(id),
       queryFn: async () =>
-        unwrap(
-          await client.GET('/connections/{id}', { params: { path: { id } } }),
-        ),
+        unwrap(await connectionsGet({ client, path: { id } })),
       enabled: Boolean(id),
     },
     queryClient,
@@ -81,11 +86,7 @@ export function useDiscoverableAccounts(id: string) {
     {
       queryKey: connectionKeys.accounts(id),
       queryFn: async () =>
-        unwrap(
-          await client.GET('/connections/{id}/accounts', {
-            params: { path: { id } },
-          }),
-        ),
+        unwrap(await connectionsListAccounts({ client, path: { id } })),
       enabled: Boolean(id),
     },
     queryClient,
@@ -98,12 +99,7 @@ export function useSelectAccount() {
   return useMutation(
     {
       mutationFn: async ({ id, ...body }: { id: string } & SelectAccountInput) =>
-        unwrap(
-          await client.PATCH('/connections/{id}', {
-            params: { path: { id } },
-            body,
-          }),
-        ),
+        unwrap(await connectionsSelect({ client, path: { id }, body })),
       onSuccess: (_result, { id }) => {
         queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
         queryClient.invalidateQueries({ queryKey: connectionKeys.detail(id) });
@@ -120,11 +116,7 @@ export function useDisconnect() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(
-          await client.DELETE('/connections/{id}', {
-            params: { path: { id } },
-          }),
-        ),
+        unwrap(await connectionsDelete({ client, path: { id } })),
       onSuccess: (_result, id) => {
         queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
         queryClient.removeQueries({ queryKey: connectionKeys.detail(id) });

@@ -3,7 +3,13 @@ import pRetry, { AbortError } from 'p-retry';
 import pWaitFor from 'p-wait-for';
 import { useCallback, useRef, useState } from 'react';
 
-import { unwrap } from '@postrun/js';
+import {
+  mediaCreate,
+  mediaDelete,
+  mediaGet,
+  mediaUpdate,
+  unwrap,
+} from '@postrun/js';
 import type {
   CreateMediaInput,
   MediaKind,
@@ -43,9 +49,7 @@ async function pollUntilSettled(
       if (signal.aborted) {
         throw new DOMException('Upload aborted', 'AbortError');
       }
-      latest = unwrap(
-        await client.GET('/media/{id}', { params: { path: { id } } }),
-      );
+      latest = unwrap(await mediaGet({ client, path: { id } }));
       return latest.status === 'ready' || latest.status === 'failed';
     },
     { interval: 1500, timeout: 300_000 },
@@ -117,7 +121,8 @@ export function useMediaUpload() {
 
       try {
         const created = unwrap(
-          await client.POST('/media', {
+          await mediaCreate({
+            client,
             body: {
               profile_id: options.profileId,
               kind,
@@ -197,7 +202,7 @@ export function useMedia(id: string) {
     {
       queryKey: mediaKeys.detail(id),
       queryFn: async () =>
-        unwrap(await client.GET('/media/{id}', { params: { path: { id } } })),
+        unwrap(await mediaGet({ client, path: { id } })),
       enabled: Boolean(id),
       refetchInterval: (query) => {
         const current = query.state.data;
@@ -216,12 +221,7 @@ export function useUpdateMedia() {
   return useMutation(
     {
       mutationFn: async ({ id, ...body }: { id: string } & UpdateMediaInput) =>
-        unwrap(
-          await client.PATCH('/media/{id}', {
-            params: { path: { id } },
-            body,
-          }),
-        ),
+        unwrap(await mediaUpdate({ client, path: { id }, body })),
       onSuccess: (result, { id }) =>
         queryClient.setQueryData(mediaKeys.detail(id), result),
     },
@@ -235,9 +235,7 @@ export function useDeleteMedia() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(
-          await client.DELETE('/media/{id}', { params: { path: { id } } }),
-        ),
+        unwrap(await mediaDelete({ client, path: { id } })),
       onSuccess: (_result, id) =>
         queryClient.removeQueries({ queryKey: mediaKeys.detail(id) }),
     },

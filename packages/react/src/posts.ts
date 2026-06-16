@@ -1,6 +1,15 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { buildCreatePost, isPostPlatform, unwrap } from '@postrun/js';
+import {
+  buildCreatePost,
+  isPostPlatform,
+  postsCreate,
+  postsDelete,
+  postsGet,
+  postsList,
+  postsUpdate,
+  unwrap,
+} from '@postrun/js';
 import type {
   ComposePostInput,
   ListPostsQuery,
@@ -22,7 +31,7 @@ export function usePosts(query?: ListPostsQuery) {
     {
       queryKey: postKeys.list(query),
       queryFn: async () =>
-        unwrap(await client.GET('/posts', { params: { query } })),
+        unwrap(await postsList({ client, query })),
     },
     queryClient,
   );
@@ -35,7 +44,7 @@ export function usePost(id: string) {
     {
       queryKey: postKeys.detail(id),
       queryFn: async () =>
-        unwrap(await client.GET('/posts/{id}', { params: { path: { id } } })),
+        unwrap(await postsGet({ client, path: { id } })),
       enabled: Boolean(id),
     },
     queryClient,
@@ -57,7 +66,8 @@ export function useCreatePost(profileId: string) {
     {
       mutationFn: async (input: Omit<ComposePostInput, 'profileId'>) =>
         unwrap(
-          await client.POST('/posts', {
+          await postsCreate({
+            client,
             body: buildCreatePost({ ...input, profileId }, connected),
           }),
         ),
@@ -92,12 +102,7 @@ export function useUpdatePost(postId: string) {
   return useMutation(
     {
       mutationFn: async (body: UpdatePostInput) =>
-        unwrap(
-          await client.PATCH('/posts/{id}', {
-            params: { path: { id: postId } },
-            body,
-          }),
-        ),
+        unwrap(await postsUpdate({ client, path: { id: postId }, body })),
       onSuccess: (result) => {
         queryClient.invalidateQueries({ queryKey: postKeys.lists() });
         queryClient.setQueryData(postKeys.detail(postId), result);
@@ -113,7 +118,7 @@ export function useDeletePost() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(await client.DELETE('/posts/{id}', { params: { path: { id } } })),
+        unwrap(await postsDelete({ client, path: { id } })),
       onSuccess: (_result, id) => {
         queryClient.invalidateQueries({ queryKey: postKeys.lists() });
         queryClient.removeQueries({ queryKey: postKeys.detail(id) });

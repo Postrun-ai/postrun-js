@@ -8,7 +8,6 @@ import {
   mediaDelete,
   mediaGet,
   mediaUpdate,
-  unwrap,
 } from '@postrun/js';
 import type {
   CreateMediaInput,
@@ -49,7 +48,7 @@ async function pollUntilSettled(
       if (signal.aborted) {
         throw new DOMException('Upload aborted', 'AbortError');
       }
-      latest = unwrap(await mediaGet({ client, path: { id } }));
+      latest = (await mediaGet({ client, path: { id } })).data;
       return latest.status === 'ready' || latest.status === 'failed';
     },
     { interval: 1500, timeout: 300_000 },
@@ -120,7 +119,7 @@ export function useMediaUpload() {
       setError(null);
 
       try {
-        const created = unwrap(
+        const created = (
           await mediaCreate({
             client,
             body: {
@@ -133,8 +132,8 @@ export function useMediaUpload() {
               external_id: options.externalId,
               metadata: options.metadata,
             },
-          }),
-        );
+          })
+        ).data;
 
         if (created.upload) {
           const target = created.upload;
@@ -202,7 +201,7 @@ export function useMedia(id: string) {
     {
       queryKey: mediaKeys.detail(id),
       queryFn: async () =>
-        unwrap(await mediaGet({ client, path: { id } })),
+        (await mediaGet({ client, path: { id } })).data,
       enabled: Boolean(id),
       refetchInterval: (query) => {
         const current = query.state.data;
@@ -221,7 +220,7 @@ export function useUpdateMedia() {
   return useMutation(
     {
       mutationFn: async ({ id, ...body }: { id: string } & UpdateMediaInput) =>
-        unwrap(await mediaUpdate({ client, path: { id }, body })),
+        (await mediaUpdate({ client, path: { id }, body })).data,
       onSuccess: (result, { id }) =>
         queryClient.setQueryData(mediaKeys.detail(id), result),
     },
@@ -235,7 +234,7 @@ export function useDeleteMedia() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(await mediaDelete({ client, path: { id } })),
+        (await mediaDelete({ client, path: { id } })).data,
       onSuccess: (_result, id) =>
         queryClient.removeQueries({ queryKey: mediaKeys.detail(id) }),
     },

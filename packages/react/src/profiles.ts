@@ -6,7 +6,6 @@ import {
   profilesGet,
   profilesList,
   profilesUpdate,
-  unwrap,
 } from '@postrun/js';
 import type {
   CreateProfileInput,
@@ -29,7 +28,7 @@ export function useProfiles(query?: ListProfilesQuery) {
     {
       queryKey: profileKeys.list(query),
       queryFn: async () =>
-        unwrap(await profilesList({ client, query })),
+        (await profilesList({ client, query })).data,
     },
     queryClient,
   );
@@ -42,7 +41,7 @@ export function useProfile(id: string) {
     {
       queryKey: profileKeys.detail(id),
       queryFn: async () =>
-        unwrap(await profilesGet({ client, path: { id } })),
+        (await profilesGet({ client, path: { id } })).data,
       enabled: Boolean(id),
     },
     queryClient,
@@ -55,7 +54,7 @@ export function useCreateProfile() {
   return useMutation(
     {
       mutationFn: async (body: CreateProfileInput) =>
-        unwrap(await profilesCreate({ client, body })),
+        (await profilesCreate({ client, body })).data,
       onSuccess: () =>
         queryClient.invalidateQueries({ queryKey: profileKeys.lists() }),
     },
@@ -69,7 +68,7 @@ export function useUpdateProfile() {
   return useMutation(
     {
       mutationFn: async ({ id, ...body }: { id: string } & UpdateProfileInput) =>
-        unwrap(await profilesUpdate({ client, path: { id }, body })),
+        (await profilesUpdate({ client, path: { id }, body })).data,
       onSuccess: (_result, { id }) => {
         queryClient.invalidateQueries({ queryKey: profileKeys.lists() });
         queryClient.invalidateQueries({ queryKey: profileKeys.detail(id) });
@@ -85,7 +84,7 @@ export function useDeleteProfile() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(await profilesDelete({ client, path: { id } })),
+        (await profilesDelete({ client, path: { id } })).data,
       onSuccess: (_result, id) => {
         queryClient.invalidateQueries({ queryKey: profileKeys.lists() });
         queryClient.removeQueries({ queryKey: profileKeys.detail(id) });

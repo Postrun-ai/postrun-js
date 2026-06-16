@@ -2,7 +2,7 @@ import { afterEach, expect, test, vi } from 'vitest';
 
 import { createPostrunClient } from './client';
 import { profilesList } from './client/sdk.gen';
-import { PostrunError, unwrap } from './errors';
+import { PostrunError } from './errors';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -27,6 +27,27 @@ function client() {
     baseUrl: 'https://api.test/v1',
   });
 }
+
+test('throws a typed PostrunError on a failed request (throwOnError + interceptor)', async () => {
+  recordFetch(404, {
+    type: 'https://docs.postrun.ai/errors/not_found',
+    title: 'The requested resource was not found.',
+    status: 404,
+    code: 'not_found',
+    detail: 'No profile with that id.',
+  });
+
+  const error = await profilesList({ client: client() }).catch(
+    (caught: unknown) => caught,
+  );
+
+  expect(error).toBeInstanceOf(PostrunError);
+  if (error instanceof PostrunError) {
+    expect(error.status).toBe(404);
+    expect(error.code).toBe('not_found');
+    expect(error.message).toBe('No profile with that id.');
+  }
+});
 
 test('serializes an object query param (metadata) as one URL-encoded JSON value', async () => {
   const calls = recordFetch();
@@ -60,27 +81,15 @@ test('serializes scalar query params normally', async () => {
 
 test('PostrunError extracts the message (detail) and code from the RFC 9457 body', () => {
   // The real wire body per the API's `encodeProblem`: RFC 9457, message in `detail`.
-  const result = {
-    data: undefined,
-    error: {
-      type: 'https://docs.postrun.ai/errors/not_found',
-      title: 'The requested resource was not found.',
-      status: 404,
-      code: 'not_found',
-      detail: 'No profile with that id.',
-    },
-    response: new Response(null, { status: 404 }),
-  };
+  const error = new PostrunError(404, {
+    type: 'https://docs.postrun.ai/errors/not_found',
+    title: 'The requested resource was not found.',
+    status: 404,
+    code: 'not_found',
+    detail: 'No profile with that id.',
+  });
 
-  try {
-    unwrap(result);
-    expect.unreachable('unwrap should throw on an error result');
-  } catch (error) {
-    expect(error).toBeInstanceOf(PostrunError);
-    if (error instanceof PostrunError) {
-      expect(error.message).toBe('No profile with that id.');
-      expect(error.code).toBe('not_found');
-      expect(error.status).toBe(404);
-    }
-  }
+  expect(error.message).toBe('No profile with that id.');
+  expect(error.code).toBe('not_found');
+  expect(error.status).toBe(404);
 });

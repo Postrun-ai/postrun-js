@@ -1,12 +1,10 @@
 import { createPostrunClient } from './client';
 import type { PostrunClient } from './client';
 import { tokensMint } from './client/sdk.gen';
-import type { TokensMintData, TokensMintResponse } from './client/types.gen';
-import { unwrap } from './errors';
+import type { TokensMintData } from './client/types.gen';
 
 type MintRequestBody = TokensMintData['body'];
 type WireProfileScope = MintRequestBody['profile_scope'];
-type MintResponseBody = TokensMintResponse;
 
 /**
  * A coarse `resource:action` permission — the closed set the API accepts,
@@ -100,18 +98,16 @@ export function createPostrunServer(options: PostrunServerOptions): PostrunServe
       );
     }
 
-    const result: MintResponseBody = unwrap(
-      await tokensMint({
-        client,
-        body: {
-          profile_scope: toWireProfileScope(input.profiles),
-          scopes: [...input.scopes],
-          ttl_seconds: input.ttlSeconds,
-        },
-      }),
-    );
+    const { data } = await tokensMint({
+      client,
+      body: {
+        profile_scope: toWireProfileScope(input.profiles),
+        scopes: [...input.scopes],
+        ttl_seconds: input.ttlSeconds,
+      },
+    });
 
-    return { token: result.token, expiresAt: result.expires_at };
+    return { token: data.token, expiresAt: data.expires_at };
   }
 
   return { client, tokens: { mint } };

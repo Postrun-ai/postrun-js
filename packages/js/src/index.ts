@@ -1,13 +1,14 @@
 /**
  * @postrun/js — typed JavaScript client for the Postrun API.
  *
- *   import { createPostrunClient, postsCreate, unwrap } from '@postrun/js';
+ *   import { createPostrunClient, postsCreate } from '@postrun/js';
  *   import { ... } from '@postrun/js/schemas';        // client-side validation
  *
  * The client + SDK are generated from the public OpenAPI spec with Hey API, so
  * every call is strongly typed end-to-end and can never drift. Resource-style
  * SDK functions (`profilesList`, `postsCreate`, …) take a `{ client }` made by
- * `createPostrunClient`.
+ * `createPostrunClient` and return `{ data }`, throwing a typed `PostrunError`
+ * on failure.
  */
 export { createPostrunClient } from './client';
 export type { PostrunClient, PostrunClientOptions } from './client';
@@ -20,7 +21,7 @@ export * from './client/sdk.gen';
 // PostsGetResponse, …) for callers that want the raw contract shapes.
 export type * from './client/types.gen';
 
-export { PostrunError, unwrap } from './errors';
+export { PostrunError } from './errors';
 export type { PostrunProblem } from './errors';
 
 export type {

@@ -1,5 +1,6 @@
 import { createClient, createConfig } from './client/client';
 import type { Client } from './client/client';
+import { PostrunError } from './errors';
 
 /**
  * The strongly-typed Postrun API client (Hey API). Pass it to any generated SDK
@@ -48,15 +49,30 @@ function serializeQuery(query: Record<string, unknown>): string {
  * Construct a typed client. The browser only ever holds the scoped token —
  * `getToken` is invoked per request and its value is sent as `Bearer <token>`
  * for the spec's `bearerAuth` security scheme.
+ *
+ * Calls throw on failure (`throwOnError`), so SDK functions return the value
+ * directly (no `{ data, error }` to unwrap) — the throw-based shape every major
+ * SDK uses. The error interceptor maps the raw failure to a typed `PostrunError`
+ * (status + machine `code` + RFC 9457 problem), so `catch` always gets the same
+ * actionable shape.
  */
 export function createPostrunClient(
   options: PostrunClientOptions,
 ): PostrunClient {
-  return createClient(
+  const client = createClient(
     createConfig({
       baseUrl: options.baseUrl ?? DEFAULT_BASE_URL,
       auth: () => options.getToken(),
       querySerializer: serializeQuery,
+      throwOnError: true,
     }),
   );
+
+  client.interceptors.error.use((error, response) =>
+    error instanceof PostrunError
+      ? error
+      : new PostrunError(response?.status ?? 0, error),
+  );
+
+  return client;
 }

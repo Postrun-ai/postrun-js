@@ -25,7 +25,7 @@ const ProblemSchema = z.object({
 
 export type PostrunProblem = z.infer<typeof ProblemSchema>;
 
-/** A typed error thrown by `unwrap` when a request fails. */
+/** A typed error thrown by the client on a failed request. */
 export class PostrunError extends Error {
   readonly status: number;
   readonly code?: string;
@@ -39,30 +39,4 @@ export class PostrunError extends Error {
     this.code = problem?.code;
     this.problem = problem;
   }
-}
-
-/**
- * Turn a Hey API `{ data, error, response }` result into a value or a throw. The
- * client never throws by design (default `throwOnError: false`); hooks want
- * try/catch, so this is the bridge: success → `data`, failure → a typed
- * `PostrunError`. `response` is typed optional by the client but is always
- * present once the request resolves; a missing one is treated as a status-0
- * failure rather than crashing.
- */
-export function unwrap<T>(result: {
-  data?: T;
-  error?: unknown;
-  response?: Response;
-}): T {
-  const status = result.response?.status ?? 0;
-
-  if (!result.response?.ok || result.error !== undefined) {
-    throw new PostrunError(status, result.error);
-  }
-
-  if (result.data === undefined) {
-    throw new PostrunError(status);
-  }
-
-  return result.data;
 }

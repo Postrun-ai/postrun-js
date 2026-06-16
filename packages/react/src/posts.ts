@@ -8,7 +8,6 @@ import {
   postsGet,
   postsList,
   postsUpdate,
-  unwrap,
 } from '@postrun/js';
 import type {
   ComposePostInput,
@@ -31,7 +30,7 @@ export function usePosts(query?: ListPostsQuery) {
     {
       queryKey: postKeys.list(query),
       queryFn: async () =>
-        unwrap(await postsList({ client, query })),
+        (await postsList({ client, query })).data,
     },
     queryClient,
   );
@@ -44,7 +43,7 @@ export function usePost(id: string) {
     {
       queryKey: postKeys.detail(id),
       queryFn: async () =>
-        unwrap(await postsGet({ client, path: { id } })),
+        (await postsGet({ client, path: { id } })).data,
       enabled: Boolean(id),
     },
     queryClient,
@@ -65,12 +64,12 @@ export function useCreatePost(profileId: string) {
   const mutation = useMutation(
     {
       mutationFn: async (input: Omit<ComposePostInput, 'profileId'>) =>
-        unwrap(
+        (
           await postsCreate({
             client,
             body: buildCreatePost({ ...input, profileId }, connected),
-          }),
-        ),
+          })
+        ).data,
       onSuccess: () =>
         queryClient.invalidateQueries({ queryKey: postKeys.lists() }),
     },
@@ -102,7 +101,7 @@ export function useUpdatePost(postId: string) {
   return useMutation(
     {
       mutationFn: async (body: UpdatePostInput) =>
-        unwrap(await postsUpdate({ client, path: { id: postId }, body })),
+        (await postsUpdate({ client, path: { id: postId }, body })).data,
       onSuccess: (result) => {
         queryClient.invalidateQueries({ queryKey: postKeys.lists() });
         queryClient.setQueryData(postKeys.detail(postId), result);
@@ -118,7 +117,7 @@ export function useDeletePost() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(await postsDelete({ client, path: { id } })),
+        (await postsDelete({ client, path: { id } })).data,
       onSuccess: (_result, id) => {
         queryClient.invalidateQueries({ queryKey: postKeys.lists() });
         queryClient.removeQueries({ queryKey: postKeys.detail(id) });

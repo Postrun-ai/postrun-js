@@ -23,7 +23,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
  *
  * Lists the profiles under your account, newest first.
  */
-export const profilesList = <ThrowOnError extends boolean = false>(options?: Options<ProfilesListData, ThrowOnError>): RequestResult<ProfilesListResponses, ProfilesListErrors, ThrowOnError> => (options?.client ?? client).get<ProfilesListResponses, ProfilesListErrors, ThrowOnError>({
+export const profilesList = <ThrowOnError extends boolean = true>(options?: Options<ProfilesListData, ThrowOnError>): RequestResult<ProfilesListResponses, ProfilesListErrors, ThrowOnError> => (options?.client ?? client).get<ProfilesListResponses, ProfilesListErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/profiles',
     ...options
@@ -34,7 +34,7 @@ export const profilesList = <ThrowOnError extends boolean = false>(options?: Opt
  *
  * Creates a profile — a client/brand workspace under your account, and the unit connections attach to.
  */
-export const profilesCreate = <ThrowOnError extends boolean = false>(options: Options<ProfilesCreateData, ThrowOnError>): RequestResult<ProfilesCreateResponses, ProfilesCreateErrors, ThrowOnError> => (options.client ?? client).post<ProfilesCreateResponses, ProfilesCreateErrors, ThrowOnError>({
+export const profilesCreate = <ThrowOnError extends boolean = true>(options: Options<ProfilesCreateData, ThrowOnError>): RequestResult<ProfilesCreateResponses, ProfilesCreateErrors, ThrowOnError> => (options.client ?? client).post<ProfilesCreateResponses, ProfilesCreateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/profiles',
     ...options,
@@ -49,7 +49,7 @@ export const profilesCreate = <ThrowOnError extends boolean = false>(options: Op
  *
  * Deletes a profile. The profile must have no connections — delete its connections first.
  */
-export const profilesDelete = <ThrowOnError extends boolean = false>(options: Options<ProfilesDeleteData, ThrowOnError>): RequestResult<ProfilesDeleteResponses, ProfilesDeleteErrors, ThrowOnError> => (options.client ?? client).delete<ProfilesDeleteResponses, ProfilesDeleteErrors, ThrowOnError>({
+export const profilesDelete = <ThrowOnError extends boolean = true>(options: Options<ProfilesDeleteData, ThrowOnError>): RequestResult<ProfilesDeleteResponses, ProfilesDeleteErrors, ThrowOnError> => (options.client ?? client).delete<ProfilesDeleteResponses, ProfilesDeleteErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/profiles/{id}',
     ...options
@@ -60,7 +60,7 @@ export const profilesDelete = <ThrowOnError extends boolean = false>(options: Op
  *
  * Retrieves a single profile by id.
  */
-export const profilesGet = <ThrowOnError extends boolean = false>(options: Options<ProfilesGetData, ThrowOnError>): RequestResult<ProfilesGetResponses, ProfilesGetErrors, ThrowOnError> => (options.client ?? client).get<ProfilesGetResponses, ProfilesGetErrors, ThrowOnError>({
+export const profilesGet = <ThrowOnError extends boolean = true>(options: Options<ProfilesGetData, ThrowOnError>): RequestResult<ProfilesGetResponses, ProfilesGetErrors, ThrowOnError> => (options.client ?? client).get<ProfilesGetResponses, ProfilesGetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/profiles/{id}',
     ...options
@@ -71,7 +71,7 @@ export const profilesGet = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Updates a profile. Send only the fields you want to change; provide at least one.
  */
-export const profilesUpdate = <ThrowOnError extends boolean = false>(options: Options<ProfilesUpdateData, ThrowOnError>): RequestResult<ProfilesUpdateResponses, ProfilesUpdateErrors, ThrowOnError> => (options.client ?? client).patch<ProfilesUpdateResponses, ProfilesUpdateErrors, ThrowOnError>({
+export const profilesUpdate = <ThrowOnError extends boolean = true>(options: Options<ProfilesUpdateData, ThrowOnError>): RequestResult<ProfilesUpdateResponses, ProfilesUpdateErrors, ThrowOnError> => (options.client ?? client).patch<ProfilesUpdateResponses, ProfilesUpdateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/profiles/{id}',
     ...options,
@@ -86,7 +86,7 @@ export const profilesUpdate = <ThrowOnError extends boolean = false>(options: Op
  *
  * Lists the external accounts connected to a profile, most recent first. Returns 404 if the profile doesn't exist in your account.
  */
-export const connectionsListByProfile = <ThrowOnError extends boolean = false>(options: Options<ConnectionsListByProfileData, ThrowOnError>): RequestResult<ConnectionsListByProfileResponses, ConnectionsListByProfileErrors, ThrowOnError> => (options.client ?? client).get<ConnectionsListByProfileResponses, ConnectionsListByProfileErrors, ThrowOnError>({
+export const connectionsListByProfile = <ThrowOnError extends boolean = true>(options: Options<ConnectionsListByProfileData, ThrowOnError>): RequestResult<ConnectionsListByProfileResponses, ConnectionsListByProfileErrors, ThrowOnError> => (options.client ?? client).get<ConnectionsListByProfileResponses, ConnectionsListByProfileErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/profiles/{id}/connections',
     ...options
@@ -97,7 +97,7 @@ export const connectionsListByProfile = <ThrowOnError extends boolean = false>(o
  *
  * Deletes a connection. Returns a deletion marker; returns 404 if it does not exist in your account.
  */
-export const connectionsDelete = <ThrowOnError extends boolean = false>(options: Options<ConnectionsDeleteData, ThrowOnError>): RequestResult<ConnectionsDeleteResponses, ConnectionsDeleteErrors, ThrowOnError> => (options.client ?? client).delete<ConnectionsDeleteResponses, ConnectionsDeleteErrors, ThrowOnError>({
+export const connectionsDelete = <ThrowOnError extends boolean = true>(options: Options<ConnectionsDeleteData, ThrowOnError>): RequestResult<ConnectionsDeleteResponses, ConnectionsDeleteErrors, ThrowOnError> => (options.client ?? client).delete<ConnectionsDeleteResponses, ConnectionsDeleteErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/connections/{id}',
     ...options
@@ -108,7 +108,7 @@ export const connectionsDelete = <ThrowOnError extends boolean = false>(options:
  *
  * Retrieves a single connection by id.
  */
-export const connectionsGet = <ThrowOnError extends boolean = false>(options: Options<ConnectionsGetData, ThrowOnError>): RequestResult<ConnectionsGetResponses, ConnectionsGetErrors, ThrowOnError> => (options.client ?? client).get<ConnectionsGetResponses, ConnectionsGetErrors, ThrowOnError>({
+export const connectionsGet = <ThrowOnError extends boolean = true>(options: Options<ConnectionsGetData, ThrowOnError>): RequestResult<ConnectionsGetResponses, ConnectionsGetErrors, ThrowOnError> => (options.client ?? client).get<ConnectionsGetResponses, ConnectionsGetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/connections/{id}',
     ...options
@@ -119,7 +119,7 @@ export const connectionsGet = <ThrowOnError extends boolean = false>(options: Op
  *
  * Activates a pending connection by choosing which external account (e.g. which Meta ad account) it uses. The account must be one reachable through the connection’s OAuth grant; its canonical name + currency are resolved server-side from discovery, so the stored display values can’t be spoofed by the caller.
  */
-export const connectionsSelect = <ThrowOnError extends boolean = false>(options: Options<ConnectionsSelectData, ThrowOnError>): RequestResult<ConnectionsSelectResponses, ConnectionsSelectErrors, ThrowOnError> => (options.client ?? client).patch<ConnectionsSelectResponses, ConnectionsSelectErrors, ThrowOnError>({
+export const connectionsSelect = <ThrowOnError extends boolean = true>(options: Options<ConnectionsSelectData, ThrowOnError>): RequestResult<ConnectionsSelectResponses, ConnectionsSelectErrors, ThrowOnError> => (options.client ?? client).patch<ConnectionsSelectResponses, ConnectionsSelectErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/connections/{id}',
     ...options,
@@ -134,7 +134,7 @@ export const connectionsSelect = <ThrowOnError extends boolean = false>(options:
  *
  * Lists the external ad accounts reachable through this connection’s OAuth grant — the picker shown after OAuth, while the connection is still pending account selection. Returns 404 if the connection does not exist in your account, and 501 if account discovery is not yet supported for the connection’s platform.
  */
-export const connectionsListAccounts = <ThrowOnError extends boolean = false>(options: Options<ConnectionsListAccountsData, ThrowOnError>): RequestResult<ConnectionsListAccountsResponses, ConnectionsListAccountsErrors, ThrowOnError> => (options.client ?? client).get<ConnectionsListAccountsResponses, ConnectionsListAccountsErrors, ThrowOnError>({
+export const connectionsListAccounts = <ThrowOnError extends boolean = true>(options: Options<ConnectionsListAccountsData, ThrowOnError>): RequestResult<ConnectionsListAccountsResponses, ConnectionsListAccountsErrors, ThrowOnError> => (options.client ?? client).get<ConnectionsListAccountsResponses, ConnectionsListAccountsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/connections/{id}/accounts',
     ...options
@@ -145,7 +145,7 @@ export const connectionsListAccounts = <ThrowOnError extends boolean = false>(op
  *
  * Starts an OAuth connect flow for a platform on this profile. Returns a short-lived session the client uses to authorize; the connection is created once authorization succeeds.
  */
-export const connectionsConnect = <ThrowOnError extends boolean = false>(options: Options<ConnectionsConnectData, ThrowOnError>): RequestResult<ConnectionsConnectResponses, ConnectionsConnectErrors, ThrowOnError> => (options.client ?? client).post<ConnectionsConnectResponses, ConnectionsConnectErrors, ThrowOnError>({
+export const connectionsConnect = <ThrowOnError extends boolean = true>(options: Options<ConnectionsConnectData, ThrowOnError>): RequestResult<ConnectionsConnectResponses, ConnectionsConnectErrors, ThrowOnError> => (options.client ?? client).post<ConnectionsConnectResponses, ConnectionsConnectErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/profiles/{id}/connect',
     ...options,
@@ -160,7 +160,7 @@ export const connectionsConnect = <ThrowOnError extends boolean = false>(options
  *
  * Creates a media asset and returns a signed direct-to-R2 upload target (PUT the bytes from the browser). `source_url` is reserved/unsupported in v1 — supplying it returns SOURCE_URL_UNSUPPORTED.
  */
-export const mediaCreate = <ThrowOnError extends boolean = false>(options: Options<MediaCreateData, ThrowOnError>): RequestResult<MediaCreateResponses, MediaCreateErrors, ThrowOnError> => (options.client ?? client).post<MediaCreateResponses, MediaCreateErrors, ThrowOnError>({
+export const mediaCreate = <ThrowOnError extends boolean = true>(options: Options<MediaCreateData, ThrowOnError>): RequestResult<MediaCreateResponses, MediaCreateErrors, ThrowOnError> => (options.client ?? client).post<MediaCreateResponses, MediaCreateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/media',
     ...options,
@@ -175,7 +175,7 @@ export const mediaCreate = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Deletes a media asset and its stored renditions.
  */
-export const mediaDelete = <ThrowOnError extends boolean = false>(options: Options<MediaDeleteData, ThrowOnError>): RequestResult<MediaDeleteResponses, MediaDeleteErrors, ThrowOnError> => (options.client ?? client).delete<MediaDeleteResponses, MediaDeleteErrors, ThrowOnError>({
+export const mediaDelete = <ThrowOnError extends boolean = true>(options: Options<MediaDeleteData, ThrowOnError>): RequestResult<MediaDeleteResponses, MediaDeleteErrors, ThrowOnError> => (options.client ?? client).delete<MediaDeleteResponses, MediaDeleteErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/media/{id}',
     ...options
@@ -186,7 +186,7 @@ export const mediaDelete = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Retrieves a media asset, including its per-platform processing status and renditions.
  */
-export const mediaGet = <ThrowOnError extends boolean = false>(options: Options<MediaGetData, ThrowOnError>): RequestResult<MediaGetResponses, MediaGetErrors, ThrowOnError> => (options.client ?? client).get<MediaGetResponses, MediaGetErrors, ThrowOnError>({
+export const mediaGet = <ThrowOnError extends boolean = true>(options: Options<MediaGetData, ThrowOnError>): RequestResult<MediaGetResponses, MediaGetErrors, ThrowOnError> => (options.client ?? client).get<MediaGetResponses, MediaGetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/media/{id}',
     ...options
@@ -197,7 +197,7 @@ export const mediaGet = <ThrowOnError extends boolean = false>(options: Options<
  *
  * Updates a media asset (alt text, metadata, external_id) or adds `targets` to pre-warm more platforms. Send only the fields to change.
  */
-export const mediaUpdate = <ThrowOnError extends boolean = false>(options: Options<MediaUpdateData, ThrowOnError>): RequestResult<MediaUpdateResponses, MediaUpdateErrors, ThrowOnError> => (options.client ?? client).patch<MediaUpdateResponses, MediaUpdateErrors, ThrowOnError>({
+export const mediaUpdate = <ThrowOnError extends boolean = true>(options: Options<MediaUpdateData, ThrowOnError>): RequestResult<MediaUpdateResponses, MediaUpdateErrors, ThrowOnError> => (options.client ?? client).patch<MediaUpdateResponses, MediaUpdateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/media/{id}',
     ...options,
@@ -212,7 +212,7 @@ export const mediaUpdate = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Lists the posts under your account, newest first. Filter by profile or your own external_id.
  */
-export const postsList = <ThrowOnError extends boolean = false>(options?: Options<PostsListData, ThrowOnError>): RequestResult<PostsListResponses, PostsListErrors, ThrowOnError> => (options?.client ?? client).get<PostsListResponses, PostsListErrors, ThrowOnError>({
+export const postsList = <ThrowOnError extends boolean = true>(options?: Options<PostsListData, ThrowOnError>): RequestResult<PostsListResponses, PostsListErrors, ThrowOnError> => (options?.client ?? client).get<PostsListResponses, PostsListErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/posts',
     ...options
@@ -223,7 +223,7 @@ export const postsList = <ThrowOnError extends boolean = false>(options?: Option
  *
  * Composes a post + its per-channel variants. `publish` decides the outcome: `now` publishes immediately, `schedule` publishes at `schedule_at`, `draft` just stores it.
  */
-export const postsCreate = <ThrowOnError extends boolean = false>(options: Options<PostsCreateData, ThrowOnError>): RequestResult<PostsCreateResponses, PostsCreateErrors, ThrowOnError> => (options.client ?? client).post<PostsCreateResponses, PostsCreateErrors, ThrowOnError>({
+export const postsCreate = <ThrowOnError extends boolean = true>(options: Options<PostsCreateData, ThrowOnError>): RequestResult<PostsCreateResponses, PostsCreateErrors, ThrowOnError> => (options.client ?? client).post<PostsCreateResponses, PostsCreateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/posts',
     ...options,
@@ -238,7 +238,7 @@ export const postsCreate = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Deletes a post and its variants. Returns a deletion marker; 404 if it does not exist in your account. Already-published posts are not retracted from the platform.
  */
-export const postsDelete = <ThrowOnError extends boolean = false>(options: Options<PostsDeleteData, ThrowOnError>): RequestResult<PostsDeleteResponses, PostsDeleteErrors, ThrowOnError> => (options.client ?? client).delete<PostsDeleteResponses, PostsDeleteErrors, ThrowOnError>({
+export const postsDelete = <ThrowOnError extends boolean = true>(options: Options<PostsDeleteData, ThrowOnError>): RequestResult<PostsDeleteResponses, PostsDeleteErrors, ThrowOnError> => (options.client ?? client).delete<PostsDeleteResponses, PostsDeleteErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/posts/{id}',
     ...options
@@ -249,7 +249,7 @@ export const postsDelete = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Retrieves a single post by id, including its per-channel variants and their derived status.
  */
-export const postsGet = <ThrowOnError extends boolean = false>(options: Options<PostsGetData, ThrowOnError>): RequestResult<PostsGetResponses, PostsGetErrors, ThrowOnError> => (options.client ?? client).get<PostsGetResponses, PostsGetErrors, ThrowOnError>({
+export const postsGet = <ThrowOnError extends boolean = true>(options: Options<PostsGetData, ThrowOnError>): RequestResult<PostsGetResponses, PostsGetErrors, ThrowOnError> => (options.client ?? client).get<PostsGetResponses, PostsGetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/posts/{id}',
     ...options
@@ -260,7 +260,7 @@ export const postsGet = <ThrowOnError extends boolean = false>(options: Options<
  *
  * Edits a post and/or transitions its publish state (`draft` / `schedule` / `now`). Valid only while the post is draft or scheduled. Send only the fields to change; providing `variants` replaces the whole set.
  */
-export const postsUpdate = <ThrowOnError extends boolean = false>(options: Options<PostsUpdateData, ThrowOnError>): RequestResult<PostsUpdateResponses, PostsUpdateErrors, ThrowOnError> => (options.client ?? client).patch<PostsUpdateResponses, PostsUpdateErrors, ThrowOnError>({
+export const postsUpdate = <ThrowOnError extends boolean = true>(options: Options<PostsUpdateData, ThrowOnError>): RequestResult<PostsUpdateResponses, PostsUpdateErrors, ThrowOnError> => (options.client ?? client).patch<PostsUpdateResponses, PostsUpdateErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/posts/{id}',
     ...options,
@@ -275,7 +275,7 @@ export const postsUpdate = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Retrieves the Meta ad account this connection is linked to — name, currency, status, and spend. Monetary fields are in the account currency’s minor units.
  */
-export const metaAccount = <ThrowOnError extends boolean = false>(options: Options<MetaAccountData, ThrowOnError>): RequestResult<MetaAccountResponses, MetaAccountErrors, ThrowOnError> => (options.client ?? client).get<MetaAccountResponses, MetaAccountErrors, ThrowOnError>({
+export const metaAccount = <ThrowOnError extends boolean = true>(options: Options<MetaAccountData, ThrowOnError>): RequestResult<MetaAccountResponses, MetaAccountErrors, ThrowOnError> => (options.client ?? client).get<MetaAccountResponses, MetaAccountErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/account',
     ...options
@@ -286,7 +286,7 @@ export const metaAccount = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Retrieves performance insights for the connection’s Meta ad account, aggregated at the chosen `level` over a date window. Metric values are strings, in the account currency’s units.
  */
-export const metaInsights = <ThrowOnError extends boolean = false>(options: Options<MetaInsightsData, ThrowOnError>): RequestResult<MetaInsightsResponses, MetaInsightsErrors, ThrowOnError> => (options.client ?? client).get<MetaInsightsResponses, MetaInsightsErrors, ThrowOnError>({
+export const metaInsights = <ThrowOnError extends boolean = true>(options: Options<MetaInsightsData, ThrowOnError>): RequestResult<MetaInsightsResponses, MetaInsightsErrors, ThrowOnError> => (options.client ?? client).get<MetaInsightsResponses, MetaInsightsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/insights',
     ...options
@@ -297,7 +297,7 @@ export const metaInsights = <ThrowOnError extends boolean = false>(options: Opti
  *
  * Lists the campaigns under the connection’s Meta ad account, with each campaign’s status, objective, and budgets (budgets in the account currency’s minor units).
  */
-export const metaCampaigns = <ThrowOnError extends boolean = false>(options: Options<MetaCampaignsData, ThrowOnError>): RequestResult<MetaCampaignsResponses, MetaCampaignsErrors, ThrowOnError> => (options.client ?? client).get<MetaCampaignsResponses, MetaCampaignsErrors, ThrowOnError>({
+export const metaCampaigns = <ThrowOnError extends boolean = true>(options: Options<MetaCampaignsData, ThrowOnError>): RequestResult<MetaCampaignsResponses, MetaCampaignsErrors, ThrowOnError> => (options.client ?? client).get<MetaCampaignsResponses, MetaCampaignsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/campaigns',
     ...options
@@ -308,7 +308,7 @@ export const metaCampaigns = <ThrowOnError extends boolean = false>(options: Opt
  *
  * Retrieves a single campaign under the connection’s Meta ad account by its campaign id — status, objective, and budgets.
  */
-export const metaCampaign = <ThrowOnError extends boolean = false>(options: Options<MetaCampaignData, ThrowOnError>): RequestResult<MetaCampaignResponses, MetaCampaignErrors, ThrowOnError> => (options.client ?? client).get<MetaCampaignResponses, MetaCampaignErrors, ThrowOnError>({
+export const metaCampaign = <ThrowOnError extends boolean = true>(options: Options<MetaCampaignData, ThrowOnError>): RequestResult<MetaCampaignResponses, MetaCampaignErrors, ThrowOnError> => (options.client ?? client).get<MetaCampaignResponses, MetaCampaignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/campaigns/{campaign_id}',
     ...options
@@ -319,7 +319,7 @@ export const metaCampaign = <ThrowOnError extends boolean = false>(options: Opti
  *
  * Lists the ad sets under the connection’s Meta ad account, with each ad set’s status, parent campaign, budgets, and optimization (budgets in the account currency’s minor units).
  */
-export const metaAdsets = <ThrowOnError extends boolean = false>(options: Options<MetaAdsetsData, ThrowOnError>): RequestResult<MetaAdsetsResponses, MetaAdsetsErrors, ThrowOnError> => (options.client ?? client).get<MetaAdsetsResponses, MetaAdsetsErrors, ThrowOnError>({
+export const metaAdsets = <ThrowOnError extends boolean = true>(options: Options<MetaAdsetsData, ThrowOnError>): RequestResult<MetaAdsetsResponses, MetaAdsetsErrors, ThrowOnError> => (options.client ?? client).get<MetaAdsetsResponses, MetaAdsetsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/adsets',
     ...options
@@ -330,7 +330,7 @@ export const metaAdsets = <ThrowOnError extends boolean = false>(options: Option
  *
  * Retrieves a single ad set under the connection’s Meta ad account by its ad set id — status, parent campaign, budgets, and optimization.
  */
-export const metaAdset = <ThrowOnError extends boolean = false>(options: Options<MetaAdsetData, ThrowOnError>): RequestResult<MetaAdsetResponses, MetaAdsetErrors, ThrowOnError> => (options.client ?? client).get<MetaAdsetResponses, MetaAdsetErrors, ThrowOnError>({
+export const metaAdset = <ThrowOnError extends boolean = true>(options: Options<MetaAdsetData, ThrowOnError>): RequestResult<MetaAdsetResponses, MetaAdsetErrors, ThrowOnError> => (options.client ?? client).get<MetaAdsetResponses, MetaAdsetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/adsets/{adset_id}',
     ...options
@@ -341,7 +341,7 @@ export const metaAdset = <ThrowOnError extends boolean = false>(options: Options
  *
  * Lists the ads under the connection’s Meta ad account, with each ad’s status, parent ad set and campaign ids, and timestamps.
  */
-export const metaAds = <ThrowOnError extends boolean = false>(options: Options<MetaAdsData, ThrowOnError>): RequestResult<MetaAdsResponses, MetaAdsErrors, ThrowOnError> => (options.client ?? client).get<MetaAdsResponses, MetaAdsErrors, ThrowOnError>({
+export const metaAds = <ThrowOnError extends boolean = true>(options: Options<MetaAdsData, ThrowOnError>): RequestResult<MetaAdsResponses, MetaAdsErrors, ThrowOnError> => (options.client ?? client).get<MetaAdsResponses, MetaAdsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/ads',
     ...options
@@ -352,7 +352,7 @@ export const metaAds = <ThrowOnError extends boolean = false>(options: Options<M
  *
  * Retrieves a single ad under the connection’s Meta ad account by its ad id — status, parent ad set and campaign ids, and timestamps.
  */
-export const metaAd = <ThrowOnError extends boolean = false>(options: Options<MetaAdData, ThrowOnError>): RequestResult<MetaAdResponses, MetaAdErrors, ThrowOnError> => (options.client ?? client).get<MetaAdResponses, MetaAdErrors, ThrowOnError>({
+export const metaAd = <ThrowOnError extends boolean = true>(options: Options<MetaAdData, ThrowOnError>): RequestResult<MetaAdResponses, MetaAdErrors, ThrowOnError> => (options.client ?? client).get<MetaAdResponses, MetaAdErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/meta/{connection_id}/ads/{ad_id}',
     ...options
@@ -363,7 +363,7 @@ export const metaAd = <ThrowOnError extends boolean = false>(options: Options<Me
  *
  * Returns the Google Ads account (the `customer` resource) backing this connection — id, descriptive name, currency, time zone, status, and whether it is a manager (MCC) or test account.
  */
-export const googleGetAccount = <ThrowOnError extends boolean = false>(options: Options<GoogleGetAccountData, ThrowOnError>): RequestResult<GoogleGetAccountResponses, GoogleGetAccountErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAccountResponses, GoogleGetAccountErrors, ThrowOnError>({
+export const googleGetAccount = <ThrowOnError extends boolean = true>(options: Options<GoogleGetAccountData, ThrowOnError>): RequestResult<GoogleGetAccountResponses, GoogleGetAccountErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAccountResponses, GoogleGetAccountErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/account',
     ...options
@@ -374,7 +374,7 @@ export const googleGetAccount = <ThrowOnError extends boolean = false>(options: 
  *
  * Performance metrics for the connection’s account, at a chosen level (account / campaign / ad group), for a date range, with optional breakdowns. The flagship cross-checked read; use `/gaql` for anything outside this shape.
  */
-export const googleGetInsights = <ThrowOnError extends boolean = false>(options: Options<GoogleGetInsightsData, ThrowOnError>): RequestResult<GoogleGetInsightsResponses, GoogleGetInsightsErrors, ThrowOnError> => (options.client ?? client).post<GoogleGetInsightsResponses, GoogleGetInsightsErrors, ThrowOnError>({
+export const googleGetInsights = <ThrowOnError extends boolean = true>(options: Options<GoogleGetInsightsData, ThrowOnError>): RequestResult<GoogleGetInsightsResponses, GoogleGetInsightsErrors, ThrowOnError> => (options.client ?? client).post<GoogleGetInsightsResponses, GoogleGetInsightsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/insights',
     ...options,
@@ -389,7 +389,7 @@ export const googleGetInsights = <ThrowOnError extends boolean = false>(options:
  *
  * Runs a raw Google Ads Query Language (GAQL) query against the connection’s account and returns the native rows. Read-only (GAQL only does `SELECT`). The power-user escape hatch beneath the typed reads.
  */
-export const googleRunGaql = <ThrowOnError extends boolean = false>(options: Options<GoogleRunGaqlData, ThrowOnError>): RequestResult<GoogleRunGaqlResponses, GoogleRunGaqlErrors, ThrowOnError> => (options.client ?? client).post<GoogleRunGaqlResponses, GoogleRunGaqlErrors, ThrowOnError>({
+export const googleRunGaql = <ThrowOnError extends boolean = true>(options: Options<GoogleRunGaqlData, ThrowOnError>): RequestResult<GoogleRunGaqlResponses, GoogleRunGaqlErrors, ThrowOnError> => (options.client ?? client).post<GoogleRunGaqlResponses, GoogleRunGaqlErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/gaql',
     ...options,
@@ -404,7 +404,7 @@ export const googleRunGaql = <ThrowOnError extends boolean = false>(options: Opt
  *
  * Creates a standalone daily campaign budget (the `campaign_budget` resource) on the connection’s account. Money write — secret-key-only. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name to chain into a campaign.
  */
-export const googleCreateBudget = <ThrowOnError extends boolean = false>(options: Options<GoogleCreateBudgetData, ThrowOnError>): RequestResult<GoogleCreateBudgetResponses, GoogleCreateBudgetErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateBudgetResponses, GoogleCreateBudgetErrors, ThrowOnError>({
+export const googleCreateBudget = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateBudgetData, ThrowOnError>): RequestResult<GoogleCreateBudgetResponses, GoogleCreateBudgetErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateBudgetResponses, GoogleCreateBudgetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/budgets',
     ...options,
@@ -419,7 +419,7 @@ export const googleCreateBudget = <ThrowOnError extends boolean = false>(options
  *
  * Removes a campaign budget by numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
  */
-export const googleDeleteBudget = <ThrowOnError extends boolean = false>(options: Options<GoogleDeleteBudgetData, ThrowOnError>): RequestResult<GoogleDeleteBudgetResponses, GoogleDeleteBudgetErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteBudgetResponses, GoogleDeleteBudgetErrors, ThrowOnError>({
+export const googleDeleteBudget = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteBudgetData, ThrowOnError>): RequestResult<GoogleDeleteBudgetResponses, GoogleDeleteBudgetErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteBudgetResponses, GoogleDeleteBudgetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/budgets/{id}',
     ...options,
@@ -434,7 +434,7 @@ export const googleDeleteBudget = <ThrowOnError extends boolean = false>(options
  *
  * Updates a budget’s daily amount (in micros) by numeric id. Money write — secret-key-only. Pass `dry_run: true` to validate against Google without applying.
  */
-export const googleEditBudget = <ThrowOnError extends boolean = false>(options: Options<GoogleEditBudgetData, ThrowOnError>): RequestResult<GoogleEditBudgetResponses, GoogleEditBudgetErrors, ThrowOnError> => (options.client ?? client).patch<GoogleEditBudgetResponses, GoogleEditBudgetErrors, ThrowOnError>({
+export const googleEditBudget = <ThrowOnError extends boolean = true>(options: Options<GoogleEditBudgetData, ThrowOnError>): RequestResult<GoogleEditBudgetResponses, GoogleEditBudgetErrors, ThrowOnError> => (options.client ?? client).patch<GoogleEditBudgetResponses, GoogleEditBudgetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/budgets/{id}',
     ...options,
@@ -449,7 +449,7 @@ export const googleEditBudget = <ThrowOnError extends boolean = false>(options: 
  *
  * Returns the campaigns (the `campaign` resource) on the connection’s account — id, name, status, advertising channel type, and bidding strategy type.
  */
-export const googleListCampaigns = <ThrowOnError extends boolean = false>(options: Options<GoogleListCampaignsData, ThrowOnError>): RequestResult<GoogleListCampaignsResponses, GoogleListCampaignsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListCampaignsResponses, GoogleListCampaignsErrors, ThrowOnError>({
+export const googleListCampaigns = <ThrowOnError extends boolean = true>(options: Options<GoogleListCampaignsData, ThrowOnError>): RequestResult<GoogleListCampaignsResponses, GoogleListCampaignsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListCampaignsResponses, GoogleListCampaignsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/campaigns',
     ...options
@@ -460,7 +460,7 @@ export const googleListCampaigns = <ThrowOnError extends boolean = false>(option
  *
  * Creates a Search or Display campaign (the `campaign` resource) on the connection’s account, attached to an existing budget. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name.
  */
-export const googleCreateCampaign = <ThrowOnError extends boolean = false>(options: Options<GoogleCreateCampaignData, ThrowOnError>): RequestResult<GoogleCreateCampaignResponses, GoogleCreateCampaignErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateCampaignResponses, GoogleCreateCampaignErrors, ThrowOnError>({
+export const googleCreateCampaign = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateCampaignData, ThrowOnError>): RequestResult<GoogleCreateCampaignResponses, GoogleCreateCampaignErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateCampaignResponses, GoogleCreateCampaignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/campaigns',
     ...options,
@@ -475,7 +475,7 @@ export const googleCreateCampaign = <ThrowOnError extends boolean = false>(optio
  *
  * Removes a campaign by numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
  */
-export const googleDeleteCampaign = <ThrowOnError extends boolean = false>(options: Options<GoogleDeleteCampaignData, ThrowOnError>): RequestResult<GoogleDeleteCampaignResponses, GoogleDeleteCampaignErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteCampaignResponses, GoogleDeleteCampaignErrors, ThrowOnError>({
+export const googleDeleteCampaign = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteCampaignData, ThrowOnError>): RequestResult<GoogleDeleteCampaignResponses, GoogleDeleteCampaignErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteCampaignResponses, GoogleDeleteCampaignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/campaigns/{id}',
     ...options,
@@ -490,7 +490,7 @@ export const googleDeleteCampaign = <ThrowOnError extends boolean = false>(optio
  *
  * Returns a single campaign (the `campaign` resource) by its numeric id on the connection’s account — id, name, status, advertising channel type, and bidding strategy type.
  */
-export const googleGetCampaign = <ThrowOnError extends boolean = false>(options: Options<GoogleGetCampaignData, ThrowOnError>): RequestResult<GoogleGetCampaignResponses, GoogleGetCampaignErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetCampaignResponses, GoogleGetCampaignErrors, ThrowOnError>({
+export const googleGetCampaign = <ThrowOnError extends boolean = true>(options: Options<GoogleGetCampaignData, ThrowOnError>): RequestResult<GoogleGetCampaignResponses, GoogleGetCampaignErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetCampaignResponses, GoogleGetCampaignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/campaigns/{id}',
     ...options
@@ -501,7 +501,7 @@ export const googleGetCampaign = <ThrowOnError extends boolean = false>(options:
  *
  * Updates a campaign’s non-money fields (its name) by numeric id. Status has its own pause/enable endpoints; bids are a separate money write. Pass `dry_run: true` to validate against Google without applying.
  */
-export const googleEditCampaign = <ThrowOnError extends boolean = false>(options: Options<GoogleEditCampaignData, ThrowOnError>): RequestResult<GoogleEditCampaignResponses, GoogleEditCampaignErrors, ThrowOnError> => (options.client ?? client).patch<GoogleEditCampaignResponses, GoogleEditCampaignErrors, ThrowOnError>({
+export const googleEditCampaign = <ThrowOnError extends boolean = true>(options: Options<GoogleEditCampaignData, ThrowOnError>): RequestResult<GoogleEditCampaignResponses, GoogleEditCampaignErrors, ThrowOnError> => (options.client ?? client).patch<GoogleEditCampaignResponses, GoogleEditCampaignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/campaigns/{id}',
     ...options,
@@ -516,7 +516,7 @@ export const googleEditCampaign = <ThrowOnError extends boolean = false>(options
  *
  * Pauses a campaign by its numeric id (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googlePauseCampaign = <ThrowOnError extends boolean = false>(options: Options<GooglePauseCampaignData, ThrowOnError>): RequestResult<GooglePauseCampaignResponses, GooglePauseCampaignErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseCampaignResponses, GooglePauseCampaignErrors, ThrowOnError>({
+export const googlePauseCampaign = <ThrowOnError extends boolean = true>(options: Options<GooglePauseCampaignData, ThrowOnError>): RequestResult<GooglePauseCampaignResponses, GooglePauseCampaignErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseCampaignResponses, GooglePauseCampaignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/campaigns/{id}/pause',
     ...options,
@@ -531,7 +531,7 @@ export const googlePauseCampaign = <ThrowOnError extends boolean = false>(option
  *
  * Enables (resumes) a campaign by its numeric id. Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googleEnableCampaign = <ThrowOnError extends boolean = false>(options: Options<GoogleEnableCampaignData, ThrowOnError>): RequestResult<GoogleEnableCampaignResponses, GoogleEnableCampaignErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableCampaignResponses, GoogleEnableCampaignErrors, ThrowOnError>({
+export const googleEnableCampaign = <ThrowOnError extends boolean = true>(options: Options<GoogleEnableCampaignData, ThrowOnError>): RequestResult<GoogleEnableCampaignResponses, GoogleEnableCampaignErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableCampaignResponses, GoogleEnableCampaignErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/campaigns/{id}/enable',
     ...options,
@@ -546,7 +546,7 @@ export const googleEnableCampaign = <ThrowOnError extends boolean = false>(optio
  *
  * Lists the ad groups (Google’s equivalent of an ad set) in the Google Ads account backing this connection — id, name, status, type, and parent campaign.
  */
-export const googleListAdGroups = <ThrowOnError extends boolean = false>(options: Options<GoogleListAdGroupsData, ThrowOnError>): RequestResult<GoogleListAdGroupsResponses, GoogleListAdGroupsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAdGroupsResponses, GoogleListAdGroupsErrors, ThrowOnError>({
+export const googleListAdGroups = <ThrowOnError extends boolean = true>(options: Options<GoogleListAdGroupsData, ThrowOnError>): RequestResult<GoogleListAdGroupsResponses, GoogleListAdGroupsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAdGroupsResponses, GoogleListAdGroupsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups',
     ...options
@@ -557,7 +557,7 @@ export const googleListAdGroups = <ThrowOnError extends boolean = false>(options
  *
  * Creates an ad group (the `ad_group` resource) under a campaign on the connection’s account. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name to chain into ads and keywords.
  */
-export const googleCreateAdGroup = <ThrowOnError extends boolean = false>(options: Options<GoogleCreateAdGroupData, ThrowOnError>): RequestResult<GoogleCreateAdGroupResponses, GoogleCreateAdGroupErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateAdGroupResponses, GoogleCreateAdGroupErrors, ThrowOnError>({
+export const googleCreateAdGroup = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateAdGroupData, ThrowOnError>): RequestResult<GoogleCreateAdGroupResponses, GoogleCreateAdGroupErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateAdGroupResponses, GoogleCreateAdGroupErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups',
     ...options,
@@ -572,7 +572,7 @@ export const googleCreateAdGroup = <ThrowOnError extends boolean = false>(option
  *
  * Removes an ad group by numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
  */
-export const googleDeleteAdGroup = <ThrowOnError extends boolean = false>(options: Options<GoogleDeleteAdGroupData, ThrowOnError>): RequestResult<GoogleDeleteAdGroupResponses, GoogleDeleteAdGroupErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteAdGroupResponses, GoogleDeleteAdGroupErrors, ThrowOnError>({
+export const googleDeleteAdGroup = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteAdGroupData, ThrowOnError>): RequestResult<GoogleDeleteAdGroupResponses, GoogleDeleteAdGroupErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteAdGroupResponses, GoogleDeleteAdGroupErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups/{id}',
     ...options,
@@ -587,7 +587,7 @@ export const googleDeleteAdGroup = <ThrowOnError extends boolean = false>(option
  *
  * Returns a single ad group by its numeric id from the Google Ads account backing this connection — id, name, status, type, and parent campaign.
  */
-export const googleGetAdGroup = <ThrowOnError extends boolean = false>(options: Options<GoogleGetAdGroupData, ThrowOnError>): RequestResult<GoogleGetAdGroupResponses, GoogleGetAdGroupErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAdGroupResponses, GoogleGetAdGroupErrors, ThrowOnError>({
+export const googleGetAdGroup = <ThrowOnError extends boolean = true>(options: Options<GoogleGetAdGroupData, ThrowOnError>): RequestResult<GoogleGetAdGroupResponses, GoogleGetAdGroupErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAdGroupResponses, GoogleGetAdGroupErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups/{id}',
     ...options
@@ -598,7 +598,7 @@ export const googleGetAdGroup = <ThrowOnError extends boolean = false>(options: 
  *
  * Updates an ad group’s non-money fields (its name) by numeric id. Status has its own pause/enable endpoints; bids are a separate money write. Pass `dry_run: true` to validate without applying.
  */
-export const googleEditAdGroup = <ThrowOnError extends boolean = false>(options: Options<GoogleEditAdGroupData, ThrowOnError>): RequestResult<GoogleEditAdGroupResponses, GoogleEditAdGroupErrors, ThrowOnError> => (options.client ?? client).patch<GoogleEditAdGroupResponses, GoogleEditAdGroupErrors, ThrowOnError>({
+export const googleEditAdGroup = <ThrowOnError extends boolean = true>(options: Options<GoogleEditAdGroupData, ThrowOnError>): RequestResult<GoogleEditAdGroupResponses, GoogleEditAdGroupErrors, ThrowOnError> => (options.client ?? client).patch<GoogleEditAdGroupResponses, GoogleEditAdGroupErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups/{id}',
     ...options,
@@ -613,7 +613,7 @@ export const googleEditAdGroup = <ThrowOnError extends boolean = false>(options:
  *
  * Sets an ad group’s manual bids (cpc/cpm/target CPA in micros, target ROAS as a ratio) by numeric id. Money write — secret-key-only. Pass `dry_run: true` to validate without applying.
  */
-export const googleSetAdGroupBids = <ThrowOnError extends boolean = false>(options: Options<GoogleSetAdGroupBidsData, ThrowOnError>): RequestResult<GoogleSetAdGroupBidsResponses, GoogleSetAdGroupBidsErrors, ThrowOnError> => (options.client ?? client).patch<GoogleSetAdGroupBidsResponses, GoogleSetAdGroupBidsErrors, ThrowOnError>({
+export const googleSetAdGroupBids = <ThrowOnError extends boolean = true>(options: Options<GoogleSetAdGroupBidsData, ThrowOnError>): RequestResult<GoogleSetAdGroupBidsResponses, GoogleSetAdGroupBidsErrors, ThrowOnError> => (options.client ?? client).patch<GoogleSetAdGroupBidsResponses, GoogleSetAdGroupBidsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups/{id}/bids',
     ...options,
@@ -628,7 +628,7 @@ export const googleSetAdGroupBids = <ThrowOnError extends boolean = false>(optio
  *
  * Pauses an ad group by its numeric id (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googlePauseAdGroup = <ThrowOnError extends boolean = false>(options: Options<GooglePauseAdGroupData, ThrowOnError>): RequestResult<GooglePauseAdGroupResponses, GooglePauseAdGroupErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseAdGroupResponses, GooglePauseAdGroupErrors, ThrowOnError>({
+export const googlePauseAdGroup = <ThrowOnError extends boolean = true>(options: Options<GooglePauseAdGroupData, ThrowOnError>): RequestResult<GooglePauseAdGroupResponses, GooglePauseAdGroupErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseAdGroupResponses, GooglePauseAdGroupErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups/{id}/pause',
     ...options,
@@ -643,7 +643,7 @@ export const googlePauseAdGroup = <ThrowOnError extends boolean = false>(options
  *
  * Enables (resumes) an ad group by its numeric id. Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googleEnableAdGroup = <ThrowOnError extends boolean = false>(options: Options<GoogleEnableAdGroupData, ThrowOnError>): RequestResult<GoogleEnableAdGroupResponses, GoogleEnableAdGroupErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableAdGroupResponses, GoogleEnableAdGroupErrors, ThrowOnError>({
+export const googleEnableAdGroup = <ThrowOnError extends boolean = true>(options: Options<GoogleEnableAdGroupData, ThrowOnError>): RequestResult<GoogleEnableAdGroupResponses, GoogleEnableAdGroupErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableAdGroupResponses, GoogleEnableAdGroupErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ad-groups/{id}/enable',
     ...options,
@@ -658,7 +658,7 @@ export const googleEnableAdGroup = <ThrowOnError extends boolean = false>(option
  *
  * Returns the ads (the `ad_group_ad` resource) on the connection’s account — id, name, creative type, serving status, and the owning ad group.
  */
-export const googleListAds = <ThrowOnError extends boolean = false>(options: Options<GoogleListAdsData, ThrowOnError>): RequestResult<GoogleListAdsResponses, GoogleListAdsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAdsResponses, GoogleListAdsErrors, ThrowOnError>({
+export const googleListAds = <ThrowOnError extends boolean = true>(options: Options<GoogleListAdsData, ThrowOnError>): RequestResult<GoogleListAdsResponses, GoogleListAdsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAdsResponses, GoogleListAdsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ads',
     ...options
@@ -669,7 +669,7 @@ export const googleListAds = <ThrowOnError extends boolean = false>(options: Opt
  *
  * Creates a Responsive Search Ad (the `ad_group_ad` resource, inline text — no image assets) under an ad group on the connection’s account. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name.
  */
-export const googleCreateAd = <ThrowOnError extends boolean = false>(options: Options<GoogleCreateAdData, ThrowOnError>): RequestResult<GoogleCreateAdResponses, GoogleCreateAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateAdResponses, GoogleCreateAdErrors, ThrowOnError>({
+export const googleCreateAd = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateAdData, ThrowOnError>): RequestResult<GoogleCreateAdResponses, GoogleCreateAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateAdResponses, GoogleCreateAdErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ads',
     ...options,
@@ -684,7 +684,7 @@ export const googleCreateAd = <ThrowOnError extends boolean = false>(options: Op
  *
  * Removes an ad (an `ad_group_ad`) by its numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
  */
-export const googleDeleteAd = <ThrowOnError extends boolean = false>(options: Options<GoogleDeleteAdData, ThrowOnError>): RequestResult<GoogleDeleteAdResponses, GoogleDeleteAdErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteAdResponses, GoogleDeleteAdErrors, ThrowOnError>({
+export const googleDeleteAd = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteAdData, ThrowOnError>): RequestResult<GoogleDeleteAdResponses, GoogleDeleteAdErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteAdResponses, GoogleDeleteAdErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ads/{id}',
     ...options,
@@ -699,7 +699,7 @@ export const googleDeleteAd = <ThrowOnError extends boolean = false>(options: Op
  *
  * Returns a single ad (the `ad_group_ad` resource) by its numeric id on the connection’s account — id, name, creative type, serving status, and the owning ad group.
  */
-export const googleGetAd = <ThrowOnError extends boolean = false>(options: Options<GoogleGetAdData, ThrowOnError>): RequestResult<GoogleGetAdResponses, GoogleGetAdErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAdResponses, GoogleGetAdErrors, ThrowOnError>({
+export const googleGetAd = <ThrowOnError extends boolean = true>(options: Options<GoogleGetAdData, ThrowOnError>): RequestResult<GoogleGetAdResponses, GoogleGetAdErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAdResponses, GoogleGetAdErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ads/{id}',
     ...options
@@ -710,7 +710,7 @@ export const googleGetAd = <ThrowOnError extends boolean = false>(options: Optio
  *
  * Creates a Responsive Display Ad (the `ad_group_ad` resource) under a Display ad group on the connection’s account, assembled from already-uploaded image-asset resource_names (upload them first via POST /v1/google/{connection_id}/assets). Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name.
  */
-export const googleCreateDisplayAd = <ThrowOnError extends boolean = false>(options: Options<GoogleCreateDisplayAdData, ThrowOnError>): RequestResult<GoogleCreateDisplayAdResponses, GoogleCreateDisplayAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateDisplayAdResponses, GoogleCreateDisplayAdErrors, ThrowOnError>({
+export const googleCreateDisplayAd = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateDisplayAdData, ThrowOnError>): RequestResult<GoogleCreateDisplayAdResponses, GoogleCreateDisplayAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateDisplayAdResponses, GoogleCreateDisplayAdErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/display-ads',
     ...options,
@@ -725,7 +725,7 @@ export const googleCreateDisplayAd = <ThrowOnError extends boolean = false>(opti
  *
  * Pauses an ad by its numeric id (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googlePauseAd = <ThrowOnError extends boolean = false>(options: Options<GooglePauseAdData, ThrowOnError>): RequestResult<GooglePauseAdResponses, GooglePauseAdErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseAdResponses, GooglePauseAdErrors, ThrowOnError>({
+export const googlePauseAd = <ThrowOnError extends boolean = true>(options: Options<GooglePauseAdData, ThrowOnError>): RequestResult<GooglePauseAdResponses, GooglePauseAdErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseAdResponses, GooglePauseAdErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ads/{id}/pause',
     ...options,
@@ -740,7 +740,7 @@ export const googlePauseAd = <ThrowOnError extends boolean = false>(options: Opt
  *
  * Enables (resumes) an ad by its numeric id. Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googleEnableAd = <ThrowOnError extends boolean = false>(options: Options<GoogleEnableAdData, ThrowOnError>): RequestResult<GoogleEnableAdResponses, GoogleEnableAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableAdResponses, GoogleEnableAdErrors, ThrowOnError>({
+export const googleEnableAd = <ThrowOnError extends boolean = true>(options: Options<GoogleEnableAdData, ThrowOnError>): RequestResult<GoogleEnableAdResponses, GoogleEnableAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableAdResponses, GoogleEnableAdErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/ads/{id}/enable',
     ...options,
@@ -755,7 +755,7 @@ export const googleEnableAd = <ThrowOnError extends boolean = false>(options: Op
  *
  * Lists the keywords (`ad_group_criterion` of type KEYWORD) in the connection’s account — each with its criterion id, text, match type, status, negative flag, and owning ad group.
  */
-export const googleListKeywords = <ThrowOnError extends boolean = false>(options: Options<GoogleListKeywordsData, ThrowOnError>): RequestResult<GoogleListKeywordsResponses, GoogleListKeywordsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListKeywordsResponses, GoogleListKeywordsErrors, ThrowOnError>({
+export const googleListKeywords = <ThrowOnError extends boolean = true>(options: Options<GoogleListKeywordsData, ThrowOnError>): RequestResult<GoogleListKeywordsResponses, GoogleListKeywordsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListKeywordsResponses, GoogleListKeywordsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/keywords',
     ...options
@@ -766,7 +766,7 @@ export const googleListKeywords = <ThrowOnError extends boolean = false>(options
  *
  * Creates a keyword (an `ad_group_criterion` of type KEYWORD) under an ad group on the connection’s account. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name.
  */
-export const googleCreateKeyword = <ThrowOnError extends boolean = false>(options: Options<GoogleCreateKeywordData, ThrowOnError>): RequestResult<GoogleCreateKeywordResponses, GoogleCreateKeywordErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateKeywordResponses, GoogleCreateKeywordErrors, ThrowOnError>({
+export const googleCreateKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateKeywordData, ThrowOnError>): RequestResult<GoogleCreateKeywordResponses, GoogleCreateKeywordErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateKeywordResponses, GoogleCreateKeywordErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/keywords',
     ...options,
@@ -781,7 +781,7 @@ export const googleCreateKeyword = <ThrowOnError extends boolean = false>(option
  *
  * Removes a keyword (an `ad_group_criterion`) by its criterion id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
  */
-export const googleDeleteKeyword = <ThrowOnError extends boolean = false>(options: Options<GoogleDeleteKeywordData, ThrowOnError>): RequestResult<GoogleDeleteKeywordResponses, GoogleDeleteKeywordErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteKeywordResponses, GoogleDeleteKeywordErrors, ThrowOnError>({
+export const googleDeleteKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteKeywordData, ThrowOnError>): RequestResult<GoogleDeleteKeywordResponses, GoogleDeleteKeywordErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteKeywordResponses, GoogleDeleteKeywordErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/keywords/{id}',
     ...options,
@@ -796,7 +796,7 @@ export const googleDeleteKeyword = <ThrowOnError extends boolean = false>(option
  *
  * Returns one keyword (`ad_group_criterion` of type KEYWORD) by its criterion id, from the connection’s account — text, match type, status, negative flag, and owning ad group.
  */
-export const googleGetKeyword = <ThrowOnError extends boolean = false>(options: Options<GoogleGetKeywordData, ThrowOnError>): RequestResult<GoogleGetKeywordResponses, GoogleGetKeywordErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetKeywordResponses, GoogleGetKeywordErrors, ThrowOnError>({
+export const googleGetKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleGetKeywordData, ThrowOnError>): RequestResult<GoogleGetKeywordResponses, GoogleGetKeywordErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetKeywordResponses, GoogleGetKeywordErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/keywords/{id}',
     ...options
@@ -807,7 +807,7 @@ export const googleGetKeyword = <ThrowOnError extends boolean = false>(options: 
  *
  * Sets a keyword’s manual CPC bid (in micros) by criterion id. Money write — secret-key-only. Pass `dry_run: true` to validate without applying.
  */
-export const googleSetKeywordBid = <ThrowOnError extends boolean = false>(options: Options<GoogleSetKeywordBidData, ThrowOnError>): RequestResult<GoogleSetKeywordBidResponses, GoogleSetKeywordBidErrors, ThrowOnError> => (options.client ?? client).patch<GoogleSetKeywordBidResponses, GoogleSetKeywordBidErrors, ThrowOnError>({
+export const googleSetKeywordBid = <ThrowOnError extends boolean = true>(options: Options<GoogleSetKeywordBidData, ThrowOnError>): RequestResult<GoogleSetKeywordBidResponses, GoogleSetKeywordBidErrors, ThrowOnError> => (options.client ?? client).patch<GoogleSetKeywordBidResponses, GoogleSetKeywordBidErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/keywords/{id}/bid',
     ...options,
@@ -822,7 +822,7 @@ export const googleSetKeywordBid = <ThrowOnError extends boolean = false>(option
  *
  * Pauses a keyword (`ad_group_criterion`) by its criterion id (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googlePauseKeyword = <ThrowOnError extends boolean = false>(options: Options<GooglePauseKeywordData, ThrowOnError>): RequestResult<GooglePauseKeywordResponses, GooglePauseKeywordErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseKeywordResponses, GooglePauseKeywordErrors, ThrowOnError>({
+export const googlePauseKeyword = <ThrowOnError extends boolean = true>(options: Options<GooglePauseKeywordData, ThrowOnError>): RequestResult<GooglePauseKeywordResponses, GooglePauseKeywordErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseKeywordResponses, GooglePauseKeywordErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/keywords/{id}/pause',
     ...options,
@@ -837,7 +837,7 @@ export const googlePauseKeyword = <ThrowOnError extends boolean = false>(options
  *
  * Enables (resumes) a keyword (`ad_group_criterion`) by its criterion id. Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
-export const googleEnableKeyword = <ThrowOnError extends boolean = false>(options: Options<GoogleEnableKeywordData, ThrowOnError>): RequestResult<GoogleEnableKeywordResponses, GoogleEnableKeywordErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableKeywordResponses, GoogleEnableKeywordErrors, ThrowOnError>({
+export const googleEnableKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleEnableKeywordData, ThrowOnError>): RequestResult<GoogleEnableKeywordResponses, GoogleEnableKeywordErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableKeywordResponses, GoogleEnableKeywordErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/keywords/{id}/enable',
     ...options,
@@ -852,7 +852,7 @@ export const googleEnableKeyword = <ThrowOnError extends boolean = false>(option
  *
  * Returns the conversion actions (the `conversion_action` resource) on the connection’s account — id, name, status, type, category, origin, primary-goal flag, counting type, value settings, and tag snippets.
  */
-export const googleListConversionActions = <ThrowOnError extends boolean = false>(options: Options<GoogleListConversionActionsData, ThrowOnError>): RequestResult<GoogleListConversionActionsResponses, GoogleListConversionActionsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListConversionActionsResponses, GoogleListConversionActionsErrors, ThrowOnError>({
+export const googleListConversionActions = <ThrowOnError extends boolean = true>(options: Options<GoogleListConversionActionsData, ThrowOnError>): RequestResult<GoogleListConversionActionsResponses, GoogleListConversionActionsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListConversionActionsResponses, GoogleListConversionActionsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/conversion-actions',
     ...options
@@ -863,7 +863,7 @@ export const googleListConversionActions = <ThrowOnError extends boolean = false
  *
  * Creates a conversion action (the `conversion_action` resource) — a website tag (WEBPAGE) or an offline/API-reported action (UPLOAD_CLICKS) — on the connection’s account. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name.
  */
-export const googleCreateConversionAction = <ThrowOnError extends boolean = false>(options: Options<GoogleCreateConversionActionData, ThrowOnError>): RequestResult<GoogleCreateConversionActionResponses, GoogleCreateConversionActionErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateConversionActionResponses, GoogleCreateConversionActionErrors, ThrowOnError>({
+export const googleCreateConversionAction = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateConversionActionData, ThrowOnError>): RequestResult<GoogleCreateConversionActionResponses, GoogleCreateConversionActionErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateConversionActionResponses, GoogleCreateConversionActionErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/conversion-actions',
     ...options,
@@ -878,7 +878,7 @@ export const googleCreateConversionAction = <ThrowOnError extends boolean = fals
  *
  * Returns a single conversion action (the `conversion_action` resource) by its numeric id on the connection’s account.
  */
-export const googleGetConversionAction = <ThrowOnError extends boolean = false>(options: Options<GoogleGetConversionActionData, ThrowOnError>): RequestResult<GoogleGetConversionActionResponses, GoogleGetConversionActionErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetConversionActionResponses, GoogleGetConversionActionErrors, ThrowOnError>({
+export const googleGetConversionAction = <ThrowOnError extends boolean = true>(options: Options<GoogleGetConversionActionData, ThrowOnError>): RequestResult<GoogleGetConversionActionResponses, GoogleGetConversionActionErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetConversionActionResponses, GoogleGetConversionActionErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/conversion-actions/{id}',
     ...options
@@ -889,7 +889,7 @@ export const googleGetConversionAction = <ThrowOnError extends boolean = false>(
  *
  * Returns the conversion goals (the `customer_conversion_goal` resource) on the connection’s account — category, origin, and whether each is biddable. Google auto-creates these per category × origin.
  */
-export const googleListConversionGoals = <ThrowOnError extends boolean = false>(options: Options<GoogleListConversionGoalsData, ThrowOnError>): RequestResult<GoogleListConversionGoalsResponses, GoogleListConversionGoalsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListConversionGoalsResponses, GoogleListConversionGoalsErrors, ThrowOnError>({
+export const googleListConversionGoals = <ThrowOnError extends boolean = true>(options: Options<GoogleListConversionGoalsData, ThrowOnError>): RequestResult<GoogleListConversionGoalsResponses, GoogleListConversionGoalsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListConversionGoalsResponses, GoogleListConversionGoalsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/conversion-goals',
     ...options
@@ -900,7 +900,7 @@ export const googleListConversionGoals = <ThrowOnError extends boolean = false>(
  *
  * Sets whether a conversion goal (selected by category × origin) is biddable — a primary goal Google optimises toward, or a secondary observation-only goal. Pass `dry_run: true` to preview without applying. Returns the goal and whether it executed.
  */
-export const googleSetConversionGoal = <ThrowOnError extends boolean = false>(options: Options<GoogleSetConversionGoalData, ThrowOnError>): RequestResult<GoogleSetConversionGoalResponses, GoogleSetConversionGoalErrors, ThrowOnError> => (options.client ?? client).post<GoogleSetConversionGoalResponses, GoogleSetConversionGoalErrors, ThrowOnError>({
+export const googleSetConversionGoal = <ThrowOnError extends boolean = true>(options: Options<GoogleSetConversionGoalData, ThrowOnError>): RequestResult<GoogleSetConversionGoalResponses, GoogleSetConversionGoalErrors, ThrowOnError> => (options.client ?? client).post<GoogleSetConversionGoalResponses, GoogleSetConversionGoalErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/conversion-goals',
     ...options,
@@ -915,7 +915,7 @@ export const googleSetConversionGoal = <ThrowOnError extends boolean = false>(op
  *
  * Uploads offline click conversions (the `UploadClickConversions` call) against the connection’s account — report conversions that happened off-site against the click (gclid/gbraid/wbraid) or first-party identifiers that drove them. Partial failure is per-row: the response reports how many rows succeeded/failed and Google’s own error for each failed row. Pass `dry_run: true` to validate the batch against Google without recording anything.
  */
-export const googleUploadConversions = <ThrowOnError extends boolean = false>(options: Options<GoogleUploadConversionsData, ThrowOnError>): RequestResult<GoogleUploadConversionsResponses, GoogleUploadConversionsErrors, ThrowOnError> => (options.client ?? client).post<GoogleUploadConversionsResponses, GoogleUploadConversionsErrors, ThrowOnError>({
+export const googleUploadConversions = <ThrowOnError extends boolean = true>(options: Options<GoogleUploadConversionsData, ThrowOnError>): RequestResult<GoogleUploadConversionsResponses, GoogleUploadConversionsErrors, ThrowOnError> => (options.client ?? client).post<GoogleUploadConversionsResponses, GoogleUploadConversionsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/conversion-uploads',
     ...options,
@@ -930,7 +930,7 @@ export const googleUploadConversions = <ThrowOnError extends boolean = false>(op
  *
  * Uploads a Postrun image asset (its validated Google Ads rendition) to the connection’s account as an `image` asset, returning the new resource id + resource_name to chain into an ad/asset assembly. Pass `dry_run: true` to validate against Google without creating anything (Google’s native validate_only). The media asset must have a ready Google Ads rendition, else a 409.
  */
-export const googleUploadImageAsset = <ThrowOnError extends boolean = false>(options: Options<GoogleUploadImageAssetData, ThrowOnError>): RequestResult<GoogleUploadImageAssetResponses, GoogleUploadImageAssetErrors, ThrowOnError> => (options.client ?? client).post<GoogleUploadImageAssetResponses, GoogleUploadImageAssetErrors, ThrowOnError>({
+export const googleUploadImageAsset = <ThrowOnError extends boolean = true>(options: Options<GoogleUploadImageAssetData, ThrowOnError>): RequestResult<GoogleUploadImageAssetResponses, GoogleUploadImageAssetErrors, ThrowOnError> => (options.client ?? client).post<GoogleUploadImageAssetResponses, GoogleUploadImageAssetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/google/{connection_id}/assets/images',
     ...options,
@@ -945,7 +945,7 @@ export const googleUploadImageAsset = <ThrowOnError extends boolean = false>(opt
  *
  * Lists the API activity for your account — one entry per action, newest first. Filter by profile, connection, platform, status, source, action, or time range.
  */
-export const logsList = <ThrowOnError extends boolean = false>(options?: Options<LogsListData, ThrowOnError>): RequestResult<LogsListResponses, LogsListErrors, ThrowOnError> => (options?.client ?? client).get<LogsListResponses, LogsListErrors, ThrowOnError>({
+export const logsList = <ThrowOnError extends boolean = true>(options?: Options<LogsListData, ThrowOnError>): RequestResult<LogsListResponses, LogsListErrors, ThrowOnError> => (options?.client ?? client).get<LogsListResponses, LogsListErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/logs',
     ...options
@@ -956,7 +956,7 @@ export const logsList = <ThrowOnError extends boolean = false>(options?: Options
  *
  * Retrieves a single request log entry by id.
  */
-export const logsGet = <ThrowOnError extends boolean = false>(options: Options<LogsGetData, ThrowOnError>): RequestResult<LogsGetResponses, LogsGetErrors, ThrowOnError> => (options.client ?? client).get<LogsGetResponses, LogsGetErrors, ThrowOnError>({
+export const logsGet = <ThrowOnError extends boolean = true>(options: Options<LogsGetData, ThrowOnError>): RequestResult<LogsGetResponses, LogsGetErrors, ThrowOnError> => (options.client ?? client).get<LogsGetResponses, LogsGetErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/logs/{id}',
     ...options
@@ -967,7 +967,7 @@ export const logsGet = <ThrowOnError extends boolean = false>(options: Options<L
  *
  * Lists the webhook endpoints registered for your account.
  */
-export const webhooksListEndpoints = <ThrowOnError extends boolean = false>(options?: Options<WebhooksListEndpointsData, ThrowOnError>): RequestResult<WebhooksListEndpointsResponses, WebhooksListEndpointsErrors, ThrowOnError> => (options?.client ?? client).get<WebhooksListEndpointsResponses, WebhooksListEndpointsErrors, ThrowOnError>({
+export const webhooksListEndpoints = <ThrowOnError extends boolean = true>(options?: Options<WebhooksListEndpointsData, ThrowOnError>): RequestResult<WebhooksListEndpointsResponses, WebhooksListEndpointsErrors, ThrowOnError> => (options?.client ?? client).get<WebhooksListEndpointsResponses, WebhooksListEndpointsErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/endpoints',
     ...options
@@ -978,7 +978,7 @@ export const webhooksListEndpoints = <ThrowOnError extends boolean = false>(opti
  *
  * Registers a URL to receive the chosen event types. Delivery, retries, and signing are handled for you.
  */
-export const webhooksCreateEndpoint = <ThrowOnError extends boolean = false>(options: Options<WebhooksCreateEndpointData, ThrowOnError>): RequestResult<WebhooksCreateEndpointResponses, WebhooksCreateEndpointErrors, ThrowOnError> => (options.client ?? client).post<WebhooksCreateEndpointResponses, WebhooksCreateEndpointErrors, ThrowOnError>({
+export const webhooksCreateEndpoint = <ThrowOnError extends boolean = true>(options: Options<WebhooksCreateEndpointData, ThrowOnError>): RequestResult<WebhooksCreateEndpointResponses, WebhooksCreateEndpointErrors, ThrowOnError> => (options.client ?? client).post<WebhooksCreateEndpointResponses, WebhooksCreateEndpointErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/endpoints',
     ...options,
@@ -993,7 +993,7 @@ export const webhooksCreateEndpoint = <ThrowOnError extends boolean = false>(opt
  *
  * Deletes a webhook endpoint. Delivery to it stops immediately.
  */
-export const webhooksDeleteEndpoint = <ThrowOnError extends boolean = false>(options: Options<WebhooksDeleteEndpointData, ThrowOnError>): RequestResult<WebhooksDeleteEndpointResponses, WebhooksDeleteEndpointErrors, ThrowOnError> => (options.client ?? client).delete<WebhooksDeleteEndpointResponses, WebhooksDeleteEndpointErrors, ThrowOnError>({
+export const webhooksDeleteEndpoint = <ThrowOnError extends boolean = true>(options: Options<WebhooksDeleteEndpointData, ThrowOnError>): RequestResult<WebhooksDeleteEndpointResponses, WebhooksDeleteEndpointErrors, ThrowOnError> => (options.client ?? client).delete<WebhooksDeleteEndpointResponses, WebhooksDeleteEndpointErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/endpoints/{id}',
     ...options
@@ -1004,7 +1004,7 @@ export const webhooksDeleteEndpoint = <ThrowOnError extends boolean = false>(opt
  *
  * Retrieves a single webhook endpoint by id.
  */
-export const webhooksGetEndpoint = <ThrowOnError extends boolean = false>(options: Options<WebhooksGetEndpointData, ThrowOnError>): RequestResult<WebhooksGetEndpointResponses, WebhooksGetEndpointErrors, ThrowOnError> => (options.client ?? client).get<WebhooksGetEndpointResponses, WebhooksGetEndpointErrors, ThrowOnError>({
+export const webhooksGetEndpoint = <ThrowOnError extends boolean = true>(options: Options<WebhooksGetEndpointData, ThrowOnError>): RequestResult<WebhooksGetEndpointResponses, WebhooksGetEndpointErrors, ThrowOnError> => (options.client ?? client).get<WebhooksGetEndpointResponses, WebhooksGetEndpointErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/endpoints/{id}',
     ...options
@@ -1015,7 +1015,7 @@ export const webhooksGetEndpoint = <ThrowOnError extends boolean = false>(option
  *
  * Updates a webhook endpoint. Send only the fields you want to change; provide at least one.
  */
-export const webhooksUpdateEndpoint = <ThrowOnError extends boolean = false>(options: Options<WebhooksUpdateEndpointData, ThrowOnError>): RequestResult<WebhooksUpdateEndpointResponses, WebhooksUpdateEndpointErrors, ThrowOnError> => (options.client ?? client).patch<WebhooksUpdateEndpointResponses, WebhooksUpdateEndpointErrors, ThrowOnError>({
+export const webhooksUpdateEndpoint = <ThrowOnError extends boolean = true>(options: Options<WebhooksUpdateEndpointData, ThrowOnError>): RequestResult<WebhooksUpdateEndpointResponses, WebhooksUpdateEndpointErrors, ThrowOnError> => (options.client ?? client).patch<WebhooksUpdateEndpointResponses, WebhooksUpdateEndpointErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/endpoints/{id}',
     ...options,
@@ -1030,7 +1030,7 @@ export const webhooksUpdateEndpoint = <ThrowOnError extends boolean = false>(opt
  *
  * Mints a one-time App Portal URL where you (or your customer) self-serve webhook delivery logs and signing secrets.
  */
-export const webhooksCreatePortal = <ThrowOnError extends boolean = false>(options?: Options<WebhooksCreatePortalData, ThrowOnError>): RequestResult<WebhooksCreatePortalResponses, WebhooksCreatePortalErrors, ThrowOnError> => (options?.client ?? client).post<WebhooksCreatePortalResponses, WebhooksCreatePortalErrors, ThrowOnError>({
+export const webhooksCreatePortal = <ThrowOnError extends boolean = true>(options?: Options<WebhooksCreatePortalData, ThrowOnError>): RequestResult<WebhooksCreatePortalResponses, WebhooksCreatePortalErrors, ThrowOnError> => (options?.client ?? client).post<WebhooksCreatePortalResponses, WebhooksCreatePortalErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/portal',
     ...options
@@ -1041,7 +1041,7 @@ export const webhooksCreatePortal = <ThrowOnError extends boolean = false>(optio
  *
  * Lists the event types you can subscribe an endpoint to (the catalog).
  */
-export const webhooksListEventTypes = <ThrowOnError extends boolean = false>(options?: Options<WebhooksListEventTypesData, ThrowOnError>): RequestResult<WebhooksListEventTypesResponses, WebhooksListEventTypesErrors, ThrowOnError> => (options?.client ?? client).get<WebhooksListEventTypesResponses, WebhooksListEventTypesErrors, ThrowOnError>({
+export const webhooksListEventTypes = <ThrowOnError extends boolean = true>(options?: Options<WebhooksListEventTypesData, ThrowOnError>): RequestResult<WebhooksListEventTypesResponses, WebhooksListEventTypesErrors, ThrowOnError> => (options?.client ?? client).get<WebhooksListEventTypesResponses, WebhooksListEventTypesErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/event-types',
     ...options
@@ -1052,7 +1052,7 @@ export const webhooksListEventTypes = <ThrowOnError extends boolean = false>(opt
  *
  * Emits a `webhook.ping` event to your subscribed endpoints so you can verify delivery end to end.
  */
-export const webhooksPing = <ThrowOnError extends boolean = false>(options: Options<WebhooksPingData, ThrowOnError>): RequestResult<WebhooksPingResponses, WebhooksPingErrors, ThrowOnError> => (options.client ?? client).post<WebhooksPingResponses, WebhooksPingErrors, ThrowOnError>({
+export const webhooksPing = <ThrowOnError extends boolean = true>(options: Options<WebhooksPingData, ThrowOnError>): RequestResult<WebhooksPingResponses, WebhooksPingErrors, ThrowOnError> => (options.client ?? client).post<WebhooksPingResponses, WebhooksPingErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/webhooks/ping',
     ...options,
@@ -1067,7 +1067,7 @@ export const webhooksPing = <ThrowOnError extends boolean = false>(options: Opti
  *
  * Mints a short-lived, profile-scoped token from your secret `pr_` key. Call this from your backend; the returned token is safe to hand to a browser, which then calls the Postrun API directly. The secret key never touches the browser.
  */
-export const tokensMint = <ThrowOnError extends boolean = false>(options: Options<TokensMintData, ThrowOnError>): RequestResult<TokensMintResponses, TokensMintErrors, ThrowOnError> => (options.client ?? client).post<TokensMintResponses, TokensMintErrors, ThrowOnError>({
+export const tokensMint = <ThrowOnError extends boolean = true>(options: Options<TokensMintData, ThrowOnError>): RequestResult<TokensMintResponses, TokensMintErrors, ThrowOnError> => (options.client ?? client).post<TokensMintResponses, TokensMintErrors, ThrowOnError>({
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/tokens',
     ...options,

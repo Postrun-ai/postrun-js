@@ -7,7 +7,6 @@ import {
   connectionsListAccounts,
   connectionsListByProfile,
   connectionsSelect,
-  unwrap,
 } from '@postrun/js';
 import type { ConnectablePlatform, SelectAccountInput } from '@postrun/js';
 
@@ -34,13 +33,13 @@ export function useConnect() {
   return useMutation(
     {
       mutationFn: async ({ profileId, platform }: ConnectParams) => {
-        const session = unwrap(
+        const session = (
           await connectionsConnect({
             client,
             path: { id: profileId },
             body: { platform },
-          }),
-        );
+          })
+        ).data;
         navigate(session.connect_url);
         return session;
       },
@@ -56,9 +55,8 @@ export function useConnections(profileId: string) {
     {
       queryKey: connectionKeys.list(profileId),
       queryFn: async () =>
-        unwrap(
-          await connectionsListByProfile({ client, path: { id: profileId } }),
-        ),
+        (await connectionsListByProfile({ client, path: { id: profileId } }))
+          .data,
       enabled: Boolean(profileId),
     },
     queryClient,
@@ -72,7 +70,7 @@ export function useConnection(id: string) {
     {
       queryKey: connectionKeys.detail(id),
       queryFn: async () =>
-        unwrap(await connectionsGet({ client, path: { id } })),
+        (await connectionsGet({ client, path: { id } })).data,
       enabled: Boolean(id),
     },
     queryClient,
@@ -86,7 +84,7 @@ export function useDiscoverableAccounts(id: string) {
     {
       queryKey: connectionKeys.accounts(id),
       queryFn: async () =>
-        unwrap(await connectionsListAccounts({ client, path: { id } })),
+        (await connectionsListAccounts({ client, path: { id } })).data,
       enabled: Boolean(id),
     },
     queryClient,
@@ -99,7 +97,7 @@ export function useSelectAccount() {
   return useMutation(
     {
       mutationFn: async ({ id, ...body }: { id: string } & SelectAccountInput) =>
-        unwrap(await connectionsSelect({ client, path: { id }, body })),
+        (await connectionsSelect({ client, path: { id }, body })).data,
       onSuccess: (_result, { id }) => {
         queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
         queryClient.invalidateQueries({ queryKey: connectionKeys.detail(id) });
@@ -116,7 +114,7 @@ export function useDisconnect() {
   return useMutation(
     {
       mutationFn: async (id: string) =>
-        unwrap(await connectionsDelete({ client, path: { id } })),
+        (await connectionsDelete({ client, path: { id } })).data,
       onSuccess: (_result, id) => {
         queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
         queryClient.removeQueries({ queryKey: connectionKeys.detail(id) });

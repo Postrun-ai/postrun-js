@@ -55,3 +55,48 @@ export type DiscoverableAccountList =
 export type SelectAccountInput = NonNullable<
   operations['connections.select']['requestBody']
 >['content']['application/json'];
+
+/** The create/update post body, derived from the contract. */
+type CreatePostBody =
+  operations['posts.create']['requestBody']['content']['application/json'];
+
+/**
+ * One channel's variant on WRITE — the per-platform discriminated-union member
+ * with fully typed native `settings`. Preferred over the read resource's variant
+ * for anything that inspects settings (on read, `settings` is an opaque record);
+ * it is also the compose-time shape, which is exactly what a live preview renders.
+ */
+export type PostVariantInput = CreatePostBody['variants'][number];
+
+/** The X (Twitter) member of the write variant union — typed native settings
+ * (`quote_tweet_id`, `reply`, `poll`, …). Narrowed from the contract, never
+ * hand-declared. */
+export type XPostVariant = Extract<PostVariantInput, { platform: 'x' }>;
+
+/** A media asset (image/video/gif/document) with its per-platform renditions. */
+export type MediaResource =
+  operations['media.get']['responses']['200']['content']['application/json'];
+
+/** A media asset's kind (image / video / gif / document), from the contract. */
+export type MediaKind = MediaResource['kind'];
+
+/** A media render target — a post platform or `google_ads`. */
+export type MediaTarget = NonNullable<
+  operations['media.create']['requestBody']['content']['application/json']['targets']
+>[number];
+
+/** The create-media response: the resource plus a signed upload target. */
+export type CreateMediaResult =
+  operations['media.create']['responses']['201']['content']['application/json'];
+
+/** The signed direct-to-storage upload target returned on create. */
+export type UploadTarget = NonNullable<CreateMediaResult['upload']>;
+
+/** Request body to create a media asset. */
+export type CreateMediaInput =
+  operations['media.create']['requestBody']['content']['application/json'];
+
+/** Request body to update a media asset (alt text / metadata / extend targets). */
+export type UpdateMediaInput = NonNullable<
+  operations['media.update']['requestBody']
+>['content']['application/json'];

@@ -26,6 +26,15 @@ export type {
   ConnectablePlatform,
   DiscoverableAccountList,
   SelectAccountInput,
+  PostVariantInput,
+  XPostVariant,
+  MediaKind,
+  MediaResource,
+  MediaTarget,
+  CreateMediaResult,
+  UploadTarget,
+  CreateMediaInput,
+  UpdateMediaInput,
 } from './resources';
 
 export type { paths, components, operations } from './generated/types';

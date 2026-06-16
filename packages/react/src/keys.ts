@@ -16,6 +16,13 @@ export const profileKeys = {
   detail: (id: string) => [...profileKeys.details(), id] as const,
 };
 
+/** Query-key factory for media assets (single-asset only; no list endpoint yet). */
+export const mediaKeys = {
+  all: [ROOT, 'media'] as const,
+  details: () => [...mediaKeys.all, 'detail'] as const,
+  detail: (id: string) => [...mediaKeys.details(), id] as const,
+};
+
 /** Query-key factory for connections (lists keyed by owning profile). */
 export const connectionKeys = {
   all: [ROOT, 'connections'] as const,

@@ -28,4 +28,12 @@ export {
   useDisconnect,
 } from './connections';
 export type { ConnectParams } from './connections';
-export { profileKeys, connectionKeys } from './keys';
+export {
+  useMediaUpload,
+  useMedia,
+  useUpdateMedia,
+  useDeleteMedia,
+} from './media';
+export type { MediaUploadStatus, MediaUploadOptions } from './media';
+export { UploadError } from './upload-bytes';
+export { profileKeys, connectionKeys, mediaKeys } from './keys';

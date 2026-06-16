@@ -2,4 +2,7 @@ packages:
   - 'packages/*'
   - 'apps/*'
 allowBuilds:
+  # core-js (transitive via twitter-text) only runs a donation-banner
+  # postinstall — nothing we need, so deny its build script.
+  core-js: false
   esbuild: true

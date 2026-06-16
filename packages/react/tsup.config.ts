@@ -15,7 +15,15 @@ export default defineConfig({
   // Keep UI/runtime deps external so the consumer's bundler owns them — notably
   // react-tweet, whose CSS-module imports esbuild can't bundle and whose styling
   // the consumer's framework must load.
-  external: ['react', 'react-dom', 'react-tweet', 'twitter-text'],
+  external: [
+    'react',
+    'react-dom',
+    'react-tweet',
+    'twitter-text',
+    // react-icons ships per-set subpaths (react-icons/fi, /lu) — keep them all
+    // external so the consumer's bundler tree-shakes the icons it actually uses.
+    /^react-icons(\/|$)/,
+  ],
   // The whole package is client-side (context + hooks), so the output must carry
   // a top-level `'use client'` directive to be importable from a React Server
   // Component. esbuild strips module-level directives when bundling and tsup

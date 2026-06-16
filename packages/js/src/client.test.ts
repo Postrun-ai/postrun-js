@@ -49,6 +49,34 @@ test('throws a typed PostrunError on a failed request (throwOnError + intercepto
   }
 });
 
+test('interceptor populates code, request_id and fieldErrors from the problem body', async () => {
+  recordFetch(422, {
+    type: 'https://docs.postrun.ai/errors/validation_failed',
+    title: 'The request body failed validation.',
+    status: 422,
+    code: 'validation_failed',
+    detail: 'One or more fields are invalid.',
+    request_id: 'req_xyz789',
+    errors: [
+      { field: 'limit', code: 'too_big', detail: 'Must be ≤ 100.' },
+    ],
+  });
+
+  const error = await profilesList({ client: client() }).catch(
+    (caught: unknown) => caught,
+  );
+
+  expect(error).toBeInstanceOf(PostrunError);
+  if (error instanceof PostrunError) {
+    expect(error.status).toBe(422);
+    expect(error.code).toBe('validation_failed');
+    expect(error.request_id).toBe('req_xyz789');
+    expect(error.fieldErrors).toEqual([
+      { field: 'limit', code: 'too_big', detail: 'Must be ≤ 100.' },
+    ]);
+  }
+});
+
 test('serializes an object query param (metadata) as one URL-encoded JSON value', async () => {
   const calls = recordFetch();
 

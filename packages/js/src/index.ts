@@ -22,7 +22,11 @@ export * from './client/sdk.gen';
 export type * from './client/types.gen';
 
 export { PostrunError } from './errors';
-export type { PostrunProblem } from './errors';
+export type {
+  PostrunProblem,
+  PostrunErrorCode,
+  PostrunFieldError,
+} from './errors';
 
 export type {
   Profile,

@@ -71,6 +71,8 @@ export interface MediaUploadOptions {
   targets?: MediaTarget[];
   /** Override the kind inferred from the file's MIME. */
   kind?: MediaKind;
+  /** The file's MIME type. Defaults to `file.type`; required when that's empty. */
+  contentType?: string;
   /** Store as-is with zero processing. */
   raw?: boolean;
   altText?: string;
@@ -95,6 +97,16 @@ export function useMediaUpload() {
 
   const upload = useCallback(
     async (file: File, options: MediaUploadOptions): Promise<MediaResource> => {
+      // Resolve the MIME up front (before touching state) — the API rejects a
+      // fabricated `application/octet-stream`, so fail clearly instead.
+      const contentType = options.contentType || file.type;
+      if (!contentType) {
+        throw new Error(
+          "Could not determine the file's content type. Pass { contentType } explicitly.",
+        );
+      }
+      const kind = options.kind ?? inferKind(contentType);
+
       abortRef.current?.abort();
       const controller = new AbortController();
       abortRef.current = controller;
@@ -104,12 +116,11 @@ export function useMediaUpload() {
       setError(null);
 
       try {
-        const contentType = file.type || 'application/octet-stream';
         const created = unwrap(
           await client.POST('/media', {
             body: {
               profile_id: options.profileId,
-              kind: options.kind ?? inferKind(contentType),
+              kind,
               content_type: contentType,
               targets: options.targets,
               raw: options.raw,

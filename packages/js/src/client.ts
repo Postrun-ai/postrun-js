@@ -25,10 +25,16 @@ export interface PostrunClientOptions {
 const DEFAULT_BASE_URL = 'https://api.postrun.ai/v1';
 
 /**
- * The API parses object-valued query params (e.g. the `metadata` filter) as a
- * single URL-encoded JSON string. openapi-fetch's default emits bracket form
- * (`metadata[tier]=pro`), which the server never reads — silently dropping the
- * filter. Serialize objects as JSON; scalars normally.
+ * The `metadata` filter is parsed by the API as a URL-encoded JSON string (its
+ * schema runs a `JSON.parse` preprocess), so an object value must be sent as one
+ * JSON blob, not openapi-fetch's default bracket form.
+ *
+ * KNOWN LIMITATION (deferred with ads): this currently JSON-encodes EVERY object
+ * value, which is right for `metadata` but wrong for the bracket-notation params
+ * the oRPC backend expects on the ads-insights reads (`metrics[]=`,
+ * `time_range[since]=`). No shipped hook uses those yet. Fix when ads hooks land
+ * — verify the exact bracket format against the oRPC deserializer first; it may
+ * pair with a backend change.
  */
 function serializeQuery(query: Record<string, unknown>): string {
   const parts: string[] = [];

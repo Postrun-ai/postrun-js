@@ -147,3 +147,34 @@ test('useMedia retrieves an asset by id', async () => {
   await waitFor(() => expect(result.current.isSuccess).toBe(true));
   expect(result.current.data?.id).toBe('med_1');
 });
+
+test('useMediaUpload throws a clear error when content_type cannot be resolved', async () => {
+  mockMedia();
+  const { result } = renderHook(() => useMediaUpload(), { wrapper: testWrapper() });
+  const typeless = new File(['bytes'], 'blob'); // no MIME type
+
+  await act(async () => {
+    await expect(
+      result.current.upload(typeless, { profileId: 'prof_1', kind: 'image' }),
+    ).rejects.toThrow(/content type/i);
+  });
+});
+
+test('useMediaUpload accepts an explicit contentType override', async () => {
+  const calls = mockMedia();
+  const { result } = renderHook(() => useMediaUpload(), { wrapper: testWrapper() });
+  const typeless = new File(['bytes'], 'doc');
+
+  await act(async () => {
+    await result.current.upload(typeless, {
+      profileId: 'prof_1',
+      contentType: 'application/pdf',
+    });
+  });
+
+  const post = calls.find((c) => c.method === 'POST')!;
+  expect(await post.json()).toMatchObject({
+    content_type: 'application/pdf',
+    kind: 'document',
+  });
+});

@@ -12,3 +12,6 @@ coverage
 # Internal agent/build instructions — never publish to the public repo
 AGENTS.md
 CLAUDE.md
+
+# Superpowers brainstorm visual companion
+.superpowers/

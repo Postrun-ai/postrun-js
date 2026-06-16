@@ -42,21 +42,26 @@ export class PostrunError extends Error {
 }
 
 /**
- * Turn an openapi-fetch `{ data, error, response }` result into a value or a
- * throw. openapi-fetch never throws by design; hooks want try/catch, so this is
- * the bridge: success → `data`, failure → a typed `PostrunError`.
+ * Turn a Hey API `{ data, error, response }` result into a value or a throw. The
+ * client never throws by design (default `throwOnError: false`); hooks want
+ * try/catch, so this is the bridge: success → `data`, failure → a typed
+ * `PostrunError`. `response` is typed optional by the client but is always
+ * present once the request resolves; a missing one is treated as a status-0
+ * failure rather than crashing.
  */
 export function unwrap<T>(result: {
   data?: T;
   error?: unknown;
-  response: Response;
+  response?: Response;
 }): T {
-  if (!result.response.ok || result.error !== undefined) {
-    throw new PostrunError(result.response.status, result.error);
+  const status = result.response?.status ?? 0;
+
+  if (!result.response?.ok || result.error !== undefined) {
+    throw new PostrunError(status, result.error);
   }
 
   if (result.data === undefined) {
-    throw new PostrunError(result.response.status);
+    throw new PostrunError(status);
   }
 
   return result.data;

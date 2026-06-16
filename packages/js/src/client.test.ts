@@ -1,6 +1,7 @@
 import { afterEach, expect, test, vi } from 'vitest';
 
 import { createPostrunClient } from './client';
+import { profilesList } from './client/sdk.gen';
 import { PostrunError, unwrap } from './errors';
 
 afterEach(() => vi.unstubAllGlobals());
@@ -30,8 +31,9 @@ function client() {
 test('serializes an object query param (metadata) as one URL-encoded JSON value', async () => {
   const calls = recordFetch();
 
-  await client().GET('/profiles', {
-    params: { query: { metadata: { tier: 'pro', priority: 3 } } },
+  await profilesList({
+    client: client(),
+    query: { metadata: { tier: 'pro', priority: 3 } },
   });
 
   const url = new URL(calls[0]!.url);
@@ -46,8 +48,9 @@ test('serializes an object query param (metadata) as one URL-encoded JSON value'
 test('serializes scalar query params normally', async () => {
   const calls = recordFetch();
 
-  await client().GET('/profiles', {
-    params: { query: { limit: 5, external_id: 'ext_1' } },
+  await profilesList({
+    client: client(),
+    query: { limit: 5, external_id: 'ext_1' },
   });
 
   const url = new URL(calls[0]!.url);

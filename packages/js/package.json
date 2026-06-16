@@ -17,6 +17,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js",
+      "require": "./dist/server.cjs"
+    },
     "./schemas": {
       "types": "./dist/schemas/index.d.ts",
       "import": "./dist/schemas/index.js",
@@ -32,14 +37,13 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "generate": "openapi-typescript ./openapi.json --output ./src/generated/types.ts && prettier --write ./src/generated/types.ts"
+    "generate": "openapi-ts"
   },
   "dependencies": {
-    "openapi-fetch": "^0.13.5",
     "zod": "^4.0.0"
   },
   "devDependencies": {
-    "openapi-typescript": "^7.6.1",
+    "@hey-api/openapi-ts": "^0.98.2",
     "prettier": "^3.4.2",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3",

@@ -6662,6 +6662,7 @@
                                 "media_not_ready",
                                 "media_failed",
                                 "media_unsupported",
+                                "media_kind_mismatch",
                                 "publishing_unavailable",
                                 "x_duplicate_content",
                                 "x_not_authorized",
@@ -6673,6 +6674,17 @@
                                 "linkedin_media_processing",
                                 "linkedin_media_upload_failed",
                                 "linkedin_publish_failed",
+                                "instagram_media_processing",
+                                "instagram_container_expired",
+                                "instagram_container_failed",
+                                "instagram_rate_limited",
+                                "instagram_not_authorized",
+                                "instagram_publish_failed",
+                                "facebook_reel_processing",
+                                "facebook_reel_failed",
+                                "facebook_rate_limited",
+                                "facebook_not_authorized",
+                                "facebook_publish_failed",
                                 "connection_platform_mismatch"
                               ],
                               "type": "string"
@@ -6915,6 +6927,7 @@
                                     "media_not_ready",
                                     "media_failed",
                                     "media_unsupported",
+                                    "media_kind_mismatch",
                                     "publishing_unavailable",
                                     "x_duplicate_content",
                                     "x_not_authorized",
@@ -6926,6 +6939,17 @@
                                     "linkedin_media_processing",
                                     "linkedin_media_upload_failed",
                                     "linkedin_publish_failed",
+                                    "instagram_media_processing",
+                                    "instagram_container_expired",
+                                    "instagram_container_failed",
+                                    "instagram_rate_limited",
+                                    "instagram_not_authorized",
+                                    "instagram_publish_failed",
+                                    "facebook_reel_processing",
+                                    "facebook_reel_failed",
+                                    "facebook_rate_limited",
+                                    "facebook_not_authorized",
+                                    "facebook_publish_failed",
                                     "connection_platform_mismatch"
                                   ],
                                   "type": "string"
@@ -7649,6 +7673,7 @@
                                 "media_not_ready",
                                 "media_failed",
                                 "media_unsupported",
+                                "media_kind_mismatch",
                                 "publishing_unavailable",
                                 "x_duplicate_content",
                                 "x_not_authorized",
@@ -7660,6 +7685,17 @@
                                 "linkedin_media_processing",
                                 "linkedin_media_upload_failed",
                                 "linkedin_publish_failed",
+                                "instagram_media_processing",
+                                "instagram_container_expired",
+                                "instagram_container_failed",
+                                "instagram_rate_limited",
+                                "instagram_not_authorized",
+                                "instagram_publish_failed",
+                                "facebook_reel_processing",
+                                "facebook_reel_failed",
+                                "facebook_rate_limited",
+                                "facebook_not_authorized",
+                                "facebook_publish_failed",
                                 "connection_platform_mismatch"
                               ],
                               "type": "string"
@@ -7902,6 +7938,7 @@
                                     "media_not_ready",
                                     "media_failed",
                                     "media_unsupported",
+                                    "media_kind_mismatch",
                                     "publishing_unavailable",
                                     "x_duplicate_content",
                                     "x_not_authorized",
@@ -7913,6 +7950,17 @@
                                     "linkedin_media_processing",
                                     "linkedin_media_upload_failed",
                                     "linkedin_publish_failed",
+                                    "instagram_media_processing",
+                                    "instagram_container_expired",
+                                    "instagram_container_failed",
+                                    "instagram_rate_limited",
+                                    "instagram_not_authorized",
+                                    "instagram_publish_failed",
+                                    "facebook_reel_processing",
+                                    "facebook_reel_failed",
+                                    "facebook_rate_limited",
+                                    "facebook_not_authorized",
+                                    "facebook_publish_failed",
                                     "connection_platform_mismatch"
                                   ],
                                   "type": "string"
@@ -8642,6 +8690,7 @@
                                 "media_not_ready",
                                 "media_failed",
                                 "media_unsupported",
+                                "media_kind_mismatch",
                                 "publishing_unavailable",
                                 "x_duplicate_content",
                                 "x_not_authorized",
@@ -8653,6 +8702,17 @@
                                 "linkedin_media_processing",
                                 "linkedin_media_upload_failed",
                                 "linkedin_publish_failed",
+                                "instagram_media_processing",
+                                "instagram_container_expired",
+                                "instagram_container_failed",
+                                "instagram_rate_limited",
+                                "instagram_not_authorized",
+                                "instagram_publish_failed",
+                                "facebook_reel_processing",
+                                "facebook_reel_failed",
+                                "facebook_rate_limited",
+                                "facebook_not_authorized",
+                                "facebook_publish_failed",
                                 "connection_platform_mismatch"
                               ],
                               "type": "string"
@@ -8895,6 +8955,7 @@
                                     "media_not_ready",
                                     "media_failed",
                                     "media_unsupported",
+                                    "media_kind_mismatch",
                                     "publishing_unavailable",
                                     "x_duplicate_content",
                                     "x_not_authorized",
@@ -8906,6 +8967,17 @@
                                     "linkedin_media_processing",
                                     "linkedin_media_upload_failed",
                                     "linkedin_publish_failed",
+                                    "instagram_media_processing",
+                                    "instagram_container_expired",
+                                    "instagram_container_failed",
+                                    "instagram_rate_limited",
+                                    "instagram_not_authorized",
+                                    "instagram_publish_failed",
+                                    "facebook_reel_processing",
+                                    "facebook_reel_failed",
+                                    "facebook_rate_limited",
+                                    "facebook_not_authorized",
+                                    "facebook_publish_failed",
                                     "connection_platform_mismatch"
                                   ],
                                   "type": "string"
@@ -10595,35 +10667,6 @@
                                   },
                                   "description": "≤3 co-author usernames."
                                 },
-                                "product_tags": {
-                                  "type": "array",
-                                  "maxItems": 5,
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "product_id": {
-                                        "type": "string",
-                                        "minLength": 1,
-                                        "description": "Catalog product id."
-                                      },
-                                      "x": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1
-                                      },
-                                      "y": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1
-                                      }
-                                    },
-                                    "required": [
-                                      "product_id"
-                                    ],
-                                    "additionalProperties": false
-                                  },
-                                  "description": "Shopping tags, ≤5. Likely out of v1 organic scope."
-                                },
                                 "share_to_feed": {
                                   "type": "boolean",
                                   "description": "Reel also appears in the main feed."
@@ -11056,6 +11099,14 @@
                     "updated_at": {
                       "type": "string",
                       "description": "ISO-8601 last-update time."
+                    },
+                    "dry_run": {
+                      "type": "boolean",
+                      "description": "Whether this was a validate-only dry run."
+                    },
+                    "executed": {
+                      "type": "boolean",
+                      "description": "Whether the post was actually persisted (false on a dry run)."
                     }
                   },
                   "required": [
@@ -11070,7 +11121,9 @@
                     "metadata",
                     "variants",
                     "created_at",
-                    "updated_at"
+                    "updated_at",
+                    "dry_run",
+                    "executed"
                   ]
                 }
               }
@@ -11580,6 +11633,7 @@
                                       "media_not_ready",
                                       "media_failed",
                                       "media_unsupported",
+                                      "media_kind_mismatch",
                                       "publishing_unavailable",
                                       "x_duplicate_content",
                                       "x_not_authorized",
@@ -11591,6 +11645,17 @@
                                       "linkedin_media_processing",
                                       "linkedin_media_upload_failed",
                                       "linkedin_publish_failed",
+                                      "instagram_media_processing",
+                                      "instagram_container_expired",
+                                      "instagram_container_failed",
+                                      "instagram_rate_limited",
+                                      "instagram_not_authorized",
+                                      "instagram_publish_failed",
+                                      "facebook_reel_processing",
+                                      "facebook_reel_failed",
+                                      "facebook_rate_limited",
+                                      "facebook_not_authorized",
+                                      "facebook_publish_failed",
                                       "connection_platform_mismatch"
                                     ],
                                     "type": "string"
@@ -14051,35 +14116,6 @@
                                   },
                                   "description": "≤3 co-author usernames."
                                 },
-                                "product_tags": {
-                                  "type": "array",
-                                  "maxItems": 5,
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "product_id": {
-                                        "type": "string",
-                                        "minLength": 1,
-                                        "description": "Catalog product id."
-                                      },
-                                      "x": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1
-                                      },
-                                      "y": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1
-                                      }
-                                    },
-                                    "required": [
-                                      "product_id"
-                                    ],
-                                    "additionalProperties": false
-                                  },
-                                  "description": "Shopping tags, ≤5. Likely out of v1 organic scope."
-                                },
                                 "share_to_feed": {
                                   "type": "boolean",
                                   "description": "Reel also appears in the main feed."
@@ -14507,6 +14543,14 @@
                     "updated_at": {
                       "type": "string",
                       "description": "ISO-8601 last-update time."
+                    },
+                    "dry_run": {
+                      "type": "boolean",
+                      "description": "Whether this was a validate-only dry run."
+                    },
+                    "executed": {
+                      "type": "boolean",
+                      "description": "Whether the post was actually persisted (false on a dry run)."
                     }
                   },
                   "required": [
@@ -14521,7 +14565,9 @@
                     "metadata",
                     "variants",
                     "created_at",
-                    "updated_at"
+                    "updated_at",
+                    "dry_run",
+                    "executed"
                   ]
                 }
               }
@@ -15031,6 +15077,7 @@
                                       "media_not_ready",
                                       "media_failed",
                                       "media_unsupported",
+                                      "media_kind_mismatch",
                                       "publishing_unavailable",
                                       "x_duplicate_content",
                                       "x_not_authorized",
@@ -15042,6 +15089,17 @@
                                       "linkedin_media_processing",
                                       "linkedin_media_upload_failed",
                                       "linkedin_publish_failed",
+                                      "instagram_media_processing",
+                                      "instagram_container_expired",
+                                      "instagram_container_failed",
+                                      "instagram_rate_limited",
+                                      "instagram_not_authorized",
+                                      "instagram_publish_failed",
+                                      "facebook_reel_processing",
+                                      "facebook_reel_failed",
+                                      "facebook_rate_limited",
+                                      "facebook_not_authorized",
+                                      "facebook_publish_failed",
                                       "connection_platform_mismatch"
                                     ],
                                     "type": "string"
@@ -20761,7 +20819,7 @@
       }
     },
     "/google/{connection_id}/insights": {
-      "get": {
+      "post": {
         "operationId": "google.getInsights",
         "summary": "Google Ads performance insights",
         "description": "Performance metrics for the connection’s account, at a chosen level (account / campaign / ad group), for a date range, with optional breakdowns. The flagship cross-checked read; use `/gaql` for anything outside this shape.",
@@ -20777,102 +20835,79 @@
               "type": "string",
               "description": "The id of a Google Ads connection in your account."
             }
-          },
-          {
-            "name": "level",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "enum": [
-                "account",
-                "campaign",
-                "ad_group"
-              ],
-              "type": "string",
-              "description": "Aggregation level: the connected account, a campaign, or an ad group.",
-              "default": "campaign"
-            },
-            "allowEmptyValue": true,
-            "allowReserved": true
-          },
-          {
-            "name": "metrics",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "enum": [
-                  "impressions",
-                  "clicks",
-                  "ctr",
-                  "average_cpc",
-                  "cost_micros",
-                  "conversions",
-                  "conversions_value",
-                  "cost_per_conversion"
-                ],
-                "type": "string"
-              },
-              "default": [
-                "impressions",
-                "clicks",
-                "cost_micros",
-                "conversions"
-              ],
-              "description": "The metrics to report. At least one."
-            },
-            "style": "deepObject",
-            "explode": true,
-            "allowEmptyValue": true,
-            "allowReserved": true
-          },
-          {
-            "name": "segments",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "enum": [
-                  "date",
-                  "device"
-                ],
-                "type": "string"
-              },
-              "description": "Optional breakdowns (e.g. by date or device)."
-            },
-            "style": "deepObject",
-            "explode": true,
-            "allowEmptyValue": true,
-            "allowReserved": true
-          },
-          {
-            "name": "since",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "description": "Start date, inclusive (YYYY-MM-DD)."
-            },
-            "allowEmptyValue": true,
-            "allowReserved": true
-          },
-          {
-            "name": "until",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-              "description": "End date, inclusive (YYYY-MM-DD)."
-            },
-            "allowEmptyValue": true,
-            "allowReserved": true
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "enum": [
+                      "account",
+                      "campaign",
+                      "ad_group"
+                    ],
+                    "type": "string",
+                    "description": "Aggregation level: the connected account, a campaign, or an ad group.",
+                    "default": "campaign"
+                  },
+                  "metrics": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "enum": [
+                        "impressions",
+                        "clicks",
+                        "ctr",
+                        "average_cpc",
+                        "cost_micros",
+                        "conversions",
+                        "conversions_value",
+                        "cost_per_conversion"
+                      ],
+                      "type": "string"
+                    },
+                    "default": [
+                      "impressions",
+                      "clicks",
+                      "cost_micros",
+                      "conversions"
+                    ],
+                    "description": "The metrics to report. At least one."
+                  },
+                  "segments": {
+                    "type": "array",
+                    "items": {
+                      "enum": [
+                        "date",
+                        "device"
+                      ],
+                      "type": "string"
+                    },
+                    "description": "Optional breakdowns (e.g. by date or device)."
+                  },
+                  "since": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "Start date, inclusive (YYYY-MM-DD)."
+                  },
+                  "until": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "description": "End date, inclusive (YYYY-MM-DD)."
+                  }
+                },
+                "required": [
+                  "since",
+                  "until"
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",

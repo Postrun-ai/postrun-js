@@ -1,15 +1,12 @@
-import createOpenApiClient from 'openapi-fetch';
-import type { Client } from 'openapi-fetch';
-
-import type { paths } from './generated/types';
+import { createClient, createConfig } from './client/client';
+import type { Client } from './client/client';
 
 /**
- * The strongly-typed Postrun API client. Every path, method, path/query param,
- * request body, and response is inferred from the OpenAPI spec — there are no
- * hand-written request/response types anywhere downstream (including the React
- * hooks), so the SDK can never drift from the live API.
+ * The strongly-typed Postrun API client (Hey API). Pass it to any generated SDK
+ * function via `{ client }`; every path, param, body, and response is inferred
+ * from the OpenAPI spec, so the SDK can never drift from the live API.
  */
-export type PostrunClient = Client<paths>;
+export type PostrunClient = Client;
 
 export interface PostrunClientOptions {
   /** Override the API base URL (defaults to the production gateway). */
@@ -27,14 +24,10 @@ const DEFAULT_BASE_URL = 'https://api.postrun.ai/v1';
 /**
  * The `metadata` filter is parsed by the API as a URL-encoded JSON string (its
  * schema runs a `JSON.parse` preprocess), so an object value must be sent as one
- * JSON blob, not openapi-fetch's default bracket form.
- *
- * KNOWN LIMITATION (deferred with ads): this currently JSON-encodes EVERY object
- * value, which is right for `metadata` but wrong for the bracket-notation params
- * the oRPC backend expects on the ads-insights reads (`metrics[]=`,
- * `time_range[since]=`). No shipped hook uses those yet. Fix when ads hooks land
- * — verify the exact bracket format against the oRPC deserializer first; it may
- * pair with a backend change.
+ * JSON blob, not the client's default bracket form. This global serializer
+ * JSON-encodes object values; operations that need a different shape (the ads
+ * reads' `metrics`/`segments` deepObject params) carry their own per-call
+ * serializer in the generated SDK, which overrides this.
  */
 function serializeQuery(query: Record<string, unknown>): string {
   const parts: string[] = [];
@@ -51,22 +44,19 @@ function serializeQuery(query: Record<string, unknown>): string {
   return parts.join('&');
 }
 
-/** Construct a typed client. The browser only ever holds the scoped token. */
+/**
+ * Construct a typed client. The browser only ever holds the scoped token —
+ * `getToken` is invoked per request and its value is sent as `Bearer <token>`
+ * for the spec's `bearerAuth` security scheme.
+ */
 export function createPostrunClient(
   options: PostrunClientOptions,
 ): PostrunClient {
-  const client = createOpenApiClient<paths>({
-    baseUrl: options.baseUrl ?? DEFAULT_BASE_URL,
-    querySerializer: serializeQuery,
-  });
-
-  client.use({
-    async onRequest({ request }) {
-      const token = await options.getToken();
-      request.headers.set('authorization', `Bearer ${token}`);
-      return request;
-    },
-  });
-
-  return client;
+  return createClient(
+    createConfig({
+      baseUrl: options.baseUrl ?? DEFAULT_BASE_URL,
+      auth: () => options.getToken(),
+      querySerializer: serializeQuery,
+    }),
+  );
 }

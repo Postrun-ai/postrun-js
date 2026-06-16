@@ -1,15 +1,24 @@
 /**
  * @postrun/js — typed JavaScript client for the Postrun API.
  *
- *   import { createPostrunClient, unwrap } from '@postrun/js';
- *   import type { paths } from '@postrun/js';        // raw spec types
- *   import { ... } from '@postrun/js/schemas';        // client-side validation (soon)
+ *   import { createPostrunClient, postsCreate, unwrap } from '@postrun/js';
+ *   import { ... } from '@postrun/js/schemas';        // client-side validation
  *
- * The client is built on openapi-fetch over types generated from the public
- * OpenAPI spec, so every call is strongly typed end-to-end.
+ * The client + SDK are generated from the public OpenAPI spec with Hey API, so
+ * every call is strongly typed end-to-end and can never drift. Resource-style
+ * SDK functions (`profilesList`, `postsCreate`, …) take a `{ client }` made by
+ * `createPostrunClient`.
  */
 export { createPostrunClient } from './client';
 export type { PostrunClient, PostrunClientOptions } from './client';
+
+// Generated resource-style SDK functions (profilesList, postsCreate, …), named
+// from the spec's operationIds. Call with `{ client, body, path, query }`.
+export * from './client/sdk.gen';
+
+// Generated per-operation request/response types (ProfilesCreateData,
+// PostsGetResponse, …) for callers that want the raw contract shapes.
+export type * from './client/types.gen';
 
 export { PostrunError, unwrap } from './errors';
 export type { PostrunProblem } from './errors';
@@ -64,5 +73,3 @@ export type {
   MediaInput,
   ConnectionRef,
 } from './compose';
-
-export type { paths, components, operations } from './generated/types';

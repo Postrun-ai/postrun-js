@@ -38,7 +38,9 @@ export const zErrorCode = z.enum([
     'video_too_large',
     'video_too_small',
     'video_dimensions_unsupported',
+    'video_dimensions_too_large',
     'video_fps_unsupported',
+    'video_fps_too_low',
     'video_aspect_unsupported',
     'video_duration_too_short',
     'video_duration_exceeds_max',
@@ -237,7 +239,8 @@ export const zConnectionsListByProfileResponse = z.object({
             'x',
             'linkedin',
             'facebook_page',
-            'instagram'
+            'instagram',
+            'tiktok'
         ]),
         external_account_id: z.string().nullable(),
         external_account_name: z.string().nullable(),
@@ -281,7 +284,8 @@ export const zConnectionsGetResponse = z.object({
         'x',
         'linkedin',
         'facebook_page',
-        'instagram'
+        'instagram',
+        'tiktok'
     ]),
     external_account_id: z.string().nullable(),
     external_account_name: z.string().nullable(),
@@ -311,7 +315,8 @@ export const zConnectionsSelectResponse = z.object({
         'x',
         'linkedin',
         'facebook_page',
-        'instagram'
+        'instagram',
+        'tiktok'
     ]),
     external_account_id: z.string().nullable(),
     external_account_name: z.string().nullable(),
@@ -347,7 +352,8 @@ export const zConnectionsConnectBody = z.object({
         'tiktok_ads',
         'x',
         'linkedin',
-        'facebook_page'
+        'facebook_page',
+        'tiktok'
     ])
 });
 
@@ -382,6 +388,7 @@ export const zMediaCreateBody = z.object({
         'linkedin',
         'facebook_page',
         'instagram',
+        'tiktok',
         'google_ads'
     ])).min(1).optional(),
     raw: z.boolean().optional().default(false),
@@ -429,7 +436,9 @@ export const zMediaCreateResponse = z.object({
             'video_too_large',
             'video_too_small',
             'video_dimensions_unsupported',
+            'video_dimensions_too_large',
             'video_fps_unsupported',
+            'video_fps_too_low',
             'video_aspect_unsupported',
             'video_duration_too_short',
             'video_duration_exceeds_max',
@@ -476,7 +485,9 @@ export const zMediaCreateResponse = z.object({
                 'video_too_large',
                 'video_too_small',
                 'video_dimensions_unsupported',
+                'video_dimensions_too_large',
                 'video_fps_unsupported',
+                'video_fps_too_low',
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
@@ -505,7 +516,9 @@ export const zMediaCreateResponse = z.object({
                 'video_too_large',
                 'video_too_small',
                 'video_dimensions_unsupported',
+                'video_dimensions_too_large',
                 'video_fps_unsupported',
+                'video_fps_too_low',
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
@@ -588,7 +601,9 @@ export const zMediaGetResponse = z.object({
             'video_too_large',
             'video_too_small',
             'video_dimensions_unsupported',
+            'video_dimensions_too_large',
             'video_fps_unsupported',
+            'video_fps_too_low',
             'video_aspect_unsupported',
             'video_duration_too_short',
             'video_duration_exceeds_max',
@@ -635,7 +650,9 @@ export const zMediaGetResponse = z.object({
                 'video_too_large',
                 'video_too_small',
                 'video_dimensions_unsupported',
+                'video_dimensions_too_large',
                 'video_fps_unsupported',
+                'video_fps_too_low',
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
@@ -664,7 +681,9 @@ export const zMediaGetResponse = z.object({
                 'video_too_large',
                 'video_too_small',
                 'video_dimensions_unsupported',
+                'video_dimensions_too_large',
                 'video_fps_unsupported',
+                'video_fps_too_low',
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
@@ -702,6 +721,7 @@ export const zMediaUpdateBody = z.object({
         'linkedin',
         'facebook_page',
         'instagram',
+        'tiktok',
         'google_ads'
     ])).min(1).optional()
 });
@@ -745,7 +765,9 @@ export const zMediaUpdateResponse = z.object({
             'video_too_large',
             'video_too_small',
             'video_dimensions_unsupported',
+            'video_dimensions_too_large',
             'video_fps_unsupported',
+            'video_fps_too_low',
             'video_aspect_unsupported',
             'video_duration_too_short',
             'video_duration_exceeds_max',
@@ -792,7 +814,9 @@ export const zMediaUpdateResponse = z.object({
                 'video_too_large',
                 'video_too_small',
                 'video_dimensions_unsupported',
+                'video_dimensions_too_large',
                 'video_fps_unsupported',
+                'video_fps_too_low',
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
@@ -821,7 +845,9 @@ export const zMediaUpdateResponse = z.object({
                 'video_too_large',
                 'video_too_small',
                 'video_dimensions_unsupported',
+                'video_dimensions_too_large',
                 'video_fps_unsupported',
+                'video_fps_too_low',
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
@@ -855,6 +881,17 @@ export const zPostsListQuery = z.object({
         z.string().max(500),
         z.number(),
         z.boolean()
+    ])).optional(),
+    scheduled_after: z.iso.datetime().optional(),
+    scheduled_before: z.iso.datetime().optional(),
+    updated_after: z.iso.datetime().optional(),
+    status: z.array(z.enum([
+        'draft',
+        'scheduled',
+        'publishing',
+        'partially_published',
+        'published',
+        'failed'
     ])).optional()
 });
 
@@ -892,7 +929,8 @@ export const zPostsListResponse = z.object({
                 'x',
                 'linkedin',
                 'facebook_page',
-                'instagram'
+                'instagram',
+                'tiktok'
             ]),
             post_type: z.enum([
                 'text',
@@ -1143,7 +1181,8 @@ export const zPostsCreateResponse = z.object({
             'x',
             'linkedin',
             'facebook_page',
-            'instagram'
+            'instagram',
+            'tiktok'
         ]),
         post_type: z.enum([
             'text',
@@ -1234,7 +1273,8 @@ export const zPostsGetResponse = z.object({
             'x',
             'linkedin',
             'facebook_page',
-            'instagram'
+            'instagram',
+            'tiktok'
         ]),
         post_type: z.enum([
             'text',
@@ -1483,7 +1523,8 @@ export const zPostsUpdateResponse = z.object({
             'x',
             'linkedin',
             'facebook_page',
-            'instagram'
+            'instagram',
+            'tiktok'
         ]),
         post_type: z.enum([
             'text',
@@ -3277,7 +3318,8 @@ export const zLogsListQuery = z.object({
         'x',
         'linkedin',
         'facebook_page',
-        'instagram'
+        'instagram',
+        'tiktok'
     ]).optional(),
     status: z.enum([
         'pending',
@@ -3322,7 +3364,8 @@ export const zLogsListResponse = z.object({
             'x',
             'linkedin',
             'facebook_page',
-            'instagram'
+            'instagram',
+            'tiktok'
         ]).nullable(),
         request_method: z.string().nullable(),
         request_path: z.string().nullable(),
@@ -3374,7 +3417,8 @@ export const zLogsGetResponse = z.object({
         'x',
         'linkedin',
         'facebook_page',
-        'instagram'
+        'instagram',
+        'tiktok'
     ]).nullable(),
     request_method: z.string().nullable(),
     request_path: z.string().nullable(),
@@ -3420,7 +3464,12 @@ export const zWebhooksListEndpointsResponse = z.object({
 export const zWebhooksCreateEndpointBody = z.object({
     url: z.url(),
     description: z.string().max(255).optional(),
-    event_types: z.array(z.enum(['webhook.ping']))
+    event_types: z.array(z.enum([
+        'webhook.ping',
+        'post.published',
+        'post.failed',
+        'post.completed'
+    ]))
 });
 
 /**
@@ -3470,7 +3519,12 @@ export const zWebhooksUpdateEndpointBody = z.object({
     url: z.url().optional(),
     description: z.string().max(255).optional(),
     disabled: z.boolean().optional(),
-    event_types: z.array(z.enum(['webhook.ping'])).optional()
+    event_types: z.array(z.enum([
+        'webhook.ping',
+        'post.published',
+        'post.failed',
+        'post.completed'
+    ])).optional()
 });
 
 export const zWebhooksUpdateEndpointPath = z.object({

@@ -14,6 +14,7 @@ export type {
 
 export {
   useProfiles,
+  useProfilesInfinite,
   useProfile,
   useCreateProfile,
   useUpdateProfile,
@@ -38,11 +39,16 @@ export type { MediaUploadStatus, MediaUploadOptions } from './media';
 export { UploadError } from './upload-bytes';
 export {
   usePosts,
+  usePostsInfinite,
+  useCalendar,
   usePost,
   useCreatePost,
   useUpdatePost,
   useDeletePost,
 } from './posts';
+export type { CalendarFilters, LiveOptions } from './posts';
+export { useInfiniteList } from './infinite-list';
+export type { InfiniteList } from './infinite-list';
 export { profileKeys, connectionKeys, mediaKeys, postKeys } from './keys';
 
 export { XPostPreview, LinkedInPostPreview } from './preview';

@@ -12,6 +12,11 @@ export const profileKeys = {
   lists: () => [...profileKeys.all, 'list'] as const,
   list: (query?: ListProfilesQuery) =>
     [...profileKeys.lists(), query ?? {}] as const,
+  // Nested under lists() so a create/update/delete invalidating lists() also
+  // refreshes the infinite cache; distinct tail so the two cache shapes (a
+  // single Page vs accumulated pages) never collide on one key.
+  infinite: (query?: ListProfilesQuery) =>
+    [...profileKeys.lists(), 'infinite', query ?? {}] as const,
   details: () => [...profileKeys.all, 'detail'] as const,
   detail: (id: string) => [...profileKeys.details(), id] as const,
 };
@@ -21,6 +26,11 @@ export const postKeys = {
   all: [ROOT, 'posts'] as const,
   lists: () => [...postKeys.all, 'list'] as const,
   list: (query?: ListPostsQuery) => [...postKeys.lists(), query ?? {}] as const,
+  // Nested under lists() so a create/update/delete invalidating lists() also
+  // refreshes the infinite cache; distinct tail so the two cache shapes (a
+  // single Page vs accumulated pages) never collide on one key.
+  infinite: (query?: ListPostsQuery) =>
+    [...postKeys.lists(), 'infinite', query ?? {}] as const,
   details: () => [...postKeys.all, 'detail'] as const,
   detail: (id: string) => [...postKeys.details(), id] as const,
 };

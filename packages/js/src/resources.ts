@@ -95,6 +95,13 @@ export type PostList = PostsListResponse;
 /** Query parameters for listing posts (filters + pagination). */
 export type ListPostsQuery = NonNullable<PostsListData['query']>;
 
+/**
+ * A post's derived rollup status — the values accepted by the list `status`
+ * filter (draft / scheduled / publishing / partially_published / published /
+ * failed). Sourced from the generated query contract, never hand-listed.
+ */
+export type PostStatus = NonNullable<ListPostsQuery['status']>[number];
+
 /** The full create-post request body — what `buildCreatePost` produces. */
 export type CreatePostInput = CreatePostBody;
 

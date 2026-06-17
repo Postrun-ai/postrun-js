@@ -46,6 +46,7 @@ export type {
   Post,
   PostList,
   ListPostsQuery,
+  PostStatus,
   CreatePostInput,
   UpdatePostInput,
   PostPlatform,

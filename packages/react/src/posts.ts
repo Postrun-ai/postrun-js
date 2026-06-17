@@ -12,12 +12,57 @@ import {
 import type {
   ComposePostInput,
   ListPostsQuery,
+  Post,
   UpdatePostInput,
 } from '@postrun/js';
 
+/**
+ * The calendar/queue filter surface — a date window over `schedule_at` plus a
+ * derived-status multi-select, scoped to an optional profile. Picked straight
+ * from the generated `ListPostsQuery` contract (no hand-typed shapes), so it
+ * can never drift from the API. Pagination still rides through via `usePosts`.
+ */
+export type CalendarFilters = Pick<
+  ListPostsQuery,
+  'profile_id' | 'scheduled_after' | 'scheduled_before' | 'status'
+>;
+
 import { useConnections } from './connections';
 import { usePostrun } from './context';
+import { useInfiniteList } from './infinite-list';
 import { postKeys } from './keys';
+
+/**
+ * A post's status as it appears on the RESPONSE (not the list `status` filter) —
+ * the value a live poll actually inspects. Sourced from `Post['status']` so the
+ * predicate below is type-correct against `query.state.data?.status`, and a
+ * future contract change to the status set surfaces at compile time here.
+ */
+type PostResponseStatus = Post['status'];
+
+/**
+ * Statuses that are still moving on their own and warrant polling: `scheduled`
+ * (fires at its time with no user action → must be caught transitioning) and
+ * `publishing` (mid-flight by definition). Everything else is terminal and stops
+ * the poll: `published` / `failed` (end states), `partially_published` (no
+ * further automatic movement), and `draft` (only an explicit update — which
+ * already invalidates lists — moves it). Modelling in-flight as the small set
+ * means any future status defaults to "terminal/stop" — the safe, no-runaway
+ * default.
+ */
+const IN_FLIGHT: ReadonlySet<PostResponseStatus> = new Set([
+  'scheduled',
+  'publishing',
+]);
+
+const isLivePostStatus = (status: PostResponseStatus): boolean =>
+  IN_FLIGHT.has(status);
+
+/** Per-hook live-poll control: live is on by default; `{ live: false }` opts out. */
+export interface LiveOptions {
+  /** Auto-poll while a post is in-flight (default `true`). Set `false` for one-shot. */
+  live?: boolean;
+}
 
 /**
  * List posts — the calendar/queue data, filtered (profile_id / external_id /
@@ -36,8 +81,66 @@ export function usePosts(query?: ListPostsQuery) {
   );
 }
 
-/** Retrieve a single post by id (its variants, schedule, and live status). */
-export function usePost(id: string) {
+/**
+ * List posts with append-style ("load more") pagination — the calendar/queue
+ * feed. Returns `{ items, loadMore, hasMore, isLoading, isLoadingMore, total }`:
+ * render `items`, call `loadMore()` (on a button or scroll end) while `hasMore`.
+ * `pageSize` defaults to 20. Filters are the same as `usePosts` minus paging,
+ * which the hook owns. Shares list-cache invalidation with the other post hooks,
+ * so a create/update/delete refreshes it automatically.
+ */
+export function usePostsInfinite(
+  filters?: Omit<ListPostsQuery, 'limit' | 'offset'>,
+  options?: { pageSize?: number },
+) {
+  const { client } = usePostrun();
+  return useInfiniteList<Post>({
+    queryKey: postKeys.infinite(filters),
+    limit: options?.pageSize,
+    fetchPage: async ({ limit, offset }) =>
+      (await postsList({ client, query: { ...filters, limit, offset } })).data,
+  });
+}
+
+/**
+ * Calendar/queue view — list posts in a `schedule_at` date window, optionally
+ * narrowed to a profile and to one or more derived statuses (e.g. only
+ * `scheduled` + `failed`). Forwards the date-range + multi-status filters (and
+ * any `limit`/`offset`) to the generated `postsList` and returns the same typed
+ * `PostList` envelope. It shares the `postKeys.list(filters)` cache identity with
+ * `usePosts` but owns its own self-terminating poll: while ANY post in the
+ * window is in-flight it refetches (5s — a list is heavier than one detail), and
+ * stops once every item is terminal (or the window is empty). `live` is a
+ * separate option, never mixed into the API filter object; default-on, opt out
+ * with `{ live: false }`.
+ */
+export function useCalendar(
+  filters?: CalendarFilters & Pick<ListPostsQuery, 'limit' | 'offset'>,
+  options?: LiveOptions,
+) {
+  const { client, queryClient } = usePostrun();
+  return useQuery(
+    {
+      queryKey: postKeys.list(filters),
+      queryFn: async () => (await postsList({ client, query: filters })).data,
+      refetchInterval: (query) => {
+        if (options?.live === false) return false;
+        const posts = query.state.data?.data ?? [];
+        return posts.some((post) => isLivePostStatus(post.status)) ? 5000 : false;
+      },
+    },
+    queryClient,
+  );
+}
+
+/**
+ * Retrieve a single post by id (its variants, schedule, and derived status).
+ * Auto-polls (2s) while the post is in-flight (`scheduled` / `publishing`) and
+ * stops once it reaches a terminal status — so a scheduled post visibly
+ * transitions with no manual refetch. `live` is on by default; pass
+ * `{ live: false }` to force a one-shot.
+ */
+export function usePost(id: string, options?: LiveOptions) {
   const { client, queryClient } = usePostrun();
   return useQuery(
     {
@@ -45,6 +148,11 @@ export function usePost(id: string) {
       queryFn: async () =>
         (await postsGet({ client, path: { id } })).data,
       enabled: Boolean(id),
+      refetchInterval: (query) => {
+        if (options?.live === false) return false;
+        const status = query.state.data?.status;
+        return status && isLivePostStatus(status) ? 2000 : false;
+      },
     },
     queryClient,
   );

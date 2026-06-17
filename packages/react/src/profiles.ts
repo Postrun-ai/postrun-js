@@ -10,10 +10,12 @@ import {
 import type {
   CreateProfileInput,
   ListProfilesQuery,
+  Profile,
   UpdateProfileInput,
 } from '@postrun/js';
 
 import { usePostrun } from './context';
+import { useInfiniteList } from './infinite-list';
 import { profileKeys } from './keys';
 
 /**
@@ -32,6 +34,27 @@ export function useProfiles(query?: ListProfilesQuery) {
     },
     queryClient,
   );
+}
+
+/**
+ * List profiles with append-style ("load more") pagination. Returns
+ * `{ items, loadMore, hasMore, isLoading, isLoadingMore, total }`: render
+ * `items`, call `loadMore()` while `hasMore`. `pageSize` defaults to 20. Filters
+ * match `useProfiles` minus paging, which the hook owns. Shares list-cache
+ * invalidation with the other profile hooks.
+ */
+export function useProfilesInfinite(
+  filters?: Omit<ListProfilesQuery, 'limit' | 'offset'>,
+  options?: { pageSize?: number },
+) {
+  const { client } = usePostrun();
+  return useInfiniteList<Profile>({
+    queryKey: profileKeys.infinite(filters),
+    limit: options?.pageSize,
+    fetchPage: async ({ limit, offset }) =>
+      (await profilesList({ client, query: { ...filters, limit, offset } }))
+        .data,
+  });
 }
 
 /** Retrieve a single profile by id. Disabled until an id is provided. */

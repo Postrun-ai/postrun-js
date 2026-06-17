@@ -49,7 +49,9 @@
           "video_too_large",
           "video_too_small",
           "video_dimensions_unsupported",
+          "video_dimensions_too_large",
           "video_fps_unsupported",
+          "video_fps_too_low",
           "video_aspect_unsupported",
           "video_duration_too_short",
           "video_duration_exceeds_max",
@@ -3609,7 +3611,8 @@
                               "x",
                               "linkedin",
                               "facebook_page",
-                              "instagram"
+                              "instagram",
+                              "tiktok"
                             ],
                             "type": "string",
                             "description": "Ad/social platform a connection targets."
@@ -4311,7 +4314,8 @@
                         "x",
                         "linkedin",
                         "facebook_page",
-                        "instagram"
+                        "instagram",
+                        "tiktok"
                       ],
                       "type": "string",
                       "description": "Ad/social platform a connection targets."
@@ -4988,7 +4992,8 @@
                         "x",
                         "linkedin",
                         "facebook_page",
-                        "instagram"
+                        "instagram",
+                        "tiktok"
                       ],
                       "type": "string",
                       "description": "Ad/social platform a connection targets."
@@ -6985,7 +6990,8 @@
                       "tiktok_ads",
                       "x",
                       "linkedin",
-                      "facebook_page"
+                      "facebook_page",
+                      "tiktok"
                     ],
                     "type": "string",
                     "description": "A platform a connection can start an OAuth connect flow for."
@@ -7613,6 +7619,7 @@
                         "linkedin",
                         "facebook_page",
                         "instagram",
+                        "tiktok",
                         "google_ads"
                       ],
                       "type": "string"
@@ -7622,7 +7629,7 @@
                   "raw": {
                     "type": "boolean",
                     "default": false,
-                    "description": "false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block: every targeted platform gets a ready entry on the ORIGINAL url, with any \"would have resized/converted/rejected\" surfaced as a non-blocking finding in `warnings`. The platform is the final judge."
+                    "description": "false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block on MEDIA validation: every targeted platform gets a ready entry on the ORIGINAL url, with any \"would have resized/converted/rejected\" surfaced as a non-blocking finding in `warnings`. The platform is the final judge. (The one boundary raw does NOT relax: `google_ads` is image-only, so a non-image asset targeting it is still rejected at create — a target-kind error, not a media-quality verdict.)"
                   },
                   "alt_text": {
                     "type": "string",
@@ -7723,7 +7730,9 @@
                                 "video_too_large",
                                 "video_too_small",
                                 "video_dimensions_unsupported",
+                                "video_dimensions_too_large",
                                 "video_fps_unsupported",
+                                "video_fps_too_low",
                                 "video_aspect_unsupported",
                                 "video_duration_too_short",
                                 "video_duration_exceeds_max",
@@ -7848,6 +7857,7 @@
                           "linkedin",
                           "facebook_page",
                           "instagram",
+                          "tiktok",
                           "google_ads"
                         ],
                         "type": "string"
@@ -7932,7 +7942,9 @@
                                     "video_too_large",
                                     "video_too_small",
                                     "video_dimensions_unsupported",
+                                    "video_dimensions_too_large",
                                     "video_fps_unsupported",
+                                    "video_fps_too_low",
                                     "video_aspect_unsupported",
                                     "video_duration_too_short",
                                     "video_duration_exceeds_max",
@@ -7986,7 +7998,9 @@
                                     "video_too_large",
                                     "video_too_small",
                                     "video_dimensions_unsupported",
+                                    "video_dimensions_too_large",
                                     "video_fps_unsupported",
+                                    "video_fps_too_low",
                                     "video_aspect_unsupported",
                                     "video_duration_too_short",
                                     "video_duration_exceeds_max",
@@ -8814,7 +8828,9 @@
                                 "video_too_large",
                                 "video_too_small",
                                 "video_dimensions_unsupported",
+                                "video_dimensions_too_large",
                                 "video_fps_unsupported",
+                                "video_fps_too_low",
                                 "video_aspect_unsupported",
                                 "video_duration_too_short",
                                 "video_duration_exceeds_max",
@@ -8939,6 +8955,7 @@
                           "linkedin",
                           "facebook_page",
                           "instagram",
+                          "tiktok",
                           "google_ads"
                         ],
                         "type": "string"
@@ -9023,7 +9040,9 @@
                                     "video_too_large",
                                     "video_too_small",
                                     "video_dimensions_unsupported",
+                                    "video_dimensions_too_large",
                                     "video_fps_unsupported",
+                                    "video_fps_too_low",
                                     "video_aspect_unsupported",
                                     "video_duration_too_short",
                                     "video_duration_exceeds_max",
@@ -9077,7 +9096,9 @@
                                     "video_too_large",
                                     "video_too_small",
                                     "video_dimensions_unsupported",
+                                    "video_dimensions_too_large",
                                     "video_fps_unsupported",
+                                    "video_fps_too_low",
                                     "video_aspect_unsupported",
                                     "video_duration_too_short",
                                     "video_duration_exceeds_max",
@@ -9847,6 +9868,7 @@
                         "linkedin",
                         "facebook_page",
                         "instagram",
+                        "tiktok",
                         "google_ads"
                       ],
                       "type": "string"
@@ -9916,7 +9938,9 @@
                                 "video_too_large",
                                 "video_too_small",
                                 "video_dimensions_unsupported",
+                                "video_dimensions_too_large",
                                 "video_fps_unsupported",
+                                "video_fps_too_low",
                                 "video_aspect_unsupported",
                                 "video_duration_too_short",
                                 "video_duration_exceeds_max",
@@ -10041,6 +10065,7 @@
                           "linkedin",
                           "facebook_page",
                           "instagram",
+                          "tiktok",
                           "google_ads"
                         ],
                         "type": "string"
@@ -10125,7 +10150,9 @@
                                     "video_too_large",
                                     "video_too_small",
                                     "video_dimensions_unsupported",
+                                    "video_dimensions_too_large",
                                     "video_fps_unsupported",
+                                    "video_fps_too_low",
                                     "video_aspect_unsupported",
                                     "video_duration_too_short",
                                     "video_duration_exceeds_max",
@@ -10179,7 +10206,9 @@
                                     "video_too_large",
                                     "video_too_small",
                                     "video_dimensions_unsupported",
+                                    "video_dimensions_too_large",
                                     "video_fps_unsupported",
+                                    "video_fps_too_low",
                                     "video_aspect_unsupported",
                                     "video_duration_too_short",
                                     "video_duration_exceeds_max",
@@ -12324,7 +12353,8 @@
                               "x",
                               "linkedin",
                               "facebook_page",
-                              "instagram"
+                              "instagram",
+                              "tiktok"
                             ],
                             "type": "string"
                           },
@@ -13220,6 +13250,62 @@
             "explode": true,
             "allowEmptyValue": true,
             "allowReserved": true
+          },
+          {
+            "name": "scheduled_after",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Only posts scheduled at or after this ISO-8601 time (inclusive, on schedule_at). Posts with no schedule_at (unscheduled drafts / publish-now) are excluded from any date-bounded query."
+            },
+            "allowEmptyValue": true,
+            "allowReserved": true
+          },
+          {
+            "name": "scheduled_before",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Only posts scheduled at or before this ISO-8601 time (inclusive, on schedule_at). Posts with no schedule_at (unscheduled drafts / publish-now) are excluded from any date-bounded query."
+            },
+            "allowEmptyValue": true,
+            "allowReserved": true
+          },
+          {
+            "name": "updated_after",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Only posts changed at or after this ISO-8601 time (inclusive) — the cheap delta cursor for live-status polling. \"Changed\" tracks BOTH envelope edits and variant status transitions (publish lifecycle), via greatest(post.updated_at, max(variant.updated_at)). Pass the timestamp from your previous poll to fetch only what moved since. A post with no recorded change time is excluded (NULL >= x is NULL in SQL)."
+            },
+            "allowEmptyValue": true,
+            "allowReserved": true
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "draft",
+                  "scheduled",
+                  "publishing",
+                  "partially_published",
+                  "published",
+                  "failed"
+                ],
+                "type": "string"
+              },
+              "description": "Only posts whose derived status is one of these. Repeat the param or pass an array to filter on multiple (e.g. `?status=scheduled&status=failed`)."
+            },
+            "style": "form",
+            "explode": true,
+            "allowEmptyValue": true,
+            "allowReserved": true
           }
         ],
         "responses": {
@@ -13338,7 +13424,8 @@
                                     "x",
                                     "linkedin",
                                     "facebook_page",
-                                    "instagram"
+                                    "instagram",
+                                    "tiktok"
                                   ],
                                   "type": "string"
                                 },
@@ -14285,7 +14372,8 @@
                               "x",
                               "linkedin",
                               "facebook_page",
-                              "instagram"
+                              "instagram",
+                              "tiktok"
                             ],
                             "type": "string"
                           },
@@ -15941,7 +16029,8 @@
                               "x",
                               "linkedin",
                               "facebook_page",
-                              "instagram"
+                              "instagram",
+                              "tiktok"
                             ],
                             "type": "string"
                           },
@@ -50336,7 +50425,8 @@
                 "x",
                 "linkedin",
                 "facebook_page",
-                "instagram"
+                "instagram",
+                "tiktok"
               ],
               "type": "string",
               "description": "Only logs targeting this platform."
@@ -50476,7 +50566,8 @@
                                   "x",
                                   "linkedin",
                                   "facebook_page",
-                                  "instagram"
+                                  "instagram",
+                                  "tiktok"
                                 ],
                                 "type": "string",
                                 "description": "Ad/social platform a connection targets."
@@ -51331,7 +51422,8 @@
                             "x",
                             "linkedin",
                             "facebook_page",
-                            "instagram"
+                            "instagram",
+                            "tiktok"
                           ],
                           "type": "string",
                           "description": "Ad/social platform a connection targets."
@@ -52095,7 +52187,10 @@
                     "type": "array",
                     "items": {
                       "enum": [
-                        "webhook.ping"
+                        "webhook.ping",
+                        "post.published",
+                        "post.failed",
+                        "post.completed"
                       ],
                       "type": "string"
                     },
@@ -54033,7 +54128,10 @@
                     "type": "array",
                     "items": {
                       "enum": [
-                        "webhook.ping"
+                        "webhook.ping",
+                        "post.published",
+                        "post.failed",
+                        "post.completed"
                       ],
                       "type": "string"
                     },

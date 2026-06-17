@@ -22,13 +22,27 @@ export interface PostrunClientOptions {
 
 const DEFAULT_BASE_URL = 'https://api.postrun.ai/v1';
 
+/** Append `key=value` (URL-encoded) for one scalar to the running parts list. */
+function appendScalar(parts: string[], key: string, value: unknown): void {
+  parts.push(
+    `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
+  );
+}
+
 /**
- * The `metadata` filter is parsed by the API as a URL-encoded JSON string (its
- * schema runs a `JSON.parse` preprocess), so an object value must be sent as one
- * JSON blob, not the client's default bracket form. This global serializer
- * JSON-encodes object values; operations that need a different shape (the ads
- * reads' `metrics`/`segments` deepObject params) carry their own per-call
- * serializer in the generated SDK, which overrides this.
+ * Serialize the query string for every Postrun request, by value shape:
+ *
+ *  - **Array** (e.g. `status`) → repeated params (`status=a&status=b`), the
+ *    OpenAPI `form`/`explode` form the API parses into a `.in(...)` filter. A
+ *    JSON-encoded array would fail the array-of-enum validation.
+ *  - **Object** (e.g. `metadata`) → one URL-encoded JSON blob, because the API's
+ *    schema runs a `JSON.parse` preprocess on it; bracket form would mean the
+ *    server never sees a `metadata` key and silently drops the filter.
+ *  - **Scalar** → the value as-is.
+ *
+ * Operations needing a different shape (the ads reads' `metrics`/`segments`
+ * params) carry their own per-call serializer in the generated SDK, which
+ * overrides this.
  */
 function serializeQuery(query: Record<string, unknown>): string {
   const parts: string[] = [];
@@ -38,8 +52,17 @@ function serializeQuery(query: Record<string, unknown>): string {
       continue;
     }
 
-    const raw = typeof value === 'object' ? JSON.stringify(value) : String(value);
-    parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(raw)}`);
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item !== undefined && item !== null) {
+          appendScalar(parts, key, item);
+        }
+      }
+    } else if (typeof value === 'object') {
+      appendScalar(parts, key, JSON.stringify(value));
+    } else {
+      appendScalar(parts, key, value);
+    }
   }
 
   return parts.join('&');

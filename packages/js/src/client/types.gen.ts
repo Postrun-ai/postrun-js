@@ -9,7 +9,7 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
 
 export type ProfilesListData = {
     body?: never;
@@ -1618,7 +1618,7 @@ export type ConnectionsListByProfileResponses = {
             /**
              * Ad/social platform a connection targets.
              */
-            platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+            platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
             /**
              * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
              */
@@ -2139,7 +2139,7 @@ export type ConnectionsGetResponses = {
         /**
          * Ad/social platform a connection targets.
          */
-        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
         /**
          * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
          */
@@ -2406,7 +2406,7 @@ export type ConnectionsSelectResponses = {
         /**
          * Ad/social platform a connection targets.
          */
-        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
         /**
          * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
          */
@@ -2730,7 +2730,7 @@ export type ConnectionsConnectData = {
         /**
          * A platform a connection can start an OAuth connect flow for.
          */
-        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page';
+        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'tiktok';
     };
     path: {
         /**
@@ -2996,9 +2996,9 @@ export type MediaCreateData = {
         /**
          * The targets to render for: the post platforms (x / linkedin / facebook_page / instagram) plus the ad target `google_ads`. We validate + render a per-target rendition for each. The targeted set IS what is resolved (omit to target none yet; a later PATCH can add more). When `raw` is true we still validate against these targets — we just never transform the bytes.
          */
-        targets?: Array<'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'google_ads'>;
+        targets?: Array<'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok' | 'google_ads'>;
         /**
-         * false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block: every targeted platform gets a ready entry on the ORIGINAL url, with any "would have resized/converted/rejected" surfaced as a non-blocking finding in `warnings`. The platform is the final judge.
+         * false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block on MEDIA validation: every targeted platform gets a ready entry on the ORIGINAL url, with any "would have resized/converted/rejected" surfaced as a non-blocking finding in `warnings`. The platform is the final judge. (The one boundary raw does NOT relax: `google_ads` is image-only, so a non-image asset targeting it is still rejected at create — a target-kind error, not a media-quality verdict.)
          */
         raw?: boolean;
         alt_text?: string;
@@ -3238,7 +3238,7 @@ export type MediaCreateResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -3266,14 +3266,14 @@ export type MediaCreateResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -3777,7 +3777,7 @@ export type MediaGetResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -3805,14 +3805,14 @@ export type MediaGetResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -3853,7 +3853,7 @@ export type MediaUpdateData = {
         /**
          * Extend the targeted set with these targets (post platforms or `google_ads`). A ready asset resolves them immediately from its stored source; an un-probed one resolves them on the next read. Already-targeted targets are unaffected.
          */
-        targets?: Array<'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'google_ads'>;
+        targets?: Array<'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok' | 'google_ads'>;
     };
     path: {
         /**
@@ -4088,7 +4088,7 @@ export type MediaUpdateResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -4116,14 +4116,14 @@ export type MediaUpdateResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_fps_unsupported' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -4177,6 +4177,22 @@ export type PostsListData = {
         metadata?: {
             [key: string]: string | number | boolean;
         };
+        /**
+         * Only posts scheduled at or after this ISO-8601 time (inclusive, on schedule_at). Posts with no schedule_at (unscheduled drafts / publish-now) are excluded from any date-bounded query.
+         */
+        scheduled_after?: string;
+        /**
+         * Only posts scheduled at or before this ISO-8601 time (inclusive, on schedule_at). Posts with no schedule_at (unscheduled drafts / publish-now) are excluded from any date-bounded query.
+         */
+        scheduled_before?: string;
+        /**
+         * Only posts changed at or after this ISO-8601 time (inclusive) — the cheap delta cursor for live-status polling. "Changed" tracks BOTH envelope edits and variant status transitions (publish lifecycle), via greatest(post.updated_at, max(variant.updated_at)). Pass the timestamp from your previous poll to fetch only what moved since. A post with no recorded change time is excluded (NULL >= x is NULL in SQL).
+         */
+        updated_after?: string;
+        /**
+         * Only posts whose derived status is one of these. Repeat the param or pass an array to filter on multiple (e.g. `?status=scheduled&status=failed`).
+         */
+        status?: Array<'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed'>;
     };
     url: '/posts';
 };
@@ -4426,7 +4442,7 @@ export type PostsListResponses = {
                 id: string;
                 object: 'post_variant';
                 connection_id: string;
-                platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+                platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
                 post_type: 'text' | 'single_image' | 'multi_image' | 'video' | 'reel' | 'carousel';
                 body: string | null;
                 status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
@@ -5088,7 +5104,7 @@ export type PostsCreateResponses = {
             id: string;
             object: 'post_variant';
             connection_id: string;
-            platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+            platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
             post_type: 'text' | 'single_image' | 'multi_image' | 'video' | 'reel' | 'carousel';
             body: string | null;
             status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
@@ -5632,7 +5648,7 @@ export type PostsGetResponses = {
             id: string;
             object: 'post_variant';
             connection_id: string;
-            platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+            platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
             post_type: 'text' | 'single_image' | 'multi_image' | 'video' | 'reel' | 'carousel';
             body: string | null;
             status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
@@ -6269,7 +6285,7 @@ export type PostsUpdateResponses = {
             id: string;
             object: 'post_variant';
             connection_id: string;
-            platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+            platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
             post_type: 'text' | 'single_image' | 'multi_image' | 'video' | 'reel' | 'carousel';
             body: string | null;
             status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
@@ -19374,7 +19390,7 @@ export type LogsListData = {
         /**
          * Only logs targeting this platform.
          */
-        platform?: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram';
+        platform?: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
         /**
          * Only logs with this outcome.
          */
@@ -19643,7 +19659,7 @@ export type LogsListResponses = {
             /**
              * Platform the action targeted, or null.
              */
-            platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | null;
+            platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok' | null;
             /**
              * HTTP method of the originating request, or null.
              */
@@ -19970,7 +19986,7 @@ export type LogsGetResponses = {
         /**
          * Platform the action targeted, or null.
          */
-        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | null;
+        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok' | null;
         /**
          * HTTP method of the originating request, or null.
          */
@@ -20332,7 +20348,7 @@ export type WebhooksCreateEndpointData = {
         /**
          * Event types to deliver to this endpoint. An empty array delivers all events.
          */
-        event_types: Array<'webhook.ping'>;
+        event_types: Array<'webhook.ping' | 'post.published' | 'post.failed' | 'post.completed'>;
     };
     path?: never;
     query?: never;
@@ -21102,7 +21118,7 @@ export type WebhooksUpdateEndpointData = {
         /**
          * Replace the subscription. Omit to leave unchanged; an empty array delivers all events.
          */
-        event_types?: Array<'webhook.ping'>;
+        event_types?: Array<'webhook.ping' | 'post.published' | 'post.failed' | 'post.completed'>;
     };
     path: {
         /**

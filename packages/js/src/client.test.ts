@@ -1,7 +1,7 @@
 import { afterEach, expect, test, vi } from 'vitest';
 
 import { createPostrunClient } from './client';
-import { profilesList } from './client/sdk.gen';
+import { postsList, profilesList } from './client/sdk.gen';
 import { PostrunError } from './errors';
 
 afterEach(() => vi.unstubAllGlobals());
@@ -92,6 +92,28 @@ test('serializes an object query param (metadata) as one URL-encoded JSON value'
     JSON.stringify({ tier: 'pro', priority: 3 }),
   );
   expect(url.search).not.toContain('metadata%5B');
+});
+
+test('serializes an array query param (status) as repeated params, not JSON', async () => {
+  const calls = recordFetch(200, {
+    object: 'list',
+    data: [],
+    total: 0,
+    limit: 20,
+    offset: 0,
+    has_more: false,
+  });
+
+  await postsList({
+    client: client(),
+    query: { status: ['scheduled', 'failed'] },
+  });
+
+  const url = new URL(calls[0]!.url);
+  // The API parses `status` as repeated query params (`.in(...)`); a single
+  // JSON-encoded value (`status=["scheduled","failed"]`) would fail validation.
+  expect(url.searchParams.getAll('status')).toEqual(['scheduled', 'failed']);
+  expect(url.search).not.toContain('%5B'); // no `[` — not JSON-encoded
 });
 
 test('serializes scalar query params normally', async () => {

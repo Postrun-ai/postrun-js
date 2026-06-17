@@ -1,10 +1,15 @@
 /**
- * @postrun/react — React provider, hooks, and headless components for Postrun.
+ * @postrun/react — React provider + hooks for the Postrun API.
  *
- * Foundation is here today: <PostrunProvider> + usePostrun(). The hooks and
- * components layer on top:
- *   hooks       useProfiles · useConnections · useConnect · useMediaUpload · usePosts
- *   components  PlatformIcon · ConnectAccountButton · NetworkSelector · MediaDropzone
+ * Wrap once with <PostrunProvider> (+ usePostrun()); the hooks do the data
+ * fetching, caching, and orchestration:
+ *   profiles     useProfiles · useProfilesInfinite · useProfile · useCreate/Update/DeleteProfile
+ *   connections  useConnect · useConnections · useConnection · useDiscoverableAccounts · useSelectAccount · useDisconnect
+ *   media        useMediaUpload · useMedia · useUpdateMedia · useDeleteMedia
+ *   posts        usePosts · usePostsInfinite · useCalendar · usePost · useCreate/Update/DeletePost
+ *
+ * `*Infinite` hooks paginate (load-more); calendar/post hooks poll live while a
+ * post is publishing. Composite UI (composer, calendar grid) is yours to build.
  */
 export { PostrunProvider, usePostrun } from './context';
 export type {

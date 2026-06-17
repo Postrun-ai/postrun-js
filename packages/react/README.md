@@ -1,40 +1,54 @@
 # @postrun/react
 
-React provider, hooks, and headless components for the [Postrun API](https://postrun.ai).
+React provider and hooks for the [Postrun API](https://postrun.ai).
 
-Wrap your app once, then build your UI from hooks (data + orchestration) and a few
-domain-aware components (the connect dance, brand marks, the media pipeline).
+Wrap your app once, then build your UI from hooks that handle the data fetching,
+caching, and orchestration for you — the hosted OAuth connect flow, the media
+upload pipeline, live status polling, and pagination.
 
 ```tsx
 import { PostrunProvider } from '@postrun/react';
 
 function App() {
   return (
-    <PostrunProvider getToken={() => fetch('/api/postrun-token').then((r) => r.json()).then((t) => t.token)}>
+    <PostrunProvider
+      getToken={() =>
+        fetch('/api/postrun-token')
+          .then((r) => r.json())
+          .then((t) => t.token)
+      }
+    >
       {/* your app */}
     </PostrunProvider>
   );
 }
 ```
 
-## What this ships
+Your backend mints a short-lived, scoped token from your secret key; the provider
+calls `getToken` to supply it. The secret key never touches the browser.
 
-**Hooks** (do the work — you render):
+## Hooks
 
-- `useProfiles` / `useProfile`
-- `useConnections` / `useConnect`
-- `useMediaUpload`
-- `usePosts` / `usePost`
+**Profiles** — `useProfiles` · `useProfilesInfinite` · `useProfile` ·
+`useCreateProfile` · `useUpdateProfile` · `useDeleteProfile`
 
-**Components** (domain knowledge you shouldn't have to reproduce):
+**Connections** — `useConnect` (hosted OAuth) · `useConnections` ·
+`useConnection` · `useDiscoverableAccounts` · `useSelectAccount` ·
+`useDisconnect`
 
-- `PlatformIcon` — real brand marks (X, LinkedIn, Meta, …)
-- `ConnectAccountButton` — the full OAuth + account-select flow
-- `NetworkSelector` — pick connected accounts
-- `MediaDropzone` — upload → process → per-platform preview
+**Media** — `useMediaUpload` (signed upload → bytes → poll until ready) ·
+`useMedia` · `useUpdateMedia` · `useDeleteMedia`
 
-Composite, opinionated UI (a post composer, a calendar/queue) is **deliberately not
-shipped** — that's your product and your taste. Build it from the hooks above.
+**Posts** — `usePosts` · `usePostsInfinite` · `useCalendar` · `usePost` ·
+`useCreatePost` · `useUpdatePost` · `useDeletePost`
+
+Lists paginate with the `*Infinite` hooks — a clean append-style surface
+(`{ items, loadMore, hasMore, isLoading, isLoadingMore, total }`). The calendar
+and post hooks poll live while a post is publishing and stop the moment it
+settles, so a scheduled post visibly transitions with no manual refetch.
+
+Composite, opinionated UI (a post composer, a calendar grid) is **deliberately
+not shipped** — that's your product and your taste. Build it from the hooks above.
 
 ## License
 

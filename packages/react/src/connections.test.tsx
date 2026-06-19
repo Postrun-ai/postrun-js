@@ -392,8 +392,10 @@ test('useConnect: unmounting mid-flow fires no onConnected (no setState after un
   });
 
   const onConnected = vi.fn();
+  const onSuccess = vi.fn();
   const { result, unmount } = renderHook(
-    () => useConnect({ profileId: 'prof_1', platform: 'x', onConnected }),
+    () =>
+      useConnect({ profileId: 'prof_1', platform: 'x', onConnected, onSuccess }),
     { wrapper: testWrapper() },
   );
   await waitFor(() => expect(result.current.state.phase).toBe('idle'));
@@ -408,6 +410,7 @@ test('useConnect: unmounting mid-flow fires no onConnected (no setState after un
   });
 
   expect(onConnected).not.toHaveBeenCalled();
+  expect(onSuccess).not.toHaveBeenCalled(); // no callback for an abandoned flow
 });
 
 test('useConnect: abandoning WHILE connecting (before the picker) never flips to a stale picking', async () => {
@@ -531,8 +534,10 @@ test('useConnect: onCancelled fires when the user closes the popup', async () =>
   );
 
   const onCancelled = vi.fn();
+  const onSuccess = vi.fn();
   const { result } = renderHook(
-    () => useConnect({ profileId: 'prof_1', platform: 'x', onCancelled }),
+    () =>
+      useConnect({ profileId: 'prof_1', platform: 'x', onCancelled, onSuccess }),
     { wrapper: testWrapper() },
   );
   await waitFor(() => expect(result.current.state.phase).toBe('idle'));
@@ -540,6 +545,7 @@ test('useConnect: onCancelled fires when the user closes the popup', async () =>
   act(() => result.current.start());
 
   await waitFor(() => expect(onCancelled).toHaveBeenCalledTimes(1));
+  expect(onSuccess).not.toHaveBeenCalled(); // cancel is not a success
 });
 
 test('useConnect: a successful connect auto-refetches useConnections', async () => {

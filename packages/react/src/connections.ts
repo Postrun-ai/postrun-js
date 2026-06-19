@@ -36,8 +36,23 @@ export interface UseConnectParams {
   profileId: string;
   /** The platform to connect (X, LinkedIn, Meta, …). */
   platform: ConnectablePlatform;
-  /** Called once a connection is fully ACTIVE (an account is bound). */
+  /** Called once a connection is fully ACTIVE (an account is bound). The
+   * connections list is auto-refetched too, so you rarely need to act here. */
   onConnected?: (connection: Connection) => void;
+  /** Called when the attempt fails, with the typed reason. */
+  onError?: (reason: ConnectErrorReason) => void;
+  /** Called when the user closes the OAuth popup without finishing. The hook
+   * stays in the `cancelled` phase; call `reset()` to re-arm for another try. */
+  onCancelled?: () => void;
+  /**
+   * Pre-mint the Nango session on mount (default `true`). Keep it `true` for a
+   * dedicated "Connect X" button. Set it `false` for a MULTI-platform picker —
+   * then call `prepare()` on the platform button's `onPointerEnter`/`onFocus` so
+   * only the platform the user is about to click mints a session (not all of
+   * them on open). The popup still needs a pre-minted session, so prepare on
+   * intent, not on click.
+   */
+  prepareOnMount?: boolean;
 }
 
 /**
@@ -47,7 +62,7 @@ export interface UseConnectParams {
  * its connections list. It is NOT an error and must not hang in `connecting`.
  */
 export type ConnectState =
-  | { phase: 'preparing' } // pre-minting the Nango session (button not ready)
+  | { phase: 'preparing' } // no session held yet — minting, or awaiting `prepare()`
   | { phase: 'idle' } // session held; ready to start on a click
   | { phase: 'connecting' } // popup open / polling / binding
   | { phase: 'picking'; accounts: DiscoverableAccount[] } // host renders a picker
@@ -62,10 +77,17 @@ export interface UseConnectResult {
   /**
    * Start the OAuth flow. MUST be called directly in the user's click handler
    * (no `await` before it): it opens the OAuth popup synchronously, so the
-   * browser keeps it inside the user gesture. A no-op until the session is ready
-   * (state `preparing`) — disable the button until `phase` is `idle`.
+   * browser keeps it inside the user gesture. If the session isn't ready yet
+   * (`phase` !== `idle`) it kicks `prepare()` and no-ops the popup, so the next
+   * click works — prepare on intent (hover/focus) to make the first click open.
    */
   start: () => void;
+  /**
+   * Mint the Nango session ahead of the click. Idempotent (a no-op if a session
+   * is already held or a mint is in flight). Only needed with
+   * `prepareOnMount: false` — call it on the button's `onPointerEnter`/`onFocus`.
+   */
+  prepare: () => void;
   /** When `phase` is `picking`, activate the connection with the chosen account. */
   select: (externalAccountId: string) => void;
   /** Return to a fresh, ready state (re-mints the session) — e.g. a "try again". */
@@ -97,8 +119,11 @@ export function useConnect({
   profileId,
   platform,
   onConnected,
+  onError,
+  onCancelled,
+  prepareOnMount = true,
 }: UseConnectParams): UseConnectResult {
-  const { client } = usePostrun();
+  const { client, queryClient } = usePostrun();
   const [state, setState] = useState<ConnectState>({ phase: 'preparing' });
   const [remintNonce, setRemintNonce] = useState(0);
 
@@ -116,13 +141,22 @@ export function useConnect({
   // suppressed — no `setState`/`onConnected` after unmount or a profile switch.
   const inFlightRef = useRef(false);
   const flowGenRef = useRef(0);
+  // A mint in flight (so `prepare()` is idempotent), and a generation bumped when
+  // the held session goes stale (profile/platform/reset/unmount) so a late mint
+  // can't apply its result onto a newer session.
+  const preparingRef = useRef(false);
+  const prepareGenRef = useRef(0);
 
-  // Keep the latest `onConnected` in a ref so `start` needn't depend on it (and
-  // re-create) when callers pass a fresh arrow each render.
+  // Latest callbacks in refs so the memoised `start`/`prepare` needn't depend on
+  // them (and re-create) when callers pass fresh arrows each render.
   const onConnectedRef = useRef(onConnected);
+  const onErrorRef = useRef(onError);
+  const onCancelledRef = useRef(onCancelled);
   useEffect(() => {
     onConnectedRef.current = onConnected;
-  }, [onConnected]);
+    onErrorRef.current = onError;
+    onCancelledRef.current = onCancelled;
+  });
 
   // Tear down any in-flight flow: bump the generation (its terminal `.then` is
   // ignored) and REJECT a pending pick (a machine awaiting the picker unwinds
@@ -135,16 +169,33 @@ export function useConnect({
     pick?.reject(new Error('connect flow abandoned'));
   }, []);
 
-  // Pre-mint the session before any click (and on every `reset`). An async mint
-  // in the click would break the synchronous `window.open` gesture.
-  useEffect(() => {
-    let abandoned = false;
+  // Mint the Nango session ahead of the click — `nango.auth()` opens its popup
+  // synchronously, so an async mint in the click would break the gesture.
+  // Idempotent: a held session or an in-flight mint short-circuits.
+  const prepare = useCallback(() => {
+    if (sessionRef.current || preparingRef.current) return;
+    preparingRef.current = true;
+    const gen = prepareGenRef.current;
     setState({ phase: 'preparing' });
-    sessionRef.current = null;
+
+    // A mint failure (request rejected, OR a 2xx with no body) — clear the
+    // in-flight flag (so a retry is possible, never a stuck `preparing`) and
+    // surface a typed `prepare_failed`. Distinct from `auth_failed`: the OAuth
+    // popup never opened; we couldn't even get a session.
+    const failPrepare = () => {
+      preparingRef.current = false;
+      setState({ phase: 'error', reason: 'prepare_failed' });
+      onErrorRef.current?.('prepare_failed');
+    };
 
     connectionsConnect({ client, path: { id: profileId }, body: { platform } })
       .then(({ data }) => {
-        if (abandoned || !data) return;
+        if (prepareGenRef.current !== gen) return;
+        if (!data) {
+          failPrepare();
+          return;
+        }
+        preparingRef.current = false;
         sessionRef.current = {
           token: data.connect_session_token,
           providerConfigKey: data.provider_config_key,
@@ -153,22 +204,40 @@ export function useConnect({
         setState({ phase: 'idle' });
       })
       .catch(() => {
-        if (!abandoned) setState({ phase: 'error', reason: 'auth_failed' });
+        if (prepareGenRef.current !== gen) return;
+        failPrepare();
       });
+  }, [client, profileId, platform]);
+
+  // On mount and on every profile/platform/reset change: invalidate the held
+  // session + any in-flight mint + any running flow, then (when `prepareOnMount`)
+  // mint eagerly. With `prepareOnMount: false` we sit in `preparing` until the
+  // host calls `prepare()` — the picker-on-intent path.
+  useEffect(() => {
+    prepareGenRef.current += 1;
+    preparingRef.current = false;
+    sessionRef.current = null;
+    setState({ phase: 'preparing' });
+
+    if (prepareOnMount) prepare();
 
     return () => {
-      abandoned = true;
-      // reset / unmount / profile|platform change → abandon any in-flight flow
-      // (rejects a pending pick; suppresses a stale machine's terminal setState).
+      prepareGenRef.current += 1; // a late mint must not apply after teardown
       abandonFlow();
     };
-  }, [client, profileId, platform, remintNonce, abandonFlow]);
+  }, [profileId, platform, remintNonce, prepareOnMount, prepare, abandonFlow]);
 
   const start = useCallback(() => {
     const session = sessionRef.current;
-    // No-op if not ready (host disables the button until 'idle') OR a flow is
-    // already running (a re-entrant click must not open a second popup).
-    if (!session || inFlightRef.current) return;
+    // Not minted yet (no prior intent): kick a mint so the NEXT click works. We
+    // can't open the popup now (no token) and an async mint would break the
+    // gesture — prepare on intent (hover/focus) to make the FIRST click open.
+    if (!session) {
+      prepare();
+      return;
+    }
+    // A flow is already running — a re-entrant click must not open a 2nd popup.
+    if (inFlightRef.current) return;
 
     inFlightRef.current = true;
     const gen = flowGenRef.current;
@@ -246,20 +315,29 @@ export function useConnect({
       switch (outcome.status) {
         case 'active':
           setState({ phase: 'active', connection: outcome.connection });
+          // The new connection exists — refetch any connections list so the host
+          // sees it without wiring its own refetch.
+          void queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
           onConnectedRef.current?.(outcome.connection);
           return;
         case 'connected_pending':
           setState({ phase: 'connected_pending' });
+          // The grant landed; the row is written by the webhook (maybe not yet).
+          // Refetch the list ONCE so it shows as soon as it's there; the host can
+          // refetch again from its own layer if it's still pending.
+          void queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
           return;
         case 'cancelled':
           setState({ phase: 'cancelled' });
+          onCancelledRef.current?.();
           return;
         case 'error':
           setState({ phase: 'error', reason: outcome.reason });
+          onErrorRef.current?.(outcome.reason);
           return;
       }
     });
-  }, [client, profileId]);
+  }, [client, profileId, prepare, queryClient]);
 
   const select = useCallback((externalAccountId: string) => {
     const pick = pickRef.current;
@@ -271,12 +349,12 @@ export function useConnect({
   }, []);
 
   const reset = useCallback(() => {
-    // Bump the nonce → the pre-mint effect re-runs; its cleanup calls
-    // `abandonFlow()` (rejecting any pending pick) and a fresh session is minted.
+    // Bump the nonce → the prepare effect re-runs; its cleanup abandons any flow
+    // and a fresh session is minted (or awaits `prepare()` if not on-mount).
     setRemintNonce((n) => n + 1);
   }, []);
 
-  return { state, start, select, reset };
+  return { state, start, prepare, select, reset };
 }
 
 /**

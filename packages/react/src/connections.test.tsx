@@ -500,6 +500,237 @@ test('useConnect: a SYNCHRONOUS Nango/auth throw becomes a typed auth_failed (no
   }
 });
 
+test('useConnect: onError fires with the typed reason on failure', async () => {
+  authMock.mockImplementation(() => {
+    throw new AuthError('bad host', 'invalid_host_url');
+  });
+  stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: SESSION, status: 201 }
+      : undefined,
+  );
+
+  const onError = vi.fn();
+  const { result } = renderHook(
+    () => useConnect({ profileId: 'prof_1', platform: 'x', onError }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+
+  act(() => result.current.start());
+
+  await waitFor(() => expect(onError).toHaveBeenCalledWith('auth_failed'));
+});
+
+test('useConnect: onCancelled fires when the user closes the popup', async () => {
+  authMock.mockRejectedValue(new AuthError('closed', 'window_closed'));
+  stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: SESSION, status: 201 }
+      : undefined,
+  );
+
+  const onCancelled = vi.fn();
+  const { result } = renderHook(
+    () => useConnect({ profileId: 'prof_1', platform: 'x', onCancelled }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+
+  act(() => result.current.start());
+
+  await waitFor(() => expect(onCancelled).toHaveBeenCalledTimes(1));
+});
+
+test('useConnect: a successful connect auto-refetches useConnections', async () => {
+  authMock.mockResolvedValue({
+    providerConfigKey: 'twitter-v2',
+    connectionId: 'nango_1',
+  });
+  const listCalls: string[] = [];
+  const json = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), {
+      status,
+      headers: { 'content-type': 'application/json' },
+    });
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (request: Request) => {
+      const url = new URL(request.url);
+      const { pathname } = url;
+      if (request.method === 'POST' && pathname.endsWith('/connect'))
+        return json(SESSION, 201);
+      if (request.method === 'GET' && pathname.endsWith('/connections')) {
+        // The flow's correlation poll (filtered) vs the `useConnections` query.
+        if (url.searchParams.get('nango_connection_id') === 'nango_1')
+          return json(listOf(ACTIVE));
+        listCalls.push(pathname);
+        return json(CONN_LIST);
+      }
+      throw new Error(`no route for ${request.method} ${pathname}`);
+    }),
+  );
+
+  const { result } = renderHook(
+    () => ({
+      list: useConnections('prof_1'),
+      connect: useConnect({ profileId: 'prof_1', platform: 'x' }),
+    }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.list.isSuccess).toBe(true));
+  await waitFor(() => expect(result.current.connect.state.phase).toBe('idle'));
+  expect(listCalls).toHaveLength(1); // initial useConnections fetch
+
+  act(() => result.current.connect.start());
+  await waitFor(() =>
+    expect(result.current.connect.state.phase).toBe('active'),
+  );
+
+  // The auto-invalidate refetched the connections list — no manual refetch.
+  await waitFor(() => expect(listCalls).toHaveLength(2));
+});
+
+test('useConnect: prepareOnMount=false defers minting until prepare()', async () => {
+  const calls = stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: SESSION, status: 201 }
+      : undefined,
+  );
+
+  const { result } = renderHook(
+    () =>
+      useConnect({ profileId: 'prof_1', platform: 'x', prepareOnMount: false }),
+    { wrapper: testWrapper() },
+  );
+
+  // No mint on mount — it sits in `preparing` with zero network calls…
+  await waitFor(() => expect(result.current.state.phase).toBe('preparing'));
+  expect(calls).toHaveLength(0);
+
+  // …until the host calls prepare() (the picker-on-intent path).
+  act(() => result.current.prepare());
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+  expect(calls).toHaveLength(1);
+  expect(new URL(calls[0]!.url).pathname).toMatch(/\/profiles\/prof_1\/connect$/);
+});
+
+test('useConnect: start() before a session is held kicks prepare() (no popup yet)', async () => {
+  const calls = stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: SESSION, status: 201 }
+      : undefined,
+  );
+
+  const { result } = renderHook(
+    () =>
+      useConnect({ profileId: 'prof_1', platform: 'x', prepareOnMount: false }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.state.phase).toBe('preparing'));
+
+  // A click with no prior intent must NOT open a popup, but it kicks a mint so
+  // the next click works.
+  act(() => result.current.start());
+  expect(authMock).not.toHaveBeenCalled();
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+  expect(calls).toHaveLength(1);
+});
+
+test('useConnect: a session-mint failure fires onError(prepare_failed), not auth_failed', async () => {
+  // POST /connect fails — we couldn't even mint a session (vs a Nango grant
+  // failure). These are different origins and must carry different reasons.
+  stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: { code: 'internal_error', status: 500 }, status: 500 }
+      : undefined,
+  );
+
+  const onError = vi.fn();
+  const { result } = renderHook(
+    () => useConnect({ profileId: 'prof_1', platform: 'x', onError }),
+    { wrapper: testWrapper() },
+  );
+
+  await waitFor(() => expect(result.current.state.phase).toBe('error'));
+  if (result.current.state.phase === 'error') {
+    expect(result.current.state.reason).toBe('prepare_failed');
+  }
+  expect(onError).toHaveBeenCalledWith('prepare_failed');
+});
+
+test('useConnect: a 2xx connect with no body surfaces a typed error (no silent hang)', async () => {
+  stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: null, status: 201 }
+      : undefined,
+  );
+
+  const onError = vi.fn();
+  const { result } = renderHook(
+    () => useConnect({ profileId: 'prof_1', platform: 'x', onError }),
+    { wrapper: testWrapper() },
+  );
+
+  await waitFor(() => expect(result.current.state.phase).toBe('error'));
+  expect(onError).toHaveBeenCalledWith('prepare_failed');
+});
+
+test('useConnect: prepare() is idempotent — rapid calls mint exactly once', async () => {
+  const calls = stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: SESSION, status: 201 }
+      : undefined,
+  );
+
+  const { result } = renderHook(
+    () =>
+      useConnect({ profileId: 'prof_1', platform: 'x', prepareOnMount: false }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.state.phase).toBe('preparing'));
+
+  act(() => {
+    result.current.prepare();
+    result.current.prepare();
+    result.current.prepare();
+  });
+
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+  expect(calls).toHaveLength(1);
+});
+
+test('useConnect: onError does not fire for a flow abandoned before it settles', async () => {
+  let rejectAuth: (reason: Error) => void = () => {};
+  authMock.mockReturnValue(
+    new Promise((_resolve, reject) => {
+      rejectAuth = reject;
+    }),
+  );
+  stubRoutes((method, pathname) =>
+    method === 'POST' && pathname.endsWith('/connect')
+      ? { body: SESSION, status: 201 }
+      : undefined,
+  );
+
+  const onError = vi.fn();
+  const { result, unmount } = renderHook(
+    () => useConnect({ profileId: 'prof_1', platform: 'x', onError }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+
+  act(() => result.current.start()); // grant in-flight (not settled)
+  unmount(); // abandon while connecting
+
+  await act(async () => {
+    rejectAuth(new AuthError('boom', 'unknown_error'));
+    await new Promise((r) => setTimeout(r, 0));
+  });
+
+  expect(onError).not.toHaveBeenCalled(); // stale flow → no callback
+});
+
 test('useDisconnect deletes a connection by id', async () => {
   const calls = recordFetch({
     id: 'conn_1',

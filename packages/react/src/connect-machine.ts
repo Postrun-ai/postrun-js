@@ -27,6 +27,7 @@ export type DiscoverableAccount = DiscoverableAccountList['data'][number];
 
 /** Why a connect attempt ended in `error` — actionable reasons for the host. */
 export type ConnectErrorReason =
+  | 'prepare_failed' // couldn't mint the connect session (BEFORE any OAuth popup)
   | 'popup_blocked' // the browser blocked the OAuth popup
   | 'auth_failed' // the Nango grant failed (bad token, validation, unknown)
   | 'connection_not_found' // we couldn't read back the connection the grant made

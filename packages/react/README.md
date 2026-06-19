@@ -100,9 +100,32 @@ function ConnectX({
 ```
 
 Prefer wiring it yourself? `useConnect({ profileId, platform, onConnected })`
-returns the same `{ state, start, select, reset }` — `<Connect>` is just a thin
-render-prop wrapper over it. The hosted `/connect` page remains available as a
-no-SDK fallback (link to the `hosted_connect_url` from a `POST .../connect`).
+returns the same `{ state, start, prepare, select, reset }` — `<Connect>` is just
+a thin render-prop wrapper over it. The hosted `/connect` page remains available
+as a no-SDK fallback (link to the `hosted_connect_url` from a `POST .../connect`).
+
+`onConnected` also auto-refetches your `useConnections` list, so the new account
+shows up with no manual refetch. Pass `onError(reason)` / `onCancelled()` if you'd
+rather react with callbacks than read `state.phase`.
+
+**Multi-platform picker?** A session is pre-minted on mount, which is ideal for a
+dedicated button but would mint one per platform in a "pick a network" list. Set
+`prepareOnMount={false}` and call `prepare()` on the button's intent
+(`onPointerEnter`/`onFocus`) so only the platform the user is about to click mints:
+
+```tsx
+<Connect profileId={id} platform="meta_ads" prepareOnMount={false} onConnected={refetch}>
+  {({ state, start, prepare, select }) =>
+    state.phase === 'picking' ? (
+      <Picker accounts={state.accounts} onPick={select} />
+    ) : (
+      <button onPointerEnter={prepare} onFocus={prepare} onClick={start}>
+        Connect Meta
+      </button>
+    )
+  }
+</Connect>
+```
 
 ## License
 

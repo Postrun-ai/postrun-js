@@ -4,7 +4,8 @@ import type { ReactNode } from 'react';
 
 import type { ConnectablePlatform, Connection } from '@postrun/js';
 
-import type { ConnectState } from './connections';
+import type { ConnectErrorReason } from './connect-machine';
+import type { ConnectState, UseConnectParams } from './connections';
 import { useConnect } from './connections';
 
 /** The flow state + actions handed to your render-prop. */
@@ -13,10 +14,15 @@ export interface ConnectRenderApi {
   state: ConnectState;
   /**
    * Begin connecting. Call this DIRECTLY from your button's `onClick` — it opens
-   * the OAuth popup synchronously, so don't `await` anything before it. A no-op
-   * until the session is ready (`state.phase === 'preparing'`).
+   * the OAuth popup synchronously, so don't `await` anything before it.
    */
   start: () => void;
+  /**
+   * Mint the session ahead of the click — only needed with
+   * `prepareOnMount={false}` (a multi-platform picker): call it on the button's
+   * `onPointerEnter`/`onFocus`.
+   */
+  prepare: () => void;
   /** When `state.phase === 'picking'`, activate with the chosen account id. */
   select: (externalAccountId: string) => void;
   /** Reset to a fresh, ready state (e.g. a "try again" after an error/cancel). */
@@ -30,6 +36,13 @@ export interface ConnectProps {
   platform: ConnectablePlatform;
   /** Called once a connection is fully ACTIVE (an account is bound). */
   onConnected?: (connection: Connection) => void;
+  /** Called when the attempt fails, with the typed reason. */
+  onError?: (reason: ConnectErrorReason) => void;
+  /** Called when the user closes the OAuth popup without finishing. */
+  onCancelled?: () => void;
+  /** Pre-mint on mount (default `true`). Set `false` for a multi-platform picker
+   * and call `prepare()` on intent — see {@link UseConnectParams.prepareOnMount}. */
+  prepareOnMount?: boolean;
   /** Render your own button + picker + status from the flow state. */
   children: (api: ConnectRenderApi) => ReactNode;
 }
@@ -69,8 +82,18 @@ export function Connect({
   profileId,
   platform,
   onConnected,
+  onError,
+  onCancelled,
+  prepareOnMount,
   children,
 }: ConnectProps): ReactNode {
-  const api = useConnect({ profileId, platform, onConnected });
+  const api = useConnect({
+    profileId,
+    platform,
+    onConnected,
+    onError,
+    onCancelled,
+    prepareOnMount,
+  });
   return children(api);
 }

@@ -1,5 +1,20 @@
 # @postrun/react
 
+## 1.1.0
+
+### Minor Changes
+
+- `useConnect` DX improvements (all additive):
+
+  - **Auto-refetch:** a successful connect now invalidates your `useConnections` list, so the new account appears with no manual refetch.
+  - **Callbacks:** `onError(reason)` and `onCancelled()` join `onConnected` — react to outcomes without reading `state.phase`.
+  - **`prepare()` + `prepareOnMount`:** for a MULTI-platform picker, set `prepareOnMount: false` and call `prepare()` on the button's `onPointerEnter`/`onFocus` so only the platform the user is about to click mints a session (not all of them on mount). Default stays `true`, so a dedicated "Connect X" button is unchanged. `<Connect>` threads all of these.
+  - **New `prepare_failed` reason** in `ConnectErrorReason`: a session-mint failure (before the OAuth popup opens) is now distinct from a Nango grant `auth_failed`, and a 2xx connect with no body surfaces this typed error instead of silently hanging.
+
+### Patch Changes
+
+- @postrun/js@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

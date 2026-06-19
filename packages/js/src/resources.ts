@@ -105,6 +105,41 @@ export type LinkedInPostVariant = Extract<
 /** A post — its variants, schedule, and derived status (the read resource). */
 export type Post = PostsGetResponse;
 
+/**
+ * One per-platform variant on a RETURNED post (the read resource): its own
+ * `status`, a typed `error` ({@link PostVariantError}) when it failed, and a
+ * `result` (platform id + permalink) when it published. Derived from the post
+ * resource, never hand-declared. (For inspecting compose-time native `settings`,
+ * prefer {@link PostVariantInput}; on read `settings` is opaque.)
+ */
+export type PostVariant = Post['variants'][number];
+
+/**
+ * A variant's typed publish failure — `{ code, message }`. The `code` is the
+ * adapter's own minted reason (`x_access_not_permitted`, `linkedin_auth_expired`,
+ * …); it stays a `string` because adapter codes are minted outside the API's
+ * closed registry. Derived from the variant, never hand-declared.
+ */
+export type PostVariantError = NonNullable<PostVariant['error']>;
+
+/**
+ * Did the post fully publish? `true` ONLY when the rollup `status` is
+ * `'published'` — `partially_published` and `failed` are NOT success. The single
+ * pure predicate every surface (SDK, React hook, composer) shares, so "success"
+ * has exactly one definition.
+ */
+export const isPublished = (post: Post): boolean =>
+  post.status === 'published';
+
+/**
+ * The variants that FAILED to publish, each carrying its typed {@link
+ * PostVariantError}. Empty when none failed. The pure helper behind
+ * `useCreatePost().failedVariants` — usable directly from a non-React caller so
+ * the "which platforms failed, and why" projection has one definition.
+ */
+export const failedVariants = (post: Post): PostVariant[] =>
+  post.variants.filter((variant) => variant.status === 'failed');
+
 /** A page of posts (the calendar/queue list). */
 export type PostList = PostsListResponse;
 

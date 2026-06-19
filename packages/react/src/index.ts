@@ -73,7 +73,12 @@ export {
   useDeletePost,
 } from './posts';
 export type { CalendarFilters, LiveOptions } from './posts';
-export type { PostValidation, ValidationIssue } from '@postrun/js';
+export type {
+  PostValidation,
+  ValidationIssue,
+  PostVariant,
+  PostVariantError,
+} from '@postrun/js';
 export { useInfiniteList } from './infinite-list';
 export type { InfiniteList } from './infinite-list';
 export { profileKeys, connectionKeys, mediaKeys, postKeys } from './keys';

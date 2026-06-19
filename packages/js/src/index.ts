@@ -72,7 +72,11 @@ export type {
   MediaStatus,
   Metadata,
   MetadataFilter,
+  PostVariant,
+  PostVariantError,
 } from './resources';
+
+export { isPublished, failedVariants } from './resources';
 
 export {
   buildCreatePost,

@@ -174,6 +174,170 @@ test('useCreatePost resolves connections, builds the body, and posts', async () 
   expect(sent.variants[0].body).toBe('hi');
 });
 
+// --- Publish outcome ergonomics ---------------------------------------------
+//
+// `POST /v1/posts` (publish:now) returns the created post with a rollup `status`
+// + per-variant `status`/typed `error`. The hook must surface that outcome as
+// first-class derived fields so a caller can never toast "published" on a post
+// that actually failed. "Success" === `status === 'published'`. The promise
+// always RESOLVES (a throw would discard the variants that DID publish).
+
+const X_VARIANT = {
+  id: 'pv_x',
+  object: 'post_variant',
+  connection_id: 'conn_x',
+  platform: 'x',
+  post_type: 'text',
+  body: 'hi',
+  status: 'failed',
+  settings: {},
+  schedule_at: null,
+  result: null,
+  error: {
+    code: 'x_access_not_permitted',
+    message: "Your X app isn't permitted to create this post.",
+  },
+  media: [],
+};
+
+const LI_VARIANT = {
+  id: 'pv_li',
+  object: 'post_variant',
+  connection_id: 'conn_li',
+  platform: 'linkedin',
+  post_type: 'text',
+  body: 'hi',
+  status: 'published',
+  settings: {},
+  schedule_at: null,
+  result: {
+    platform_post_id: 'urn:li:1',
+    permalink: 'https://linkedin.com/p/1',
+    published_at: '2026-06-15T00:00:01Z',
+  },
+  error: null,
+  media: [],
+};
+
+/** A create flow whose `POST /posts` returns a configurable post body. */
+function mockCreateReturning(post: unknown) {
+  const calls: Request[] = [];
+  const CONN = {
+    id: 'conn_x',
+    profile_id: 'prof_1',
+    platform: 'x',
+    external_account_id: 'acc_1',
+    external_account_name: 'X',
+    currency: null,
+    created_at: null,
+    updated_at: null,
+  };
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (request: Request) => {
+      calls.push(request);
+      const url = new URL(request.url);
+      const json = (body: unknown, status = 200) =>
+        new Response(JSON.stringify(body), {
+          status,
+          headers: { 'content-type': 'application/json' },
+        });
+      if (request.method === 'GET' && url.pathname.endsWith('/connections')) {
+        return json({
+          object: 'list',
+          data: [CONN],
+          total: 1,
+          limit: 20,
+          offset: 0,
+          has_more: false,
+        });
+      }
+      if (request.method === 'POST' && url.pathname.endsWith('/posts')) {
+        return json(post, 201);
+      }
+      return json({}, 404);
+    }),
+  );
+  return calls;
+}
+
+async function createAndSettle(post: unknown) {
+  mockCreateReturning(post);
+  const { result } = renderHook(() => useCreatePost('prof_1'), {
+    wrapper: testWrapper(),
+  });
+  await waitFor(() => expect(result.current.connectedChannels).toContain('x'));
+  let resolved: unknown;
+  await act(async () => {
+    resolved = await result.current.create({
+      content: { body: 'hi' },
+      channels: { x: { settings: {} } },
+    });
+  });
+  // `mutateAsync` resolves with the value before the hook re-renders with
+  // `mutation.data` populated; wait for the derived `status` to settle.
+  await waitFor(() => expect(result.current.status).toBeDefined());
+  return { result, resolved };
+}
+
+test('useCreatePost: a published post → no failed variants, isPublished true', async () => {
+  const published = {
+    ...POST,
+    status: 'published',
+    variants: [LI_VARIANT],
+  };
+  const { result, resolved } = await createAndSettle(published);
+
+  expect(result.current.status).toBe('published');
+  expect(result.current.failedVariants).toEqual([]);
+  expect(result.current.isPublished).toBe(true);
+  // create() still resolves the FULL post (callers can read everything).
+  expect(resolved).toEqual(published);
+});
+
+test('useCreatePost: a failed post exposes status + the failed variant w/ its typed error', async () => {
+  const failed = {
+    ...POST,
+    status: 'failed',
+    variants: [X_VARIANT],
+  };
+  const { result } = await createAndSettle(failed);
+
+  expect(result.current.status).toBe('failed');
+  expect(result.current.isPublished).toBe(false);
+  expect(result.current.failedVariants).toEqual([X_VARIANT]);
+  expect(result.current.failedVariants[0]!.error).toEqual({
+    code: 'x_access_not_permitted',
+    message: "Your X app isn't permitted to create this post.",
+  });
+});
+
+test('useCreatePost: a partially_published post → only the failed variants', async () => {
+  const partial = {
+    ...POST,
+    status: 'partially_published',
+    variants: [LI_VARIANT, X_VARIANT],
+  };
+  const { result } = await createAndSettle(partial);
+
+  expect(result.current.status).toBe('partially_published');
+  expect(result.current.isPublished).toBe(false);
+  // Only the failed one — the published LinkedIn variant is NOT included.
+  expect(result.current.failedVariants).toEqual([X_VARIANT]);
+});
+
+test('useCreatePost: before any create, outcome fields are empty/undefined (no throw)', async () => {
+  mockCreateReturning({ ...POST, status: 'published', variants: [] });
+  const { result } = renderHook(() => useCreatePost('prof_1'), {
+    wrapper: testWrapper(),
+  });
+  await waitFor(() => expect(result.current.isReady).toBe(true));
+
+  expect(result.current.status).toBeUndefined();
+  expect(result.current.isPublished).toBe(false);
+  expect(result.current.failedVariants).toEqual([]);
+});
+
 const VALIDATION = {
   object: 'validation',
   publishable: false,

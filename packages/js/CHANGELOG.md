@@ -1,5 +1,15 @@
 # @postrun/js
 
+## 2.1.0
+
+### Minor Changes
+
+- Surface the publish-now outcome as first-class fields so it can't be ignored.
+
+  - **Spec regen** picks up the additive `x_access_not_permitted` error code (X 402 — app not permitted / lacks required X API access or credits). It joins the generated `ErrorCode` union; no shapes changed, nothing breaks.
+  - **`useCreatePost`** now exposes the derived publish outcome: `status` (the rollup), `isPublished` (`true` only when `status === 'published'`), and `failedVariants` (the variants that failed, each with its typed `error`). `create` still resolves the full `Post` and never throws on a partial/failed publish (a throw would discard the platforms that did publish). **Success = `status === 'published'`** — `partially_published` and `failed` are NOT success.
+  - **`@postrun/js`** adds the pure helpers `isPublished(post)` / `failedVariants(post)` and the `PostVariant` / `PostVariantError` types, so a direct (non-React) caller shares the same outcome projection.
+
 ## 2.0.0
 
 ### Major Changes

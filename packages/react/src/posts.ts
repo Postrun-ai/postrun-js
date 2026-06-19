@@ -4,7 +4,9 @@ import { useCallback } from 'react';
 
 import {
   buildCreatePost,
+  failedVariants as deriveFailedVariants,
   isPostPlatform,
+  isPublished as derivePublished,
   postsCreate,
   postsDelete,
   postsGet,
@@ -168,6 +170,25 @@ export function usePost(id: string, options?: LiveOptions) {
  * variant set from `{ content, channels }` (per the `buildCreatePost` rules), and
  * sends it — the customer never assembles variants or passes a `connection_id`.
  * `connectedChannels` is the set of posting platforms this profile can reach.
+ *
+ * ## Reading the publish outcome (do NOT stop at "it returned")
+ * On `publish: 'now'` the API returns the created post with a rollup `status` and
+ * a per-variant `status` + typed `error`. A 201 does NOT mean every platform
+ * published — one can silently fail while another succeeds. Surface the outcome
+ * via the derived fields, never assume success from a resolved `create`:
+ *
+ * - **`status`** — the rollup (`published | partially_published | failed |
+ *   draft | scheduled`), `undefined` until the first `create` resolves.
+ * - **`isPublished`** — `true` ONLY when `status === 'published'`. This is the
+ *   one "fully published" state; `partially_published` and `failed` are NOT
+ *   success. Branch on this, not on the promise resolving.
+ * - **`failedVariants`** — the variants that failed, each with its typed
+ *   `error` (`{ code, message }`); `[]` when none. Render "X failed: <message>".
+ *
+ * `create` still resolves with the FULL `Post` (read everything if you need to),
+ * and it NEVER throws on a failed/partial publish — a throw would discard the
+ * platforms that DID publish. A transport error (network / 4xx) still surfaces
+ * via `error` (and rejects `create`), exactly as before.
  */
 export function useCreatePost(profileId: string) {
   const { client, queryClient } = usePostrun();
@@ -189,12 +210,19 @@ export function useCreatePost(profileId: string) {
     queryClient,
   );
 
+  const post = mutation.data;
+
   return {
     create: mutation.mutateAsync,
     isPending: mutation.isPending,
     error: mutation.error,
-    data: mutation.data,
+    data: post,
     reset: mutation.reset,
+    // Derived publish outcome (see the JSDoc above) — `undefined`/`false`/`[]`
+    // until the first create resolves; computed from the returned post only.
+    status: post?.status,
+    isPublished: post ? derivePublished(post) : false,
+    failedVariants: post ? deriveFailedVariants(post) : [],
     // The profile's connections must load before `create` can resolve a channel;
     // gate on this so a call during loading isn't mislabeled "not connected".
     isReady: connections.isSuccess,

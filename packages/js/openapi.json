@@ -32,7 +32,6 @@
           "account_not_available",
           "connection_reauth_required",
           "connection_not_pending",
-          "connection_in_use",
           "not_implemented",
           "connection_discovery_failed",
           "media_processing",
@@ -79,6 +78,7 @@
           "media_failed",
           "media_unsupported",
           "media_kind_mismatch",
+          "variant_unparseable",
           "publishing_unavailable",
           "x_duplicate_content",
           "x_not_authorized",
@@ -108,7 +108,8 @@
           "tiktok_not_authorized",
           "tiktok_rate_limited",
           "tiktok_publish_failed",
-          "connection_platform_mismatch"
+          "connection_platform_mismatch",
+          "connection_removed"
         ],
         "title": "ErrorCode",
         "description": "The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>."
@@ -5239,7 +5240,7 @@
       "delete": {
         "operationId": "connections.delete",
         "summary": "Delete a connection",
-        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:write` scoped to the profile that owns the connection.\n\nDeletes a connection. Returns a deletion marker; returns 404 if it does not exist in your account, and 409 if one or more posts still publish through it (delete those posts first).",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:write` scoped to the profile that owns the connection.\n\nDisconnects a connection. Returns a deletion marker; returns 404 if it does not exist in your account. Disconnect is unconditional — any scheduled posts that target this connection are not blocked; they fail gracefully at publish time with a `connection_removed` error until you reconnect and reschedule.",
         "tags": ["Connections"],
         "parameters": [
           {
@@ -5545,11 +5546,7 @@
                     },
                     "code": {
                       "type": "string",
-                      "enum": [
-                        "conflict",
-                        "idempotency_request_in_progress",
-                        "connection_in_use"
-                      ],
+                      "enum": ["conflict", "idempotency_request_in_progress"],
                       "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
                       "examples": ["conflict"]
                     },
@@ -5583,17 +5580,6 @@
                       "status": 409,
                       "code": "idempotency_request_in_progress",
                       "detail": "A request with this Idempotency-Key is still running.",
-                      "request_id": "req_8x2k4m9q1z"
-                    }
-                  },
-                  "connection_in_use": {
-                    "summary": "This connection is in use by existing posts.",
-                    "value": {
-                      "type": "https://docs.postrun.ai/errors/connection_in_use",
-                      "title": "This connection is in use by existing posts.",
-                      "status": 409,
-                      "code": "connection_in_use",
-                      "detail": "This connection is in use by existing posts.",
                       "request_id": "req_8x2k4m9q1z"
                     }
                   }
@@ -12641,7 +12627,15 @@
                             "const": "post_variant"
                           },
                           "connection_id": {
-                            "type": "string"
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume."
                           },
                           "platform": {
                             "enum": [
@@ -13683,7 +13677,15 @@
                                   "const": "post_variant"
                                 },
                                 "connection_id": {
-                                  "type": "string"
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume."
                                 },
                                 "platform": {
                                   "enum": [
@@ -14530,7 +14532,15 @@
                             "const": "post_variant"
                           },
                           "connection_id": {
-                            "type": "string"
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume."
                           },
                           "platform": {
                             "enum": [
@@ -16149,7 +16159,15 @@
                             "const": "post_variant"
                           },
                           "connection_id": {
-                            "type": "string"
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume."
                           },
                           "platform": {
                             "enum": [
@@ -18219,7 +18237,6 @@
                               "account_not_available",
                               "connection_reauth_required",
                               "connection_not_pending",
-                              "connection_in_use",
                               "not_implemented",
                               "connection_discovery_failed",
                               "media_processing",
@@ -18266,6 +18283,7 @@
                               "media_failed",
                               "media_unsupported",
                               "media_kind_mismatch",
+                              "variant_unparseable",
                               "publishing_unavailable",
                               "x_duplicate_content",
                               "x_not_authorized",
@@ -18295,7 +18313,8 @@
                               "tiktok_not_authorized",
                               "tiktok_rate_limited",
                               "tiktok_publish_failed",
-                              "connection_platform_mismatch"
+                              "connection_platform_mismatch",
+                              "connection_removed"
                             ],
                             "type": "string"
                           },

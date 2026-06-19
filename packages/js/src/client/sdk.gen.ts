@@ -157,7 +157,7 @@ export const connectionsListByProfile = <ThrowOnError extends boolean = true>(op
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:write` scoped to the profile that owns the connection.
  *
- * Deletes a connection. Returns a deletion marker; returns 404 if it does not exist in your account, and 409 if one or more posts still publish through it (delete those posts first).
+ * Disconnects a connection. Returns a deletion marker; returns 404 if it does not exist in your account. Disconnect is unconditional — any scheduled posts that target this connection are not blocked; they fail gracefully at publish time with a `connection_removed` error until you reconnect and reschedule.
  */
 export const connectionsDelete = <ThrowOnError extends boolean = true>(options: Options<ConnectionsDeleteData, ThrowOnError>): RequestResult<ConnectionsDeleteResponses, ConnectionsDeleteErrors, ThrowOnError> => (options.client ?? client).delete<ConnectionsDeleteResponses, ConnectionsDeleteErrors, ThrowOnError>({
     security: [{

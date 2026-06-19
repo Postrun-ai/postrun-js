@@ -21,7 +21,6 @@ export const zErrorCode = z.enum([
     'account_not_available',
     'connection_reauth_required',
     'connection_not_pending',
-    'connection_in_use',
     'not_implemented',
     'connection_discovery_failed',
     'media_processing',
@@ -68,6 +67,7 @@ export const zErrorCode = z.enum([
     'media_failed',
     'media_unsupported',
     'media_kind_mismatch',
+    'variant_unparseable',
     'publishing_unavailable',
     'x_duplicate_content',
     'x_not_authorized',
@@ -97,7 +97,8 @@ export const zErrorCode = z.enum([
     'tiktok_not_authorized',
     'tiktok_rate_limited',
     'tiktok_publish_failed',
-    'connection_platform_mismatch'
+    'connection_platform_mismatch',
+    'connection_removed'
 ]);
 
 export const zProfilesListQuery = z.object({
@@ -1232,7 +1233,7 @@ export const zPostsListResponse = z.object({
         variants: z.array(z.object({
             id: z.string(),
             object: z.literal('post_variant'),
-            connection_id: z.string(),
+            connection_id: z.string().nullable(),
             platform: z.enum([
                 'x',
                 'linkedin',
@@ -1516,7 +1517,7 @@ export const zPostsCreateResponse = z.object({
     variants: z.array(z.object({
         id: z.string(),
         object: z.literal('post_variant'),
-        connection_id: z.string(),
+        connection_id: z.string().nullable(),
         platform: z.enum([
             'x',
             'linkedin',
@@ -1608,7 +1609,7 @@ export const zPostsGetResponse = z.object({
     variants: z.array(z.object({
         id: z.string(),
         object: z.literal('post_variant'),
-        connection_id: z.string(),
+        connection_id: z.string().nullable(),
         platform: z.enum([
             'x',
             'linkedin',
@@ -1890,7 +1891,7 @@ export const zPostsUpdateResponse = z.object({
     variants: z.array(z.object({
         id: z.string(),
         object: z.literal('post_variant'),
-        connection_id: z.string(),
+        connection_id: z.string().nullable(),
         platform: z.enum([
             'x',
             'linkedin',
@@ -2150,7 +2151,6 @@ export const zPostsValidateResponse = z.object({
             'account_not_available',
             'connection_reauth_required',
             'connection_not_pending',
-            'connection_in_use',
             'not_implemented',
             'connection_discovery_failed',
             'media_processing',
@@ -2197,6 +2197,7 @@ export const zPostsValidateResponse = z.object({
             'media_failed',
             'media_unsupported',
             'media_kind_mismatch',
+            'variant_unparseable',
             'publishing_unavailable',
             'x_duplicate_content',
             'x_not_authorized',
@@ -2226,7 +2227,8 @@ export const zPostsValidateResponse = z.object({
             'tiktok_not_authorized',
             'tiktok_rate_limited',
             'tiktok_publish_failed',
-            'connection_platform_mismatch'
+            'connection_platform_mismatch',
+            'connection_removed'
         ]),
         message: z.string(),
         hint: z.string().optional(),

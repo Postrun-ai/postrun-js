@@ -1,5 +1,16 @@
 # @postrun/js
 
+## 2.0.0
+
+### Major Changes
+
+- Connection delete is now **unconditional** — disconnecting an account is one-click and never blocked by existing posts (the industry norm). Published posts keep their history; a scheduled post that loses its account fails _at publish time_ with a typed reason. This regenerates the SDK to the new API contract:
+
+  - **`connection_id` is now nullable** (`string | null`) on the post-variant resource and on the `post.completed` / `post.failed` webhook variant summaries — a variant whose connected account was removed reads `null` (its `result`/`permalink` history is preserved). **Breaking:** handle the null where you read a variant's `connection_id`.
+  - **Error codes changed (breaking for exhaustive switches):** `connection_in_use` is **removed** (deleting a connection no longer 409s on referencing posts), and `connection_removed` + `variant_unparseable` are **added** — a variant whose connection was removed, or whose stored settings no longer parse, surfaces as a typed publish/readiness failure rather than silently vanishing.
+
+  `useConnect` / `useDisconnect` and the rest of the React surface are unchanged.
+
 ## 1.3.0
 
 ### Minor Changes

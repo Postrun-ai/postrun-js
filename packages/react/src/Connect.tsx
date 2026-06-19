@@ -36,6 +36,8 @@ export interface ConnectProps {
   platform: ConnectablePlatform;
   /** Called once a connection is fully ACTIVE (an account is bound). */
   onConnected?: (connection: Connection) => void;
+  /** Called when the connect succeeds — `active` OR `connected_pending`. */
+  onSuccess?: () => void;
   /** Called when the attempt fails, with the typed reason. */
   onError?: (reason: ConnectErrorReason) => void;
   /** Called when the user closes the OAuth popup without finishing. */
@@ -82,6 +84,7 @@ export function Connect({
   profileId,
   platform,
   onConnected,
+  onSuccess,
   onError,
   onCancelled,
   prepareOnMount,
@@ -91,6 +94,7 @@ export function Connect({
     profileId,
     platform,
     onConnected,
+    onSuccess,
     onError,
     onCancelled,
     prepareOnMount,

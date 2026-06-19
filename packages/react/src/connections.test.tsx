@@ -731,6 +731,74 @@ test('useConnect: onError does not fire for a flow abandoned before it settles',
   expect(onError).not.toHaveBeenCalled(); // stale flow → no callback
 });
 
+test('useConnect: onSuccess fires on a single-account active connect', async () => {
+  authMock.mockResolvedValue({
+    providerConfigKey: 'twitter-v2',
+    connectionId: 'nango_1',
+  });
+  stubRoutes((method, pathname, url) => {
+    if (method === 'POST' && pathname.endsWith('/connect'))
+      return { body: SESSION, status: 201 };
+    if (
+      method === 'GET' &&
+      pathname.endsWith('/connections') &&
+      url.searchParams.get('nango_connection_id') === 'nango_1'
+    )
+      return { body: listOf(ACTIVE) };
+    return undefined;
+  });
+
+  const onSuccess = vi.fn();
+  const { result } = renderHook(
+    () => useConnect({ profileId: 'prof_1', platform: 'x', onSuccess }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+
+  act(() => result.current.start());
+
+  await waitFor(() => expect(result.current.state.phase).toBe('active'));
+  expect(onSuccess).toHaveBeenCalledTimes(1);
+});
+
+test('useConnect: onSuccess ALSO fires on connected_pending (grant landed, binds out-of-band)', async () => {
+  authMock.mockResolvedValue({
+    providerConfigKey: 'twitter-v2',
+    connectionId: 'nango_1',
+  });
+  stubRoutes((method, pathname, url) => {
+    if (method === 'POST' && pathname.endsWith('/connect'))
+      return { body: SESSION, status: 201 };
+    if (
+      method === 'GET' &&
+      pathname.endsWith('/connections') &&
+      url.searchParams.get('nango_connection_id') === 'nango_1'
+    )
+      return { body: listOf(CONNECTION) }; // PENDING (no account)
+    // Discovery not supported → connected_pending (fast — no poll timeout).
+    if (method === 'GET' && pathname.endsWith('/accounts'))
+      return { body: { code: 'not_implemented', status: 501 }, status: 501 };
+    return undefined;
+  });
+
+  const onSuccess = vi.fn();
+  const onConnected = vi.fn();
+  const { result } = renderHook(
+    () =>
+      useConnect({ profileId: 'prof_1', platform: 'x', onSuccess, onConnected }),
+    { wrapper: testWrapper() },
+  );
+  await waitFor(() => expect(result.current.state.phase).toBe('idle'));
+
+  act(() => result.current.start());
+
+  await waitFor(() =>
+    expect(result.current.state.phase).toBe('connected_pending'),
+  );
+  expect(onSuccess).toHaveBeenCalledTimes(1);
+  expect(onConnected).not.toHaveBeenCalled(); // no bound connection on pending
+});
+
 test('useDisconnect deletes a connection by id', async () => {
   const calls = recordFetch({
     id: 'conn_1',

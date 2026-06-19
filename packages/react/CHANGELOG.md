@@ -1,5 +1,15 @@
 # @postrun/react
 
+## 1.2.0
+
+### Minor Changes
+
+- `useConnect` / `<Connect>` gain an **`onSuccess()`** callback that fires whenever the connect succeeds — `active` OR `connected_pending` — so hosts can "close the dialog + let the auto-refetched list show the result" in one place, instead of watching `state.phase` for the pending case. `onConnected(connection)` still fires (only) on `active` when you need the bound connection.
+
+### Patch Changes
+
+- @postrun/js@1.2.0
+
 ## 1.1.0
 
 ### Minor Changes

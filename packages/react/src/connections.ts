@@ -39,6 +39,11 @@ export interface UseConnectParams {
   /** Called once a connection is fully ACTIVE (an account is bound). The
    * connections list is auto-refetched too, so you rarely need to act here. */
   onConnected?: (connection: Connection) => void;
+  /** Called when the connect SUCCEEDS — `active` OR `connected_pending` (the
+   * grant landed but the account binds out-of-band / via a slow webhook). Use
+   * this to close your UI and let the auto-refetched list show the result;
+   * `onConnected` additionally hands you the bound connection on `active`. */
+  onSuccess?: () => void;
   /** Called when the attempt fails, with the typed reason. */
   onError?: (reason: ConnectErrorReason) => void;
   /** Called when the user closes the OAuth popup without finishing. The hook
@@ -119,6 +124,7 @@ export function useConnect({
   profileId,
   platform,
   onConnected,
+  onSuccess,
   onError,
   onCancelled,
   prepareOnMount = true,
@@ -150,10 +156,12 @@ export function useConnect({
   // Latest callbacks in refs so the memoised `start`/`prepare` needn't depend on
   // them (and re-create) when callers pass fresh arrows each render.
   const onConnectedRef = useRef(onConnected);
+  const onSuccessRef = useRef(onSuccess);
   const onErrorRef = useRef(onError);
   const onCancelledRef = useRef(onCancelled);
   useEffect(() => {
     onConnectedRef.current = onConnected;
+    onSuccessRef.current = onSuccess;
     onErrorRef.current = onError;
     onCancelledRef.current = onCancelled;
   });
@@ -319,6 +327,7 @@ export function useConnect({
           // sees it without wiring its own refetch.
           void queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
           onConnectedRef.current?.(outcome.connection);
+          onSuccessRef.current?.();
           return;
         case 'connected_pending':
           setState({ phase: 'connected_pending' });
@@ -326,6 +335,7 @@ export function useConnect({
           // Refetch the list ONCE so it shows as soon as it's there; the host can
           // refetch again from its own layer if it's still pending.
           void queryClient.invalidateQueries({ queryKey: connectionKeys.lists() });
+          onSuccessRef.current?.();
           return;
         case 'cancelled':
           setState({ phase: 'cancelled' });

@@ -104,9 +104,11 @@ returns the same `{ state, start, prepare, select, reset }` — `<Connect>` is j
 a thin render-prop wrapper over it. The hosted `/connect` page remains available
 as a no-SDK fallback (link to the `hosted_connect_url` from a `POST .../connect`).
 
-`onConnected` also auto-refetches your `useConnections` list, so the new account
-shows up with no manual refetch. Pass `onError(reason)` / `onCancelled()` if you'd
-rather react with callbacks than read `state.phase`.
+A successful connect auto-refetches your `useConnections` list, so the new account
+shows up with no manual refetch. Prefer callbacks to reading `state.phase`? Use
+`onSuccess()` (fires on success — `active` **or** `connected_pending`, ideal for
+"close the dialog"), `onConnected(connection)` (only `active`, hands you the bound
+connection), `onError(reason)`, and `onCancelled()`.
 
 **Multi-platform picker?** A session is pre-minted on mount, which is ideal for a
 dedicated button but would mint one per platform in a "pick a network" list. Set

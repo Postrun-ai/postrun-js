@@ -8,6 +8,7 @@ const conns = [
   { id: 'conn_li', platform: 'linkedin' },
   { id: 'conn_ig', platform: 'instagram' },
   { id: 'conn_fb', platform: 'facebook_page' },
+  { id: 'conn_tt', platform: 'tiktok' },
 ] as const;
 
 const media = (id: string, kind: MediaKind) => ({ id, kind });
@@ -81,6 +82,32 @@ test('derives post_type per platform from media count + kind', () => {
   );
   expect(video.variants.find((v) => v.platform === 'x')!.post_type).toBe('video');
   expect(video.variants.find((v) => v.platform === 'instagram')!.post_type).toBe('reel');
+});
+
+test('TikTok derives video / single_image / carousel and resolves its connection', () => {
+  const build = (items: ReturnType<typeof media>[]) =>
+    buildCreatePost(
+      { profileId: 'p', content: { media: items }, channels: { tiktok: { settings: {} } } },
+      conns,
+    ).variants.find((v) => v.platform === 'tiktok')!;
+
+  expect(build([vid('m1')]).post_type).toBe('video');
+  expect(build([img('m1')]).post_type).toBe('single_image');
+  expect(build([img('m1'), img('m2')]).post_type).toBe('carousel');
+  expect(build([vid('m1')]).connection_id).toBe('conn_tt');
+});
+
+test('TikTok rejects empty media, mixed media, multiple videos, and documents', () => {
+  const build = (items: ReturnType<typeof media>[]) =>
+    buildCreatePost(
+      { profileId: 'p', content: { media: items }, channels: { tiktok: { settings: {} } } },
+      conns,
+    );
+
+  expect(() => build([])).toThrow(/tiktok requires at least one media/i);
+  expect(() => build([img('m1'), vid('m2')])).toThrow(/can't combine images and video/i);
+  expect(() => build([vid('m1'), vid('m2')])).toThrow(/at most one video/i);
+  expect(() => build([doc('m1')])).toThrow(/document/i);
 });
 
 test('Instagram derives carousel for any 2+ item set (mixed image+video allowed)', () => {

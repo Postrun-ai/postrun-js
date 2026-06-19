@@ -40,7 +40,7 @@ export function useConnect() {
             body: { platform },
           })
         ).data;
-        navigate(session.connect_url);
+        navigate(session.hosted_connect_url);
         return session;
       },
     },

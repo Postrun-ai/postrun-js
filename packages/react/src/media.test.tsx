@@ -1,13 +1,16 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, expect, test, vi } from 'vitest';
 
+import { PostrunError } from '@postrun/js';
+
 import {
   useDeleteMedia,
   useMedia,
+  useMediaList,
   useMediaUpload,
   useUpdateMedia,
 } from './media';
-import { testWrapper } from './test-utils';
+import { recordFetch, testWrapper } from './test-utils';
 
 // Mock the upload seam so tests never touch real axios/XHR.
 vi.mock('./upload-bytes', () => ({
@@ -43,6 +46,15 @@ const UPLOAD_TARGET = {
   expires_at: '2026-01-01T00:10:00Z',
 };
 
+const MEDIA_LIST = {
+  object: 'list',
+  data: [MEDIA],
+  total: 1,
+  limit: 20,
+  offset: 0,
+  has_more: false,
+};
+
 /** Route fetch for the media flow; record requests for assertions. */
 function mockMedia(getStatuses: string[] = ['ready']) {
   const calls: Request[] = [];
@@ -60,6 +72,9 @@ function mockMedia(getStatuses: string[] = ['ready']) {
 
       if (request.method === 'POST' && url.pathname.endsWith('/media')) {
         return json({ ...MEDIA, status: 'uploading', upload: UPLOAD_TARGET }, 201);
+      }
+      if (request.method === 'GET' && url.pathname.endsWith('/media')) {
+        return json(MEDIA_LIST);
       }
       if (request.method === 'GET' && url.pathname.includes('/media/')) {
         const status = getStatuses[Math.min(getIndex++, getStatuses.length - 1)];
@@ -177,4 +192,84 @@ test('useMediaUpload accepts an explicit contentType override', async () => {
     content_type: 'application/pdf',
     kind: 'document',
   });
+});
+
+test('useMediaList returns the typed page once loaded', async () => {
+  recordFetch(MEDIA_LIST);
+  const { result } = renderHook(() => useMediaList(), {
+    wrapper: testWrapper(),
+  });
+
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  expect(result.current.data).toEqual(MEDIA_LIST);
+});
+
+test('useMediaList forwards every filter, encoding metadata as one JSON param', async () => {
+  const calls = recordFetch(MEDIA_LIST);
+  renderHook(
+    () =>
+      useMediaList({
+        profile_id: 'prof_1',
+        status: 'ready',
+        kind: 'video',
+        external_id: 'ext-9',
+        metadata: { campaign: 'summer', priority: 3 },
+        limit: 5,
+      }),
+    { wrapper: testWrapper() },
+  );
+
+  await waitFor(() => expect(calls).toHaveLength(1));
+  const url = new URL(calls[0]!.url);
+  expect(url.pathname).toMatch(/\/media$/);
+  expect(url.searchParams.get('profile_id')).toBe('prof_1');
+  expect(url.searchParams.get('status')).toBe('ready');
+  expect(url.searchParams.get('kind')).toBe('video');
+  expect(url.searchParams.get('external_id')).toBe('ext-9');
+  expect(url.searchParams.get('limit')).toBe('5');
+  // The scalar metadata map rides as one URL-encoded JSON object, types intact.
+  expect(JSON.parse(url.searchParams.get('metadata')!)).toEqual({
+    campaign: 'summer',
+    priority: 3,
+  });
+});
+
+test('useMediaList surfaces a typed PostrunError instead of throwing', async () => {
+  recordFetch(
+    {
+      type: 'https://docs.postrun.ai/errors/validation_failed',
+      title: 'Bad request',
+      status: 400,
+      code: 'validation_failed',
+    },
+    400,
+  );
+  const { result } = renderHook(() => useMediaList({ status: 'ready' }), {
+    wrapper: testWrapper(),
+  });
+
+  await waitFor(() => expect(result.current.isError).toBe(true));
+  expect(result.current.error).toBeInstanceOf(PostrunError);
+});
+
+test('a delete invalidates the cached list so it refetches', async () => {
+  const calls = mockMedia();
+  const listGets = () =>
+    calls.filter(
+      (c) => c.method === 'GET' && /\/media$/.test(new URL(c.url).pathname),
+    ).length;
+
+  const { result } = renderHook(
+    () => ({ list: useMediaList(), remove: useDeleteMedia() }),
+    { wrapper: testWrapper() },
+  );
+
+  await waitFor(() => expect(result.current.list.isSuccess).toBe(true));
+  const before = listGets();
+
+  await act(async () => {
+    await result.current.remove.mutateAsync('med_1');
+  });
+
+  await waitFor(() => expect(listGets()).toBeGreaterThan(before));
 });

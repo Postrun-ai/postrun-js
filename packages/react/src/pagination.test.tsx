@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { PostrunError } from '@postrun/js';
 
+import { useMediaInfinite } from './media';
 import { usePostsInfinite } from './posts';
 import { useProfilesInfinite } from './profiles';
 import { testWrapper } from './test-utils';
@@ -154,5 +155,57 @@ describe('useProfilesInfinite', () => {
     await waitFor(() => expect(result.current.items).toHaveLength(1));
     expect(result.current.items.map((p) => p.id)).toEqual(['prof_1']);
     expect(result.current.hasMore).toBe(true);
+  });
+});
+
+describe('useMediaInfinite', () => {
+  it('loads the first page and reports total + hasMore', async () => {
+    pagedFetch(['med_1', 'med_2', 'med_3']);
+    const { result } = renderHook(
+      () => useMediaInfinite(undefined, { pageSize: 1 }),
+      { wrapper: testWrapper() },
+    );
+
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+    expect(result.current.items.map((m) => m.id)).toEqual(['med_1']);
+    expect(result.current.total).toBe(3);
+    expect(result.current.hasMore).toBe(true);
+  });
+
+  it('appends pages on loadMore until exhausted', async () => {
+    pagedFetch(['med_1', 'med_2']);
+    const { result } = renderHook(
+      () => useMediaInfinite(undefined, { pageSize: 1 }),
+      { wrapper: testWrapper() },
+    );
+
+    await waitFor(() => expect(result.current.items).toHaveLength(1));
+
+    act(() => result.current.loadMore());
+    await waitFor(() => expect(result.current.items).toHaveLength(2));
+    expect(result.current.items.map((m) => m.id)).toEqual(['med_1', 'med_2']);
+    expect(result.current.hasMore).toBe(false);
+  });
+
+  it('forwards filters (incl. metadata) and page size to the request', async () => {
+    const calls = pagedFetch(['med_1']);
+    renderHook(
+      () =>
+        useMediaInfinite(
+          { profile_id: 'prof_1', kind: 'image', metadata: { plan: 'pro' } },
+          { pageSize: 5 },
+        ),
+      { wrapper: testWrapper() },
+    );
+
+    await waitFor(() => expect(calls).toHaveLength(1));
+    const url = urlOf(calls, 0);
+    expect(url.searchParams.get('profile_id')).toBe('prof_1');
+    expect(url.searchParams.get('kind')).toBe('image');
+    expect(url.searchParams.get('limit')).toBe('5');
+    expect(url.searchParams.get('offset')).toBe('0');
+    expect(JSON.parse(url.searchParams.get('metadata') ?? 'null')).toEqual({
+      plan: 'pro',
+    });
   });
 });

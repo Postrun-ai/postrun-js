@@ -61,6 +61,11 @@ export type {
   UploadTarget,
   CreateMediaInput,
   UpdateMediaInput,
+  MediaList,
+  ListMediaQuery,
+  MediaStatus,
+  Metadata,
+  MetadataFilter,
 } from './resources';
 
 export {

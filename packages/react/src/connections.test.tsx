@@ -106,8 +106,8 @@ test('useSelectAccount activates the connection by id', async () => {
 
 test('useConnect creates a session and redirects the browser to the hosted connect URL', async () => {
   const SESSION = {
-    connect_session_token: 'cst_123',
-    connect_url: 'https://postrun.ai/connect/cst_123',
+    connect_token: 'cst_123',
+    hosted_connect_url: 'https://postrun.ai/connect/cst_123',
     expires_at: '2026-01-01T00:00:00Z',
   };
   const calls = recordFetch(SESSION, 201);
@@ -123,7 +123,7 @@ test('useConnect creates a session and redirects the browser to the hosted conne
   expect(calls[0]!.method).toBe('POST');
   expect(new URL(calls[0]!.url).pathname).toMatch(/\/profiles\/prof_1\/connect$/);
   expect(await calls[0]!.json()).toEqual({ platform: 'x' });
-  expect(navigate).toHaveBeenCalledWith(SESSION.connect_url);
+  expect(navigate).toHaveBeenCalledWith(SESSION.hosted_connect_url);
 });
 
 test('useDisconnect deletes a connection by id', async () => {

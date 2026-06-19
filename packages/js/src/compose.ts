@@ -219,6 +219,36 @@ const instagramHandler: PlatformHandler<'instagram'> = {
   }),
 };
 
+const tiktokHandler: PlatformHandler<'tiktok'> = {
+  derivePostType: (media) => {
+    if (media.length === 0) {
+      throw new ComposeError('TikTok requires at least one media item.');
+    }
+    rejectDocuments(media, 'TikTok');
+    const { images, videos } = countKinds(media);
+    // TikTok keeps video and photo posts separate: a video post is one standalone
+    // video; photos form a single image or a multi-photo carousel. No blend.
+    if (images > 0 && videos > 0) {
+      throw new ComposeError(
+        "TikTok can't combine images and video in one post — split them into separate posts.",
+      );
+    }
+    if (videos > 1) {
+      throw new ComposeError('TikTok allows at most one video per post.');
+    }
+    if (videos === 1) return 'video';
+    return images >= 2 ? 'carousel' : 'single_image';
+  },
+  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+    platform: 'tiktok',
+    post_type: postType,
+    connection_id: connectionId,
+    body,
+    media: [...media],
+    settings,
+  }),
+};
+
 /**
  * The handler registry. A `Record<PostPlatform, …>` (no optional keys), so a
  * platform the contract defines without a handler here is a COMPILE ERROR.
@@ -228,6 +258,7 @@ const PLATFORM_HANDLERS: { [P in PostPlatform]: PlatformHandler<P> } = {
   linkedin: linkedInHandler,
   facebook_page: facebookHandler,
   instagram: instagramHandler,
+  tiktok: tiktokHandler,
 };
 
 /** Narrow any platform string to a posting platform. */
@@ -276,20 +307,42 @@ function buildChannel<P extends PostPlatform>(
   });
 }
 
+/**
+ * Resolve ONE platform's channel, or `undefined` when the caller didn't include
+ * it. Generic over the concrete `P`, so `channels[platform]` and
+ * `PLATFORM_HANDLERS[platform]` stay correlated to the same platform with no cast.
+ * Wrapping the registry lookup in this generic is what lets `buildVariants`
+ * iterate `POST_PLATFORMS` (a union) without the per-member variance error.
+ */
+function collectChannel<P extends PostPlatform>(
+  platform: P,
+  channels: Channels,
+  content: PostContent,
+  connections: readonly ConnectionRef[],
+): VariantFor<P> | undefined {
+  const config = channels[platform];
+  if (!config) return undefined;
+  return buildChannel(
+    PLATFORM_HANDLERS[platform],
+    platform,
+    config,
+    content,
+    connections,
+  );
+}
+
 function buildVariants(
   content: PostContent,
   channels: Channels,
   connections: readonly ConnectionRef[],
 ): PostVariantInput[] {
-  const variants: PostVariantInput[] = [];
-
-  if (channels.x) variants.push(buildChannel(xHandler, 'x', channels.x, content, connections));
-  if (channels.linkedin)
-    variants.push(buildChannel(linkedInHandler, 'linkedin', channels.linkedin, content, connections));
-  if (channels.facebook_page)
-    variants.push(buildChannel(facebookHandler, 'facebook_page', channels.facebook_page, content, connections));
-  if (channels.instagram)
-    variants.push(buildChannel(instagramHandler, 'instagram', channels.instagram, content, connections));
+  // Driven by POST_PLATFORMS (derived from the exhaustive PLATFORM_HANDLERS), so a
+  // new platform added to the registry is dispatched here automatically — no
+  // hand-maintained per-platform branch to forget (the gap that once dropped TikTok).
+  const variants = POST_PLATFORMS.flatMap((platform) => {
+    const variant = collectChannel(platform, channels, content, connections);
+    return variant ? [variant] : [];
+  });
 
   if (variants.length === 0) {
     throw new ComposeError('At least one channel is required.');

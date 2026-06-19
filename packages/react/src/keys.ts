@@ -1,4 +1,8 @@
-import type { ListPostsQuery, ListProfilesQuery } from '@postrun/js';
+import type {
+  ListMediaQuery,
+  ListPostsQuery,
+  ListProfilesQuery,
+} from '@postrun/js';
 
 /** Root namespace so our cache never collides with the host app's own queries. */
 const ROOT = 'postrun';
@@ -14,8 +18,9 @@ export const profileKeys = {
     [...profileKeys.lists(), query ?? {}] as const,
   // Nested under lists() so a create/update/delete invalidating lists() also
   // refreshes the infinite cache; distinct tail so the two cache shapes (a
-  // single Page vs accumulated pages) never collide on one key.
-  infinite: (query?: ListProfilesQuery) =>
+  // single Page vs accumulated pages) never collide on one key. The filter omits
+  // limit/offset — the infinite hook owns pagination, so they never key the cache.
+  infinite: (query?: Omit<ListProfilesQuery, 'limit' | 'offset'>) =>
     [...profileKeys.lists(), 'infinite', query ?? {}] as const,
   details: () => [...profileKeys.all, 'detail'] as const,
   detail: (id: string) => [...profileKeys.details(), id] as const,
@@ -28,16 +33,25 @@ export const postKeys = {
   list: (query?: ListPostsQuery) => [...postKeys.lists(), query ?? {}] as const,
   // Nested under lists() so a create/update/delete invalidating lists() also
   // refreshes the infinite cache; distinct tail so the two cache shapes (a
-  // single Page vs accumulated pages) never collide on one key.
-  infinite: (query?: ListPostsQuery) =>
+  // single Page vs accumulated pages) never collide on one key. The filter omits
+  // limit/offset — the infinite hook owns pagination, so they never key the cache.
+  infinite: (query?: Omit<ListPostsQuery, 'limit' | 'offset'>) =>
     [...postKeys.lists(), 'infinite', query ?? {}] as const,
   details: () => [...postKeys.all, 'detail'] as const,
   detail: (id: string) => [...postKeys.details(), id] as const,
 };
 
-/** Query-key factory for media assets (single-asset only; no list endpoint yet). */
+/** Query-key factory for media assets (list filtered by query; detail by id). */
 export const mediaKeys = {
   all: [ROOT, 'media'] as const,
+  lists: () => [...mediaKeys.all, 'list'] as const,
+  list: (query?: ListMediaQuery) => [...mediaKeys.lists(), query ?? {}] as const,
+  // Nested under lists() so an upload/update/delete invalidating lists() also
+  // refreshes the infinite cache; distinct tail so the two cache shapes (a
+  // single Page vs accumulated pages) never collide on one key. The filter omits
+  // limit/offset — the infinite hook owns pagination, so they never key the cache.
+  infinite: (query?: Omit<ListMediaQuery, 'limit' | 'offset'>) =>
+    [...mediaKeys.lists(), 'infinite', query ?? {}] as const,
   details: () => [...mediaKeys.all, 'detail'] as const,
   detail: (id: string) => [...mediaKeys.details(), id] as const,
 };

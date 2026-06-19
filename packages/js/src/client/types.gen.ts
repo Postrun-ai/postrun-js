@@ -9,7 +9,7 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'source_url_unsupported' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'media_processing' | 'not_publishable' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'connection_platform_mismatch';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'connection_in_use' | 'not_implemented' | 'connection_discovery_failed' | 'media_processing' | 'not_publishable' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_publish_failed' | 'connection_platform_mismatch';
 
 export type ProfilesListData = {
     body?: never;
@@ -1382,6 +1382,10 @@ export type ConnectionsListByProfileData = {
          * Number of items to skip before this page. Defaults to 0.
          */
         offset?: number;
+        /**
+         * Return only the connection backed by this Nango grant id (exact match). Used by the hosted connect page to resolve the row a grant produced.
+         */
+        nango_connection_id?: string;
     };
     url: '/profiles/{id}/connections';
 };
@@ -1809,7 +1813,7 @@ export type ConnectionsDeleteErrors = {
         /**
          * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
          */
-        code: 'conflict' | 'idempotency_request_in_progress';
+        code: 'conflict' | 'idempotency_request_in_progress' | 'connection_in_use';
         /**
          * An occurrence-specific, human-readable explanation.
          */
@@ -2386,6 +2390,64 @@ export type ConnectionsSelectErrors = {
          */
         request_id?: string;
     };
+    /**
+     * An RFC 9457 problem response.
+     */
+    501: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_implemented';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'connection_discovery_failed';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
 };
 
 export type ConnectionsSelectError = ConnectionsSelectErrors[keyof ConnectionsSelectErrors];
@@ -2677,6 +2739,35 @@ export type ConnectionsListAccountsErrors = {
          */
         request_id?: string;
     };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'connection_discovery_failed';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
 };
 
 export type ConnectionsListAccountsError = ConnectionsListAccountsErrors[keyof ConnectionsListAccountsErrors];
@@ -2728,9 +2819,9 @@ export type ConnectionsListAccountsResponse = ConnectionsListAccountsResponses[k
 export type ConnectionsConnectData = {
     body: {
         /**
-         * A platform a connection can start an OAuth connect flow for.
+         * A platform a connection can start an OAuth connect flow for (the v1 launch set: Meta Ads, Google Ads, X, LinkedIn, Facebook Pages, TikTok).
          */
-        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'tiktok';
+        platform: 'meta_ads' | 'google_ads' | 'x' | 'linkedin' | 'facebook_page' | 'tiktok';
     };
     path: {
         /**
@@ -2956,13 +3047,13 @@ export type ConnectionsConnectResponses = {
      */
     201: {
         /**
-         * Short-lived token the client passes to the Nango Connect UI to run OAuth.
+         * Ready-to-open Postrun hosted connect URL. Open it (popup or tab) to run the OAuth grant and account picker — the client never hand-assembles connect params.
          */
-        connect_session_token: string;
+        hosted_connect_url: string;
         /**
-         * Hosted Connect URL to redirect the user to instead of the embedded UI.
+         * Short-lived scoped token (connections read/write on this profile) the hosted page uses to drive the public discover/select API.
          */
-        connect_url: string;
+        connect_token: string;
         /**
          * ISO-8601 time when the session token expires.
          */
@@ -2972,25 +3063,381 @@ export type ConnectionsConnectResponses = {
 
 export type ConnectionsConnectResponse = ConnectionsConnectResponses[keyof ConnectionsConnectResponses];
 
+export type MediaListData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Maximum number of items to return (1–100). Defaults to 20.
+         */
+        limit?: number;
+        /**
+         * Number of items to skip before this page. Defaults to 0.
+         */
+        offset?: number;
+        /**
+         * Restrict to media owned by a single profile.
+         */
+        profile_id?: string;
+        /**
+         * Only assets in this lifecycle state (uploading / processing / ready / failed).
+         */
+        status?: 'uploading' | 'processing' | 'ready' | 'failed';
+        /**
+         * Only assets of this family (image / video / gif / document). Unset on assets still in the pre-detection `uploading` window, so a `kind` filter excludes those.
+         */
+        kind?: 'image' | 'video' | 'gif' | 'document';
+        /**
+         * Look up the asset by your own id (exact match).
+         */
+        external_id?: string;
+        /**
+         * Filter by metadata key/value pairs (exact match; multiple keys are ANDed; omit for no filter). REST: a URL-encoded JSON object, e.g. ?metadata=%7B%22campaign%22%3A%22summer%22%2C%22priority%22%3A3%7D. SDK/MCP: pass the object directly. Values are scalars (string/number/boolean), matched type-exactly. No operators or ranges.
+         */
+        metadata?: {
+            [key: string]: string | number | boolean;
+        };
+    };
+    url: '/media';
+};
+
+export type MediaListErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+};
+
+export type MediaListError = MediaListErrors[keyof MediaListErrors];
+
+export type MediaListResponses = {
+    /**
+     * OK
+     */
+    200: {
+        /**
+         * Always the string `list`.
+         */
+        object: 'list';
+        /**
+         * The items on this page.
+         */
+        data: Array<{
+            id: string;
+            object: 'media';
+            profile_id: string;
+            /**
+             * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+             */
+            kind: 'image' | 'video' | 'gif' | 'document' | null;
+            /**
+             * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+             */
+            content_type: string | null;
+            status: 'uploading' | 'processing' | 'ready' | 'failed';
+            raw: boolean;
+            /**
+             * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+             */
+            error: {
+                code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                message: string;
+                hint?: string;
+                allowed?: Array<string>;
+                got?: string;
+            } | null;
+            source: {
+                /**
+                 * MIME of the original, e.g. image/heic.
+                 */
+                format: string;
+                bytes: number;
+                width: number | null;
+                height: number | null;
+                duration_ms: number | null;
+            } | null;
+            alt_text: string | null;
+            per_platform: {
+                [key: string]: {
+                    status: 'processing' | 'ready' | 'failed';
+                    /**
+                     * Public URL of this platform’s rendition (null until ready).
+                     */
+                    url: string | null;
+                    width: number | null;
+                    height: number | null;
+                    bytes: number | null;
+                    warnings: Array<{
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                    }>;
+                    errors: Array<{
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                    }>;
+                };
+            };
+            external_id: string | null;
+            /**
+             * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+             */
+            metadata: {
+                [key: string]: string | number | boolean;
+            };
+            /**
+             * ISO-8601 creation time.
+             */
+            created_at: string;
+            /**
+             * ISO-8601 last-update time.
+             */
+            updated_at: string;
+        }>;
+        /**
+         * Total items matching the query, across all pages.
+         */
+        total: number;
+        /**
+         * The limit applied to this page.
+         */
+        limit: number;
+        /**
+         * The offset applied to this page.
+         */
+        offset: number;
+        /**
+         * True if more items exist after this page.
+         */
+        has_more: boolean;
+    };
+};
+
+export type MediaListResponse = MediaListResponses[keyof MediaListResponses];
+
 export type MediaCreateData = {
     /**
-     * Create a media asset via the signed direct upload target (source_url is reserved/unsupported in v1).
+     * Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits: a direct-upload video may be up to 5 GB; all other direct uploads and any source_url import must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`.
      */
     body: {
         /**
-         * Profile that owns this asset.
+         * The profile that owns this asset. A profile is one brand/client; media is profile-owned so a scoped browser token stays safely confined to that brand — it can create/read media only under the profiles its token is scoped to, never reach another client’s assets. This is the tenancy boundary of the frontend-token model, so it is always required (it’s never inferable from the bytes).
          */
         profile_id: string;
         /**
-         * Asset family. The caller declares it; we validate.
+         * Optional override of the asset family. Omit it and we auto-detect it from the uploaded bytes (file-type magic-number sniff). Provide it only to force a family — a provided value wins over detection.
          */
-        kind: 'image' | 'video' | 'gif' | 'document';
+        kind?: 'image' | 'video' | 'gif' | 'document';
         /**
-         * MIME of the upload (required for the signed-upload flow). Accepts image*, video*, or a document MIME (PDF/DOC/DOCX/PPT/PPTX).
+         * Optional hint/override of the MIME; auto-detected from the bytes when omitted. Accepts image*, video*, or a document MIME (PDF/DOC/DOCX/PPT/PPTX). Still required for a legacy Office binary (.doc/.ppt), which magic bytes can’t disambiguate.
          */
         content_type?: string;
         /**
-         * Reserved/unsupported in v1; supplying it returns SOURCE_URL_UNSUPPORTED. Use the signed upload target instead.
+         * A public https URL to import the bytes from. When supplied, we fetch (SSRF-guarded), validate, transform, and store the media server-side — no signed upload target is returned (`upload` is null). Omit it to PUT the bytes to the signed upload target instead. The imported file must be 1 GB or smaller (a larger source is rejected with `media_too_large`).
          */
         source_url?: string;
         /**
@@ -3180,7 +3627,7 @@ export type MediaCreateErrors = {
         /**
          * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
          */
-        code: 'idempotency_key_reused' | 'source_url_unsupported';
+        code: 'idempotency_key_reused';
         /**
          * An occurrence-specific, human-readable explanation.
          */
@@ -3231,14 +3678,21 @@ export type MediaCreateResponses = {
         id: string;
         object: 'media';
         profile_id: string;
-        kind: 'image' | 'video' | 'gif' | 'document';
+        /**
+         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+         */
+        kind: 'image' | 'video' | 'gif' | 'document' | null;
+        /**
+         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+         */
+        content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
         raw: boolean;
         /**
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -3266,14 +3720,14 @@ export type MediaCreateResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -3770,14 +4224,21 @@ export type MediaGetResponses = {
         id: string;
         object: 'media';
         profile_id: string;
-        kind: 'image' | 'video' | 'gif' | 'document';
+        /**
+         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+         */
+        kind: 'image' | 'video' | 'gif' | 'document' | null;
+        /**
+         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+         */
+        content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
         raw: boolean;
         /**
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -3805,14 +4266,14 @@ export type MediaGetResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -4081,14 +4542,21 @@ export type MediaUpdateResponses = {
         id: string;
         object: 'media';
         profile_id: string;
-        kind: 'image' | 'video' | 'gif' | 'document';
+        /**
+         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+         */
+        kind: 'image' | 'video' | 'gif' | 'document' | null;
+        /**
+         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+         */
+        content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
         raw: boolean;
         /**
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -4116,14 +4584,14 @@ export type MediaUpdateResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
@@ -4859,6 +5327,78 @@ export type PostsCreateData = {
                  * URL to unfurl. A feed post needs a body (message) OR a link.
                  */
                 link?: string;
+            };
+        } | {
+            platform: 'tiktok';
+            post_type: 'video' | 'single_image' | 'carousel';
+            /**
+             * The connected account this variant publishes to.
+             */
+            connection_id: string;
+            /**
+             * Caption / commentary / message for the post.
+             */
+            body?: string;
+            /**
+             * Ordered media references; the count drives the post-type rules.
+             */
+            media?: Array<{
+                media_id: string;
+                /**
+                 * Per-variant crop applied at publish; omit for none.
+                 */
+                crop_box?: {
+                    [key: string]: unknown;
+                } | null;
+                /**
+                 * Per-variant alt text; falls back to the asset's.
+                 */
+                alt_text_override?: string | null;
+            }>;
+            /**
+             * TikTok organic post settings (Direct Post: video + photo).
+             */
+            settings?: {
+                /**
+                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
+                 */
+                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
+                /**
+                 * Disable comments on this post.
+                 */
+                disable_comment?: boolean;
+                /**
+                 * Disable Duet (video only).
+                 */
+                disable_duet?: boolean;
+                /**
+                 * Disable Stitch (video only).
+                 */
+                disable_stitch?: boolean;
+                /**
+                 * Video cover frame offset (ms). Video posts only.
+                 */
+                video_cover_timestamp_ms?: number;
+                /**
+                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
+                 */
+                photo_cover_index?: number;
+                /**
+                 * Auto-add a TikTok soundtrack. Photo posts only.
+                 */
+                auto_add_music?: boolean;
+                /**
+                 * Disclose a paid partnership (branded content).
+                 */
+                brand_content_toggle?: boolean;
+                /**
+                 * Disclose own-brand promotional content.
+                 */
+                brand_organic_toggle?: boolean;
+                /**
+                 * Disclose AI-generated content. Video posts only.
+                 */
+                is_aigc?: boolean;
             };
         }>;
     };
@@ -6035,6 +6575,78 @@ export type PostsUpdateData = {
                  * URL to unfurl. A feed post needs a body (message) OR a link.
                  */
                 link?: string;
+            };
+        } | {
+            platform: 'tiktok';
+            post_type: 'video' | 'single_image' | 'carousel';
+            /**
+             * The connected account this variant publishes to.
+             */
+            connection_id: string;
+            /**
+             * Caption / commentary / message for the post.
+             */
+            body?: string;
+            /**
+             * Ordered media references; the count drives the post-type rules.
+             */
+            media?: Array<{
+                media_id: string;
+                /**
+                 * Per-variant crop applied at publish; omit for none.
+                 */
+                crop_box?: {
+                    [key: string]: unknown;
+                } | null;
+                /**
+                 * Per-variant alt text; falls back to the asset's.
+                 */
+                alt_text_override?: string | null;
+            }>;
+            /**
+             * TikTok organic post settings (Direct Post: video + photo).
+             */
+            settings?: {
+                /**
+                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
+                 */
+                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
+                /**
+                 * Disable comments on this post.
+                 */
+                disable_comment?: boolean;
+                /**
+                 * Disable Duet (video only).
+                 */
+                disable_duet?: boolean;
+                /**
+                 * Disable Stitch (video only).
+                 */
+                disable_stitch?: boolean;
+                /**
+                 * Video cover frame offset (ms). Video posts only.
+                 */
+                video_cover_timestamp_ms?: number;
+                /**
+                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
+                 */
+                photo_cover_index?: number;
+                /**
+                 * Auto-add a TikTok soundtrack. Photo posts only.
+                 */
+                auto_add_music?: boolean;
+                /**
+                 * Disclose a paid partnership (branded content).
+                 */
+                brand_content_toggle?: boolean;
+                /**
+                 * Disclose own-brand promotional content.
+                 */
+                brand_organic_toggle?: boolean;
+                /**
+                 * Disclose AI-generated content. Video posts only.
+                 */
+                is_aigc?: boolean;
             };
         }>;
     };
@@ -22272,7 +22884,7 @@ export type TokensMintErrors = {
         /**
          * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
          */
-        code: 'idempotency_key_reused';
+        code: 'idempotency_key_reused' | 'profile_scope_invalid';
         /**
          * An occurrence-specific, human-readable explanation.
          */

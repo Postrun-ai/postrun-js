@@ -5,7 +5,7 @@
  * fetching, caching, and orchestration:
  *   profiles     useProfiles · useProfilesInfinite · useProfile · useCreate/Update/DeleteProfile
  *   connections  useConnect · useConnections · useConnection · useDiscoverableAccounts · useSelectAccount · useDisconnect
- *   media        useMediaUpload · useMedia · useUpdateMedia · useDeleteMedia
+ *   media        useMediaUpload · useMedia · useMediaList · useMediaInfinite · useUpdateMedia · useDeleteMedia
  *   posts        usePosts · usePostsInfinite · useCalendar · usePost · useCreate/Update/DeletePost
  *
  * `*Infinite` hooks paginate (load-more); calendar/post hooks poll live while a
@@ -37,6 +37,8 @@ export type { ConnectParams } from './connections';
 export {
   useMediaUpload,
   useMedia,
+  useMediaList,
+  useMediaInfinite,
   useUpdateMedia,
   useDeleteMedia,
 } from './media';

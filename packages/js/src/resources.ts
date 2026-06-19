@@ -8,6 +8,8 @@ import type {
   MediaCreateData,
   MediaCreateResponse,
   MediaGetResponse,
+  MediaListData,
+  MediaListResponse,
   MediaUpdateData,
   PostsCreateData,
   PostsGetResponse,
@@ -132,8 +134,13 @@ export type PostMetadata = NonNullable<CreatePostBody['metadata']>;
 /** A media asset (image/video/gif/document) with its per-platform renditions. */
 export type MediaResource = MediaGetResponse;
 
-/** A media asset's kind (image / video / gif / document), from the contract. */
-export type MediaKind = MediaResource['kind'];
+/**
+ * A media asset's kind (image / video / gif / document), from the contract. The
+ * resource's `kind` is nullable only in the transient pre-detection `uploading`
+ * window; this is the concrete family, so it strips that null — what you pass to
+ * create/upload and switch over on a settled asset.
+ */
+export type MediaKind = NonNullable<MediaResource['kind']>;
 
 /** A media render target — a post platform or `google_ads`. */
 export type MediaTarget = NonNullable<
@@ -151,3 +158,33 @@ export type CreateMediaInput = NonNullable<MediaCreateData['body']>;
 
 /** Request body to update a media asset (alt text / metadata / extend targets). */
 export type UpdateMediaInput = NonNullable<MediaUpdateData['body']>;
+
+/** A page of media assets (the list envelope). */
+export type MediaList = MediaListResponse;
+
+/** Query parameters for listing media (filters + pagination). */
+export type ListMediaQuery = NonNullable<MediaListData['query']>;
+
+/**
+ * A media asset's lifecycle state — the values the list `status` filter accepts
+ * (uploading / processing / ready / failed). From the contract, never hand-listed.
+ */
+export type MediaStatus = NonNullable<ListMediaQuery['status']>;
+
+/**
+ * Customer metadata — a flat scalar map (`string | number | boolean`; ≤50 keys,
+ * keys ≤40 chars, ≤500-char strings, 16 KiB serialized). The contract uses this
+ * SAME shape on every stored resource (profiles / posts / media); this alias is
+ * derived from the media write body as a stable representative, so it's the type
+ * to annotate metadata you send — never `Record<string, unknown>`. (The three
+ * resources share one structural shape in the spec; were the API ever to diverge
+ * one, prefer that resource's own `*['metadata']` for it.)
+ */
+export type Metadata = NonNullable<CreateMediaInput['metadata']>;
+
+/**
+ * A metadata filter for list endpoints — the same scalar map, matched by exact
+ * containment (multiple keys ANDed; omit for no filter). Pass the object directly
+ * from the SDK/React hooks; the client URL-encodes it for the REST query.
+ */
+export type MetadataFilter = NonNullable<ListMediaQuery['metadata']>;

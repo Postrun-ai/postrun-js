@@ -7,18 +7,21 @@ import {
   mediaCreate,
   mediaDelete,
   mediaGet,
+  mediaList,
   mediaUpdate,
 } from '@postrun/js';
 import type {
-  CreateMediaInput,
+  ListMediaQuery,
   MediaKind,
   MediaResource,
   MediaTarget,
+  Metadata,
   PostrunClient,
   UpdateMediaInput,
 } from '@postrun/js';
 
 import { usePostrun } from './context';
+import { useInfiniteList } from './infinite-list';
 import { mediaKeys } from './keys';
 import { UploadError, uploadBytes } from './upload-bytes';
 
@@ -80,7 +83,7 @@ export interface MediaUploadOptions {
   raw?: boolean;
   altText?: string;
   externalId?: string;
-  metadata?: CreateMediaInput['metadata'];
+  metadata?: Metadata;
 }
 
 /**
@@ -167,6 +170,7 @@ export function useMediaUpload() {
           controller.signal,
         );
         queryClient.setQueryData(mediaKeys.detail(created.id), settled);
+        void queryClient.invalidateQueries({ queryKey: mediaKeys.lists() });
         setMedia(settled);
         setStatus(settled.status === 'failed' ? 'failed' : 'ready');
         return settled;
@@ -214,6 +218,41 @@ export function useMedia(id: string) {
   );
 }
 
+/**
+ * List media assets under the account, newest first. Filter by `profile_id`,
+ * `status`, `kind`, your own `external_id`, or `metadata` (exact-match
+ * containment), with offset `limit`/`offset` pagination. Returns one page; use
+ * `useMediaInfinite` for a load-more feed.
+ */
+export function useMediaList(query?: ListMediaQuery) {
+  const { client, queryClient } = usePostrun();
+  return useQuery(
+    {
+      queryKey: mediaKeys.list(query),
+      queryFn: async () => (await mediaList({ client, query })).data,
+    },
+    queryClient,
+  );
+}
+
+/**
+ * Load-more / infinite-scroll view over the media list — same filters as
+ * `useMediaList` minus pagination, which the helper drives. Returns
+ * `{ items, total, loadMore, hasMore, … }`.
+ */
+export function useMediaInfinite(
+  filters?: Omit<ListMediaQuery, 'limit' | 'offset'>,
+  options?: { pageSize?: number },
+) {
+  const { client } = usePostrun();
+  return useInfiniteList<MediaResource>({
+    queryKey: mediaKeys.infinite(filters),
+    limit: options?.pageSize,
+    fetchPage: async ({ limit, offset }) =>
+      (await mediaList({ client, query: { ...filters, limit, offset } })).data,
+  });
+}
+
 /** Update a media asset: alt text / metadata / external_id, or extend targets. */
 export function useUpdateMedia() {
   const { client, queryClient } = usePostrun();
@@ -221,8 +260,10 @@ export function useUpdateMedia() {
     {
       mutationFn: async ({ id, ...body }: { id: string } & UpdateMediaInput) =>
         (await mediaUpdate({ client, path: { id }, body })).data,
-      onSuccess: (result, { id }) =>
-        queryClient.setQueryData(mediaKeys.detail(id), result),
+      onSuccess: (result, { id }) => {
+        queryClient.setQueryData(mediaKeys.detail(id), result);
+        void queryClient.invalidateQueries({ queryKey: mediaKeys.lists() });
+      },
     },
     queryClient,
   );
@@ -235,8 +276,10 @@ export function useDeleteMedia() {
     {
       mutationFn: async (id: string) =>
         (await mediaDelete({ client, path: { id } })).data,
-      onSuccess: (_result, id) =>
-        queryClient.removeQueries({ queryKey: mediaKeys.detail(id) }),
+      onSuccess: (_result, id) => {
+        queryClient.removeQueries({ queryKey: mediaKeys.detail(id) });
+        void queryClient.invalidateQueries({ queryKey: mediaKeys.lists() });
+      },
     },
     queryClient,
   );

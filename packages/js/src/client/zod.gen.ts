@@ -18,13 +18,15 @@ export const zErrorCode = z.enum([
     'idempotency_key_invalid',
     'idempotency_key_reused',
     'idempotency_request_in_progress',
-    'source_url_unsupported',
     'account_not_available',
     'connection_reauth_required',
     'connection_not_pending',
+    'connection_in_use',
     'not_implemented',
+    'connection_discovery_failed',
     'media_processing',
     'not_publishable',
+    'profile_scope_invalid',
     'media_unprobeable',
     'media_too_large',
     'media_aspect_ratio_unsupported',
@@ -44,9 +46,12 @@ export const zErrorCode = z.enum([
     'video_aspect_unsupported',
     'video_duration_too_short',
     'video_duration_exceeds_max',
+    'video_transform_failed',
+    'media_fetch_failed',
     'document_format_unsupported',
     'document_too_large',
     'document_too_many_pages',
+    'media_format_indeterminate',
     'media_count_invalid',
     'body_too_long',
     'content_missing',
@@ -56,6 +61,7 @@ export const zErrorCode = z.enum([
     'media_type_mismatch',
     'tag_limit_exceeded',
     'reel_field_on_non_reel',
+    'field_placement_invalid',
     'media_not_ready',
     'media_failed',
     'media_unsupported',
@@ -83,6 +89,12 @@ export const zErrorCode = z.enum([
     'facebook_rate_limited',
     'facebook_not_authorized',
     'facebook_publish_failed',
+    'tiktok_privacy_not_allowed',
+    'tiktok_duration_exceeds_max',
+    'tiktok_media_processing',
+    'tiktok_not_authorized',
+    'tiktok_rate_limited',
+    'tiktok_publish_failed',
     'connection_platform_mismatch'
 ]);
 
@@ -221,7 +233,8 @@ export const zConnectionsListByProfilePath = z.object({
 
 export const zConnectionsListByProfileQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),
-    offset: z.int().gte(0).lte(9007199254740991).optional().default(0)
+    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
+    nango_connection_id: z.string().min(1).optional()
 });
 
 /**
@@ -349,7 +362,6 @@ export const zConnectionsConnectBody = z.object({
     platform: z.enum([
         'meta_ads',
         'google_ads',
-        'tiktok_ads',
         'x',
         'linkedin',
         'facebook_page',
@@ -365,13 +377,196 @@ export const zConnectionsConnectPath = z.object({
  * OK
  */
 export const zConnectionsConnectResponse = z.object({
-    connect_session_token: z.string(),
-    connect_url: z.string(),
+    hosted_connect_url: z.string(),
+    connect_token: z.string(),
     expires_at: z.string()
 });
 
+export const zMediaListQuery = z.object({
+    limit: z.int().gte(1).lte(100).optional().default(20),
+    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
+    profile_id: z.string().optional(),
+    status: z.enum([
+        'uploading',
+        'processing',
+        'ready',
+        'failed'
+    ]).optional(),
+    kind: z.enum([
+        'image',
+        'video',
+        'gif',
+        'document'
+    ]).optional(),
+    external_id: z.string().optional(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])).optional()
+});
+
 /**
- * Create a media asset via the signed direct upload target (source_url is reserved/unsupported in v1).
+ * OK
+ */
+export const zMediaListResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(z.object({
+        id: z.string(),
+        object: z.literal('media'),
+        profile_id: z.string(),
+        kind: z.enum([
+            'image',
+            'video',
+            'gif',
+            'document'
+        ]).nullable(),
+        content_type: z.string().nullable(),
+        status: z.enum([
+            'uploading',
+            'processing',
+            'ready',
+            'failed'
+        ]),
+        raw: z.boolean(),
+        error: z.object({
+            code: z.enum([
+                'media_unprobeable',
+                'media_format_indeterminate',
+                'media_too_large',
+                'media_aspect_ratio_unsupported',
+                'media_resolution_too_low',
+                'media_gif_unsupported',
+                'media_format_recompressed',
+                'media_resolution_downscaled',
+                'video_container_unsupported',
+                'video_codec_unsupported',
+                'video_audio_codec_unsupported',
+                'video_too_large',
+                'video_too_small',
+                'video_dimensions_unsupported',
+                'video_dimensions_too_large',
+                'video_fps_unsupported',
+                'video_fps_too_low',
+                'video_aspect_unsupported',
+                'video_duration_too_short',
+                'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
+                'document_format_unsupported',
+                'document_too_large',
+                'document_too_many_pages',
+                'media_unsupported'
+            ]),
+            message: z.string(),
+            hint: z.string().optional(),
+            allowed: z.array(z.string()).optional(),
+            got: z.string().optional()
+        }).nullable(),
+        source: z.object({
+            format: z.string(),
+            bytes: z.int().gte(0).lte(9007199254740991),
+            width: z.int().gt(0).lte(9007199254740991).nullable(),
+            height: z.int().gt(0).lte(9007199254740991).nullable(),
+            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+        }).nullable(),
+        alt_text: z.string().max(1000).nullable(),
+        per_platform: z.record(z.string(), z.object({
+            status: z.enum([
+                'processing',
+                'ready',
+                'failed'
+            ]),
+            url: z.string().nullable(),
+            width: z.int().gt(0).lte(9007199254740991).nullable(),
+            height: z.int().gt(0).lte(9007199254740991).nullable(),
+            bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+            warnings: z.array(z.object({
+                code: z.enum([
+                    'media_unprobeable',
+                    'media_format_indeterminate',
+                    'media_too_large',
+                    'media_aspect_ratio_unsupported',
+                    'media_resolution_too_low',
+                    'media_gif_unsupported',
+                    'media_format_recompressed',
+                    'media_resolution_downscaled',
+                    'video_container_unsupported',
+                    'video_codec_unsupported',
+                    'video_audio_codec_unsupported',
+                    'video_too_large',
+                    'video_too_small',
+                    'video_dimensions_unsupported',
+                    'video_dimensions_too_large',
+                    'video_fps_unsupported',
+                    'video_fps_too_low',
+                    'video_aspect_unsupported',
+                    'video_duration_too_short',
+                    'video_duration_exceeds_max',
+                    'video_transform_failed',
+                    'media_fetch_failed',
+                    'document_format_unsupported',
+                    'document_too_large',
+                    'document_too_many_pages',
+                    'media_unsupported'
+                ]),
+                message: z.string(),
+                hint: z.string().optional(),
+                allowed: z.array(z.string()).optional(),
+                got: z.string().optional()
+            })),
+            errors: z.array(z.object({
+                code: z.enum([
+                    'media_unprobeable',
+                    'media_format_indeterminate',
+                    'media_too_large',
+                    'media_aspect_ratio_unsupported',
+                    'media_resolution_too_low',
+                    'media_gif_unsupported',
+                    'media_format_recompressed',
+                    'media_resolution_downscaled',
+                    'video_container_unsupported',
+                    'video_codec_unsupported',
+                    'video_audio_codec_unsupported',
+                    'video_too_large',
+                    'video_too_small',
+                    'video_dimensions_unsupported',
+                    'video_dimensions_too_large',
+                    'video_fps_unsupported',
+                    'video_fps_too_low',
+                    'video_aspect_unsupported',
+                    'video_duration_too_short',
+                    'video_duration_exceeds_max',
+                    'video_transform_failed',
+                    'media_fetch_failed',
+                    'document_format_unsupported',
+                    'document_too_large',
+                    'document_too_many_pages',
+                    'media_unsupported'
+                ]),
+                message: z.string(),
+                hint: z.string().optional(),
+                allowed: z.array(z.string()).optional(),
+                got: z.string().optional()
+            }))
+        })),
+        external_id: z.string().nullable(),
+        metadata: z.record(z.string(), z.union([
+            z.string().max(500),
+            z.number(),
+            z.boolean()
+        ])),
+        created_at: z.string(),
+        updated_at: z.string()
+    })),
+    total: z.int().gte(-9007199254740991).lte(9007199254740991),
+    limit: z.int().gte(-9007199254740991).lte(9007199254740991),
+    offset: z.int().gte(-9007199254740991).lte(9007199254740991),
+    has_more: z.boolean()
+});
+
+/**
+ * Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits: a direct-upload video may be up to 5 GB; all other direct uploads and any source_url import must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`.
  */
 export const zMediaCreateBody = z.object({
     profile_id: z.string(),
@@ -380,7 +575,7 @@ export const zMediaCreateBody = z.object({
         'video',
         'gif',
         'document'
-    ]),
+    ]).optional(),
     content_type: z.string().min(1).regex(/^(?:(?:image|video)\/[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*|application\/pdf|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document|application\/vnd\.ms-powerpoint|application\/vnd\.openxmlformats-officedocument\.presentationml\.presentation)$/).optional(),
     source_url: z.url().optional(),
     targets: z.array(z.enum([
@@ -413,7 +608,8 @@ export const zMediaCreateResponse = z.object({
         'video',
         'gif',
         'document'
-    ]),
+    ]).nullable(),
+    content_type: z.string().nullable(),
     status: z.enum([
         'uploading',
         'processing',
@@ -424,6 +620,7 @@ export const zMediaCreateResponse = z.object({
     error: z.object({
         code: z.enum([
             'media_unprobeable',
+            'media_format_indeterminate',
             'media_too_large',
             'media_aspect_ratio_unsupported',
             'media_resolution_too_low',
@@ -442,6 +639,8 @@ export const zMediaCreateResponse = z.object({
             'video_aspect_unsupported',
             'video_duration_too_short',
             'video_duration_exceeds_max',
+            'video_transform_failed',
+            'media_fetch_failed',
             'document_format_unsupported',
             'document_too_large',
             'document_too_many_pages',
@@ -473,6 +672,7 @@ export const zMediaCreateResponse = z.object({
         warnings: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
+                'media_format_indeterminate',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -491,6 +691,8 @@ export const zMediaCreateResponse = z.object({
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
                 'document_too_many_pages',
@@ -504,6 +706,7 @@ export const zMediaCreateResponse = z.object({
         errors: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
+                'media_format_indeterminate',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -522,6 +725,8 @@ export const zMediaCreateResponse = z.object({
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
                 'document_too_many_pages',
@@ -578,7 +783,8 @@ export const zMediaGetResponse = z.object({
         'video',
         'gif',
         'document'
-    ]),
+    ]).nullable(),
+    content_type: z.string().nullable(),
     status: z.enum([
         'uploading',
         'processing',
@@ -589,6 +795,7 @@ export const zMediaGetResponse = z.object({
     error: z.object({
         code: z.enum([
             'media_unprobeable',
+            'media_format_indeterminate',
             'media_too_large',
             'media_aspect_ratio_unsupported',
             'media_resolution_too_low',
@@ -607,6 +814,8 @@ export const zMediaGetResponse = z.object({
             'video_aspect_unsupported',
             'video_duration_too_short',
             'video_duration_exceeds_max',
+            'video_transform_failed',
+            'media_fetch_failed',
             'document_format_unsupported',
             'document_too_large',
             'document_too_many_pages',
@@ -638,6 +847,7 @@ export const zMediaGetResponse = z.object({
         warnings: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
+                'media_format_indeterminate',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -656,6 +866,8 @@ export const zMediaGetResponse = z.object({
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
                 'document_too_many_pages',
@@ -669,6 +881,7 @@ export const zMediaGetResponse = z.object({
         errors: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
+                'media_format_indeterminate',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -687,6 +900,8 @@ export const zMediaGetResponse = z.object({
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
                 'document_too_many_pages',
@@ -742,7 +957,8 @@ export const zMediaUpdateResponse = z.object({
         'video',
         'gif',
         'document'
-    ]),
+    ]).nullable(),
+    content_type: z.string().nullable(),
     status: z.enum([
         'uploading',
         'processing',
@@ -753,6 +969,7 @@ export const zMediaUpdateResponse = z.object({
     error: z.object({
         code: z.enum([
             'media_unprobeable',
+            'media_format_indeterminate',
             'media_too_large',
             'media_aspect_ratio_unsupported',
             'media_resolution_too_low',
@@ -771,6 +988,8 @@ export const zMediaUpdateResponse = z.object({
             'video_aspect_unsupported',
             'video_duration_too_short',
             'video_duration_exceeds_max',
+            'video_transform_failed',
+            'media_fetch_failed',
             'document_format_unsupported',
             'document_too_large',
             'document_too_many_pages',
@@ -802,6 +1021,7 @@ export const zMediaUpdateResponse = z.object({
         warnings: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
+                'media_format_indeterminate',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -820,6 +1040,8 @@ export const zMediaUpdateResponse = z.object({
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
                 'document_too_many_pages',
@@ -833,6 +1055,7 @@ export const zMediaUpdateResponse = z.object({
         errors: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
+                'media_format_indeterminate',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -851,6 +1074,8 @@ export const zMediaUpdateResponse = z.object({
                 'video_aspect_unsupported',
                 'video_duration_too_short',
                 'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
                 'document_too_many_pages',
@@ -1144,6 +1369,38 @@ export const zPostsCreateBody = z.object({
             })).optional().default([]),
             settings: z.object({
                 link: z.url().optional()
+            }).optional().default({})
+        }),
+        z.object({
+            platform: z.literal('tiktok'),
+            post_type: z.enum([
+                'video',
+                'single_image',
+                'carousel'
+            ]),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([]),
+            settings: z.object({
+                privacy_level: z.enum([
+                    'PUBLIC_TO_EVERYONE',
+                    'MUTUAL_FOLLOW_FRIENDS',
+                    'FOLLOWER_OF_CREATOR',
+                    'SELF_ONLY'
+                ]).optional(),
+                disable_comment: z.boolean().optional(),
+                disable_duet: z.boolean().optional(),
+                disable_stitch: z.boolean().optional(),
+                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+                auto_add_music: z.boolean().optional(),
+                brand_content_toggle: z.boolean().optional(),
+                brand_organic_toggle: z.boolean().optional(),
+                is_aigc: z.boolean().optional()
             }).optional().default({})
         })
     ])).min(1)
@@ -1482,6 +1739,38 @@ export const zPostsUpdateBody = z.object({
             })).optional().default([]),
             settings: z.object({
                 link: z.url().optional()
+            }).optional().default({})
+        }),
+        z.object({
+            platform: z.literal('tiktok'),
+            post_type: z.enum([
+                'video',
+                'single_image',
+                'carousel'
+            ]),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([]),
+            settings: z.object({
+                privacy_level: z.enum([
+                    'PUBLIC_TO_EVERYONE',
+                    'MUTUAL_FOLLOW_FRIENDS',
+                    'FOLLOWER_OF_CREATOR',
+                    'SELF_ONLY'
+                ]).optional(),
+                disable_comment: z.boolean().optional(),
+                disable_duet: z.boolean().optional(),
+                disable_stitch: z.boolean().optional(),
+                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+                auto_add_music: z.boolean().optional(),
+                brand_content_toggle: z.boolean().optional(),
+                brand_organic_toggle: z.boolean().optional(),
+                is_aigc: z.boolean().optional()
             }).optional().default({})
         })
     ])).min(1).optional()

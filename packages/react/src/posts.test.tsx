@@ -10,6 +10,7 @@ import {
   usePost,
   usePosts,
   useUpdatePost,
+  useValidatePost,
 } from './posts';
 import { pollingWrapper, recordFetch, testWrapper } from './test-utils';
 
@@ -171,6 +172,152 @@ test('useCreatePost resolves connections, builds the body, and posts', async () 
   expect(sent.profile_id).toBe('prof_1');
   expect(sent.variants[0].connection_id).toBe('conn_x');
   expect(sent.variants[0].body).toBe('hi');
+});
+
+const VALIDATION = {
+  object: 'validation',
+  publishable: false,
+  issues: [
+    {
+      code: 'media_count_invalid',
+      message: 'X text post cannot carry media.',
+      variant_index: 0,
+      path: ['media'],
+    },
+  ],
+};
+
+/** A connect-then-validate flow: GET /connections, POST /posts/validate. */
+function mockValidateFlow() {
+  const calls: Request[] = [];
+  const CONN = {
+    id: 'conn_x',
+    profile_id: 'prof_1',
+    platform: 'x',
+    external_account_id: 'acc_1',
+    external_account_name: 'X',
+    currency: null,
+    created_at: null,
+    updated_at: null,
+  };
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (request: Request) => {
+      calls.push(request);
+      const url = new URL(request.url);
+      const json = (body: unknown, status = 200) =>
+        new Response(JSON.stringify(body), {
+          status,
+          headers: { 'content-type': 'application/json' },
+        });
+      if (request.method === 'GET' && url.pathname.endsWith('/connections')) {
+        return json({ object: 'list', data: [CONN], total: 1, limit: 20, offset: 0, has_more: false });
+      }
+      if (request.method === 'POST' && url.pathname.endsWith('/posts/validate')) {
+        return json(VALIDATION, 200);
+      }
+      return json({}, 404);
+    }),
+  );
+  return calls;
+}
+
+test('useValidatePost builds the body, calls /posts/validate, and returns the verdict', async () => {
+  const calls = mockValidateFlow();
+  const { result } = renderHook(() => useValidatePost('prof_1'), {
+    wrapper: testWrapper(),
+  });
+
+  await waitFor(() => expect(result.current.connectedChannels).toContain('x'));
+
+  let verdict: Awaited<ReturnType<typeof result.current.validate>> | undefined;
+  await act(async () => {
+    verdict = await result.current.validate({
+      content: { body: 'hi' },
+      channels: { x: { settings: {} } },
+    });
+  });
+
+  const sent = calls.find(
+    (c) =>
+      c.method === 'POST' &&
+      new URL(c.url).pathname.endsWith('/posts/validate'),
+  )!;
+  const body = await sent.json();
+  expect(body.profile_id).toBe('prof_1');
+  expect(body.variants[0].connection_id).toBe('conn_x');
+  expect(body.variants[0].body).toBe('hi');
+
+  // The endpoint verdict flows straight back (it's a READ — no transformation).
+  expect(verdict).toEqual(VALIDATION);
+  await waitFor(() => expect(result.current.publishable).toBe(false));
+  expect(result.current.issues).toEqual(VALIDATION.issues);
+});
+
+test('useValidatePost is a READ — read-only return shape, no mutation handle', async () => {
+  mockValidateFlow();
+  const { result } = renderHook(() => useValidatePost('prof_1'), {
+    wrapper: testWrapper(),
+  });
+  await waitFor(() => expect(result.current.isReady).toBe(true));
+
+  // A read hook exposes no create/reset/data mutation surface.
+  expect('create' in result.current).toBe(false);
+  expect('reset' in result.current).toBe(false);
+
+  await act(async () => {
+    await result.current.validate({ channels: { x: { settings: {} } } });
+  });
+  await waitFor(() => expect(result.current.publishable).toBe(false));
+});
+
+test('useValidatePost surfaces a typed error instead of swallowing it', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (request: Request) => {
+      const url = new URL(request.url);
+      if (request.method === 'GET' && url.pathname.endsWith('/connections')) {
+        return new Response(
+          JSON.stringify({
+            object: 'list',
+            data: [
+              {
+                id: 'conn_x',
+                profile_id: 'prof_1',
+                platform: 'x',
+                external_account_id: 'a',
+                external_account_name: 'X',
+                currency: null,
+                created_at: null,
+                updated_at: null,
+              },
+            ],
+            total: 1,
+            limit: 20,
+            offset: 0,
+            has_more: false,
+          }),
+          { status: 200, headers: { 'content-type': 'application/json' } },
+        );
+      }
+      return new Response(
+        JSON.stringify({ code: 'internal_error', title: 'Boom', status: 500 }),
+        { status: 500, headers: { 'content-type': 'application/json' } },
+      );
+    }),
+  );
+
+  const { result } = renderHook(() => useValidatePost('prof_1'), {
+    wrapper: testWrapper(),
+  });
+  await waitFor(() => expect(result.current.isReady).toBe(true));
+
+  await act(async () => {
+    await expect(
+      result.current.validate({ channels: { x: { settings: {} } } }),
+    ).rejects.toBeInstanceOf(PostrunError);
+  });
+  await waitFor(() => expect(result.current.error).toBeInstanceOf(PostrunError));
 });
 
 test('useUpdatePost PATCHes the post (light edit)', async () => {

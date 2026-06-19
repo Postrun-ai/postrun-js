@@ -26,6 +26,8 @@ export const zErrorCode = z.enum([
     'connection_discovery_failed',
     'media_processing',
     'not_publishable',
+    'invalid_connection',
+    'invalid_media',
     'profile_scope_invalid',
     'media_unprobeable',
     'media_too_large',
@@ -1934,6 +1936,305 @@ export const zPostsUpdateResponse = z.object({
     updated_at: z.string(),
     dry_run: z.boolean(),
     executed: z.boolean()
+});
+
+export const zPostsValidateBody = z.object({
+    profile_id: z.string(),
+    variants: z.array(z.union([
+        z.object({
+            platform: z.literal('x'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([]),
+            settings: z.object({
+                reply_settings: z.enum([
+                    'everyone',
+                    'following',
+                    'mentionedUsers',
+                    'subscribers',
+                    'verified'
+                ]).optional(),
+                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                poll: z.object({
+                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
+                    duration_minutes: z.int().gte(5).lte(10080),
+                    reply_settings: z.enum([
+                        'following',
+                        'mentionedUsers',
+                        'subscribers',
+                        'verified'
+                    ]).optional()
+                }).optional(),
+                reply: z.object({
+                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
+                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
+                    auto_populate_reply_metadata: z.boolean().optional()
+                }).optional(),
+                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                for_super_followers_only: z.boolean().optional(),
+                geo: z.object({
+                    place_id: z.string()
+                }).optional(),
+                card_uri: z.string().optional(),
+                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+            }).optional().default({})
+        }),
+        z.object({
+            platform: z.literal('linkedin'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([]),
+            settings: z.object({
+                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
+                content_kind: z.enum([
+                    'text',
+                    'single_image',
+                    'video',
+                    'multi_image',
+                    'document',
+                    'article',
+                    'poll'
+                ]),
+                article: z.object({
+                    source: z.url(),
+                    title: z.string().max(400).optional(),
+                    description: z.string().max(4086).optional(),
+                    thumbnail_media_id: z.string().optional()
+                }).optional(),
+                poll: z.object({
+                    question: z.string().min(1).max(140),
+                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
+                    duration: z.enum([
+                        'ONE_DAY',
+                        'THREE_DAYS',
+                        'SEVEN_DAYS',
+                        'FOURTEEN_DAYS'
+                    ])
+                }).optional(),
+                document: z.object({
+                    title: z.string().min(1).max(400)
+                }).optional(),
+                disable_reshare: z.boolean().optional(),
+                mentions: z.array(z.object({
+                    type: z.enum(['person', 'organization']),
+                    name: z.string().min(1),
+                    urn: z.string().regex(/^urn:li:(person|organization):/)
+                })).optional()
+            })
+        }),
+        z.object({
+            platform: z.literal('instagram'),
+            post_type: z.enum([
+                'single_image',
+                'carousel',
+                'reel'
+            ]),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([]),
+            settings: z.object({
+                media_type: z.enum([
+                    'IMAGE',
+                    'CAROUSEL',
+                    'REELS'
+                ]).optional(),
+                location_id: z.string().optional(),
+                user_tags: z.array(z.object({
+                    username: z.string().min(1),
+                    x: z.number().gte(0).lte(1),
+                    y: z.number().gte(0).lte(1)
+                })).optional(),
+                collaborators: z.array(z.string().min(1)).max(3).optional(),
+                share_to_feed: z.boolean().optional(),
+                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
+                cover_url: z.url().optional(),
+                audio_name: z.string().optional()
+            })
+        }),
+        z.object({
+            platform: z.literal('facebook_page'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'reel'
+            ]),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([]),
+            settings: z.object({
+                link: z.url().optional()
+            }).optional().default({})
+        }),
+        z.object({
+            platform: z.literal('tiktok'),
+            post_type: z.enum([
+                'video',
+                'single_image',
+                'carousel'
+            ]),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([]),
+            settings: z.object({
+                privacy_level: z.enum([
+                    'PUBLIC_TO_EVERYONE',
+                    'MUTUAL_FOLLOW_FRIENDS',
+                    'FOLLOWER_OF_CREATOR',
+                    'SELF_ONLY'
+                ]).optional(),
+                disable_comment: z.boolean().optional(),
+                disable_duet: z.boolean().optional(),
+                disable_stitch: z.boolean().optional(),
+                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+                auto_add_music: z.boolean().optional(),
+                brand_content_toggle: z.boolean().optional(),
+                brand_organic_toggle: z.boolean().optional(),
+                is_aigc: z.boolean().optional()
+            }).optional().default({})
+        })
+    ])).min(1)
+});
+
+/**
+ * OK
+ */
+export const zPostsValidateResponse = z.object({
+    object: z.literal('validation'),
+    publishable: z.boolean(),
+    issues: z.array(z.object({
+        code: z.enum([
+            'unauthorized',
+            'forbidden',
+            'not_found',
+            'conflict',
+            'validation_failed',
+            'rate_limited',
+            'internal_error',
+            'idempotency_key_invalid',
+            'idempotency_key_reused',
+            'idempotency_request_in_progress',
+            'account_not_available',
+            'connection_reauth_required',
+            'connection_not_pending',
+            'connection_in_use',
+            'not_implemented',
+            'connection_discovery_failed',
+            'media_processing',
+            'not_publishable',
+            'invalid_connection',
+            'invalid_media',
+            'profile_scope_invalid',
+            'media_unprobeable',
+            'media_too_large',
+            'media_aspect_ratio_unsupported',
+            'media_resolution_too_low',
+            'media_gif_unsupported',
+            'media_format_recompressed',
+            'media_resolution_downscaled',
+            'video_container_unsupported',
+            'video_codec_unsupported',
+            'video_audio_codec_unsupported',
+            'video_too_large',
+            'video_too_small',
+            'video_dimensions_unsupported',
+            'video_dimensions_too_large',
+            'video_fps_unsupported',
+            'video_fps_too_low',
+            'video_aspect_unsupported',
+            'video_duration_too_short',
+            'video_duration_exceeds_max',
+            'video_transform_failed',
+            'media_fetch_failed',
+            'document_format_unsupported',
+            'document_too_large',
+            'document_too_many_pages',
+            'media_format_indeterminate',
+            'media_count_invalid',
+            'body_too_long',
+            'content_missing',
+            'content_conflict',
+            'content_incomplete',
+            'content_kind_mismatch',
+            'media_type_mismatch',
+            'tag_limit_exceeded',
+            'reel_field_on_non_reel',
+            'field_placement_invalid',
+            'media_not_ready',
+            'media_failed',
+            'media_unsupported',
+            'media_kind_mismatch',
+            'publishing_unavailable',
+            'x_duplicate_content',
+            'x_not_authorized',
+            'x_rate_limited',
+            'x_publish_failed',
+            'x_media_upload_failed',
+            'linkedin_duplicate_content',
+            'linkedin_auth_expired',
+            'linkedin_permission_denied',
+            'linkedin_media_processing',
+            'linkedin_media_upload_failed',
+            'linkedin_publish_failed',
+            'instagram_media_processing',
+            'instagram_container_expired',
+            'instagram_container_failed',
+            'instagram_rate_limited',
+            'instagram_not_authorized',
+            'instagram_publish_failed',
+            'facebook_reel_processing',
+            'facebook_reel_failed',
+            'facebook_rate_limited',
+            'facebook_not_authorized',
+            'facebook_publish_failed',
+            'tiktok_privacy_not_allowed',
+            'tiktok_duration_exceeds_max',
+            'tiktok_media_processing',
+            'tiktok_not_authorized',
+            'tiktok_rate_limited',
+            'tiktok_publish_failed',
+            'connection_platform_mismatch'
+        ]),
+        message: z.string(),
+        hint: z.string().optional(),
+        allowed: z.array(z.string()).optional(),
+        got: z.string().optional(),
+        variant_index: z.int().gte(-9007199254740991).lte(9007199254740991),
+        path: z.array(z.union([z.string(), z.number()]))
+    }))
 });
 
 export const zMetaAccountPath = z.object({

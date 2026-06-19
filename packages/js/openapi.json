@@ -37,6 +37,8 @@
           "connection_discovery_failed",
           "media_processing",
           "not_publishable",
+          "invalid_connection",
+          "invalid_media",
           "profile_scope_invalid",
           "media_unprobeable",
           "media_too_large",
@@ -13234,6 +13236,8 @@
                       "type": "string",
                       "enum": [
                         "idempotency_key_reused",
+                        "invalid_connection",
+                        "invalid_media",
                         "internal_error",
                         "not_publishable"
                       ],
@@ -13247,6 +13251,43 @@
                     "request_id": {
                       "type": "string",
                       "description": "The request id, for support and log correlation."
+                    },
+                    "errors": {
+                      "type": "array",
+                      "description": "The specific fields that failed validation or publish-readiness.",
+                      "items": {
+                        "type": "object",
+                        "required": ["field", "code", "detail"],
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "description": "Dot-path to the invalid field, e.g. `variants.0.body`."
+                          },
+                          "code": {
+                            "type": "string",
+                            "description": "The validation or publish-readiness rule that failed."
+                          },
+                          "detail": {
+                            "type": "string",
+                            "description": "What is wrong with this field."
+                          },
+                          "hint": {
+                            "type": "string",
+                            "description": "How to fix it (publish-readiness failures)."
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "The accepted value(s) for this field, when known."
+                          },
+                          "got": {
+                            "type": "string",
+                            "description": "The value received, when known."
+                          }
+                        }
+                      }
                     }
                   }
                 },
@@ -13259,6 +13300,28 @@
                       "status": 422,
                       "code": "idempotency_key_reused",
                       "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "invalid_connection": {
+                    "summary": "A variant references a connection that does not belong to the post’s profile.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/invalid_connection",
+                      "title": "A variant references a connection that does not belong to the post’s profile.",
+                      "status": 422,
+                      "code": "invalid_connection",
+                      "detail": "A variant references a connection that does not belong to the post’s profile.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "invalid_media": {
+                    "summary": "A variant references a media asset that does not belong to the post’s profile.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/invalid_media",
+                      "title": "A variant references a media asset that does not belong to the post’s profile.",
+                      "status": 422,
+                      "code": "invalid_media",
+                      "detail": "A variant references a media asset that does not belong to the post’s profile.",
                       "request_id": "req_8x2k4m9q1z"
                     }
                   },
@@ -13281,7 +13344,16 @@
                       "status": 422,
                       "code": "not_publishable",
                       "detail": "One or more variants are not ready to publish.",
-                      "request_id": "req_8x2k4m9q1z"
+                      "request_id": "req_8x2k4m9q1z",
+                      "errors": [
+                        {
+                          "field": "variants.0.body",
+                          "code": "body_too_long",
+                          "detail": "Post exceeds 280 weighted characters.",
+                          "allowed": ["280"],
+                          "got": "281"
+                        }
+                      ]
                     }
                   }
                 }
@@ -16672,6 +16744,8 @@
                       "type": "string",
                       "enum": [
                         "idempotency_key_reused",
+                        "invalid_connection",
+                        "invalid_media",
                         "internal_error",
                         "not_publishable"
                       ],
@@ -16685,6 +16759,43 @@
                     "request_id": {
                       "type": "string",
                       "description": "The request id, for support and log correlation."
+                    },
+                    "errors": {
+                      "type": "array",
+                      "description": "The specific fields that failed validation or publish-readiness.",
+                      "items": {
+                        "type": "object",
+                        "required": ["field", "code", "detail"],
+                        "properties": {
+                          "field": {
+                            "type": "string",
+                            "description": "Dot-path to the invalid field, e.g. `variants.0.body`."
+                          },
+                          "code": {
+                            "type": "string",
+                            "description": "The validation or publish-readiness rule that failed."
+                          },
+                          "detail": {
+                            "type": "string",
+                            "description": "What is wrong with this field."
+                          },
+                          "hint": {
+                            "type": "string",
+                            "description": "How to fix it (publish-readiness failures)."
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "The accepted value(s) for this field, when known."
+                          },
+                          "got": {
+                            "type": "string",
+                            "description": "The value received, when known."
+                          }
+                        }
+                      }
                     }
                   }
                 },
@@ -16697,6 +16808,28 @@
                       "status": 422,
                       "code": "idempotency_key_reused",
                       "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "invalid_connection": {
+                    "summary": "A variant references a connection that does not belong to the post’s profile.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/invalid_connection",
+                      "title": "A variant references a connection that does not belong to the post’s profile.",
+                      "status": 422,
+                      "code": "invalid_connection",
+                      "detail": "A variant references a connection that does not belong to the post’s profile.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "invalid_media": {
+                    "summary": "A variant references a media asset that does not belong to the post’s profile.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/invalid_media",
+                      "title": "A variant references a media asset that does not belong to the post’s profile.",
+                      "status": 422,
+                      "code": "invalid_media",
+                      "detail": "A variant references a media asset that does not belong to the post’s profile.",
                       "request_id": "req_8x2k4m9q1z"
                     }
                   },
@@ -16719,7 +16852,16 @@
                       "status": 422,
                       "code": "not_publishable",
                       "detail": "One or more variants are not ready to publish.",
-                      "request_id": "req_8x2k4m9q1z"
+                      "request_id": "req_8x2k4m9q1z",
+                      "errors": [
+                        {
+                          "field": "variants.0.body",
+                          "code": "body_too_long",
+                          "detail": "Post exceeds 280 weighted characters.",
+                          "allowed": ["280"],
+                          "got": "281"
+                        }
+                      ]
                     }
                   }
                 }
@@ -17278,6 +17420,1402 @@
             "lang": "javascript",
             "label": "@postrun/js",
             "source": "import { createPostrunClient, postsDelete } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await postsDelete({\n  client,\n  path: { id: '…' },\n});"
+          }
+        ]
+      }
+    },
+    "/posts/validate": {
+      "post": {
+        "operationId": "posts.validate",
+        "summary": "Validate a post",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:read` scoped to the target profile.\n\nRuns the exact ownership + publish-readiness checks the create path runs under dry_run, with no side effects. Returns a per-issue verdict (`publishable` + `issues[]`) on 200; a reference to a connection/media outside the profile is a typed 422.",
+        "tags": ["Posts"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profile_id": {
+                    "type": "string",
+                    "description": "Profile that owns this post."
+                  },
+                  "variants": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "platform": {
+                              "const": "x"
+                            },
+                            "post_type": {
+                              "enum": [
+                                "text",
+                                "single_image",
+                                "multi_image",
+                                "video"
+                              ],
+                              "type": "string"
+                            },
+                            "connection_id": {
+                              "type": "string",
+                              "description": "The connected account this variant publishes to."
+                            },
+                            "body": {
+                              "type": "string",
+                              "description": "Caption / commentary / message for the post."
+                            },
+                            "media": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "media_id": {
+                                    "type": "string"
+                                  },
+                                  "crop_box": {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "propertyNames": {
+                                          "type": "string"
+                                        },
+                                        "additionalProperties": {}
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant crop applied at publish; omit for none."
+                                  },
+                                  "alt_text_override": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant alt text; falls back to the asset's."
+                                  }
+                                },
+                                "required": ["media_id"]
+                              },
+                              "default": [],
+                              "description": "Ordered media references; the count drives the post-type rules."
+                            },
+                            "settings": {
+                              "type": "object",
+                              "properties": {
+                                "reply_settings": {
+                                  "enum": [
+                                    "everyone",
+                                    "following",
+                                    "mentionedUsers",
+                                    "subscribers",
+                                    "verified"
+                                  ],
+                                  "type": "string",
+                                  "description": "Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field."
+                                },
+                                "quote_tweet_id": {
+                                  "type": "string",
+                                  "pattern": "^[0-9]{1,19}$",
+                                  "description": "Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish."
+                                },
+                                "poll": {
+                                  "type": "object",
+                                  "properties": {
+                                    "options": {
+                                      "type": "array",
+                                      "minItems": 2,
+                                      "maxItems": 4,
+                                      "items": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 25
+                                      },
+                                      "description": "2–4 options, each 1–25 characters."
+                                    },
+                                    "duration_minutes": {
+                                      "type": "integer",
+                                      "minimum": 5,
+                                      "maximum": 10080,
+                                      "description": "Poll duration in minutes (5 min – 7 days)."
+                                    },
+                                    "reply_settings": {
+                                      "enum": [
+                                        "following",
+                                        "mentionedUsers",
+                                        "subscribers",
+                                        "verified"
+                                      ],
+                                      "type": "string",
+                                      "description": "Reply restriction for the poll post (same enum)."
+                                    }
+                                  },
+                                  "required": ["options", "duration_minutes"],
+                                  "additionalProperties": false,
+                                  "description": "Create a poll. Mutually exclusive with media, quote, and card_uri."
+                                },
+                                "reply": {
+                                  "type": "object",
+                                  "properties": {
+                                    "in_reply_to_tweet_id": {
+                                      "type": "string",
+                                      "pattern": "^[0-9]{1,19}$",
+                                      "description": "Parent post id; required when `reply` is present."
+                                    },
+                                    "exclude_reply_user_ids": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string",
+                                        "pattern": "^[0-9]{1,19}$"
+                                      },
+                                      "description": "User ids dropped from the auto-mention chain."
+                                    },
+                                    "auto_populate_reply_metadata": {
+                                      "type": "boolean",
+                                      "description": "Auto-prepend the parent participants' @mentions."
+                                    }
+                                  },
+                                  "required": ["in_reply_to_tweet_id"],
+                                  "additionalProperties": false,
+                                  "description": "Reply/thread chaining controls."
+                                },
+                                "community_id": {
+                                  "type": "string",
+                                  "pattern": "^[0-9]{1,19}$",
+                                  "description": "Post to an X Community."
+                                },
+                                "for_super_followers_only": {
+                                  "type": "boolean",
+                                  "description": "Restrict to Super Followers (default false)."
+                                },
+                                "geo": {
+                                  "type": "object",
+                                  "properties": {
+                                    "place_id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": ["place_id"],
+                                  "additionalProperties": false,
+                                  "description": "Attach a place."
+                                },
+                                "card_uri": {
+                                  "type": "string",
+                                  "description": "Cards-API reference. Mutually exclusive with quote/poll/media."
+                                },
+                                "media_tagged_user_ids": {
+                                  "type": "array",
+                                  "maxItems": 10,
+                                  "items": {
+                                    "type": "string",
+                                    "pattern": "^[0-9]{1,19}$"
+                                  },
+                                  "description": "Tag ≤10 users on attached media."
+                                }
+                              },
+                              "additionalProperties": false,
+                              "description": "X (Twitter) organic post settings.",
+                              "default": {}
+                            }
+                          },
+                          "required": ["platform", "post_type", "connection_id"]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "platform": {
+                              "const": "linkedin"
+                            },
+                            "post_type": {
+                              "enum": [
+                                "text",
+                                "single_image",
+                                "multi_image",
+                                "video"
+                              ],
+                              "type": "string"
+                            },
+                            "connection_id": {
+                              "type": "string",
+                              "description": "The connected account this variant publishes to."
+                            },
+                            "body": {
+                              "type": "string",
+                              "description": "Caption / commentary / message for the post."
+                            },
+                            "media": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "media_id": {
+                                    "type": "string"
+                                  },
+                                  "crop_box": {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "propertyNames": {
+                                          "type": "string"
+                                        },
+                                        "additionalProperties": {}
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant crop applied at publish; omit for none."
+                                  },
+                                  "alt_text_override": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant alt text; falls back to the asset's."
+                                  }
+                                },
+                                "required": ["media_id"]
+                              },
+                              "default": [],
+                              "description": "Ordered media references; the count drives the post-type rules."
+                            },
+                            "settings": {
+                              "type": "object",
+                              "properties": {
+                                "visibility": {
+                                  "enum": ["PUBLIC", "CONNECTIONS"],
+                                  "type": "string",
+                                  "description": "Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts."
+                                },
+                                "content_kind": {
+                                  "enum": [
+                                    "text",
+                                    "single_image",
+                                    "video",
+                                    "multi_image",
+                                    "document",
+                                    "article",
+                                    "poll"
+                                  ],
+                                  "type": "string",
+                                  "description": "Which content shape this post carries (mutually exclusive with the others)."
+                                },
+                                "article": {
+                                  "type": "object",
+                                  "properties": {
+                                    "source": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "description": "Article URL. Required for an article post."
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "maxLength": 400,
+                                      "description": "Article headline, ≤400 characters."
+                                    },
+                                    "description": {
+                                      "type": "string",
+                                      "maxLength": 4086,
+                                      "description": "Subtext on the article card, ≤4086 characters."
+                                    },
+                                    "thumbnail_media_id": {
+                                      "type": "string",
+                                      "description": "Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish)."
+                                    }
+                                  },
+                                  "required": ["source"],
+                                  "additionalProperties": false,
+                                  "description": "An article share card."
+                                },
+                                "poll": {
+                                  "type": "object",
+                                  "properties": {
+                                    "question": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 140,
+                                      "description": "The poll question, ≤140 characters."
+                                    },
+                                    "options": {
+                                      "type": "array",
+                                      "minItems": 2,
+                                      "maxItems": 4,
+                                      "items": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 30
+                                      },
+                                      "description": "2–4 options, each 1–30 characters."
+                                    },
+                                    "duration": {
+                                      "enum": [
+                                        "ONE_DAY",
+                                        "THREE_DAYS",
+                                        "SEVEN_DAYS",
+                                        "FOURTEEN_DAYS"
+                                      ],
+                                      "type": "string",
+                                      "description": "How long the poll runs."
+                                    }
+                                  },
+                                  "required": [
+                                    "question",
+                                    "options",
+                                    "duration"
+                                  ],
+                                  "additionalProperties": false,
+                                  "description": "A LinkedIn poll (mutually exclusive with other content)."
+                                },
+                                "document": {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 400,
+                                      "description": "Display title shown above the document. Required for document posts."
+                                    }
+                                  },
+                                  "required": ["title"],
+                                  "additionalProperties": false,
+                                  "description": "Document-post display options (asset rides on media[])."
+                                },
+                                "disable_reshare": {
+                                  "type": "boolean",
+                                  "description": "Disable resharing of this post (default false)."
+                                },
+                                "mentions": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "enum": ["person", "organization"],
+                                        "type": "string",
+                                        "description": "Whether the mentioned entity is a member or an organization."
+                                      },
+                                      "name": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "description": "Rendered text; must match the entity name (case-sensitive) for the link to convert."
+                                      },
+                                      "urn": {
+                                        "type": "string",
+                                        "pattern": "^urn:li:(person|organization):",
+                                        "description": "The mentioned entity urn (supplied by the caller)."
+                                      }
+                                    },
+                                    "required": ["type", "name", "urn"],
+                                    "additionalProperties": false,
+                                    "description": "An inline @mention of a LinkedIn member or organization."
+                                  },
+                                  "description": "Inline @mentions encoded into the commentary at publish."
+                                }
+                              },
+                              "required": ["visibility", "content_kind"],
+                              "additionalProperties": false,
+                              "description": "LinkedIn personal member post settings."
+                            }
+                          },
+                          "required": [
+                            "platform",
+                            "post_type",
+                            "connection_id",
+                            "settings"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "platform": {
+                              "const": "instagram"
+                            },
+                            "post_type": {
+                              "enum": ["single_image", "carousel", "reel"],
+                              "type": "string"
+                            },
+                            "connection_id": {
+                              "type": "string",
+                              "description": "The connected account this variant publishes to."
+                            },
+                            "body": {
+                              "type": "string",
+                              "description": "Caption / commentary / message for the post."
+                            },
+                            "media": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "media_id": {
+                                    "type": "string"
+                                  },
+                                  "crop_box": {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "propertyNames": {
+                                          "type": "string"
+                                        },
+                                        "additionalProperties": {}
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant crop applied at publish; omit for none."
+                                  },
+                                  "alt_text_override": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant alt text; falls back to the asset's."
+                                  }
+                                },
+                                "required": ["media_id"]
+                              },
+                              "default": [],
+                              "description": "Ordered media references; the count drives the post-type rules."
+                            },
+                            "settings": {
+                              "type": "object",
+                              "properties": {
+                                "media_type": {
+                                  "enum": ["IMAGE", "CAROUSEL", "REELS"],
+                                  "type": "string",
+                                  "description": "Feed image, carousel, or reel. Defaults to IMAGE for a single image."
+                                },
+                                "location_id": {
+                                  "type": "string",
+                                  "description": "Facebook Page id representing a location."
+                                },
+                                "user_tags": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "username": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "description": "IG username to tag."
+                                      },
+                                      "x": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Horizontal position on the image, in [0,1]."
+                                      },
+                                      "y": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Vertical position on the image, in [0,1]."
+                                      }
+                                    },
+                                    "required": ["username", "x", "y"],
+                                    "additionalProperties": false
+                                  },
+                                  "description": "Tag users on an image; x/y are fractional positions in [0,1]."
+                                },
+                                "collaborators": {
+                                  "type": "array",
+                                  "maxItems": 3,
+                                  "items": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "description": "≤3 co-author usernames."
+                                },
+                                "share_to_feed": {
+                                  "type": "boolean",
+                                  "description": "Reel also appears in the main feed."
+                                },
+                                "thumb_offset": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991,
+                                  "description": "Reel cover frame offset (ms)."
+                                },
+                                "cover_url": {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "description": "Custom reel cover image URL."
+                                },
+                                "audio_name": {
+                                  "type": "string",
+                                  "description": "Label for the reel's original audio."
+                                }
+                              },
+                              "additionalProperties": false,
+                              "description": "Instagram organic post settings (feed image/carousel + reels)."
+                            }
+                          },
+                          "required": [
+                            "platform",
+                            "post_type",
+                            "connection_id",
+                            "settings"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "platform": {
+                              "const": "facebook_page"
+                            },
+                            "post_type": {
+                              "enum": [
+                                "text",
+                                "single_image",
+                                "multi_image",
+                                "reel"
+                              ],
+                              "type": "string"
+                            },
+                            "connection_id": {
+                              "type": "string",
+                              "description": "The connected account this variant publishes to."
+                            },
+                            "body": {
+                              "type": "string",
+                              "description": "Caption / commentary / message for the post."
+                            },
+                            "media": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "media_id": {
+                                    "type": "string"
+                                  },
+                                  "crop_box": {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "propertyNames": {
+                                          "type": "string"
+                                        },
+                                        "additionalProperties": {}
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant crop applied at publish; omit for none."
+                                  },
+                                  "alt_text_override": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant alt text; falls back to the asset's."
+                                  }
+                                },
+                                "required": ["media_id"]
+                              },
+                              "default": [],
+                              "description": "Ordered media references; the count drives the post-type rules."
+                            },
+                            "settings": {
+                              "type": "object",
+                              "properties": {
+                                "link": {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "description": "URL to unfurl. A feed post needs a body (message) OR a link."
+                                }
+                              },
+                              "additionalProperties": false,
+                              "description": "Facebook Page organic post settings.",
+                              "default": {}
+                            }
+                          },
+                          "required": ["platform", "post_type", "connection_id"]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "platform": {
+                              "const": "tiktok"
+                            },
+                            "post_type": {
+                              "enum": ["video", "single_image", "carousel"],
+                              "type": "string"
+                            },
+                            "connection_id": {
+                              "type": "string",
+                              "description": "The connected account this variant publishes to."
+                            },
+                            "body": {
+                              "type": "string",
+                              "description": "Caption / commentary / message for the post."
+                            },
+                            "media": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "media_id": {
+                                    "type": "string"
+                                  },
+                                  "crop_box": {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "propertyNames": {
+                                          "type": "string"
+                                        },
+                                        "additionalProperties": {}
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant crop applied at publish; omit for none."
+                                  },
+                                  "alt_text_override": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Per-variant alt text; falls back to the asset's."
+                                  }
+                                },
+                                "required": ["media_id"]
+                              },
+                              "default": [],
+                              "description": "Ordered media references; the count drives the post-type rules."
+                            },
+                            "settings": {
+                              "type": "object",
+                              "properties": {
+                                "privacy_level": {
+                                  "enum": [
+                                    "PUBLIC_TO_EVERYONE",
+                                    "MUTUAL_FOLLOW_FRIENDS",
+                                    "FOLLOWER_OF_CREATOR",
+                                    "SELF_ONLY"
+                                  ],
+                                  "type": "string",
+                                  "description": "Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY."
+                                },
+                                "disable_comment": {
+                                  "type": "boolean",
+                                  "description": "Disable comments on this post."
+                                },
+                                "disable_duet": {
+                                  "type": "boolean",
+                                  "description": "Disable Duet (video only)."
+                                },
+                                "disable_stitch": {
+                                  "type": "boolean",
+                                  "description": "Disable Stitch (video only)."
+                                },
+                                "video_cover_timestamp_ms": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991,
+                                  "description": "Video cover frame offset (ms). Video posts only."
+                                },
+                                "photo_cover_index": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991,
+                                  "description": "Which carousel image is the cover (0-based index into the ordered image list). Photo posts only."
+                                },
+                                "auto_add_music": {
+                                  "type": "boolean",
+                                  "description": "Auto-add a TikTok soundtrack. Photo posts only."
+                                },
+                                "brand_content_toggle": {
+                                  "type": "boolean",
+                                  "description": "Disclose a paid partnership (branded content)."
+                                },
+                                "brand_organic_toggle": {
+                                  "type": "boolean",
+                                  "description": "Disclose own-brand promotional content."
+                                },
+                                "is_aigc": {
+                                  "type": "boolean",
+                                  "description": "Disclose AI-generated content. Video posts only."
+                                }
+                              },
+                              "additionalProperties": false,
+                              "description": "TikTok organic post settings (Direct Post: video + photo).",
+                              "default": {}
+                            }
+                          },
+                          "required": ["platform", "post_type", "connection_id"]
+                        }
+                      ],
+                      "description": "A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings."
+                    },
+                    "description": "One entry per channel; at least one."
+                  }
+                },
+                "required": ["profile_id", "variants"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "const": "validation"
+                    },
+                    "publishable": {
+                      "type": "boolean"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "enum": [
+                              "unauthorized",
+                              "forbidden",
+                              "not_found",
+                              "conflict",
+                              "validation_failed",
+                              "rate_limited",
+                              "internal_error",
+                              "idempotency_key_invalid",
+                              "idempotency_key_reused",
+                              "idempotency_request_in_progress",
+                              "account_not_available",
+                              "connection_reauth_required",
+                              "connection_not_pending",
+                              "connection_in_use",
+                              "not_implemented",
+                              "connection_discovery_failed",
+                              "media_processing",
+                              "not_publishable",
+                              "invalid_connection",
+                              "invalid_media",
+                              "profile_scope_invalid",
+                              "media_unprobeable",
+                              "media_too_large",
+                              "media_aspect_ratio_unsupported",
+                              "media_resolution_too_low",
+                              "media_gif_unsupported",
+                              "media_format_recompressed",
+                              "media_resolution_downscaled",
+                              "video_container_unsupported",
+                              "video_codec_unsupported",
+                              "video_audio_codec_unsupported",
+                              "video_too_large",
+                              "video_too_small",
+                              "video_dimensions_unsupported",
+                              "video_dimensions_too_large",
+                              "video_fps_unsupported",
+                              "video_fps_too_low",
+                              "video_aspect_unsupported",
+                              "video_duration_too_short",
+                              "video_duration_exceeds_max",
+                              "video_transform_failed",
+                              "media_fetch_failed",
+                              "document_format_unsupported",
+                              "document_too_large",
+                              "document_too_many_pages",
+                              "media_format_indeterminate",
+                              "media_count_invalid",
+                              "body_too_long",
+                              "content_missing",
+                              "content_conflict",
+                              "content_incomplete",
+                              "content_kind_mismatch",
+                              "media_type_mismatch",
+                              "tag_limit_exceeded",
+                              "reel_field_on_non_reel",
+                              "field_placement_invalid",
+                              "media_not_ready",
+                              "media_failed",
+                              "media_unsupported",
+                              "media_kind_mismatch",
+                              "publishing_unavailable",
+                              "x_duplicate_content",
+                              "x_not_authorized",
+                              "x_rate_limited",
+                              "x_publish_failed",
+                              "x_media_upload_failed",
+                              "linkedin_duplicate_content",
+                              "linkedin_auth_expired",
+                              "linkedin_permission_denied",
+                              "linkedin_media_processing",
+                              "linkedin_media_upload_failed",
+                              "linkedin_publish_failed",
+                              "instagram_media_processing",
+                              "instagram_container_expired",
+                              "instagram_container_failed",
+                              "instagram_rate_limited",
+                              "instagram_not_authorized",
+                              "instagram_publish_failed",
+                              "facebook_reel_processing",
+                              "facebook_reel_failed",
+                              "facebook_rate_limited",
+                              "facebook_not_authorized",
+                              "facebook_publish_failed",
+                              "tiktok_privacy_not_allowed",
+                              "tiktok_duration_exceeds_max",
+                              "tiktok_media_processing",
+                              "tiktok_not_authorized",
+                              "tiktok_rate_limited",
+                              "tiktok_publish_failed",
+                              "connection_platform_mismatch"
+                            ],
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          },
+                          "variant_index": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "number"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": ["code", "message", "variant_index", "path"]
+                      }
+                    }
+                  },
+                  "required": ["object", "publishable", "issues"]
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "object": "validation",
+                      "publishable": false,
+                      "issues": [
+                        {
+                          "code": "unauthorized",
+                          "message": "Looks good.",
+                          "hint": "Example hint",
+                          "allowed": ["Example allowed"],
+                          "got": "Example got",
+                          "variant_index": 42,
+                          "path": ["Example path"]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_invalid"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["The request failed."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [400]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["idempotency_key_invalid"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_invalid"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/unauthorized"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["Authentication is required."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [401]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["unauthorized"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": ["https://docs.postrun.ai/errors/forbidden"]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "You do not have permission to perform this action."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [403]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["forbidden"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["forbidden"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": ["https://docs.postrun.ai/errors/not_found"]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["The requested resource was not found."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [404]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["not_found"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": ["https://docs.postrun.ai/errors/conflict"]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request conflicts with the current state of the resource."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [409]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["conflict", "idempotency_request_in_progress"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["conflict"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_reused"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["The request failed."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [422]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_reused",
+                        "invalid_connection",
+                        "invalid_media"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_reused"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "invalid_connection": {
+                    "summary": "A variant references a connection that does not belong to the post’s profile.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/invalid_connection",
+                      "title": "A variant references a connection that does not belong to the post’s profile.",
+                      "status": 422,
+                      "code": "invalid_connection",
+                      "detail": "A variant references a connection that does not belong to the post’s profile.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "invalid_media": {
+                    "summary": "A variant references a media asset that does not belong to the post’s profile.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/invalid_media",
+                      "title": "A variant references a media asset that does not belong to the post’s profile.",
+                      "status": 422,
+                      "code": "invalid_media",
+                      "detail": "A variant references a media asset that does not belong to the post’s profile.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/rate_limited"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["Rate limit exceeded for this account."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [429]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["rate_limited"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["rate_limited"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, postsValidate } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await postsValidate({\n  client,\n  body: { /* … */ },\n});"
           }
         ]
       }

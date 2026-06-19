@@ -1,5 +1,15 @@
 # @postrun/js
 
+## 1.3.0
+
+### Minor Changes
+
+- Post validation: the SDK builds, the server decides.
+
+  - `buildCreatePost` / `derivePostType` are now TOTAL — they never throw for a media/`post_type` combination. Validity (which media pair with which placement, document support, count limits, empty media) is the SERVER's job, returned as typed issues by the new `POST /v1/posts/validate`. `derivePostType` is best-effort SUGAR for a default placement; the only retained `ComposeError` guards are genuine usage errors (an unresolvable connection, a build with zero channels). An in-progress composition can always be built to validate.
+  - New `useValidatePost(profileId)` (`@postrun/react`) — builds the same best-effort variant set and calls `/posts/validate`, returning `{ validate, publishable, issues, isPending, error, isReady, connectedChannels }`. It is a READ (no cache invalidation); `validate` is a stable callback and the hook never debounces internally (let the caller debounce for live-as-you-type).
+  - New type aliases (`@postrun/js`, re-exported from `@postrun/react`): `PostValidation`, `ValidationIssue`, `ValidatePostInput` — derived from the regenerated client.
+
 ## 1.2.0
 
 ## 1.1.0

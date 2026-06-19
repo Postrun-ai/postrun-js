@@ -17,6 +17,8 @@ import type {
   PostsListData,
   PostsListResponse,
   PostsUpdateData,
+  PostsValidateData,
+  PostsValidateResponse,
   ProfilesCreateData,
   ProfilesGetResponse,
   ProfilesListData,
@@ -121,6 +123,28 @@ export type CreatePostInput = CreatePostBody;
 
 /** The update-post request body — what `buildUpdatePost` produces. */
 export type UpdatePostInput = NonNullable<PostsUpdateData['body']>;
+
+/**
+ * The validate-post request body — the composition-only subset of the create
+ * body (`profile_id` + `variants`). `buildCreatePost` produces a superset, so
+ * its output is structurally assignable here. Derived from the contract.
+ */
+export type ValidatePostInput = NonNullable<PostsValidateData['body']>;
+
+/**
+ * The server's publish-readiness verdict for a composed post — `{ object,
+ * publishable, issues }`. The SERVER is the sole authority on validity; the SDK
+ * only builds a best-effort payload and relays this result. Derived from the
+ * contract, never hand-declared.
+ */
+export type PostValidation = PostsValidateResponse;
+
+/**
+ * One typed, per-variant problem in a `PostValidation` — a closed-registry
+ * `code`, a human `message`, the `variant_index` + `path` it applies to, and the
+ * optional `hint`/`allowed`/`got` the rule produced. Narrowed from the contract.
+ */
+export type ValidationIssue = PostValidation['issues'][number];
 
 /** A posting platform — the variant discriminator (x / linkedin / …). */
 export type PostPlatform = PostVariantInput['platform'];

@@ -97,17 +97,26 @@ test('TikTok derives video / single_image / carousel and resolves its connection
   expect(build([vid('m1')]).connection_id).toBe('conn_tt');
 });
 
-test('TikTok rejects empty media, mixed media, multiple videos, and documents', () => {
+// Validity is the SERVER's job now — `derivePostType` is best-effort SUGAR and
+// NEVER throws for a media/post_type combination. The build always produces a
+// variant; the `POST /v1/posts/validate` endpoint returns the typed issue. These
+// shapes used to throw locally; they must now return a best-effort post_type.
+
+test('TikTok build is TOTAL — empty/mixed/multi-video/document no longer throw', () => {
   const build = (items: ReturnType<typeof media>[]) =>
     buildCreatePost(
       { profileId: 'p', content: { media: items }, channels: { tiktok: { settings: {} } } },
       conns,
-    );
+    ).variants.find((v) => v.platform === 'tiktok')!;
 
-  expect(() => build([])).toThrow(/tiktok requires at least one media/i);
-  expect(() => build([img('m1'), vid('m2')])).toThrow(/can't combine images and video/i);
-  expect(() => build([vid('m1'), vid('m2')])).toThrow(/at most one video/i);
-  expect(() => build([doc('m1')])).toThrow(/document/i);
+  // empty → best-effort single_image (server decides if TikTok needs media)
+  expect(build([]).post_type).toBe('single_image');
+  // image+video mix → a video present wins `video` (server rejects the blend)
+  expect(build([img('m1'), vid('m2')]).post_type).toBe('video');
+  // >1 video → best-effort video (server enforces the one-video rule)
+  expect(build([vid('m1'), vid('m2')]).post_type).toBe('video');
+  // document → best-effort placement (server rejects unsupported docs)
+  expect(build([doc('m1')]).post_type).toBe('single_image');
 });
 
 test('Instagram derives carousel for any 2+ item set (mixed image+video allowed)', () => {
@@ -122,28 +131,29 @@ test('Instagram derives carousel for any 2+ item set (mixed image+video allowed)
   expect(post.variants[0]!.post_type).toBe('carousel');
 });
 
-test('throws on image+video mix on a single-placement platform (X)', () => {
-  expect(() =>
-    buildCreatePost(
-      { profileId: 'p', content: { media: [img('m1'), vid('m2')] }, channels: { x: { settings: {} } } },
-      conns,
-    ),
-  ).toThrow(/images and video/i);
+test('X build is TOTAL — image+video mix no longer throws (best-effort placement)', () => {
+  const post = buildCreatePost(
+    { profileId: 'p', content: { media: [img('m1'), vid('m2')] }, channels: { x: { settings: {} } } },
+    conns,
+  );
+  // A video present wins the best-effort placement; the server rules the blend.
+  expect(post.variants[0]!.post_type).toBe('video');
 });
 
-test('throws on multiple videos for a single-video platform (X)', () => {
-  expect(() =>
-    buildCreatePost(
-      { profileId: 'p', content: { media: [vid('v1'), vid('v2')] }, channels: { x: { settings: {} } } },
-      conns,
-    ),
-  ).toThrow(/at most one video/i);
+test('X build is TOTAL — multiple videos no longer throw (best-effort video)', () => {
+  const post = buildCreatePost(
+    { profileId: 'p', content: { media: [vid('v1'), vid('v2')] }, channels: { x: { settings: {} } } },
+    conns,
+  );
+  expect(post.variants[0]!.post_type).toBe('video');
 });
 
-test('Instagram requires media', () => {
-  expect(() =>
-    buildCreatePost({ profileId: 'p', content: { body: 'hi' }, channels: { instagram: { settings: {} } } }, conns),
-  ).toThrow(/instagram.*media/i);
+test('Instagram build is TOTAL — empty media no longer throws (best-effort single_image)', () => {
+  const post = buildCreatePost(
+    { profileId: 'p', content: { body: 'hi' }, channels: { instagram: { settings: {} } } },
+    conns,
+  );
+  expect(post.variants[0]!.post_type).toBe('single_image');
 });
 
 /* ------------------------------- documents -------------------------------- */
@@ -164,13 +174,13 @@ test('LinkedIn document → single_image post_type, customer-owned content_kind 
   expect(v.settings).toEqual({ visibility: 'PUBLIC', content_kind: 'document', document: { title: 'Q3' } });
 });
 
-test('throws on a document for a platform that does not support documents (X)', () => {
-  expect(() =>
-    buildCreatePost(
-      { profileId: 'p', content: { media: [doc('d1')] }, channels: { x: { settings: {} } } },
-      conns,
-    ),
-  ).toThrow(/document/i);
+test('document on a platform that does not support documents (X) is TOTAL — server rejects', () => {
+  const post = buildCreatePost(
+    { profileId: 'p', content: { media: [doc('d1')] }, channels: { x: { settings: {} } } },
+    conns,
+  );
+  // A lone item → best-effort single_image; the server returns the typed issue.
+  expect(post.variants[0]!.post_type).toBe('single_image');
 });
 
 /* ----------------------------- overrides & plumbing ----------------------- */

@@ -68,10 +68,12 @@ export {
   useCalendar,
   usePost,
   useCreatePost,
+  useValidatePost,
   useUpdatePost,
   useDeletePost,
 } from './posts';
 export type { CalendarFilters, LiveOptions } from './posts';
+export type { PostValidation, ValidationIssue } from '@postrun/js';
 export { useInfiniteList } from './infinite-list';
 export type { InfiniteList } from './infinite-list';
 export { profileKeys, connectionKeys, mediaKeys, postKeys } from './keys';

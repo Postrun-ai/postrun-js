@@ -68,7 +68,14 @@ export interface ComposeUpdateInput {
 /** The connections a build resolves against (accepts a full `Connection[]`). */
 export type ConnectionRef = Pick<Connection, 'id' | 'platform'>;
 
-/** Thrown when a post can't be composed (no connection, unsupported media, …). */
+/**
+ * Thrown only for a genuine USAGE error the SDK can't paper over — an
+ * unresolvable connection, or a build with zero channels. It is NEVER thrown for
+ * a media/`post_type` combination: validity (which media pair with which
+ * post_type, document support, count limits, …) is the SERVER's job, surfaced as
+ * typed `ValidationIssue`s by `POST /v1/posts/validate`. `derivePostType` is
+ * best-effort SUGAR, so the SDK can always build an in-progress composition.
+ */
 export class ComposeError extends Error {
   constructor(message: string) {
     super(message);
@@ -91,8 +98,11 @@ interface ResolvedChannel<P extends PostPlatform> {
 
 /**
  * Each platform implements two layers:
- *  - `derivePostType` — the SUGAR: guess `post_type` from the media. Pure; only
- *    runs when the caller doesn't pass `postType`.
+ *  - `derivePostType` — the SUGAR: a BEST-EFFORT default `post_type` guessed from
+ *    the media. Pure and TOTAL — it NEVER throws and never decides validity; it
+ *    only runs when the caller doesn't pass `postType`. The SERVER
+ *    (`POST /v1/posts/validate`) is the sole authority on whether the
+ *    composition is publishable, returning typed `ValidationIssue`s.
  *  - `buildVariant` — the explicit CORE: assemble the typed variant from a
  *    resolved channel. Passes `settings` straight through (the customer owns it).
  * Splitting them keeps the core stable and the derivation purely additive.
@@ -114,40 +124,26 @@ function countKinds(media: readonly MediaInput[]) {
   return { images, videos, documents };
 }
 
-function rejectDocuments(media: readonly MediaInput[], platform: string): void {
-  if (countKinds(media).documents > 0) {
-    throw new ComposeError(`${platform} does not support document uploads.`);
-  }
-}
-
 /**
  * X / LinkedIn / Facebook have no mixed-media placement: a post is text, images,
- * OR a single video — never a blend. Reject the combos that have no valid
- * post_type here (a clear local error), not as a server 422.
+ * OR a single video. This is a BEST-EFFORT guess — it never throws. When a video
+ * is present it wins the placement (`video`/`reel`), else 2+ images is
+ * `multi_image` and a lone item is `single_image`. The SERVER rules on whether
+ * the actual combination (a blend, >1 video, a document) is publishable.
  */
 function deriveSinglePlacement<V extends 'video' | 'reel'>(
   media: readonly MediaInput[],
-  platform: string,
   videoType: V,
 ): 'single_image' | 'multi_image' | V {
   const { images, videos } = countKinds(media);
-  if (images > 0 && videos > 0) {
-    throw new ComposeError(
-      `${platform} can't combine images and video in one post — split them into separate posts.`,
-    );
-  }
-  if (videos > 1) {
-    throw new ComposeError(`${platform} allows at most one video per post.`);
-  }
-  if (videos === 1) return videoType;
+  if (videos >= 1) return videoType;
   return images >= 2 ? 'multi_image' : 'single_image';
 }
 
 const xHandler: PlatformHandler<'x'> = {
   derivePostType: (media) => {
     if (media.length === 0) return 'text';
-    rejectDocuments(media, 'X');
-    return deriveSinglePlacement(media, 'X', 'video');
+    return deriveSinglePlacement(media, 'video');
   },
   buildVariant: ({ settings, postType, connectionId, body, media }) => ({
     platform: 'x',
@@ -164,13 +160,11 @@ const linkedInHandler: PlatformHandler<'linkedin'> = {
     if (media.length === 0) return 'text';
     if (countKinds(media).documents > 0) {
       // A document rides as a `single_image` post_type; the customer sets
-      // `content_kind: 'document'` in settings — we don't infer it.
-      if (media.length > 1) {
-        throw new ComposeError('A LinkedIn document post takes a single document.');
-      }
+      // `content_kind: 'document'` in settings — we don't infer it. Best-effort:
+      // multi-document is a server concern, not a local throw.
       return 'single_image';
     }
-    return deriveSinglePlacement(media, 'LinkedIn', 'video');
+    return deriveSinglePlacement(media, 'video');
   },
   buildVariant: ({ settings, postType, connectionId, body, media }) => ({
     platform: 'linkedin',
@@ -185,8 +179,7 @@ const linkedInHandler: PlatformHandler<'linkedin'> = {
 const facebookHandler: PlatformHandler<'facebook_page'> = {
   derivePostType: (media) => {
     if (media.length === 0) return 'text';
-    rejectDocuments(media, 'Facebook');
-    return deriveSinglePlacement(media, 'Facebook', 'reel');
+    return deriveSinglePlacement(media, 'reel');
   },
   buildVariant: ({ settings, postType, connectionId, body, media }) => ({
     platform: 'facebook_page',
@@ -200,12 +193,9 @@ const facebookHandler: PlatformHandler<'facebook_page'> = {
 
 const instagramHandler: PlatformHandler<'instagram'> = {
   derivePostType: (media) => {
-    if (media.length === 0) {
-      throw new ComposeError('Instagram requires at least one media item.');
-    }
-    rejectDocuments(media, 'Instagram');
-    // 2+ items is always a carousel (the API allows it to mix image/gif/video);
-    // a lone item is a reel (video) or a single image.
+    // Best-effort: empty media falls back to `single_image` (the server rules on
+    // whether Instagram needs media). 2+ items is a carousel (the API allows it
+    // to mix image/gif/video); a lone video is a reel, else a single image.
     if (media.length >= 2) return 'carousel';
     return countKinds(media).videos === 1 ? 'reel' : 'single_image';
   },
@@ -221,22 +211,13 @@ const instagramHandler: PlatformHandler<'instagram'> = {
 
 const tiktokHandler: PlatformHandler<'tiktok'> = {
   derivePostType: (media) => {
-    if (media.length === 0) {
-      throw new ComposeError('TikTok requires at least one media item.');
-    }
-    rejectDocuments(media, 'TikTok');
+    // Best-effort: TikTok keeps video and photo posts separate (a video post is
+    // one standalone video; photos form a single image or a multi-photo
+    // carousel). A video present wins `video`; else 2+ images is a carousel and a
+    // lone item is `single_image`. The SERVER rules on a blend / >1 video / docs /
+    // empty media.
     const { images, videos } = countKinds(media);
-    // TikTok keeps video and photo posts separate: a video post is one standalone
-    // video; photos form a single image or a multi-photo carousel. No blend.
-    if (images > 0 && videos > 0) {
-      throw new ComposeError(
-        "TikTok can't combine images and video in one post — split them into separate posts.",
-      );
-    }
-    if (videos > 1) {
-      throw new ComposeError('TikTok allows at most one video per post.');
-    }
-    if (videos === 1) return 'video';
+    if (videos >= 1) return 'video';
     return images >= 2 ? 'carousel' : 'single_image';
   },
   buildVariant: ({ settings, postType, connectionId, body, media }) => ({
@@ -345,6 +326,10 @@ function buildVariants(
   });
 
   if (variants.length === 0) {
+    // The ONE retained composition-level guard: "you called build with no
+    // channels" is a programmer USAGE error, not a per-end-user validity judgment.
+    // It is NOT a verdict on whether any media/post_type combination is
+    // publishable — that authority lives entirely on the server.
     throw new ComposeError('At least one channel is required.');
   }
   return variants;
@@ -353,9 +338,11 @@ function buildVariants(
 /**
  * Turn an ergonomic `{ content, channels }` input into the exact
  * `CreatePostInput` the API expects — resolving each channel's connection,
- * attaching the shared/overridden media, and deriving `post_type` from that
- * media. The customer never assembles `variants[]` or sees a `connection_id`,
- * and owns each channel's typed `settings`.
+ * attaching the shared/overridden media, and deriving a best-effort `post_type`
+ * from that media (sugar — the server validates the real composition). The build
+ * is TOTAL: it never throws for a media/post_type combination, so an in-progress
+ * post can always be built to validate. The customer never assembles `variants[]`
+ * or sees a `connection_id`, and owns each channel's typed `settings`.
  */
 export function buildCreatePost(
   input: ComposePostInput,

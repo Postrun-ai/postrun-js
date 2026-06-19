@@ -1,5 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+import { useCallback } from 'react';
+
 import {
   buildCreatePost,
   isPostPlatform,
@@ -8,12 +10,15 @@ import {
   postsGet,
   postsList,
   postsUpdate,
+  postsValidate,
 } from '@postrun/js';
 import type {
   ComposePostInput,
   ListPostsQuery,
   Post,
+  PostValidation,
   UpdatePostInput,
+  ValidationIssue,
 } from '@postrun/js';
 
 /**
@@ -192,6 +197,67 @@ export function useCreatePost(profileId: string) {
     reset: mutation.reset,
     // The profile's connections must load before `create` can resolve a channel;
     // gate on this so a call during loading isn't mislabeled "not connected".
+    isReady: connections.isSuccess,
+    connectedChannels: connected
+      .map((connection) => connection.platform)
+      .filter(isPostPlatform),
+  };
+}
+
+/**
+ * Validate a composed post WITHOUT saving or publishing it — the read-scoped
+ * `POST /v1/posts/validate`. Builds the same best-effort variant set as
+ * `useCreatePost` (via `buildCreatePost`), sends it, and relays the SERVER's
+ * verdict: `publishable` (the single gate boolean) + `issues` (typed, per-variant
+ * problems to render inline). The SDK makes NO validity judgment — the server is
+ * the sole authority.
+ *
+ * It is a READ: no query-cache invalidation, no mutation handle. `validate` is a
+ * stable callback (safe in deps); the caller debounces for live-as-you-type — the
+ * hook never debounces internally. One call, no waterfall (connections are loaded
+ * once by the shared `useConnections`).
+ */
+export function useValidatePost(profileId: string) {
+  const { client, queryClient } = usePostrun();
+  const connections = useConnections(profileId);
+  const connected = connections.data?.data ?? [];
+
+  // A mutation models the imperative, caller-triggered action (it is NOT a write
+  // — no `onSuccess` invalidation runs). `data` holds the latest verdict.
+  const mutation = useMutation(
+    {
+      mutationFn: async (
+        input: Omit<ComposePostInput, 'profileId'>,
+      ): Promise<PostValidation> =>
+        (
+          await postsValidate({
+            client,
+            body: buildCreatePost({ ...input, profileId }, connected),
+          })
+        ).data,
+    },
+    queryClient,
+  );
+
+  // Stable across renders: `mutateAsync` is referentially stable in TanStack
+  // Query v5, so this callback is too — safe to put in an effect's deps.
+  const { mutateAsync } = mutation;
+  const validate = useCallback(
+    (input: Omit<ComposePostInput, 'profileId'>): Promise<PostValidation> =>
+      mutateAsync(input),
+    [mutateAsync],
+  );
+
+  const issues: ValidationIssue[] = mutation.data?.issues ?? [];
+
+  return {
+    validate,
+    // The server's verdict (undefined until the first call resolves).
+    publishable: mutation.data?.publishable,
+    issues,
+    isPending: mutation.isPending,
+    error: mutation.error,
+    // Connections must load before `validate` can resolve a channel.
     isReady: connections.isSuccess,
     connectedChannels: connected
       .map((connection) => connection.platform)

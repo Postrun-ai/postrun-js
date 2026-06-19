@@ -3345,13 +3345,13 @@
                           "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
                           "platform": "meta_ads",
                           "kind": "posting",
-                          "status": "pending",
+                          "status": "active",
                           "external_account_id": "act_1029384756",
                           "external_account_name": "Acme Ads",
-                          "username": "Example username",
-                          "avatar_url": "https://example.com/u/jane",
-                          "profile_url": "https://example.com/u/jane",
-                          "reauth_at": "2026-06-16T14:32:08Z",
+                          "username": "acme",
+                          "avatar_url": "https://pbs.twimg.com/profile_images/1/avatar.jpg",
+                          "profile_url": "https://x.com/acme",
+                          "reauth_at": null,
                           "currency": "USD",
                           "created_at": "2026-06-16T14:32:08Z",
                           "updated_at": "2026-06-16T14:32:08Z"
@@ -3981,13 +3981,13 @@
                       "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
                       "platform": "meta_ads",
                       "kind": "posting",
-                      "status": "pending",
+                      "status": "active",
                       "external_account_id": "act_1029384756",
                       "external_account_name": "Acme Ads",
-                      "username": "Example username",
-                      "avatar_url": "https://example.com/u/jane",
-                      "profile_url": "https://example.com/u/jane",
-                      "reauth_at": "2026-06-16T14:32:08Z",
+                      "username": "acme",
+                      "avatar_url": "https://pbs.twimg.com/profile_images/1/avatar.jpg",
+                      "profile_url": "https://x.com/acme",
+                      "reauth_at": null,
                       "currency": "USD",
                       "created_at": "2026-06-16T14:32:08Z",
                       "updated_at": "2026-06-16T14:32:08Z"
@@ -4627,13 +4627,13 @@
                       "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
                       "platform": "meta_ads",
                       "kind": "posting",
-                      "status": "pending",
+                      "status": "active",
                       "external_account_id": "act_1029384756",
                       "external_account_name": "Acme Ads",
-                      "username": "Example username",
-                      "avatar_url": "https://example.com/u/jane",
-                      "profile_url": "https://example.com/u/jane",
-                      "reauth_at": "2026-06-16T14:32:08Z",
+                      "username": "acme",
+                      "avatar_url": "https://pbs.twimg.com/profile_images/1/avatar.jpg",
+                      "profile_url": "https://x.com/acme",
+                      "reauth_at": null,
                       "currency": "USD",
                       "created_at": "2026-06-16T14:32:08Z",
                       "updated_at": "2026-06-16T14:32:08Z"
@@ -5906,15 +5906,15 @@
                           "external_account_id": "act_1029384756",
                           "name": "Acme Co.",
                           "currency": "USD",
-                          "username": "Example username",
-                          "avatar_url": "https://example.com/u/jane",
-                          "profile_url": "https://example.com/u/jane",
+                          "username": "acme",
+                          "avatar_url": "https://pbs.twimg.com/profile_images/1/avatar.jpg",
+                          "profile_url": "https://x.com/acme",
                           "instagram": {
                             "external_account_id": "act_1029384756",
                             "name": "Acme Co.",
-                            "username": "Example username",
-                            "avatar_url": "https://example.com/u/jane",
-                            "profile_url": "https://example.com/u/jane"
+                            "username": "acme",
+                            "avatar_url": "https://pbs.twimg.com/profile_images/1/avatar.jpg",
+                            "profile_url": "https://x.com/acme"
                           }
                         }
                       ]
@@ -6533,6 +6533,18 @@
                       "type": "string",
                       "description": "Short-lived scoped token (connections read/write on this profile) the hosted page uses to drive the public discover/select API."
                     },
+                    "connect_session_token": {
+                      "type": "string",
+                      "description": "The raw Nango connect-session token to pass to `nango.auth()` for the embedded (no-redirect) flow. ~30-min short-lived scoped bearer — keep in client memory, never log."
+                    },
+                    "provider_config_key": {
+                      "type": "string",
+                      "description": "The Nango integration id for the platform, the first argument to `nango.auth()` (e.g. `facebook` for Meta, `twitter-v2` for X)."
+                    },
+                    "nango_host": {
+                      "type": "string",
+                      "description": "The Nango host the embedded SDK constructs its client with (`new Nango({ host, connectSessionToken })`)."
+                    },
                     "expires_at": {
                       "type": "string",
                       "description": "ISO-8601 time when the session token expires."
@@ -6541,6 +6553,9 @@
                   "required": [
                     "hosted_connect_url",
                     "connect_token",
+                    "connect_session_token",
+                    "provider_config_key",
+                    "nango_host",
                     "expires_at"
                   ]
                 },
@@ -6549,6 +6564,9 @@
                     "value": {
                       "hosted_connect_url": "https://example.com/u/jane",
                       "connect_token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcm9mXzEyMyJ9.sig",
+                      "connect_session_token": "Example connect session token",
+                      "provider_config_key": "Example provider config key",
+                      "nango_host": "Example nango host",
                       "expires_at": "2026-06-16T14:32:08Z"
                     }
                   }
@@ -7125,6 +7143,27 @@
                       "enum": ["uploading", "processing", "ready", "failed"],
                       "type": "string"
                     },
+                    "progress": {
+                      "type": "object",
+                      "properties": {
+                        "stage": {
+                          "enum": [
+                            "queued",
+                            "analyzing",
+                            "transcoding",
+                            "done"
+                          ],
+                          "type": "string"
+                        },
+                        "percent": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        }
+                      },
+                      "required": ["stage", "percent"],
+                      "description": "In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry."
+                    },
                     "raw": {
                       "type": "boolean"
                     },
@@ -7546,6 +7585,7 @@
                     "kind",
                     "content_type",
                     "status",
+                    "progress",
                     "raw",
                     "error",
                     "source",
@@ -7567,6 +7607,10 @@
                       "kind": "image",
                       "content_type": "Example content type",
                       "status": "uploading",
+                      "progress": {
+                        "stage": "queued",
+                        "percent": 42
+                      },
                       "raw": false,
                       "error": null,
                       "source": {
@@ -8219,6 +8263,27 @@
                             ],
                             "type": "string"
                           },
+                          "progress": {
+                            "type": "object",
+                            "properties": {
+                              "stage": {
+                                "enum": [
+                                  "queued",
+                                  "analyzing",
+                                  "transcoding",
+                                  "done"
+                                ],
+                                "type": "string"
+                              },
+                              "percent": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "required": ["stage", "percent"],
+                            "description": "In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry."
+                          },
                           "raw": {
                             "type": "boolean"
                           },
@@ -8602,6 +8667,7 @@
                           "kind",
                           "content_type",
                           "status",
+                          "progress",
                           "raw",
                           "error",
                           "source",
@@ -8659,6 +8725,10 @@
                           "kind": "image",
                           "content_type": "Example content type",
                           "status": "uploading",
+                          "progress": {
+                            "stage": "queued",
+                            "percent": 42
+                          },
                           "raw": false,
                           "error": null,
                           "source": {
@@ -9208,6 +9278,27 @@
                       "enum": ["uploading", "processing", "ready", "failed"],
                       "type": "string"
                     },
+                    "progress": {
+                      "type": "object",
+                      "properties": {
+                        "stage": {
+                          "enum": [
+                            "queued",
+                            "analyzing",
+                            "transcoding",
+                            "done"
+                          ],
+                          "type": "string"
+                        },
+                        "percent": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        }
+                      },
+                      "required": ["stage", "percent"],
+                      "description": "In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry."
+                    },
                     "raw": {
                       "type": "boolean"
                     },
@@ -9591,6 +9682,7 @@
                     "kind",
                     "content_type",
                     "status",
+                    "progress",
                     "raw",
                     "error",
                     "source",
@@ -9611,6 +9703,10 @@
                       "kind": "image",
                       "content_type": "Example content type",
                       "status": "uploading",
+                      "progress": {
+                        "stage": "queued",
+                        "percent": 42
+                      },
                       "raw": false,
                       "error": null,
                       "source": {
@@ -10225,6 +10321,27 @@
                       "enum": ["uploading", "processing", "ready", "failed"],
                       "type": "string"
                     },
+                    "progress": {
+                      "type": "object",
+                      "properties": {
+                        "stage": {
+                          "enum": [
+                            "queued",
+                            "analyzing",
+                            "transcoding",
+                            "done"
+                          ],
+                          "type": "string"
+                        },
+                        "percent": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        }
+                      },
+                      "required": ["stage", "percent"],
+                      "description": "In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry."
+                    },
                     "raw": {
                       "type": "boolean"
                     },
@@ -10608,6 +10725,7 @@
                     "kind",
                     "content_type",
                     "status",
+                    "progress",
                     "raw",
                     "error",
                     "source",
@@ -10628,6 +10746,10 @@
                       "kind": "image",
                       "content_type": "Example content type",
                       "status": "uploading",
+                      "progress": {
+                        "stage": "queued",
+                        "percent": 42
+                      },
                       "raw": false,
                       "error": null,
                       "source": {

@@ -3,8 +3,8 @@
 React provider and hooks for the [Postrun API](https://postrun.ai).
 
 Wrap your app once, then build your UI from hooks that handle the data fetching,
-caching, and orchestration for you — the hosted OAuth connect flow, the media
-upload pipeline, live status polling, and pagination.
+caching, and orchestration for you — the embedded one-click OAuth connect flow,
+the media upload pipeline, live status polling, and pagination.
 
 ```tsx
 import { PostrunProvider } from '@postrun/react';
@@ -32,9 +32,9 @@ calls `getToken` to supply it. The secret key never touches the browser.
 **Profiles** — `useProfiles` · `useProfilesInfinite` · `useProfile` ·
 `useCreateProfile` · `useUpdateProfile` · `useDeleteProfile`
 
-**Connections** — `useConnect` (hosted OAuth) · `useConnections` ·
-`useConnection` · `useDiscoverableAccounts` · `useSelectAccount` ·
-`useDisconnect`
+**Connections** — `useConnect` (embedded one-click OAuth) · `Connect` (drop-in) ·
+`useConnections` · `useConnection` · `useDiscoverableAccounts` ·
+`useSelectAccount` · `useDisconnect`
 
 **Media** — `useMediaUpload` (signed upload → bytes → poll until ready) ·
 `useMedia` · `useUpdateMedia` · `useDeleteMedia`
@@ -49,6 +49,60 @@ settles, so a scheduled post visibly transitions with no manual refetch.
 
 Composite, opinionated UI (a post composer, a calendar grid) is **deliberately
 not shipped** — that's your product and your taste. Build it from the hooks above.
+
+## One-click connect
+
+Connect a platform from **your own button**, in your own app — no redirect, no
+second click. `<Connect>` runs the OAuth popup in-page and, for multi-account
+platforms (Meta Ads, Facebook Pages), hands you the discoverable accounts to draw
+your own picker. It's headless: you render every pixel.
+
+```tsx
+import { Connect } from '@postrun/react';
+
+function ConnectX({
+  profileId,
+  onConnected,
+}: {
+  profileId: string;
+  onConnected: () => void; // e.g. refetch your connections list
+}) {
+  return (
+    <Connect profileId={profileId} platform="x" onConnected={onConnected}>
+      {({ state, start, select, reset }) => {
+        if (state.phase === 'picking') {
+          return (
+            <ul>
+              {state.accounts.map((a) => (
+                <li key={a.external_account_id}>
+                  <button onClick={() => select(a.external_account_id)}>
+                    {a.name ?? a.external_account_id}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        if (state.phase === 'error') {
+          return <button onClick={reset}>Try again</button>;
+        }
+        return (
+          // `start` MUST be called directly in the click — it opens the popup
+          // synchronously, so the browser keeps it inside the user gesture.
+          <button onClick={start} disabled={state.phase !== 'idle'}>
+            {state.phase === 'active' ? 'Connected ✓' : 'Connect X'}
+          </button>
+        );
+      }}
+    </Connect>
+  );
+}
+```
+
+Prefer wiring it yourself? `useConnect({ profileId, platform, onConnected })`
+returns the same `{ state, start, select, reset }` — `<Connect>` is just a thin
+render-prop wrapper over it. The hosted `/connect` page remains available as a
+no-SDK fallback (link to the `hosted_connect_url` from a `POST .../connect`).
 
 ## License
 

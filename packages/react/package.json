@@ -1,6 +1,6 @@
 {
   "name": "@postrun/react",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "React provider, hooks, and headless components for the Postrun API",
   "license": "Apache-2.0",
   "homepage": "https://postrun.ai",
@@ -35,9 +35,11 @@
     "react": "^18.2.0 || ^19.0.0"
   },
   "dependencies": {
+    "@nangohq/frontend": "^0.69.50",
     "@postrun/js": "workspace:*",
     "@tanstack/react-query": "^5.101.0",
     "axios": "^1.18.0",
+    "p-limit": "^6.2.0",
     "p-retry": "^8.0.0",
     "p-wait-for": "^6.0.0",
     "react-icons": "^5.6.0",

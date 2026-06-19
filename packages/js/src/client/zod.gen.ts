@@ -421,6 +421,9 @@ export const zConnectionsConnectPath = z.object({
 export const zConnectionsConnectResponse = z.object({
     hosted_connect_url: z.string(),
     connect_token: z.string(),
+    connect_session_token: z.string(),
+    provider_config_key: z.string(),
+    nango_host: z.string(),
     expires_at: z.string()
 });
 
@@ -470,6 +473,15 @@ export const zMediaListResponse = z.object({
             'ready',
             'failed'
         ]),
+        progress: z.object({
+            stage: z.enum([
+                'queued',
+                'analyzing',
+                'transcoding',
+                'done'
+            ]),
+            percent: z.int().gte(0).lte(100)
+        }),
         raw: z.boolean(),
         error: z.object({
             code: z.enum([
@@ -658,6 +670,15 @@ export const zMediaCreateResponse = z.object({
         'ready',
         'failed'
     ]),
+    progress: z.object({
+        stage: z.enum([
+            'queued',
+            'analyzing',
+            'transcoding',
+            'done'
+        ]),
+        percent: z.int().gte(0).lte(100)
+    }),
     raw: z.boolean(),
     error: z.object({
         code: z.enum([
@@ -833,6 +854,15 @@ export const zMediaGetResponse = z.object({
         'ready',
         'failed'
     ]),
+    progress: z.object({
+        stage: z.enum([
+            'queued',
+            'analyzing',
+            'transcoding',
+            'done'
+        ]),
+        percent: z.int().gte(0).lte(100)
+    }),
     raw: z.boolean(),
     error: z.object({
         code: z.enum([
@@ -1007,6 +1037,15 @@ export const zMediaUpdateResponse = z.object({
         'ready',
         'failed'
     ]),
+    progress: z.object({
+        stage: z.enum([
+            'queued',
+            'analyzing',
+            'transcoding',
+            'done'
+        ]),
+        percent: z.int().gte(0).lte(100)
+    }),
     raw: z.boolean(),
     error: z.object({
         code: z.enum([

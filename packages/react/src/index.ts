@@ -33,7 +33,18 @@ export {
   useSelectAccount,
   useDisconnect,
 } from './connections';
-export type { ConnectParams } from './connections';
+export type {
+  UseConnectParams,
+  UseConnectResult,
+  ConnectState,
+} from './connections';
+export type {
+  ConnectErrorReason,
+  ConnectOutcome,
+  DiscoverableAccount,
+} from './connect-machine';
+export { Connect } from './Connect';
+export type { ConnectProps, ConnectRenderApi } from './Connect';
 export type { ConnectionsFilter } from './keys';
 export {
   useMediaUpload,
@@ -43,7 +54,13 @@ export {
   useUpdateMedia,
   useDeleteMedia,
 } from './media';
-export type { MediaUploadStatus, MediaUploadOptions } from './media';
+export type {
+  MediaUploadStatus,
+  MediaUploadOptions,
+  MediaUploadItem,
+  UseMediaUploadResult,
+  UseMediaUploadOptions,
+} from './media';
 export { UploadError } from './upload-bytes';
 export {
   usePosts,

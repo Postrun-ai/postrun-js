@@ -3159,6 +3159,18 @@ export type ConnectionsConnectResponses = {
          */
         connect_token: string;
         /**
+         * The raw Nango connect-session token to pass to `nango.auth()` for the embedded (no-redirect) flow. ~30-min short-lived scoped bearer — keep in client memory, never log.
+         */
+        connect_session_token: string;
+        /**
+         * The Nango integration id for the platform, the first argument to `nango.auth()` (e.g. `facebook` for Meta, `twitter-v2` for X).
+         */
+        provider_config_key: string;
+        /**
+         * The Nango host the embedded SDK constructs its client with (`new Nango({ host, connectSessionToken })`).
+         */
+        nango_host: string;
+        /**
          * ISO-8601 time when the session token expires.
          */
         expires_at: string;
@@ -3438,6 +3450,13 @@ export type MediaListResponses = {
              */
             content_type: string | null;
             status: 'uploading' | 'processing' | 'ready' | 'failed';
+            /**
+             * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+             */
+            progress: {
+                stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                percent: number;
+            };
             raw: boolean;
             /**
              * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
@@ -3791,6 +3810,13 @@ export type MediaCreateResponses = {
          */
         content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
+        /**
+         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+         */
+        progress: {
+            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+            percent: number;
+        };
         raw: boolean;
         /**
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
@@ -4337,6 +4363,13 @@ export type MediaGetResponses = {
          */
         content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
+        /**
+         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+         */
+        progress: {
+            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+            percent: number;
+        };
         raw: boolean;
         /**
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
@@ -4655,6 +4688,13 @@ export type MediaUpdateResponses = {
          */
         content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
+        /**
+         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+         */
+        progress: {
+            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+            percent: number;
+        };
         raw: boolean;
         /**
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.

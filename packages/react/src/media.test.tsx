@@ -11,6 +11,7 @@ import {
   useUpdateMedia,
 } from './media';
 import { recordFetch, testWrapper } from './test-utils';
+import { uploadBytes } from './upload-bytes';
 
 // Mock the upload seam so tests never touch real axios/XHR.
 vi.mock('./upload-bytes', () => ({
@@ -20,12 +21,31 @@ vi.mock('./upload-bytes', () => ({
   },
 }));
 
+const mockedUpload = vi.mocked(uploadBytes);
+
+/** The default upload behaviour: report 100% and resolve. */
+const defaultUpload = async (
+  _target: unknown,
+  _file: unknown,
+  opts?: { onProgress?: (fraction: number) => void },
+) => opts?.onProgress?.(1);
+
+/** Map a status to the `progress` the API would report alongside it. */
+function progressFor(status: string) {
+  if (status === 'ready' || status === 'failed') {
+    return { stage: 'done', percent: 100 };
+  }
+  if (status === 'processing') return { stage: 'transcoding', percent: 65 };
+  return { stage: 'queued', percent: 0 };
+}
+
 const MEDIA = {
   id: 'med_1',
   object: 'media',
   profile_id: 'prof_1',
   kind: 'video',
   status: 'ready',
+  progress: { stage: 'done', percent: 100 },
   raw: false,
   error: null,
   source: { format: 'video/mp4', bytes: 1000, width: 1080, height: 1920, duration_ms: 5000 },
@@ -77,8 +97,8 @@ function mockMedia(getStatuses: string[] = ['ready']) {
         return json(MEDIA_LIST);
       }
       if (request.method === 'GET' && url.pathname.includes('/media/')) {
-        const status = getStatuses[Math.min(getIndex++, getStatuses.length - 1)];
-        return json({ ...MEDIA, status });
+        const status = getStatuses[Math.min(getIndex++, getStatuses.length - 1)]!;
+        return json({ ...MEDIA, status, progress: progressFor(status) });
       }
       if (request.method === 'PATCH') return json(MEDIA);
       if (request.method === 'DELETE')
@@ -89,34 +109,41 @@ function mockMedia(getStatuses: string[] = ['ready']) {
   return calls;
 }
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  mockedUpload.mockImplementation(defaultUpload);
+});
 
 function videoFile() {
   return new File(['bytes'], 'reel.mp4', { type: 'video/mp4' });
 }
 
-test('useMediaUpload infers kind, uploads, polls to ready, and surfaces per_platform', async () => {
+test('useMediaUpload (single file) uploads, polls to ready, surfaces per_platform, and resolves the awaited asset — sending NO kind/content_type so the API auto-detects', async () => {
   const calls = mockMedia(['ready']);
   const { result } = renderHook(() => useMediaUpload(), { wrapper: testWrapper() });
 
-  let media: { per_platform: Record<string, { status: string }> } | undefined;
+  let assets: Array<{ per_platform: Record<string, { status: string }> }> = [];
   await act(async () => {
-    media = await result.current.upload(videoFile(), {
+    // Single-file usage: pass ONE File, await the batch, destructure the asset.
+    assets = await result.current.add(videoFile(), {
       profileId: 'prof_1',
       targets: ['instagram'],
     });
   });
 
   const post = calls.find((c) => c.method === 'POST')!;
-  expect(await post.json()).toMatchObject({
-    profile_id: 'prof_1',
-    kind: 'video',
-    content_type: 'video/mp4',
-    targets: ['instagram'],
-  });
-  expect(result.current.status).toBe('ready');
-  expect(result.current.progress).toBe(1);
-  expect(media!.per_platform.instagram!.status).toBe('ready');
+  const body = (await post.json()) as Record<string, unknown>;
+  // The API sniffs kind/content_type from the bytes — the hook forwards NEITHER.
+  expect(body).toMatchObject({ profile_id: 'prof_1', targets: ['instagram'] });
+  expect('kind' in body).toBe(false);
+  expect('content_type' in body).toBe(false);
+  expect(result.current.items).toHaveLength(1);
+  expect(result.current.items[0]?.status).toBe('ready');
+  expect(result.current.items[0]?.progress).toBe(1);
+  expect(result.current.ready).toHaveLength(1);
+  expect(assets).toHaveLength(1);
+  const [asset] = assets;
+  expect(asset!.per_platform.instagram!.status).toBe('ready');
 });
 
 test('useMediaUpload keeps polling while the asset is still processing', async () => {
@@ -124,10 +151,10 @@ test('useMediaUpload keeps polling while the asset is still processing', async (
   const { result } = renderHook(() => useMediaUpload(), { wrapper: testWrapper() });
 
   await act(async () => {
-    await result.current.upload(videoFile(), { profileId: 'prof_1', targets: ['instagram'] });
+    await result.current.add(videoFile(), { profileId: 'prof_1', targets: ['instagram'] });
   });
 
-  expect(result.current.status).toBe('ready');
+  expect(result.current.items[0]?.status).toBe('ready');
 });
 
 test('useUpdateMedia extends targets via PATCH', async () => {
@@ -163,26 +190,34 @@ test('useMedia retrieves an asset by id', async () => {
   expect(result.current.data?.id).toBe('med_1');
 });
 
-test('useMediaUpload throws a clear error when content_type cannot be resolved', async () => {
-  mockMedia();
+test('useMediaUpload uploads a file with no MIME type fine — the API detects kind/content_type', async () => {
+  const calls = mockMedia(['ready']);
   const { result } = renderHook(() => useMediaUpload(), { wrapper: testWrapper() });
   const typeless = new File(['bytes'], 'blob'); // no MIME type
 
+  let assets: unknown[] = ['unset'];
   await act(async () => {
-    await expect(
-      result.current.upload(typeless, { profileId: 'prof_1', kind: 'image' }),
-    ).rejects.toThrow(/content type/i);
+    assets = await result.current.add(typeless, { profileId: 'prof_1' });
   });
+
+  // No client-side throw, no fabricated metadata — the POST omits both fields.
+  const post = calls.find((c) => c.method === 'POST')!;
+  const body = (await post.json()) as Record<string, unknown>;
+  expect('kind' in body).toBe(false);
+  expect('content_type' in body).toBe(false);
+  expect(assets).toHaveLength(1);
+  expect(result.current.items[0]?.status).toBe('ready');
 });
 
-test('useMediaUpload accepts an explicit contentType override', async () => {
+test('useMediaUpload forwards explicit kind/contentType overrides', async () => {
   const calls = mockMedia();
   const { result } = renderHook(() => useMediaUpload(), { wrapper: testWrapper() });
   const typeless = new File(['bytes'], 'doc');
 
   await act(async () => {
-    await result.current.upload(typeless, {
+    await result.current.add(typeless, {
       profileId: 'prof_1',
+      kind: 'document',
       contentType: 'application/pdf',
     });
   });
@@ -250,6 +285,179 @@ test('useMediaList surfaces a typed PostrunError instead of throwing', async () 
 
   await waitFor(() => expect(result.current.isError).toBe(true));
   expect(result.current.error).toBeInstanceOf(PostrunError);
+});
+
+test('useMediaUpload uploads many files, settling each into `ready`', async () => {
+  mockMedia(['ready']);
+  const { result } = renderHook(() => useMediaUpload(), {
+    wrapper: testWrapper(),
+  });
+
+  await act(async () => {
+    result.current.add([videoFile(), videoFile()], {
+      profileId: 'prof_1',
+      targets: ['instagram'],
+    });
+  });
+
+  await waitFor(() => expect(result.current.isUploading).toBe(false));
+  expect(result.current.items).toHaveLength(2);
+  expect(result.current.items.every((item) => item.status === 'ready')).toBe(
+    true,
+  );
+  expect(result.current.ready).toHaveLength(2);
+});
+
+test('useMediaUpload add resolves to the settled assets for the batch, in order', async () => {
+  mockMedia(['ready']);
+  const { result } = renderHook(() => useMediaUpload(), {
+    wrapper: testWrapper(),
+  });
+
+  let assets: Array<{ id: string }> = [];
+  await act(async () => {
+    assets = await result.current.add([videoFile(), videoFile()], {
+      profileId: 'prof_1',
+      targets: ['instagram'],
+    });
+  });
+
+  expect(assets).toHaveLength(2);
+  expect(assets.every((asset) => asset.id === 'med_1')).toBe(true);
+});
+
+test('useMediaUpload caps in-flight uploads at the concurrency limit', async () => {
+  mockMedia(['ready']);
+
+  // Hold every upload open so we can observe how many run at once.
+  let active = 0;
+  let maxActive = 0;
+  const releases: Array<() => void> = [];
+  mockedUpload.mockImplementation(async (_t, _f, opts) => {
+    active += 1;
+    maxActive = Math.max(maxActive, active);
+    await new Promise<void>((resolve) => {
+      releases.push(() => {
+        active -= 1;
+        opts?.onProgress?.(1);
+        resolve();
+      });
+    });
+  });
+
+  const { result } = renderHook(() => useMediaUpload({ concurrency: 2 }), {
+    wrapper: testWrapper(),
+  });
+
+  await act(async () => {
+    result.current.add([videoFile(), videoFile(), videoFile()], {
+      profileId: 'prof_1',
+      targets: ['instagram'],
+    });
+  });
+
+  // Only 2 of the 3 start — the gate holds the third back.
+  await waitFor(() => expect(releases).toHaveLength(2));
+  expect(maxActive).toBe(2);
+
+  // Release the first; the queued third now gets its slot.
+  await act(async () => {
+    releases[0]!();
+  });
+  await waitFor(() => expect(releases).toHaveLength(3));
+  expect(maxActive).toBe(2);
+
+  // Drain the rest and let everything settle.
+  await act(async () => {
+    releases[1]!();
+    releases[2]!();
+  });
+  await waitFor(() => expect(result.current.isUploading).toBe(false));
+  expect(result.current.ready).toHaveLength(3);
+});
+
+test('useMediaUpload surfaces live progress.stage while processing', async () => {
+  mockMedia(['processing', 'processing', 'ready']);
+  const { result } = renderHook(() => useMediaUpload(), {
+    wrapper: testWrapper(),
+  });
+
+  await act(async () => {
+    result.current.add([videoFile()], {
+      profileId: 'prof_1',
+      targets: ['instagram'],
+    });
+  });
+
+  // While processing, the poll ticks surface the server's progress.
+  await waitFor(
+    () =>
+      expect(result.current.items[0]?.media?.progress.stage).toBe(
+        'transcoding',
+      ),
+    { timeout: 4000 },
+  );
+  expect(result.current.items[0]?.media?.progress.percent).toBe(65);
+
+  await waitFor(() => expect(result.current.items[0]?.status).toBe('ready'), {
+    timeout: 8000,
+  });
+  expect(result.current.items[0]?.media?.progress.stage).toBe('done');
+}, 12000);
+
+test('useMediaUpload remove drops an item and aborts it in flight', async () => {
+  mockMedia(['ready']);
+
+  const releases: Array<() => void> = [];
+  mockedUpload.mockImplementation(
+    async () =>
+      new Promise<void>((resolve) => {
+        releases.push(resolve);
+      }),
+  );
+
+  const { result } = renderHook(() => useMediaUpload(), {
+    wrapper: testWrapper(),
+  });
+
+  await act(async () => {
+    result.current.add([videoFile(), videoFile()], {
+      profileId: 'prof_1',
+      targets: ['instagram'],
+    });
+  });
+
+  await waitFor(() => expect(result.current.items).toHaveLength(2));
+  const victim = result.current.items[0]!.id;
+
+  await act(async () => {
+    result.current.remove(victim);
+  });
+
+  expect(result.current.items).toHaveLength(1);
+  expect(result.current.items.some((item) => item.id === victim)).toBe(false);
+
+  await act(async () => {
+    releases.forEach((release) => release());
+  });
+});
+
+test('useMediaUpload reset clears every item', async () => {
+  mockMedia(['ready']);
+  const { result } = renderHook(() => useMediaUpload(), {
+    wrapper: testWrapper(),
+  });
+
+  await act(async () => {
+    result.current.add([videoFile()], { profileId: 'prof_1' });
+  });
+  await waitFor(() => expect(result.current.items).toHaveLength(1));
+
+  await act(async () => {
+    result.current.reset();
+  });
+  expect(result.current.items).toHaveLength(0);
+  expect(result.current.isUploading).toBe(false);
 });
 
 test('a delete invalidates the cached list so it refetches', async () => {

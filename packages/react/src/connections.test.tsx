@@ -60,6 +60,20 @@ test('useConnections lists a profile’s connections', async () => {
   );
 });
 
+test('useConnections forwards a kind/status filter (e.g. social-only for the composer)', async () => {
+  const calls = recordFetch(CONN_LIST);
+  renderHook(
+    () => useConnections('prof_1', { kind: 'posting', status: 'active' }),
+    { wrapper: testWrapper() },
+  );
+
+  await waitFor(() => expect(calls).toHaveLength(1));
+  const url = new URL(calls[0]!.url);
+  expect(url.pathname).toMatch(/\/profiles\/prof_1\/connections$/);
+  expect(url.searchParams.get('kind')).toBe('posting');
+  expect(url.searchParams.get('status')).toBe('active');
+});
+
 test('useConnection returns a single connection', async () => {
   const calls = recordFetch(CONNECTION);
   const { result } = renderHook(() => useConnection('conn_1'), {

@@ -3,6 +3,7 @@ import type {
   ConnectionsConnectResponse,
   ConnectionsGetResponse,
   ConnectionsListAccountsResponse,
+  ConnectionsListByProfileData,
   ConnectionsListByProfileResponse,
   ConnectionsSelectData,
   MediaCreateData,
@@ -50,6 +51,17 @@ export type Connection = ConnectionsGetResponse;
 
 /** A page of a profile's connections. */
 export type ConnectionList = ConnectionsListByProfileResponse;
+
+/** Query filters for listing a profile's connections (kind / status / pagination). */
+export type ListConnectionsQuery = NonNullable<
+  ConnectionsListByProfileData['query']
+>;
+
+/** A connection's kind — `posting` (social) or `ads`. From the contract. */
+export type ConnectionKind = NonNullable<ListConnectionsQuery['kind']>;
+
+/** A connection's lifecycle status — `pending` / `active` / `needs_reauth`. */
+export type ConnectionStatus = NonNullable<ListConnectionsQuery['status']>;
 
 /** The session returned when starting a connect (OAuth) flow. */
 export type ConnectSession = ConnectionsConnectResponse;

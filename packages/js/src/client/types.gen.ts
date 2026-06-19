@@ -1386,6 +1386,14 @@ export type ConnectionsListByProfileData = {
          * Return only the connection backed by this Nango grant id (exact match). Used by the hosted connect page to resolve the row a grant produced.
          */
         nango_connection_id?: string;
+        /**
+         * Return only connections of this kind (`posting` or `ads`). Translated server-side to a filter on the underlying `platform` column.
+         */
+        kind?: 'posting' | 'ads';
+        /**
+         * Return only connections in this lifecycle status (`pending`, `active`, or `needs_reauth`). Translated server-side to predicates on `external_account_id`/`reauth_at`.
+         */
+        status?: 'pending' | 'active' | 'needs_reauth';
     };
     url: '/profiles/{id}/connections';
 };
@@ -1624,6 +1632,14 @@ export type ConnectionsListByProfileResponses = {
              */
             platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
             /**
+             * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
+             */
+            kind: 'posting' | 'ads';
+            /**
+             * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
+             */
+            status: 'pending' | 'active' | 'needs_reauth';
+            /**
              * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
              */
             external_account_id: string | null;
@@ -1631,6 +1647,22 @@ export type ConnectionsListByProfileResponses = {
              * Display cache of the platform account's name, or null if unknown.
              */
             external_account_name: string | null;
+            /**
+             * Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn).
+             */
+            username: string | null;
+            /**
+             * Display cache of the social account avatar image url, or null (ad accounts have none).
+             */
+            avatar_url: string | null;
+            /**
+             * Display cache of the social account canonical profile url, or null (ad accounts, or gated handles).
+             */
+            profile_url: string | null;
+            /**
+             * ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status.
+             */
+            reauth_at: string | null;
             /**
              * ISO-4217 account currency, or null if unknown.
              */
@@ -2145,6 +2177,14 @@ export type ConnectionsGetResponses = {
          */
         platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
         /**
+         * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
+         */
+        kind: 'posting' | 'ads';
+        /**
+         * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
+         */
+        status: 'pending' | 'active' | 'needs_reauth';
+        /**
          * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
          */
         external_account_id: string | null;
@@ -2152,6 +2192,22 @@ export type ConnectionsGetResponses = {
          * Display cache of the platform account's name, or null if unknown.
          */
         external_account_name: string | null;
+        /**
+         * Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn).
+         */
+        username: string | null;
+        /**
+         * Display cache of the social account avatar image url, or null (ad accounts have none).
+         */
+        avatar_url: string | null;
+        /**
+         * Display cache of the social account canonical profile url, or null (ad accounts, or gated handles).
+         */
+        profile_url: string | null;
+        /**
+         * ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status.
+         */
+        reauth_at: string | null;
         /**
          * ISO-4217 account currency, or null if unknown.
          */
@@ -2470,6 +2526,14 @@ export type ConnectionsSelectResponses = {
          */
         platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
         /**
+         * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
+         */
+        kind: 'posting' | 'ads';
+        /**
+         * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
+         */
+        status: 'pending' | 'active' | 'needs_reauth';
+        /**
          * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
          */
         external_account_id: string | null;
@@ -2477,6 +2541,22 @@ export type ConnectionsSelectResponses = {
          * Display cache of the platform account's name, or null if unknown.
          */
         external_account_name: string | null;
+        /**
+         * Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn).
+         */
+        username: string | null;
+        /**
+         * Display cache of the social account avatar image url, or null (ad accounts have none).
+         */
+        avatar_url: string | null;
+        /**
+         * Display cache of the social account canonical profile url, or null (ad accounts, or gated handles).
+         */
+        profile_url: string | null;
+        /**
+         * ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status.
+         */
+        reauth_at: string | null;
         /**
          * ISO-4217 account currency, or null if unknown.
          */
@@ -2798,6 +2878,18 @@ export type ConnectionsListAccountsResponses = {
              */
             currency: string | null;
             /**
+             * Social account @handle for this discoverable account, or null (ad accounts / gated handles).
+             */
+            username?: string | null;
+            /**
+             * Social account avatar image url, or null if the platform omits it.
+             */
+            avatar_url?: string | null;
+            /**
+             * Social account canonical profile url, or null if the platform omits it.
+             */
+            profile_url?: string | null;
+            /**
              * The Instagram professional account linked to this Facebook Page, if any. Present (Facebook Pages) or absent (every other platform); null when a Page has no linked Instagram account.
              */
             instagram?: {
@@ -2809,6 +2901,18 @@ export type ConnectionsListAccountsResponses = {
                  * The Instagram account username, or null if the platform omits it.
                  */
                 name: string | null;
+                /**
+                 * The Instagram account @handle, or null if omitted.
+                 */
+                username?: string | null;
+                /**
+                 * The Instagram account avatar image url, or null.
+                 */
+                avatar_url?: string | null;
+                /**
+                 * The Instagram account canonical profile url, or null.
+                 */
+                profile_url?: string | null;
             } | null;
         }>;
     };

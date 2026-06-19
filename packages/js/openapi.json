@@ -3111,6 +3111,28 @@
             },
             "allowEmptyValue": true,
             "allowReserved": true
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "enum": ["posting", "ads"],
+              "type": "string",
+              "description": "Return only connections of this kind (`posting` or `ads`). Translated server-side to a filter on the underlying `platform` column."
+            },
+            "allowEmptyValue": true,
+            "allowReserved": true
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "enum": ["pending", "active", "needs_reauth"],
+              "type": "string",
+              "description": "Return only connections in this lifecycle status (`pending`, `active`, or `needs_reauth`). Translated server-side to predicates on `external_account_id`/`reauth_at`."
+            },
+            "allowEmptyValue": true,
+            "allowReserved": true
           }
         ],
         "responses": {
@@ -3152,6 +3174,16 @@
                             "type": "string",
                             "description": "Ad/social platform a connection targets."
                           },
+                          "kind": {
+                            "enum": ["posting", "ads"],
+                            "type": "string",
+                            "description": "Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform."
+                          },
+                          "status": {
+                            "enum": ["pending", "active", "needs_reauth"],
+                            "type": "string",
+                            "description": "Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id."
+                          },
                           "external_account_id": {
                             "anyOf": [
                               {
@@ -3173,6 +3205,50 @@
                               }
                             ],
                             "description": "Display cache of the platform account's name, or null if unknown."
+                          },
+                          "username": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn)."
+                          },
+                          "avatar_url": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Display cache of the social account avatar image url, or null (ad accounts have none)."
+                          },
+                          "profile_url": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Display cache of the social account canonical profile url, or null (ad accounts, or gated handles)."
+                          },
+                          "reauth_at": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status."
                           },
                           "currency": {
                             "anyOf": [
@@ -3212,8 +3288,14 @@
                           "id",
                           "profile_id",
                           "platform",
+                          "kind",
+                          "status",
                           "external_account_id",
                           "external_account_name",
+                          "username",
+                          "avatar_url",
+                          "profile_url",
+                          "reauth_at",
                           "currency",
                           "created_at",
                           "updated_at"
@@ -3262,8 +3344,14 @@
                           "id": "obj_01h455vb4pex5vsknk084sn02q",
                           "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
                           "platform": "meta_ads",
+                          "kind": "posting",
+                          "status": "pending",
                           "external_account_id": "act_1029384756",
                           "external_account_name": "Acme Ads",
+                          "username": "Example username",
+                          "avatar_url": "https://example.com/u/jane",
+                          "profile_url": "https://example.com/u/jane",
+                          "reauth_at": "2026-06-16T14:32:08Z",
                           "currency": "USD",
                           "created_at": "2026-06-16T14:32:08Z",
                           "updated_at": "2026-06-16T14:32:08Z"
@@ -3759,6 +3847,16 @@
                       "type": "string",
                       "description": "Ad/social platform a connection targets."
                     },
+                    "kind": {
+                      "enum": ["posting", "ads"],
+                      "type": "string",
+                      "description": "Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform."
+                    },
+                    "status": {
+                      "enum": ["pending", "active", "needs_reauth"],
+                      "type": "string",
+                      "description": "Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id."
+                    },
                     "external_account_id": {
                       "anyOf": [
                         {
@@ -3780,6 +3878,50 @@
                         }
                       ],
                       "description": "Display cache of the platform account's name, or null if unknown."
+                    },
+                    "username": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn)."
+                    },
+                    "avatar_url": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Display cache of the social account avatar image url, or null (ad accounts have none)."
+                    },
+                    "profile_url": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Display cache of the social account canonical profile url, or null (ad accounts, or gated handles)."
+                    },
+                    "reauth_at": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status."
                     },
                     "currency": {
                       "anyOf": [
@@ -3819,8 +3961,14 @@
                     "id",
                     "profile_id",
                     "platform",
+                    "kind",
+                    "status",
                     "external_account_id",
                     "external_account_name",
+                    "username",
+                    "avatar_url",
+                    "profile_url",
+                    "reauth_at",
                     "currency",
                     "created_at",
                     "updated_at"
@@ -3832,8 +3980,14 @@
                       "id": "obj_01h455vb4pex5vsknk084sn02q",
                       "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
                       "platform": "meta_ads",
+                      "kind": "posting",
+                      "status": "pending",
                       "external_account_id": "act_1029384756",
                       "external_account_name": "Acme Ads",
+                      "username": "Example username",
+                      "avatar_url": "https://example.com/u/jane",
+                      "profile_url": "https://example.com/u/jane",
+                      "reauth_at": "2026-06-16T14:32:08Z",
                       "currency": "USD",
                       "created_at": "2026-06-16T14:32:08Z",
                       "updated_at": "2026-06-16T14:32:08Z"
@@ -4339,6 +4493,16 @@
                       "type": "string",
                       "description": "Ad/social platform a connection targets."
                     },
+                    "kind": {
+                      "enum": ["posting", "ads"],
+                      "type": "string",
+                      "description": "Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform."
+                    },
+                    "status": {
+                      "enum": ["pending", "active", "needs_reauth"],
+                      "type": "string",
+                      "description": "Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id."
+                    },
                     "external_account_id": {
                       "anyOf": [
                         {
@@ -4360,6 +4524,50 @@
                         }
                       ],
                       "description": "Display cache of the platform account's name, or null if unknown."
+                    },
+                    "username": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn)."
+                    },
+                    "avatar_url": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Display cache of the social account avatar image url, or null (ad accounts have none)."
+                    },
+                    "profile_url": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Display cache of the social account canonical profile url, or null (ad accounts, or gated handles)."
+                    },
+                    "reauth_at": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status."
                     },
                     "currency": {
                       "anyOf": [
@@ -4399,8 +4607,14 @@
                     "id",
                     "profile_id",
                     "platform",
+                    "kind",
+                    "status",
                     "external_account_id",
                     "external_account_name",
+                    "username",
+                    "avatar_url",
+                    "profile_url",
+                    "reauth_at",
                     "currency",
                     "created_at",
                     "updated_at"
@@ -4412,8 +4626,14 @@
                       "id": "obj_01h455vb4pex5vsknk084sn02q",
                       "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
                       "platform": "meta_ads",
+                      "kind": "posting",
+                      "status": "pending",
                       "external_account_id": "act_1029384756",
                       "external_account_name": "Acme Ads",
+                      "username": "Example username",
+                      "avatar_url": "https://example.com/u/jane",
+                      "profile_url": "https://example.com/u/jane",
+                      "reauth_at": "2026-06-16T14:32:08Z",
                       "currency": "USD",
                       "created_at": "2026-06-16T14:32:08Z",
                       "updated_at": "2026-06-16T14:32:08Z"
@@ -5573,6 +5793,39 @@
                             ],
                             "description": "ISO-4217 account currency, or null if the platform omits it."
                           },
+                          "username": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Social account @handle for this discoverable account, or null (ad accounts / gated handles)."
+                          },
+                          "avatar_url": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Social account avatar image url, or null if the platform omits it."
+                          },
+                          "profile_url": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Social account canonical profile url, or null if the platform omits it."
+                          },
                           "instagram": {
                             "anyOf": [
                               {
@@ -5592,6 +5845,39 @@
                                       }
                                     ],
                                     "description": "The Instagram account username, or null if the platform omits it."
+                                  },
+                                  "username": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "The Instagram account @handle, or null if omitted."
+                                  },
+                                  "avatar_url": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "The Instagram account avatar image url, or null."
+                                  },
+                                  "profile_url": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "The Instagram account canonical profile url, or null."
                                   }
                                 },
                                 "required": ["external_account_id", "name"]
@@ -5620,9 +5906,15 @@
                           "external_account_id": "act_1029384756",
                           "name": "Acme Co.",
                           "currency": "USD",
+                          "username": "Example username",
+                          "avatar_url": "https://example.com/u/jane",
+                          "profile_url": "https://example.com/u/jane",
                           "instagram": {
                             "external_account_id": "act_1029384756",
-                            "name": "Acme Co."
+                            "name": "Acme Co.",
+                            "username": "Example username",
+                            "avatar_url": "https://example.com/u/jane",
+                            "profile_url": "https://example.com/u/jane"
                           }
                         }
                       ]

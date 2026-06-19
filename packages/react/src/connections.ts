@@ -12,6 +12,7 @@ import type { ConnectablePlatform, SelectAccountInput } from '@postrun/js';
 
 import { usePostrun } from './context';
 import { connectionKeys } from './keys';
+import type { ConnectionsFilter } from './keys';
 import { navigate } from './navigate';
 
 export interface ConnectParams {
@@ -48,15 +49,24 @@ export function useConnect() {
   );
 }
 
-/** List a profile's connected accounts. */
-export function useConnections(profileId: string) {
+/**
+ * List a profile's connected accounts. Pass a `filter` to narrow by `kind`
+ * (`posting` = social, `ads`) or `status` — e.g. a composer fetches
+ * `{ kind: 'posting' }` to show only the social accounts it can publish to.
+ */
+export function useConnections(profileId: string, filter?: ConnectionsFilter) {
   const { client, queryClient } = usePostrun();
   return useQuery(
     {
-      queryKey: connectionKeys.list(profileId),
+      queryKey: connectionKeys.list(profileId, filter),
       queryFn: async () =>
-        (await connectionsListByProfile({ client, path: { id: profileId } }))
-          .data,
+        (
+          await connectionsListByProfile({
+            client,
+            path: { id: profileId },
+            query: filter,
+          })
+        ).data,
       enabled: Boolean(profileId),
     },
     queryClient,

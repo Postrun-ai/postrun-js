@@ -34,6 +34,7 @@ export {
   useDisconnect,
 } from './connections';
 export type { ConnectParams } from './connections';
+export type { ConnectionsFilter } from './keys';
 export {
   useMediaUpload,
   useMedia,

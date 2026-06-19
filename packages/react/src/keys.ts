@@ -1,8 +1,16 @@
 import type {
+  ConnectionKind,
+  ConnectionStatus,
   ListMediaQuery,
   ListPostsQuery,
   ListProfilesQuery,
 } from '@postrun/js';
+
+/** The connection-list filter that keys the cache (social/ads + lifecycle). */
+export interface ConnectionsFilter {
+  kind?: ConnectionKind;
+  status?: ConnectionStatus;
+}
 
 /** Root namespace so our cache never collides with the host app's own queries. */
 const ROOT = 'postrun';
@@ -60,7 +68,8 @@ export const mediaKeys = {
 export const connectionKeys = {
   all: [ROOT, 'connections'] as const,
   lists: () => [...connectionKeys.all, 'list'] as const,
-  list: (profileId: string) => [...connectionKeys.lists(), profileId] as const,
+  list: (profileId: string, filter?: ConnectionsFilter) =>
+    [...connectionKeys.lists(), profileId, filter ?? {}] as const,
   details: () => [...connectionKeys.all, 'detail'] as const,
   detail: (id: string) => [...connectionKeys.details(), id] as const,
   accounts: (id: string) => [...connectionKeys.all, 'accounts', id] as const,

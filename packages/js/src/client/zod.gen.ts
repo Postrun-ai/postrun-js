@@ -234,7 +234,13 @@ export const zConnectionsListByProfilePath = z.object({
 export const zConnectionsListByProfileQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),
     offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
-    nango_connection_id: z.string().min(1).optional()
+    nango_connection_id: z.string().min(1).optional(),
+    kind: z.enum(['posting', 'ads']).optional(),
+    status: z.enum([
+        'pending',
+        'active',
+        'needs_reauth'
+    ]).optional()
 });
 
 /**
@@ -255,8 +261,18 @@ export const zConnectionsListByProfileResponse = z.object({
             'instagram',
             'tiktok'
         ]),
+        kind: z.enum(['posting', 'ads']),
+        status: z.enum([
+            'pending',
+            'active',
+            'needs_reauth'
+        ]),
         external_account_id: z.string().nullable(),
         external_account_name: z.string().nullable(),
+        username: z.string().nullable(),
+        avatar_url: z.string().nullable(),
+        profile_url: z.string().nullable(),
+        reauth_at: z.string().nullable(),
         currency: z.string().nullable(),
         created_at: z.string().nullable(),
         updated_at: z.string().nullable()
@@ -300,8 +316,18 @@ export const zConnectionsGetResponse = z.object({
         'instagram',
         'tiktok'
     ]),
+    kind: z.enum(['posting', 'ads']),
+    status: z.enum([
+        'pending',
+        'active',
+        'needs_reauth'
+    ]),
     external_account_id: z.string().nullable(),
     external_account_name: z.string().nullable(),
+    username: z.string().nullable(),
+    avatar_url: z.string().nullable(),
+    profile_url: z.string().nullable(),
+    reauth_at: z.string().nullable(),
     currency: z.string().nullable(),
     created_at: z.string().nullable(),
     updated_at: z.string().nullable()
@@ -331,8 +357,18 @@ export const zConnectionsSelectResponse = z.object({
         'instagram',
         'tiktok'
     ]),
+    kind: z.enum(['posting', 'ads']),
+    status: z.enum([
+        'pending',
+        'active',
+        'needs_reauth'
+    ]),
     external_account_id: z.string().nullable(),
     external_account_name: z.string().nullable(),
+    username: z.string().nullable(),
+    avatar_url: z.string().nullable(),
+    profile_url: z.string().nullable(),
+    reauth_at: z.string().nullable(),
     currency: z.string().nullable(),
     created_at: z.string().nullable(),
     updated_at: z.string().nullable()
@@ -351,9 +387,15 @@ export const zConnectionsListAccountsResponse = z.object({
         external_account_id: z.string(),
         name: z.string().nullable(),
         currency: z.string().nullable(),
+        username: z.string().nullish(),
+        avatar_url: z.string().nullish(),
+        profile_url: z.string().nullish(),
         instagram: z.object({
             external_account_id: z.string(),
-            name: z.string().nullable()
+            name: z.string().nullable(),
+            username: z.string().nullish(),
+            avatar_url: z.string().nullish(),
+            profile_url: z.string().nullish()
         }).nullish()
     }))
 });

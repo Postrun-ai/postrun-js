@@ -23,6 +23,7 @@ export const zErrorCode = z.enum([
     'connection_not_pending',
     'not_implemented',
     'connection_discovery_failed',
+    'tiktok_creator_info_unavailable',
     'media_processing',
     'not_publishable',
     'invalid_connection',
@@ -78,7 +79,9 @@ export const zErrorCode = z.enum([
     'linkedin_duplicate_content',
     'linkedin_auth_expired',
     'linkedin_permission_denied',
+    'linkedin_rate_limited',
     'linkedin_media_processing',
+    'linkedin_media_failed',
     'linkedin_media_upload_failed',
     'linkedin_publish_failed',
     'instagram_media_processing',
@@ -98,6 +101,8 @@ export const zErrorCode = z.enum([
     'tiktok_not_authorized',
     'tiktok_rate_limited',
     'tiktok_publish_failed',
+    'post_publish_failed',
+    'post_partially_published',
     'connection_platform_mismatch',
     'connection_removed'
 ]);
@@ -2154,6 +2159,7 @@ export const zPostsValidateResponse = z.object({
             'connection_not_pending',
             'not_implemented',
             'connection_discovery_failed',
+            'tiktok_creator_info_unavailable',
             'media_processing',
             'not_publishable',
             'invalid_connection',
@@ -2209,7 +2215,9 @@ export const zPostsValidateResponse = z.object({
             'linkedin_duplicate_content',
             'linkedin_auth_expired',
             'linkedin_permission_denied',
+            'linkedin_rate_limited',
             'linkedin_media_processing',
+            'linkedin_media_failed',
             'linkedin_media_upload_failed',
             'linkedin_publish_failed',
             'instagram_media_processing',
@@ -2229,6 +2237,8 @@ export const zPostsValidateResponse = z.object({
             'tiktok_not_authorized',
             'tiktok_rate_limited',
             'tiktok_publish_failed',
+            'post_publish_failed',
+            'post_partially_published',
             'connection_platform_mismatch',
             'connection_removed'
         ]),
@@ -3981,6 +3991,33 @@ export const zGoogleUploadImageAssetResponse = z.object({
     executed: z.boolean()
 });
 
+export const zTiktokCreatorInfoPath = z.object({
+    id: z.string()
+});
+
+/**
+ * A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account.
+ */
+export const zTiktokCreatorInfoResponse = z.object({
+    creator: z.object({
+        nickname: z.string(),
+        username: z.string(),
+        avatar_url: z.string().nullable()
+    }),
+    privacy_options: z.array(z.enum([
+        'PUBLIC_TO_EVERYONE',
+        'MUTUAL_FOLLOW_FRIENDS',
+        'FOLLOWER_OF_CREATOR',
+        'SELF_ONLY'
+    ])),
+    interaction: z.object({
+        comment: z.boolean(),
+        duet: z.boolean(),
+        stitch: z.boolean()
+    }),
+    max_video_duration_sec: z.int().gte(-9007199254740991).lte(9007199254740991)
+});
+
 export const zLogsListQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),
     offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
@@ -4047,6 +4084,41 @@ export const zLogsListResponse = z.object({
         request_body: z.unknown().nullish(),
         response_body: z.unknown().nullish(),
         error: z.unknown().nullish(),
+        outcome: z.object({
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'partially_published',
+                'published',
+                'failed'
+            ]),
+            targets: z.array(z.object({
+                variant_id: z.string(),
+                connection_id: z.string().nullable(),
+                platform: z.enum([
+                    'x',
+                    'linkedin',
+                    'facebook_page',
+                    'instagram',
+                    'tiktok'
+                ]),
+                status: z.enum([
+                    'draft',
+                    'scheduled',
+                    'publishing',
+                    'published',
+                    'failed'
+                ]),
+                platform_post_id: z.string().nullable(),
+                permalink: z.string().nullable(),
+                published_at: z.string().nullable(),
+                error: z.object({
+                    code: z.string(),
+                    message: z.string()
+                }).nullable()
+            }))
+        }).nullable(),
         external_id: z.string().nullable(),
         idempotency_key: z.string().nullable(),
         request_id: z.string().nullable(),
@@ -4100,6 +4172,41 @@ export const zLogsGetResponse = z.object({
     request_body: z.unknown().nullish(),
     response_body: z.unknown().nullish(),
     error: z.unknown().nullish(),
+    outcome: z.object({
+        status: z.enum([
+            'draft',
+            'scheduled',
+            'publishing',
+            'partially_published',
+            'published',
+            'failed'
+        ]),
+        targets: z.array(z.object({
+            variant_id: z.string(),
+            connection_id: z.string().nullable(),
+            platform: z.enum([
+                'x',
+                'linkedin',
+                'facebook_page',
+                'instagram',
+                'tiktok'
+            ]),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            platform_post_id: z.string().nullable(),
+            permalink: z.string().nullable(),
+            published_at: z.string().nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string()
+            }).nullable()
+        }))
+    }).nullable(),
     external_id: z.string().nullable(),
     idempotency_key: z.string().nullable(),
     request_id: z.string().nullable(),

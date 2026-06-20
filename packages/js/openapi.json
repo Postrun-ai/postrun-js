@@ -34,6 +34,7 @@
           "connection_not_pending",
           "not_implemented",
           "connection_discovery_failed",
+          "tiktok_creator_info_unavailable",
           "media_processing",
           "not_publishable",
           "invalid_connection",
@@ -89,7 +90,9 @@
           "linkedin_duplicate_content",
           "linkedin_auth_expired",
           "linkedin_permission_denied",
+          "linkedin_rate_limited",
           "linkedin_media_processing",
+          "linkedin_media_failed",
           "linkedin_media_upload_failed",
           "linkedin_publish_failed",
           "instagram_media_processing",
@@ -109,6 +112,8 @@
           "tiktok_not_authorized",
           "tiktok_rate_limited",
           "tiktok_publish_failed",
+          "post_publish_failed",
+          "post_partially_published",
           "connection_platform_mismatch",
           "connection_removed"
         ],
@@ -18240,6 +18245,7 @@
                               "connection_not_pending",
                               "not_implemented",
                               "connection_discovery_failed",
+                              "tiktok_creator_info_unavailable",
                               "media_processing",
                               "not_publishable",
                               "invalid_connection",
@@ -18295,7 +18301,9 @@
                               "linkedin_duplicate_content",
                               "linkedin_auth_expired",
                               "linkedin_permission_denied",
+                              "linkedin_rate_limited",
                               "linkedin_media_processing",
+                              "linkedin_media_failed",
                               "linkedin_media_upload_failed",
                               "linkedin_publish_failed",
                               "instagram_media_processing",
@@ -18315,6 +18323,8 @@
                               "tiktok_not_authorized",
                               "tiktok_rate_limited",
                               "tiktok_publish_failed",
+                              "post_publish_failed",
+                              "post_partially_published",
                               "connection_platform_mismatch",
                               "connection_removed"
                             ],
@@ -46606,6 +46616,624 @@
         ]
       }
     },
+    "/connections/{id}/tiktok/creator-info": {
+      "get": {
+        "operationId": "tiktok.creatorInfo",
+        "summary": "Retrieve TikTok creator info",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:read` scoped to the profile that owns the connection.\n\nRetrieves the TikTok creator's publish options live from TikTok — required by TikTok's Content Posting policy to render the publishing UI: the creator nickname + avatar, the privacy options to offer (with no default), and the Comment/Duet/Stitch flags to disable. Returns 404 if the connection does not exist in your account or is not a TikTok connection, 409 if the TikTok account must be reconnected, and 502 if TikTok’s creator-info call fails.",
+        "tags": ["TikTok"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Connection id."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "creator": {
+                      "type": "object",
+                      "properties": {
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "avatar_url": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": ["nickname", "username", "avatar_url"],
+                      "additionalProperties": false
+                    },
+                    "privacy_options": {
+                      "type": "array",
+                      "items": {
+                        "enum": [
+                          "PUBLIC_TO_EVERYONE",
+                          "MUTUAL_FOLLOW_FRIENDS",
+                          "FOLLOWER_OF_CREATOR",
+                          "SELF_ONLY"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "interaction": {
+                      "type": "object",
+                      "properties": {
+                        "comment": {
+                          "type": "boolean"
+                        },
+                        "duet": {
+                          "type": "boolean"
+                        },
+                        "stitch": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": ["comment", "duet", "stitch"],
+                      "additionalProperties": false
+                    },
+                    "max_video_duration_sec": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "creator",
+                    "privacy_options",
+                    "interaction",
+                    "max_video_duration_sec"
+                  ],
+                  "additionalProperties": false,
+                  "description": "A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account."
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "creator": {
+                        "nickname": "Example nickname",
+                        "username": "acme",
+                        "avatar_url": "https://pbs.twimg.com/profile_images/1/avatar.jpg"
+                      },
+                      "privacy_options": ["PUBLIC_TO_EVERYONE"],
+                      "interaction": {
+                        "comment": false,
+                        "duet": false,
+                        "stitch": false
+                      },
+                      "max_video_duration_sec": 42
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_invalid"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["The request failed."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [400]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["idempotency_key_invalid"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_invalid"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/unauthorized"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["Authentication is required."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [401]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["unauthorized"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": ["https://docs.postrun.ai/errors/forbidden"]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "You do not have permission to perform this action."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [403]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["forbidden"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["forbidden"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": ["https://docs.postrun.ai/errors/not_found"]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["The requested resource was not found."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [404]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["not_found"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": ["https://docs.postrun.ai/errors/conflict"]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request conflicts with the current state of the resource."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [409]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "conflict",
+                        "idempotency_request_in_progress",
+                        "connection_reauth_required"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["conflict"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "connection_reauth_required": {
+                    "summary": "The connection must be reconnected before selecting an account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/connection_reauth_required",
+                      "title": "The connection must be reconnected before selecting an account.",
+                      "status": 409,
+                      "code": "connection_reauth_required",
+                      "detail": "The connection must be reconnected before selecting an account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_reused"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["The request failed."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [422]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["idempotency_key_reused"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_reused"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/rate_limited"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["Rate limit exceeded for this account."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [429]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["rate_limited"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["rate_limited"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "502",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["type", "title", "status", "code"],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/tiktok_creator_info_unavailable"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": ["TikTok creator info is unavailable."]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [502]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["tiktok_creator_info_unavailable"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["tiktok_creator_info_unavailable"]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "tiktok_creator_info_unavailable": {
+                    "summary": "We could not load this connection’s TikTok creator info.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/tiktok_creator_info_unavailable",
+                      "title": "We could not load this connection’s TikTok creator info.",
+                      "status": 502,
+                      "code": "tiktok_creator_info_unavailable",
+                      "detail": "We could not load this connection’s TikTok creator info.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, tiktokCreatorInfo } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await tiktokCreatorInfo({\n  client,\n  path: { id: '…' },\n});"
+          }
+        ]
+      }
+    },
     "/logs": {
       "get": {
         "operationId": "logs.list",
@@ -46852,7 +47480,137 @@
                                 "type": "null"
                               }
                             ],
-                            "description": "Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. Stored as jsonb."
+                            "description": "Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. INVARIANT: `status: \"error\"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb."
+                          },
+                          "outcome": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "status": {
+                                    "enum": [
+                                      "draft",
+                                      "scheduled",
+                                      "publishing",
+                                      "partially_published",
+                                      "published",
+                                      "failed"
+                                    ],
+                                    "type": "string",
+                                    "description": "Rolled-up status of the publish (published | partially_published | failed | …), derived from the targets."
+                                  },
+                                  "targets": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "variant_id": {
+                                          "type": "string"
+                                        },
+                                        "connection_id": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ],
+                                          "description": "The connected account this variant targets. null when that connection was removed before publish."
+                                        },
+                                        "platform": {
+                                          "enum": [
+                                            "x",
+                                            "linkedin",
+                                            "facebook_page",
+                                            "instagram",
+                                            "tiktok"
+                                          ],
+                                          "type": "string"
+                                        },
+                                        "status": {
+                                          "enum": [
+                                            "draft",
+                                            "scheduled",
+                                            "publishing",
+                                            "published",
+                                            "failed"
+                                          ],
+                                          "type": "string"
+                                        },
+                                        "platform_post_id": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "permalink": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "published_at": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "error": {
+                                          "anyOf": [
+                                            {
+                                              "type": "object",
+                                              "properties": {
+                                                "code": {
+                                                  "type": "string",
+                                                  "description": "The typed error code the variant carries."
+                                                },
+                                                "message": {
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": ["code", "message"]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "variant_id",
+                                        "connection_id",
+                                        "platform",
+                                        "status",
+                                        "platform_post_id",
+                                        "permalink",
+                                        "published_at",
+                                        "error"
+                                      ]
+                                    },
+                                    "description": "One entry per platform target: its status, live post id, permalink, and typed error."
+                                  }
+                                },
+                                "required": ["status", "targets"],
+                                "description": "Per-target breakdown of a publish action: the rolled-up status plus one entry per platform target (live post id, permalink, typed per-target error). Identical vocabulary to the post.completed webhook."
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Per-target publish breakdown (see LogOutcome): the rollup status plus one entry per platform target. Present on a publish action (create/update/scheduled publish that ran), null otherwise."
                           },
                           "external_id": {
                             "anyOf": [
@@ -46965,6 +47723,7 @@
                           "platform",
                           "request_method",
                           "request_path",
+                          "outcome",
                           "external_id",
                           "idempotency_key",
                           "request_id",
@@ -47027,6 +47786,21 @@
                           "request_body": null,
                           "response_body": null,
                           "error": null,
+                          "outcome": {
+                            "status": "draft",
+                            "targets": [
+                              {
+                                "variant_id": "Example variant id",
+                                "connection_id": "conn_01h455vb4pex5vsknk084sn02q",
+                                "platform": "x",
+                                "status": "draft",
+                                "platform_post_id": "17895695668004550",
+                                "permalink": "https://example.com/u/jane",
+                                "published_at": "2026-06-16T14:32:08Z",
+                                "error": null
+                              }
+                            ]
+                          },
                           "external_id": "client_acme",
                           "idempotency_key": "Example idempotency key",
                           "request_id": "Example request id",
@@ -47603,7 +48377,137 @@
                           "type": "null"
                         }
                       ],
-                      "description": "Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. Stored as jsonb."
+                      "description": "Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. INVARIANT: `status: \"error\"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb."
+                    },
+                    "outcome": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "draft",
+                                "scheduled",
+                                "publishing",
+                                "partially_published",
+                                "published",
+                                "failed"
+                              ],
+                              "type": "string",
+                              "description": "Rolled-up status of the publish (published | partially_published | failed | …), derived from the targets."
+                            },
+                            "targets": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "variant_id": {
+                                    "type": "string"
+                                  },
+                                  "connection_id": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "The connected account this variant targets. null when that connection was removed before publish."
+                                  },
+                                  "platform": {
+                                    "enum": [
+                                      "x",
+                                      "linkedin",
+                                      "facebook_page",
+                                      "instagram",
+                                      "tiktok"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "status": {
+                                    "enum": [
+                                      "draft",
+                                      "scheduled",
+                                      "publishing",
+                                      "published",
+                                      "failed"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "platform_post_id": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "permalink": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "published_at": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "error": {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "code": {
+                                            "type": "string",
+                                            "description": "The typed error code the variant carries."
+                                          },
+                                          "message": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": ["code", "message"]
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "variant_id",
+                                  "connection_id",
+                                  "platform",
+                                  "status",
+                                  "platform_post_id",
+                                  "permalink",
+                                  "published_at",
+                                  "error"
+                                ]
+                              },
+                              "description": "One entry per platform target: its status, live post id, permalink, and typed error."
+                            }
+                          },
+                          "required": ["status", "targets"],
+                          "description": "Per-target breakdown of a publish action: the rolled-up status plus one entry per platform target (live post id, permalink, typed per-target error). Identical vocabulary to the post.completed webhook."
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Per-target publish breakdown (see LogOutcome): the rollup status plus one entry per platform target. Present on a publish action (create/update/scheduled publish that ran), null otherwise."
                     },
                     "external_id": {
                       "anyOf": [
@@ -47716,6 +48620,7 @@
                     "platform",
                     "request_method",
                     "request_path",
+                    "outcome",
                     "external_id",
                     "idempotency_key",
                     "request_id",
@@ -47741,6 +48646,21 @@
                       "request_body": null,
                       "response_body": null,
                       "error": null,
+                      "outcome": {
+                        "status": "draft",
+                        "targets": [
+                          {
+                            "variant_id": "Example variant id",
+                            "connection_id": "conn_01h455vb4pex5vsknk084sn02q",
+                            "platform": "x",
+                            "status": "draft",
+                            "platform_post_id": "17895695668004550",
+                            "permalink": "https://example.com/u/jane",
+                            "published_at": "2026-06-16T14:32:08Z",
+                            "error": null
+                          }
+                        ]
+                      },
                       "external_id": "client_acme",
                       "idempotency_key": "Example idempotency key",
                       "request_id": "Example request id",

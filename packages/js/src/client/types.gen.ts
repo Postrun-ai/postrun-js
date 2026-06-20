@@ -9,7 +9,7 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_publish_failed' | 'connection_platform_mismatch' | 'connection_removed';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
 
 export type ProfilesListData = {
     body?: never;
@@ -7794,7 +7794,7 @@ export type PostsValidateResponses = {
         object: 'validation';
         publishable: boolean;
         issues: Array<{
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_media_processing' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_publish_failed' | 'connection_platform_mismatch' | 'connection_removed';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -20827,6 +20827,277 @@ export type GoogleUploadImageAssetResponses = {
 
 export type GoogleUploadImageAssetResponse = GoogleUploadImageAssetResponses[keyof GoogleUploadImageAssetResponses];
 
+export type TiktokCreatorInfoData = {
+    body?: never;
+    path: {
+        /**
+         * Connection id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/connections/{id}/tiktok/creator-info';
+};
+
+export type TiktokCreatorInfoErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress' | 'connection_reauth_required';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'tiktok_creator_info_unavailable';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+};
+
+export type TiktokCreatorInfoError = TiktokCreatorInfoErrors[keyof TiktokCreatorInfoErrors];
+
+export type TiktokCreatorInfoResponses = {
+    /**
+     * A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account.
+     */
+    200: {
+        creator: {
+            nickname: string;
+            username: string;
+            avatar_url: string | null;
+        };
+        privacy_options: Array<'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY'>;
+        interaction: {
+            comment: boolean;
+            duet: boolean;
+            stitch: boolean;
+        };
+        max_video_duration_sec: number;
+    };
+};
+
+export type TiktokCreatorInfoResponse = TiktokCreatorInfoResponses[keyof TiktokCreatorInfoResponses];
+
 export type LogsListData = {
     body?: never;
     path?: never;
@@ -21137,9 +21408,40 @@ export type LogsListResponses = {
              */
             response_body?: unknown | null;
             /**
-             * Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. Stored as jsonb.
+             * Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. INVARIANT: `status: "error"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb.
              */
             error?: unknown | null;
+            /**
+             * Per-target publish breakdown (see LogOutcome): the rollup status plus one entry per platform target. Present on a publish action (create/update/scheduled publish that ran), null otherwise.
+             */
+            outcome: {
+                /**
+                 * Rolled-up status of the publish (published | partially_published | failed | …), derived from the targets.
+                 */
+                status: 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
+                /**
+                 * One entry per platform target: its status, live post id, permalink, and typed error.
+                 */
+                targets: Array<{
+                    variant_id: string;
+                    /**
+                     * The connected account this variant targets. null when that connection was removed before publish.
+                     */
+                    connection_id: string | null;
+                    platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
+                    status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
+                    platform_post_id: string | null;
+                    permalink: string | null;
+                    published_at: string | null;
+                    error: {
+                        /**
+                         * The typed error code the variant carries.
+                         */
+                        code: string;
+                        message: string;
+                    } | null;
+                }>;
+            } | null;
             /**
              * Platform resource id the action produced (e.g. a post id).
              */
@@ -21464,9 +21766,40 @@ export type LogsGetResponses = {
          */
         response_body?: unknown | null;
         /**
-         * Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. Stored as jsonb.
+         * Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. INVARIANT: `status: "error"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb.
          */
         error?: unknown | null;
+        /**
+         * Per-target publish breakdown (see LogOutcome): the rollup status plus one entry per platform target. Present on a publish action (create/update/scheduled publish that ran), null otherwise.
+         */
+        outcome: {
+            /**
+             * Rolled-up status of the publish (published | partially_published | failed | …), derived from the targets.
+             */
+            status: 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
+            /**
+             * One entry per platform target: its status, live post id, permalink, and typed error.
+             */
+            targets: Array<{
+                variant_id: string;
+                /**
+                 * The connected account this variant targets. null when that connection was removed before publish.
+                 */
+                connection_id: string | null;
+                platform: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
+                status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
+                platform_post_id: string | null;
+                permalink: string | null;
+                published_at: string | null;
+                error: {
+                    /**
+                     * The typed error code the variant carries.
+                     */
+                    code: string;
+                    message: string;
+                } | null;
+            }>;
+        } | null;
         /**
          * Platform resource id the action produced (e.g. a post id).
          */

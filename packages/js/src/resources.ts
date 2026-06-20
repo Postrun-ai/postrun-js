@@ -24,6 +24,7 @@ import type {
   ProfilesListData,
   ProfilesListResponse,
   ProfilesUpdateData,
+  TiktokCreatorInfoResponse,
 } from './client/types.gen';
 
 /**
@@ -74,6 +75,24 @@ export type ConnectablePlatform =
 
 /** Accounts discoverable on a pending connection, for the selection step. */
 export type DiscoverableAccountList = ConnectionsListAccountsResponse;
+
+/**
+ * A TikTok creator's live publish options for a connection — the data TikTok's
+ * Content Posting policy REQUIRES the publishing UI to render: `creator`
+ * (nickname + avatar), the `privacy_options` to offer (with NO default), the
+ * positive `interaction` (allowed) flags for Comment/Duet/Stitch toggles, and
+ * `max_video_duration_sec`. Derived from the contract, never hand-declared.
+ */
+export type TikTokCreatorInfo = TiktokCreatorInfoResponse;
+
+/**
+ * One TikTok privacy level — a member of the closed audience union
+ * (`PUBLIC_TO_EVERYONE` / `MUTUAL_FOLLOW_FRIENDS` / `FOLLOWER_OF_CREATOR` /
+ * `SELF_ONLY`). The per-account ALLOWED subset is `TikTokCreatorInfo.privacy_options`;
+ * this is one value from it (what you bind a dropdown option to). Derived from
+ * the contract, never hand-declared; render it with {@link tiktokPrivacyLabel}.
+ */
+export type TikTokPrivacyLevel = TikTokCreatorInfo['privacy_options'][number];
 
 /** Request body to select an account on a pending connection. */
 export type SelectAccountInput = NonNullable<ConnectionsSelectData['body']>;

@@ -73,6 +73,8 @@ export {
   useDeletePost,
 } from './posts';
 export type { CalendarFilters, LiveOptions } from './posts';
+export { useTikTokCreatorInfo } from './tiktok';
+export type { TikTokCreatorInfo } from './tiktok';
 export type {
   PostValidation,
   ValidationIssue,
@@ -81,7 +83,13 @@ export type {
 } from '@postrun/js';
 export { useInfiniteList } from './infinite-list';
 export type { InfiniteList } from './infinite-list';
-export { profileKeys, connectionKeys, mediaKeys, postKeys } from './keys';
+export {
+  profileKeys,
+  connectionKeys,
+  mediaKeys,
+  postKeys,
+  tiktokKeys,
+} from './keys';
 
 export { XPostPreview, LinkedInPostPreview } from './preview';
 export type {

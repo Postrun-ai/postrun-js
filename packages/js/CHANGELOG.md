@@ -1,5 +1,29 @@
 # @postrun/js
 
+## 2.2.0
+
+### Minor Changes
+
+- Add TikTok creator-info support for the composer's publish-options UI.
+
+  TikTok's Content Posting policy requires the publishing UI to render the creator's
+  nickname + avatar, a privacy dropdown (options from `creator_info`, with no
+  default), and Comment/Duet/Stitch toggles per the account's flags. This release
+  exposes that data in a best-DX shape.
+
+  - **`@postrun/js`**: the generated `tiktokCreatorInfo` SDK function for
+    `GET /connections/{id}/tiktok/creator-info`, plus a `TikTokCreatorInfo` resource
+    type. The shape is `{ creator: { nickname, username, avatar_url }, privacy_options:
+TikTokPrivacyLevel[], interaction: { comment, duet, stitch }, max_video_duration_sec }`
+    — `privacy_options` is a typed subset of the closed `TikTokPrivacyLevel` union (now
+    exported), and `interaction` flags are POSITIVE ("allowed", the inverse of TikTok's
+    `*_disabled`) so a UI reads `if (interaction.comment) …`. Adds the pure
+    `tiktokPrivacyLabel(value)` helper (Everyone / Friends / Followers / Only you) so the
+    presentation lives in the SDK, not on the wire.
+  - **`@postrun/react`**: `useTikTokCreatorInfo(connectionId)` — a query hook that
+    fetches a TikTok connection's live creator info in the shape above. Disabled when
+    `connectionId` is `null`. Exports `tiktokKeys` for cache control.
+
 ## 2.1.0
 
 ### Minor Changes

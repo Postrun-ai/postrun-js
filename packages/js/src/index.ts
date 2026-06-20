@@ -43,6 +43,8 @@ export type {
   ConnectablePlatform,
   DiscoverableAccountList,
   SelectAccountInput,
+  TikTokCreatorInfo,
+  TikTokPrivacyLevel,
   PostVariantInput,
   XPostVariant,
   LinkedInPostVariant,
@@ -77,6 +79,8 @@ export type {
 } from './resources';
 
 export { isPublished, failedVariants } from './resources';
+
+export { tiktokPrivacyLabel } from './tiktok';
 
 export {
   buildCreatePost,

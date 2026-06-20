@@ -74,3 +74,10 @@ export const connectionKeys = {
   detail: (id: string) => [...connectionKeys.details(), id] as const,
   accounts: (id: string) => [...connectionKeys.all, 'accounts', id] as const,
 };
+
+/** Query-key factory for TikTok reads (creator info keyed by connection id). */
+export const tiktokKeys = {
+  all: [ROOT, 'tiktok'] as const,
+  creatorInfo: (connectionId: string) =>
+    [...tiktokKeys.all, 'creator-info', connectionId] as const,
+};

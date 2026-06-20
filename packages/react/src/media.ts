@@ -26,12 +26,24 @@ import { useInfiniteList } from './infinite-list';
 import { mediaKeys } from './keys';
 import { UploadError, uploadBytes } from './upload-bytes';
 
+/** Interval between media status polls. */
+export const MEDIA_POLL_INTERVAL_MS = 1_500;
+
+/**
+ * How long to poll a media asset before giving up. Server-side video transcode
+ * can legitimately take many minutes (a long/large clip on a busy worker), so
+ * this ceiling is generous — a short one marked still-processing-but-eventually-
+ * ready videos as `failed`, silently dropping them from the post. 30 minutes is a
+ * backstop, NOT the expectation; assets normally settle in seconds-to-minutes.
+ */
+export const MEDIA_POLL_TIMEOUT_MS = 30 * 60 * 1_000;
+
 /**
  * Poll the asset until it settles (ready/failed), respecting cancellation.
  * `onTick` fires with each fetched resource so callers can surface the live
  * `progress.{stage,percent}` the API reports during processing.
  */
-async function pollUntilSettled(
+export async function pollUntilSettled(
   client: PostrunClient,
   id: string,
   signal: AbortSignal,
@@ -47,7 +59,7 @@ async function pollUntilSettled(
       onTick?.(latest);
       return latest.status === 'ready' || latest.status === 'failed';
     },
-    { interval: 1500, timeout: 300_000 },
+    { interval: MEDIA_POLL_INTERVAL_MS, timeout: MEDIA_POLL_TIMEOUT_MS },
   );
 
   if (!latest) {

@@ -1,9 +1,11 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, expect, test, vi } from 'vitest';
 
-import { PostrunError } from '@postrun/js';
+import { PostrunError, createPostrunClient } from '@postrun/js';
 
 import {
+  MEDIA_POLL_TIMEOUT_MS,
+  pollUntilSettled,
   useDeleteMedia,
   useMedia,
   useMediaList,
@@ -480,4 +482,49 @@ test('a delete invalidates the cached list so it refetches', async () => {
   });
 
   await waitFor(() => expect(listGets()).toBeGreaterThan(before));
+});
+
+// --- poll timeout (RCA: a 5-minute ceiling marked still-transcoding-but-
+// eventually-ready videos as `failed`, dropping them from the post) -------------
+
+test('MEDIA_POLL_TIMEOUT_MS is 30 minutes — long enough for a real video transcode', () => {
+  expect(MEDIA_POLL_TIMEOUT_MS).toBe(30 * 60 * 1000);
+});
+
+test('pollUntilSettled keeps polling a long-transcoding video past the old 5-minute ceiling and settles `ready` (never fabricates `failed`)', async () => {
+  vi.useFakeTimers();
+  try {
+    let polls = 0;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => {
+        polls += 1;
+        // Stay 'processing' for ~6 minutes of polling (240 × 1.5s = 360s, well
+        // past the old 300s timeout that used to mark it failed), then `ready`.
+        const status = polls > 240 ? 'ready' : 'processing';
+        return new Response(
+          JSON.stringify({ ...MEDIA, status, progress: progressFor(status) }),
+          { status: 200, headers: { 'content-type': 'application/json' } },
+        );
+      }),
+    );
+
+    const client = createPostrunClient({
+      getToken: () => 'tok',
+      baseUrl: 'https://api.test',
+    });
+    const settled = pollUntilSettled(
+      client,
+      'med_1',
+      new AbortController().signal,
+    );
+
+    // Drive ~6.5 min of fake time; the old 5-min timeout would have rejected here.
+    await vi.advanceTimersByTimeAsync(6.5 * 60 * 1000);
+
+    await expect(settled).resolves.toMatchObject({ status: 'ready' });
+    expect(polls).toBeGreaterThan(200);
+  } finally {
+    vi.useRealTimers();
+  }
 });

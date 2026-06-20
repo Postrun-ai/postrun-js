@@ -1,5 +1,21 @@
 # @postrun/react
 
+## 2.2.1
+
+### Patch Changes
+
+- Fix: long-transcoding videos were marked `failed` and silently dropped from posts.
+
+  `useMediaUpload`'s status poll had a 5-minute ceiling (`pollUntilSettled`). A large
+  or long video whose server-side transcode ran past 5 minutes hit the timeout, and
+  the client flipped the item to `failed` even though the asset later reached `ready`
+  on the server. A `failed` item is excluded from `ready`, so the (actually-ready)
+  video never made it into the post — collapsing it to a no-media post downstream.
+
+  The poll ceiling is now 30 minutes (`MEDIA_POLL_TIMEOUT_MS`), a generous backstop
+  for real transcodes; assets still normally settle in seconds-to-minutes.
+  - @postrun/js@2.2.1
+
 ## 2.2.0
 
 ### Minor Changes

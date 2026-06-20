@@ -1,5 +1,29 @@
 # @postrun/js
 
+## 2.6.0
+
+### Minor Changes
+
+- X preview: render polls + bring it to the same bar as TikTok/LinkedIn.
+
+  `@postrun/react`:
+
+  - `XPostPreview` now renders the one missing content surface — **polls**
+    (`settings.poll`): the 2–4 options as X's pre-vote outlined pills plus an honest
+    "0 votes · <time left>" footer (no fabricated counts). Poll is mutually
+    exclusive with media/quote/card (per the contract), so it renders in their place.
+  - `XPoll` exported for recomposition. (`card_uri` stays unrendered — it's an opaque
+    Cards-API reference with no client-renderable content.)
+
+  `@postrun/js`:
+
+  - `xPollDurationLabel(durationMinutes)` + the `XPoll` settings type (derived from
+    the contract) — the poll card's "time left" label.
+
+  The rest of the X preview already rode on `react-tweet` (the real X card) with a
+  pure, cast-free schema→tweet mapper; this fills the content gap and adds the poll
+  test coverage.
+
 ## 2.5.0
 
 ### Minor Changes

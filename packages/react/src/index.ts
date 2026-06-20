@@ -93,6 +93,7 @@ export {
 
 export {
   XPostPreview,
+  XPoll,
   LinkedInPostPreview,
   ArticleCard,
   Poll,
@@ -109,6 +110,7 @@ export {
 } from './preview';
 export type {
   XPostPreviewProps,
+  XPollProps,
   LinkedInPostPreviewProps,
   ArticleCardProps,
   PollProps,

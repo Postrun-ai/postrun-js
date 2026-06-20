@@ -122,4 +122,21 @@ describe('<XPostPreview>', () => {
     );
     expect(screen.getByText(/Replying to/i)).toBeDefined();
   });
+
+  it('renders a poll with its options and an honest 0-vote footer', () => {
+    render(
+      <XPostPreview
+        variant={xVariant({
+          body: 'wdyt?',
+          settings: {
+            poll: { options: ['Yes', 'No'], duration_minutes: 1440 },
+          },
+        })}
+        author={author}
+      />,
+    );
+    expect(screen.getByText('Yes')).toBeDefined();
+    expect(screen.getByText('No')).toBeDefined();
+    expect(screen.getByText(/0 votes · 1 day left/)).toBeDefined();
+  });
 });

@@ -20,6 +20,7 @@ import type {
   XPreviewQuotedTweet,
 } from '../types';
 import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
+import { XPoll } from './XPoll';
 import { XPreviewActions } from './XPreviewActions';
 import { toTweet } from './to-tweet';
 
@@ -113,6 +114,9 @@ function XPostPreviewImpl({
         {tweet.mediaDetails?.length ? (
           <TweetMedia tweet={tweet} components={components} />
         ) : null}
+        {/* Poll is mutually exclusive with media/quote/card (enforced by the
+            contract), so it renders in their place. */}
+        {variant.settings?.poll ? <XPoll poll={variant.settings.poll} /> : null}
         {tweet.quoted_tweet ? <QuotedTweet tweet={tweet.quoted_tweet} /> : null}
         {showActions ? <XPreviewActions /> : null}
       </TweetContainer>

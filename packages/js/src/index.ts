@@ -86,6 +86,9 @@ export { tiktokPrivacyLabel } from './tiktok';
 export { linkedinPollDurationLabel } from './linkedin';
 export type { LinkedInPollDuration } from './linkedin';
 
+export { xPollDurationLabel } from './x';
+export type { XPoll } from './x';
+
 export {
   defaultTikTokOptions,
   privacyChoices,

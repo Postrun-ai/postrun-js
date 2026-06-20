@@ -4,8 +4,8 @@
  * you don't have to reproduce it. X and LinkedIn ship today; the per-platform
  * input types are shared so the others slot in next.
  */
-export { XPostPreview } from './x';
-export type { XPostPreviewProps } from './x';
+export { XPostPreview, XPoll } from './x';
+export type { XPostPreviewProps, XPollProps } from './x';
 export {
   LinkedInPostPreview,
   ArticleCard,

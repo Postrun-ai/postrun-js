@@ -1,5 +1,13 @@
 # @postrun/playground
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/react@2.7.0
+  - @postrun/js@2.7.0
+
 ## 0.0.4
 
 ### Patch Changes

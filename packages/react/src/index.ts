@@ -107,6 +107,7 @@ export {
   Declaration,
   TIKTOK_CAPTION_MAX,
   captionMaxFor,
+  toPreviewMedia,
 } from './preview';
 export type {
   XPostPreviewProps,

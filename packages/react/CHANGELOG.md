@@ -1,5 +1,23 @@
 # @postrun/react
 
+## 2.7.0
+
+### Minor Changes
+
+- Add `toPreviewMedia(items)` — the bridge from `useMediaUpload`'s `MediaUploadItem[]`
+  to the preview cards' `PreviewMedia[]`.
+
+  Both shapes are SDK-owned (the hook produces one, every preview card consumes the
+  other), so this mapping belonged in the SDK instead of being hand-written by every
+  `useMediaUpload` + preview consumer. It passes the local `File` (so a preview
+  renders immediately, before and after upload settles), derives `kind` from the
+  detected `media.kind` (else the file MIME), drops documents and unidentifiable
+  files (not previewable), and fills `width`/`height`/`alt` from the settled asset.
+
+### Patch Changes
+
+- @postrun/js@2.7.0
+
 ## 2.6.0
 
 ### Minor Changes

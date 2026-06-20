@@ -13,7 +13,6 @@ import {
 } from '@postrun/js';
 import type {
   ListMediaQuery,
-  MediaKind,
   MediaResource,
   MediaTarget,
   Metadata,
@@ -80,14 +79,6 @@ export interface MediaUploadOptions {
   profileId: string;
   /** Platforms to validate + render for (omit to add later via useUpdateMedia). */
   targets?: MediaTarget[];
-  /** Optional override — omit and the API auto-detects the kind from the bytes. */
-  kind?: MediaKind;
-  /**
-   * Optional override — omit and the API auto-detects the MIME from the bytes.
-   * Still useful for a legacy Office binary (.doc/.ppt) whose magic bytes can't be
-   * disambiguated by the server sniff.
-   */
-  contentType?: string;
   /** Store as-is with zero processing. */
   raw?: boolean;
   altText?: string;
@@ -115,15 +106,13 @@ async function runUpload(
   },
 ): Promise<MediaResource> {
   // The API auto-detects `kind` + `content_type` from the uploaded bytes
-  // (magic-number sniff). Both ride as PURE OPTIONAL OVERRIDES — `undefined` when
-  // the caller omits them, so the server detects; never fabricated client-side.
+  // (magic-number sniff) — neither is a request field, so the client never sends
+  // (nor fabricates) them.
   const created = (
     await mediaCreate({
       client,
       body: {
         profile_id: options.profileId,
-        kind: options.kind,
-        content_type: options.contentType,
         targets: options.targets,
         raw: options.raw,
         alt_text: options.altText,

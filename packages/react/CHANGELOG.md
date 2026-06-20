@@ -1,5 +1,24 @@
 # @postrun/react
 
+## 2.3.0
+
+### Minor Changes
+
+- Post-validation issues now carry the required, customer-facing `display_error`
+  string (the Plaid `display_message` model) — a short, friendly, render-this line
+  for each readiness issue, alongside the developer-grade `message`. Duration limits
+  read as human time (e.g. "59 minutes 20 seconds"), not raw seconds.
+
+  Also surfaces the TikTok creator-info hook (`useTikTokCreatorInfo`) + `tiktokPrivacyLabel`
+  helper, and removes the long-dropped `kind` / `content_type` overrides from
+  `MediaUploadOptions` — the API auto-detects both from the uploaded bytes, so these
+  were already ignored. Omit them; nothing else changes.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.3.0
+
 ## 2.2.1
 
 ### Patch Changes

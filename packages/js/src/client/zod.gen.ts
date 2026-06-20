@@ -54,6 +54,7 @@ export const zErrorCode = z.enum([
     'document_too_large',
     'document_too_many_pages',
     'media_format_indeterminate',
+    'media_format_unsupported',
     'media_count_invalid',
     'body_too_long',
     'content_missing',
@@ -100,6 +101,9 @@ export const zErrorCode = z.enum([
     'tiktok_media_processing',
     'tiktok_not_authorized',
     'tiktok_rate_limited',
+    'tiktok_url_ownership_unverified',
+    'tiktok_unaudited_private_only',
+    'tiktok_spam_risk',
     'tiktok_publish_failed',
     'post_publish_failed',
     'post_partially_published',
@@ -496,6 +500,7 @@ export const zMediaListResponse = z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
+                'media_format_unsupported',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -524,7 +529,8 @@ export const zMediaListResponse = z.object({
             message: z.string(),
             hint: z.string().optional(),
             allowed: z.array(z.string()).optional(),
-            got: z.string().optional()
+            got: z.string().optional(),
+            display_error: z.string()
         }).nullable(),
         source: z.object({
             format: z.string(),
@@ -548,6 +554,7 @@ export const zMediaListResponse = z.object({
                 code: z.enum([
                     'media_unprobeable',
                     'media_format_indeterminate',
+                    'media_format_unsupported',
                     'media_too_large',
                     'media_aspect_ratio_unsupported',
                     'media_resolution_too_low',
@@ -576,12 +583,14 @@ export const zMediaListResponse = z.object({
                 message: z.string(),
                 hint: z.string().optional(),
                 allowed: z.array(z.string()).optional(),
-                got: z.string().optional()
+                got: z.string().optional(),
+                display_error: z.string()
             })),
             errors: z.array(z.object({
                 code: z.enum([
                     'media_unprobeable',
                     'media_format_indeterminate',
+                    'media_format_unsupported',
                     'media_too_large',
                     'media_aspect_ratio_unsupported',
                     'media_resolution_too_low',
@@ -610,7 +619,8 @@ export const zMediaListResponse = z.object({
                 message: z.string(),
                 hint: z.string().optional(),
                 allowed: z.array(z.string()).optional(),
-                got: z.string().optional()
+                got: z.string().optional(),
+                display_error: z.string()
             }))
         })),
         external_id: z.string().nullable(),
@@ -629,17 +639,10 @@ export const zMediaListResponse = z.object({
 });
 
 /**
- * Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits: a direct-upload video may be up to 5 GB; all other direct uploads and any source_url import must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`.
+ * Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits (same for direct upload and source_url): a video may be up to 4 GB; every other kind must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`.
  */
 export const zMediaCreateBody = z.object({
     profile_id: z.string(),
-    kind: z.enum([
-        'image',
-        'video',
-        'gif',
-        'document'
-    ]).optional(),
-    content_type: z.string().min(1).regex(/^(?:(?:image|video)\/[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*|application\/pdf|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document|application\/vnd\.ms-powerpoint|application\/vnd\.openxmlformats-officedocument\.presentationml\.presentation)$/).optional(),
     source_url: z.url().optional(),
     targets: z.array(z.enum([
         'x',
@@ -693,6 +696,7 @@ export const zMediaCreateResponse = z.object({
         code: z.enum([
             'media_unprobeable',
             'media_format_indeterminate',
+            'media_format_unsupported',
             'media_too_large',
             'media_aspect_ratio_unsupported',
             'media_resolution_too_low',
@@ -721,7 +725,8 @@ export const zMediaCreateResponse = z.object({
         message: z.string(),
         hint: z.string().optional(),
         allowed: z.array(z.string()).optional(),
-        got: z.string().optional()
+        got: z.string().optional(),
+        display_error: z.string()
     }).nullable(),
     source: z.object({
         format: z.string(),
@@ -745,6 +750,7 @@ export const zMediaCreateResponse = z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
+                'media_format_unsupported',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -773,12 +779,14 @@ export const zMediaCreateResponse = z.object({
             message: z.string(),
             hint: z.string().optional(),
             allowed: z.array(z.string()).optional(),
-            got: z.string().optional()
+            got: z.string().optional(),
+            display_error: z.string()
         })),
         errors: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
+                'media_format_unsupported',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -807,7 +815,8 @@ export const zMediaCreateResponse = z.object({
             message: z.string(),
             hint: z.string().optional(),
             allowed: z.array(z.string()).optional(),
-            got: z.string().optional()
+            got: z.string().optional(),
+            display_error: z.string()
         }))
     })),
     external_id: z.string().nullable(),
@@ -877,6 +886,7 @@ export const zMediaGetResponse = z.object({
         code: z.enum([
             'media_unprobeable',
             'media_format_indeterminate',
+            'media_format_unsupported',
             'media_too_large',
             'media_aspect_ratio_unsupported',
             'media_resolution_too_low',
@@ -905,7 +915,8 @@ export const zMediaGetResponse = z.object({
         message: z.string(),
         hint: z.string().optional(),
         allowed: z.array(z.string()).optional(),
-        got: z.string().optional()
+        got: z.string().optional(),
+        display_error: z.string()
     }).nullable(),
     source: z.object({
         format: z.string(),
@@ -929,6 +940,7 @@ export const zMediaGetResponse = z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
+                'media_format_unsupported',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -957,12 +969,14 @@ export const zMediaGetResponse = z.object({
             message: z.string(),
             hint: z.string().optional(),
             allowed: z.array(z.string()).optional(),
-            got: z.string().optional()
+            got: z.string().optional(),
+            display_error: z.string()
         })),
         errors: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
+                'media_format_unsupported',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -991,7 +1005,8 @@ export const zMediaGetResponse = z.object({
             message: z.string(),
             hint: z.string().optional(),
             allowed: z.array(z.string()).optional(),
-            got: z.string().optional()
+            got: z.string().optional(),
+            display_error: z.string()
         }))
     })),
     external_id: z.string().nullable(),
@@ -1060,6 +1075,7 @@ export const zMediaUpdateResponse = z.object({
         code: z.enum([
             'media_unprobeable',
             'media_format_indeterminate',
+            'media_format_unsupported',
             'media_too_large',
             'media_aspect_ratio_unsupported',
             'media_resolution_too_low',
@@ -1088,7 +1104,8 @@ export const zMediaUpdateResponse = z.object({
         message: z.string(),
         hint: z.string().optional(),
         allowed: z.array(z.string()).optional(),
-        got: z.string().optional()
+        got: z.string().optional(),
+        display_error: z.string()
     }).nullable(),
     source: z.object({
         format: z.string(),
@@ -1112,6 +1129,7 @@ export const zMediaUpdateResponse = z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
+                'media_format_unsupported',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -1140,12 +1158,14 @@ export const zMediaUpdateResponse = z.object({
             message: z.string(),
             hint: z.string().optional(),
             allowed: z.array(z.string()).optional(),
-            got: z.string().optional()
+            got: z.string().optional(),
+            display_error: z.string()
         })),
         errors: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
+                'media_format_unsupported',
                 'media_too_large',
                 'media_aspect_ratio_unsupported',
                 'media_resolution_too_low',
@@ -1174,7 +1194,8 @@ export const zMediaUpdateResponse = z.object({
             message: z.string(),
             hint: z.string().optional(),
             allowed: z.array(z.string()).optional(),
-            got: z.string().optional()
+            got: z.string().optional(),
+            display_error: z.string()
         }))
     })),
     external_id: z.string().nullable(),
@@ -1272,7 +1293,8 @@ export const zPostsListResponse = z.object({
             }).nullable(),
             error: z.object({
                 code: z.string(),
-                message: z.string()
+                message: z.string(),
+                display_error: z.string()
             }).nullable(),
             media: z.array(z.object({
                 media_id: z.string(),
@@ -1556,7 +1578,8 @@ export const zPostsCreateResponse = z.object({
         }).nullable(),
         error: z.object({
             code: z.string(),
-            message: z.string()
+            message: z.string(),
+            display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
             media_id: z.string(),
@@ -1648,7 +1671,8 @@ export const zPostsGetResponse = z.object({
         }).nullable(),
         error: z.object({
             code: z.string(),
-            message: z.string()
+            message: z.string(),
+            display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
             media_id: z.string(),
@@ -1930,7 +1954,8 @@ export const zPostsUpdateResponse = z.object({
         }).nullable(),
         error: z.object({
             code: z.string(),
-            message: z.string()
+            message: z.string(),
+            display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
             media_id: z.string(),
@@ -2190,6 +2215,7 @@ export const zPostsValidateResponse = z.object({
             'document_too_large',
             'document_too_many_pages',
             'media_format_indeterminate',
+            'media_format_unsupported',
             'media_count_invalid',
             'body_too_long',
             'content_missing',
@@ -2236,6 +2262,9 @@ export const zPostsValidateResponse = z.object({
             'tiktok_media_processing',
             'tiktok_not_authorized',
             'tiktok_rate_limited',
+            'tiktok_url_ownership_unverified',
+            'tiktok_unaudited_private_only',
+            'tiktok_spam_risk',
             'tiktok_publish_failed',
             'post_publish_failed',
             'post_partially_published',
@@ -2247,7 +2276,8 @@ export const zPostsValidateResponse = z.object({
         allowed: z.array(z.string()).optional(),
         got: z.string().optional(),
         variant_index: z.int().gte(-9007199254740991).lte(9007199254740991),
-        path: z.array(z.union([z.string(), z.number()]))
+        path: z.array(z.union([z.string(), z.number()])),
+        display_error: z.string()
     }))
 });
 
@@ -4115,7 +4145,8 @@ export const zLogsListResponse = z.object({
                 published_at: z.string().nullable(),
                 error: z.object({
                     code: z.string(),
-                    message: z.string()
+                    message: z.string(),
+                    display_error: z.string()
                 }).nullable()
             }))
         }).nullable(),
@@ -4203,7 +4234,8 @@ export const zLogsGetResponse = z.object({
             published_at: z.string().nullable(),
             error: z.object({
                 code: z.string(),
-                message: z.string()
+                message: z.string(),
+                display_error: z.string()
             }).nullable()
         }))
     }).nullable(),

@@ -9,7 +9,7 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
 
 export type ProfilesListData = {
     body?: never;
@@ -3446,7 +3446,7 @@ export type MediaListResponses = {
              */
             kind: 'image' | 'video' | 'gif' | 'document' | null;
             /**
-             * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+             * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
              */
             content_type: string | null;
             status: 'uploading' | 'processing' | 'ready' | 'failed';
@@ -3462,11 +3462,15 @@ export type MediaListResponses = {
              * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
              */
             error: {
-                code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                 message: string;
                 hint?: string;
                 allowed?: Array<string>;
                 got?: string;
+                /**
+                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                 */
+                display_error: string;
             } | null;
             source: {
                 /**
@@ -3490,18 +3494,26 @@ export type MediaListResponses = {
                     height: number | null;
                     bytes: number | null;
                     warnings: Array<{
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                         message: string;
                         hint?: string;
                         allowed?: Array<string>;
                         got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
                     }>;
                     errors: Array<{
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                         message: string;
                         hint?: string;
                         allowed?: Array<string>;
                         got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
                     }>;
                 };
             };
@@ -3544,7 +3556,7 @@ export type MediaListResponse = MediaListResponses[keyof MediaListResponses];
 
 export type MediaCreateData = {
     /**
-     * Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits: a direct-upload video may be up to 5 GB; all other direct uploads and any source_url import must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`.
+     * Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits (same for direct upload and source_url): a video may be up to 4 GB; every other kind must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`.
      */
     body: {
         /**
@@ -3552,15 +3564,7 @@ export type MediaCreateData = {
          */
         profile_id: string;
         /**
-         * Optional override of the asset family. Omit it and we auto-detect it from the uploaded bytes (file-type magic-number sniff). Provide it only to force a family — a provided value wins over detection.
-         */
-        kind?: 'image' | 'video' | 'gif' | 'document';
-        /**
-         * Optional hint/override of the MIME; auto-detected from the bytes when omitted. Accepts image*, video*, or a document MIME (PDF/DOC/DOCX/PPT/PPTX). Still required for a legacy Office binary (.doc/.ppt), which magic bytes can’t disambiguate.
-         */
-        content_type?: string;
-        /**
-         * A public https URL to import the bytes from. When supplied, we fetch (SSRF-guarded), validate, transform, and store the media server-side — no signed upload target is returned (`upload` is null). Omit it to PUT the bytes to the signed upload target instead. The imported file must be 1 GB or smaller (a larger source is rejected with `media_too_large`).
+         * A public https URL to import the bytes from. When supplied, we fetch (SSRF-guarded), validate, transform, and store the media server-side — no signed upload target is returned (`upload` is null). Omit it to PUT the bytes to the signed upload target instead. Size limits match a direct upload: a video may be up to 4 GB, every other kind up to 1 GB (a larger source is rejected with `media_too_large`).
          */
         source_url?: string;
         /**
@@ -3568,7 +3572,7 @@ export type MediaCreateData = {
          */
         targets?: Array<'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok' | 'google_ads'>;
         /**
-         * false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block on MEDIA validation: every targeted platform gets a ready entry on the ORIGINAL url, with any "would have resized/converted/rejected" surfaced as a non-blocking finding in `warnings`. The platform is the final judge. (The one boundary raw does NOT relax: `google_ads` is image-only, so a non-image asset targeting it is still rejected at create — a target-kind error, not a media-quality verdict.)
+         * false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block on MEDIA validation: every targeted platform gets a ready entry on the ORIGINAL url, with any "would have resized/converted/rejected" surfaced as a non-blocking finding in `warnings`. The platform is the final judge. (The one boundary raw does NOT relax: `google_ads` is image-only, so once byte-detection finds the asset is not an image, that target is rejected with a typed `media_unsupported` failure — a target-kind error, not a media-quality verdict.)
          */
         raw?: boolean;
         alt_text?: string;
@@ -3806,7 +3810,7 @@ export type MediaCreateResponses = {
          */
         kind: 'image' | 'video' | 'gif' | 'document' | null;
         /**
-         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
          */
         content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
@@ -3822,11 +3826,15 @@ export type MediaCreateResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
             got?: string;
+            /**
+             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+             */
+            display_error: string;
         } | null;
         source: {
             /**
@@ -3850,18 +3858,26 @@ export type MediaCreateResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                     */
+                    display_error: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                     */
+                    display_error: string;
                 }>;
             };
         };
@@ -4359,7 +4375,7 @@ export type MediaGetResponses = {
          */
         kind: 'image' | 'video' | 'gif' | 'document' | null;
         /**
-         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
          */
         content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
@@ -4375,11 +4391,15 @@ export type MediaGetResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
             got?: string;
+            /**
+             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+             */
+            display_error: string;
         } | null;
         source: {
             /**
@@ -4403,18 +4423,26 @@ export type MediaGetResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                     */
+                    display_error: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                     */
+                    display_error: string;
                 }>;
             };
         };
@@ -4684,7 +4712,7 @@ export type MediaUpdateResponses = {
          */
         kind: 'image' | 'video' | 'gif' | 'document' | null;
         /**
-         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`.
+         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
          */
         content_type: string | null;
         status: 'uploading' | 'processing' | 'ready' | 'failed';
@@ -4700,11 +4728,15 @@ export type MediaUpdateResponses = {
          * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
          */
         error: {
-            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
             message: string;
             hint?: string;
             allowed?: Array<string>;
             got?: string;
+            /**
+             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+             */
+            display_error: string;
         } | null;
         source: {
             /**
@@ -4728,18 +4760,26 @@ export type MediaUpdateResponses = {
                 height: number | null;
                 bytes: number | null;
                 warnings: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                     */
+                    display_error: string;
                 }>;
                 errors: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
                     message: string;
                     hint?: string;
                     allowed?: Array<string>;
                     got?: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                     */
+                    display_error: string;
                 }>;
             };
         };
@@ -5079,6 +5119,10 @@ export type PostsListResponses = {
                 error: {
                     code: string;
                     message: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+                     */
+                    display_error: string;
                 } | null;
                 media: Array<{
                     media_id: string;
@@ -5845,6 +5889,10 @@ export type PostsCreateResponses = {
             error: {
                 code: string;
                 message: string;
+                /**
+                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+                 */
+                display_error: string;
             } | null;
             media: Array<{
                 media_id: string;
@@ -6392,6 +6440,10 @@ export type PostsGetResponses = {
             error: {
                 code: string;
                 message: string;
+                /**
+                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+                 */
+                display_error: string;
             } | null;
             media: Array<{
                 media_id: string;
@@ -7133,6 +7185,10 @@ export type PostsUpdateResponses = {
             error: {
                 code: string;
                 message: string;
+                /**
+                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+                 */
+                display_error: string;
             } | null;
             media: Array<{
                 media_id: string;
@@ -7794,13 +7850,17 @@ export type PostsValidateResponses = {
         object: 'validation';
         publishable: boolean;
         issues: Array<{
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
             message: string;
             hint?: string;
             allowed?: Array<string>;
             got?: string;
             variant_index: number;
             path: Array<string | number>;
+            /**
+             * Short, friendly, render-this end-user line (the Plaid display_message model). The `code` stays the branch key for customer branching; `message` stays developer-grade. Populated centrally — never at construction sites.
+             */
+            display_error: string;
         }>;
     };
 };
@@ -21439,6 +21499,10 @@ export type LogsListResponses = {
                          */
                         code: string;
                         message: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
+                         */
+                        display_error: string;
                     } | null;
                 }>;
             } | null;
@@ -21797,6 +21861,10 @@ export type LogsGetResponses = {
                      */
                     code: string;
                     message: string;
+                    /**
+                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
+                     */
+                    display_error: string;
                 } | null;
             }>;
         } | null;

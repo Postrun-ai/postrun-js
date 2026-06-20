@@ -48,6 +48,7 @@ export type {
   PostVariantInput,
   XPostVariant,
   LinkedInPostVariant,
+  TikTokPostVariant,
   Post,
   PostList,
   ListPostsQuery,
@@ -81,6 +82,37 @@ export type {
 export { isPublished, failedVariants } from './resources';
 
 export { tiktokPrivacyLabel } from './tiktok';
+
+export {
+  defaultTikTokOptions,
+  privacyChoices,
+  parsePrivacyLevel,
+  audiencePrivacyOptions,
+  audienceUnselected,
+  commercialDisclosureIncomplete,
+  brandedContentDeclared,
+  commercialLabelNotice,
+  setCommercialDisclosure,
+  setBrandKind,
+  isInteractionForbidden,
+  interactionRows,
+  interactionValueKey,
+  toggleInteraction,
+  tiktokSettings,
+  tiktokOptionsReady,
+  TIKTOK_MUSIC_CONFIRMATION_URL,
+  TIKTOK_BRANDED_CONTENT_POLICY_URL,
+  TIKTOK_DISCLOSURE_REQUIRED_HINT,
+  TIKTOK_AUDIENCE_REQUIRED_HINT,
+  TIKTOK_PROCESSING_NOTICE,
+} from './tiktok-options';
+export type {
+  TikTokOptionsValue,
+  TikTokInteractionKey,
+  TikTokInteractionRow,
+  TikTokBrandKind,
+  TikTokPrivacyChoice,
+} from './tiktok-options';
 
 export {
   buildCreatePost,

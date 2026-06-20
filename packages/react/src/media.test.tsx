@@ -211,26 +211,6 @@ test('useMediaUpload uploads a file with no MIME type fine — the API detects k
   expect(result.current.items[0]?.status).toBe('ready');
 });
 
-test('useMediaUpload forwards explicit kind/contentType overrides', async () => {
-  const calls = mockMedia();
-  const { result } = renderHook(() => useMediaUpload(), { wrapper: testWrapper() });
-  const typeless = new File(['bytes'], 'doc');
-
-  await act(async () => {
-    await result.current.add(typeless, {
-      profileId: 'prof_1',
-      kind: 'document',
-      contentType: 'application/pdf',
-    });
-  });
-
-  const post = calls.find((c) => c.method === 'POST')!;
-  expect(await post.json()).toMatchObject({
-    content_type: 'application/pdf',
-    kind: 'document',
-  });
-});
-
 test('useMediaList returns the typed page once loaded', async () => {
   recordFetch(MEDIA_LIST);
   const { result } = renderHook(() => useMediaList(), {

@@ -121,6 +121,16 @@ export type LinkedInPostVariant = Extract<
   { platform: 'linkedin' }
 >;
 
+/** The TikTok member of the write variant union — typed native settings
+ * (`privacy_level`, `disable_comment`/`disable_duet`/`disable_stitch`,
+ * `brand_content_toggle`/`brand_organic_toggle`, `is_aigc`, photo/video cover).
+ * Narrowed from the contract, never hand-declared — it is the compose-time shape a
+ * live TikTok preview renders. */
+export type TikTokPostVariant = Extract<
+  PostVariantInput,
+  { platform: 'tiktok' }
+>;
+
 /** A post — its variants, schedule, and derived status (the read resource). */
 export type Post = PostsGetResponse;
 

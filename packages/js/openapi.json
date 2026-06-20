@@ -65,6 +65,7 @@
           "document_too_large",
           "document_too_many_pages",
           "media_format_indeterminate",
+          "media_format_unsupported",
           "media_count_invalid",
           "body_too_long",
           "content_missing",
@@ -111,6 +112,9 @@
           "tiktok_media_processing",
           "tiktok_not_authorized",
           "tiktok_rate_limited",
+          "tiktok_url_ownership_unverified",
+          "tiktok_unaudited_private_only",
+          "tiktok_spam_risk",
           "tiktok_publish_failed",
           "post_publish_failed",
           "post_partially_published",
@@ -7018,21 +7022,10 @@
                     "type": "string",
                     "description": "The profile that owns this asset. A profile is one brand/client; media is profile-owned so a scoped browser token stays safely confined to that brand — it can create/read media only under the profiles its token is scoped to, never reach another client’s assets. This is the tenancy boundary of the frontend-token model, so it is always required (it’s never inferable from the bytes)."
                   },
-                  "kind": {
-                    "enum": ["image", "video", "gif", "document"],
-                    "type": "string",
-                    "description": "Optional override of the asset family. Omit it and we auto-detect it from the uploaded bytes (file-type magic-number sniff). Provide it only to force a family — a provided value wins over detection."
-                  },
-                  "content_type": {
-                    "type": "string",
-                    "minLength": 1,
-                    "pattern": "^(?:(?:image|video)\\/[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]*|application\\/pdf|application\\/msword|application\\/vnd\\.openxmlformats-officedocument\\.wordprocessingml\\.document|application\\/vnd\\.ms-powerpoint|application\\/vnd\\.openxmlformats-officedocument\\.presentationml\\.presentation)$",
-                    "description": "Optional hint/override of the MIME; auto-detected from the bytes when omitted. Accepts image/*, video/*, or a document MIME (PDF/DOC/DOCX/PPT/PPTX). Still required for a legacy Office binary (.doc/.ppt), which magic bytes can’t disambiguate."
-                  },
                   "source_url": {
                     "type": "string",
                     "format": "uri",
-                    "description": "A public https URL to import the bytes from. When supplied, we fetch (SSRF-guarded), validate, transform, and store the media server-side — no signed upload target is returned (`upload` is null). Omit it to PUT the bytes to the signed upload target instead. The imported file must be 1 GB or smaller (a larger source is rejected with `media_too_large`)."
+                    "description": "A public https URL to import the bytes from. When supplied, we fetch (SSRF-guarded), validate, transform, and store the media server-side — no signed upload target is returned (`upload` is null). Omit it to PUT the bytes to the signed upload target instead. Size limits match a direct upload: a video may be up to 4 GB, every other kind up to 1 GB (a larger source is rejected with `media_too_large`)."
                   },
                   "targets": {
                     "type": "array",
@@ -7053,7 +7046,7 @@
                   "raw": {
                     "type": "boolean",
                     "default": false,
-                    "description": "false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block on MEDIA validation: every targeted platform gets a ready entry on the ORIGINAL url, with any \"would have resized/converted/rejected\" surfaced as a non-blocking finding in `warnings`. The platform is the final judge. (The one boundary raw does NOT relax: `google_ads` is image-only, so a non-image asset targeting it is still rejected at create — a target-kind error, not a media-quality verdict.)"
+                    "description": "false (default) = process to platform-ready (validate + transform). true = validate against the targets but NEVER transform and NEVER block on MEDIA validation: every targeted platform gets a ready entry on the ORIGINAL url, with any \"would have resized/converted/rejected\" surfaced as a non-blocking finding in `warnings`. The platform is the final judge. (The one boundary raw does NOT relax: `google_ads` is image-only, so once byte-detection finds the asset is not an image, that target is rejected with a typed `media_unsupported` failure — a target-kind error, not a media-quality verdict.)"
                   },
                   "alt_text": {
                     "type": "string",
@@ -7088,7 +7081,7 @@
                   }
                 },
                 "required": ["profile_id"],
-                "description": "Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits: a direct-upload video may be up to 5 GB; all other direct uploads and any source_url import must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`."
+                "description": "Create a media asset — either via the signed direct upload target (omit source_url) or by importing from a public https source_url (we fetch + validate + transform + store). Size limits (same for direct upload and source_url): a video may be up to 4 GB; every other kind must be 1 GB or smaller. A file over its limit is rejected with `media_too_large`."
               }
             }
           }
@@ -7131,7 +7124,7 @@
                           "type": "null"
                         }
                       ],
-                      "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`."
+                      "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`."
                     },
                     "status": {
                       "enum": ["uploading", "processing", "ready", "failed"],
@@ -7170,6 +7163,7 @@
                               "enum": [
                                 "media_unprobeable",
                                 "media_format_indeterminate",
+                                "media_format_unsupported",
                                 "media_too_large",
                                 "media_aspect_ratio_unsupported",
                                 "media_resolution_too_low",
@@ -7211,10 +7205,13 @@
                             },
                             "got": {
                               "type": "string"
+                            },
+                            "display_error": {
+                              "type": "string",
+                              "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                             }
                           },
-                          "required": ["code", "message"],
-                          "description": "A processing/validation problem the customer must resolve."
+                          "required": ["code", "message", "display_error"]
                         },
                         {
                           "type": "null"
@@ -7378,6 +7375,7 @@
                                   "enum": [
                                     "media_unprobeable",
                                     "media_format_indeterminate",
+                                    "media_format_unsupported",
                                     "media_too_large",
                                     "media_aspect_ratio_unsupported",
                                     "media_resolution_too_low",
@@ -7419,10 +7417,13 @@
                                 },
                                 "got": {
                                   "type": "string"
+                                },
+                                "display_error": {
+                                  "type": "string",
+                                  "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                 }
                               },
-                              "required": ["code", "message"],
-                              "description": "A processing/validation problem the customer must resolve."
+                              "required": ["code", "message", "display_error"]
                             }
                           },
                           "errors": {
@@ -7434,6 +7435,7 @@
                                   "enum": [
                                     "media_unprobeable",
                                     "media_format_indeterminate",
+                                    "media_format_unsupported",
                                     "media_too_large",
                                     "media_aspect_ratio_unsupported",
                                     "media_resolution_too_low",
@@ -7475,10 +7477,13 @@
                                 },
                                 "got": {
                                   "type": "string"
+                                },
+                                "display_error": {
+                                  "type": "string",
+                                  "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                 }
                               },
-                              "required": ["code", "message"],
-                              "description": "A processing/validation problem the customer must resolve."
+                              "required": ["code", "message", "display_error"]
                             }
                           }
                         },
@@ -7564,7 +7569,7 @@
                             "headers",
                             "expires_at"
                           ],
-                          "description": "PUT the bytes here straight from the browser (never through our API). Send the bytes with the headers in `headers` set on the request; when `headers` is empty you may use any Content-Type (we sniff the stored bytes to detect the type), but when `headers` pins a `Content-Type` (because you passed `content_type` at create) the PUT must send exactly that value or R2 rejects it."
+                          "description": "PUT the bytes here straight from the browser (never through our API). Send the bytes with the headers in `headers` set on the request. `headers` is empty — you may send any Content-Type (or none); we detect the real type from the stored bytes, so a declared Content-Type is never trusted or required."
                         },
                         {
                           "type": "null"
@@ -7628,7 +7633,8 @@
                               "message": "Looks good.",
                               "hint": "Example hint",
                               "allowed": ["Example allowed"],
-                              "got": "Example got"
+                              "got": "Example got",
+                              "display_error": "Example display error"
                             }
                           ],
                           "errors": [
@@ -7637,7 +7643,8 @@
                               "message": "Looks good.",
                               "hint": "Example hint",
                               "allowed": ["Example allowed"],
-                              "got": "Example got"
+                              "got": "Example got",
+                              "display_error": "Example display error"
                             }
                           ]
                         }
@@ -8246,7 +8253,7 @@
                                 "type": "null"
                               }
                             ],
-                            "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`."
+                            "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`."
                           },
                           "status": {
                             "enum": [
@@ -8290,6 +8297,7 @@
                                     "enum": [
                                       "media_unprobeable",
                                       "media_format_indeterminate",
+                                      "media_format_unsupported",
                                       "media_too_large",
                                       "media_aspect_ratio_unsupported",
                                       "media_resolution_too_low",
@@ -8331,10 +8339,13 @@
                                   },
                                   "got": {
                                     "type": "string"
+                                  },
+                                  "display_error": {
+                                    "type": "string",
+                                    "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                   }
                                 },
-                                "required": ["code", "message"],
-                                "description": "A processing/validation problem the customer must resolve."
+                                "required": ["code", "message", "display_error"]
                               },
                               {
                                 "type": "null"
@@ -8498,6 +8509,7 @@
                                         "enum": [
                                           "media_unprobeable",
                                           "media_format_indeterminate",
+                                          "media_format_unsupported",
                                           "media_too_large",
                                           "media_aspect_ratio_unsupported",
                                           "media_resolution_too_low",
@@ -8539,10 +8551,17 @@
                                       },
                                       "got": {
                                         "type": "string"
+                                      },
+                                      "display_error": {
+                                        "type": "string",
+                                        "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                       }
                                     },
-                                    "required": ["code", "message"],
-                                    "description": "A processing/validation problem the customer must resolve."
+                                    "required": [
+                                      "code",
+                                      "message",
+                                      "display_error"
+                                    ]
                                   }
                                 },
                                 "errors": {
@@ -8554,6 +8573,7 @@
                                         "enum": [
                                           "media_unprobeable",
                                           "media_format_indeterminate",
+                                          "media_format_unsupported",
                                           "media_too_large",
                                           "media_aspect_ratio_unsupported",
                                           "media_resolution_too_low",
@@ -8595,10 +8615,17 @@
                                       },
                                       "got": {
                                         "type": "string"
+                                      },
+                                      "display_error": {
+                                        "type": "string",
+                                        "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                       }
                                     },
-                                    "required": ["code", "message"],
-                                    "description": "A processing/validation problem the customer must resolve."
+                                    "required": [
+                                      "code",
+                                      "message",
+                                      "display_error"
+                                    ]
                                   }
                                 }
                               },
@@ -8746,7 +8773,8 @@
                                   "message": "Looks good.",
                                   "hint": "Example hint",
                                   "allowed": ["Example allowed"],
-                                  "got": "Example got"
+                                  "got": "Example got",
+                                  "display_error": "Example display error"
                                 }
                               ],
                               "errors": [
@@ -8755,7 +8783,8 @@
                                   "message": "Looks good.",
                                   "hint": "Example hint",
                                   "allowed": ["Example allowed"],
-                                  "got": "Example got"
+                                  "got": "Example got",
+                                  "display_error": "Example display error"
                                 }
                               ]
                             }
@@ -9266,7 +9295,7 @@
                           "type": "null"
                         }
                       ],
-                      "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`."
+                      "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`."
                     },
                     "status": {
                       "enum": ["uploading", "processing", "ready", "failed"],
@@ -9305,6 +9334,7 @@
                               "enum": [
                                 "media_unprobeable",
                                 "media_format_indeterminate",
+                                "media_format_unsupported",
                                 "media_too_large",
                                 "media_aspect_ratio_unsupported",
                                 "media_resolution_too_low",
@@ -9346,10 +9376,13 @@
                             },
                             "got": {
                               "type": "string"
+                            },
+                            "display_error": {
+                              "type": "string",
+                              "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                             }
                           },
-                          "required": ["code", "message"],
-                          "description": "A processing/validation problem the customer must resolve."
+                          "required": ["code", "message", "display_error"]
                         },
                         {
                           "type": "null"
@@ -9513,6 +9546,7 @@
                                   "enum": [
                                     "media_unprobeable",
                                     "media_format_indeterminate",
+                                    "media_format_unsupported",
                                     "media_too_large",
                                     "media_aspect_ratio_unsupported",
                                     "media_resolution_too_low",
@@ -9554,10 +9588,13 @@
                                 },
                                 "got": {
                                   "type": "string"
+                                },
+                                "display_error": {
+                                  "type": "string",
+                                  "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                 }
                               },
-                              "required": ["code", "message"],
-                              "description": "A processing/validation problem the customer must resolve."
+                              "required": ["code", "message", "display_error"]
                             }
                           },
                           "errors": {
@@ -9569,6 +9606,7 @@
                                   "enum": [
                                     "media_unprobeable",
                                     "media_format_indeterminate",
+                                    "media_format_unsupported",
                                     "media_too_large",
                                     "media_aspect_ratio_unsupported",
                                     "media_resolution_too_low",
@@ -9610,10 +9648,13 @@
                                 },
                                 "got": {
                                   "type": "string"
+                                },
+                                "display_error": {
+                                  "type": "string",
+                                  "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                 }
                               },
-                              "required": ["code", "message"],
-                              "description": "A processing/validation problem the customer must resolve."
+                              "required": ["code", "message", "display_error"]
                             }
                           }
                         },
@@ -9724,7 +9765,8 @@
                               "message": "Looks good.",
                               "hint": "Example hint",
                               "allowed": ["Example allowed"],
-                              "got": "Example got"
+                              "got": "Example got",
+                              "display_error": "Example display error"
                             }
                           ],
                           "errors": [
@@ -9733,7 +9775,8 @@
                               "message": "Looks good.",
                               "hint": "Example hint",
                               "allowed": ["Example allowed"],
-                              "got": "Example got"
+                              "got": "Example got",
+                              "display_error": "Example display error"
                             }
                           ]
                         }
@@ -10309,7 +10352,7 @@
                           "type": "null"
                         }
                       ],
-                      "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes (or the value you provided as an override). null only in the brief pre-detection window while status is `uploading`."
+                      "description": "The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`."
                     },
                     "status": {
                       "enum": ["uploading", "processing", "ready", "failed"],
@@ -10348,6 +10391,7 @@
                               "enum": [
                                 "media_unprobeable",
                                 "media_format_indeterminate",
+                                "media_format_unsupported",
                                 "media_too_large",
                                 "media_aspect_ratio_unsupported",
                                 "media_resolution_too_low",
@@ -10389,10 +10433,13 @@
                             },
                             "got": {
                               "type": "string"
+                            },
+                            "display_error": {
+                              "type": "string",
+                              "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                             }
                           },
-                          "required": ["code", "message"],
-                          "description": "A processing/validation problem the customer must resolve."
+                          "required": ["code", "message", "display_error"]
                         },
                         {
                           "type": "null"
@@ -10556,6 +10603,7 @@
                                   "enum": [
                                     "media_unprobeable",
                                     "media_format_indeterminate",
+                                    "media_format_unsupported",
                                     "media_too_large",
                                     "media_aspect_ratio_unsupported",
                                     "media_resolution_too_low",
@@ -10597,10 +10645,13 @@
                                 },
                                 "got": {
                                   "type": "string"
+                                },
+                                "display_error": {
+                                  "type": "string",
+                                  "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                 }
                               },
-                              "required": ["code", "message"],
-                              "description": "A processing/validation problem the customer must resolve."
+                              "required": ["code", "message", "display_error"]
                             }
                           },
                           "errors": {
@@ -10612,6 +10663,7 @@
                                   "enum": [
                                     "media_unprobeable",
                                     "media_format_indeterminate",
+                                    "media_format_unsupported",
                                     "media_too_large",
                                     "media_aspect_ratio_unsupported",
                                     "media_resolution_too_low",
@@ -10653,10 +10705,13 @@
                                 },
                                 "got": {
                                   "type": "string"
+                                },
+                                "display_error": {
+                                  "type": "string",
+                                  "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size."
                                 }
                               },
-                              "required": ["code", "message"],
-                              "description": "A processing/validation problem the customer must resolve."
+                              "required": ["code", "message", "display_error"]
                             }
                           }
                         },
@@ -10767,7 +10822,8 @@
                               "message": "Looks good.",
                               "hint": "Example hint",
                               "allowed": ["Example allowed"],
-                              "got": "Example got"
+                              "got": "Example got",
+                              "display_error": "Example display error"
                             }
                           ],
                           "errors": [
@@ -10776,7 +10832,8 @@
                               "message": "Looks good.",
                               "hint": "Example hint",
                               "allowed": ["Example allowed"],
-                              "got": "Example got"
+                              "got": "Example got",
+                              "display_error": "Example display error"
                             }
                           ]
                         }
@@ -12747,9 +12804,13 @@
                                   },
                                   "message": {
                                     "type": "string"
+                                  },
+                                  "display_error": {
+                                    "type": "string",
+                                    "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string."
                                   }
                                 },
-                                "required": ["code", "message"]
+                                "required": ["code", "message", "display_error"]
                               },
                               {
                                 "type": "null"
@@ -13797,9 +13858,17 @@
                                         },
                                         "message": {
                                           "type": "string"
+                                        },
+                                        "display_error": {
+                                          "type": "string",
+                                          "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string."
                                         }
                                       },
-                                      "required": ["code", "message"]
+                                      "required": [
+                                        "code",
+                                        "message",
+                                        "display_error"
+                                      ]
                                     },
                                     {
                                       "type": "null"
@@ -14652,9 +14721,13 @@
                                   },
                                   "message": {
                                     "type": "string"
+                                  },
+                                  "display_error": {
+                                    "type": "string",
+                                    "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string."
                                   }
                                 },
-                                "required": ["code", "message"]
+                                "required": ["code", "message", "display_error"]
                               },
                               {
                                 "type": "null"
@@ -16279,9 +16352,13 @@
                                   },
                                   "message": {
                                     "type": "string"
+                                  },
+                                  "display_error": {
+                                    "type": "string",
+                                    "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string."
                                   }
                                 },
-                                "required": ["code", "message"]
+                                "required": ["code", "message", "display_error"]
                               },
                               {
                                 "type": "null"
@@ -18276,6 +18353,7 @@
                               "document_too_large",
                               "document_too_many_pages",
                               "media_format_indeterminate",
+                              "media_format_unsupported",
                               "media_count_invalid",
                               "body_too_long",
                               "content_missing",
@@ -18322,6 +18400,9 @@
                               "tiktok_media_processing",
                               "tiktok_not_authorized",
                               "tiktok_rate_limited",
+                              "tiktok_url_ownership_unverified",
+                              "tiktok_unaudited_private_only",
+                              "tiktok_spam_risk",
                               "tiktok_publish_failed",
                               "post_publish_failed",
                               "post_partially_published",
@@ -18362,9 +18443,19 @@
                                 }
                               ]
                             }
+                          },
+                          "display_error": {
+                            "type": "string",
+                            "description": "Short, friendly, render-this end-user line (the Plaid display_message model). The `code` stays the branch key for customer branching; `message` stays developer-grade. Populated centrally — never at construction sites."
                           }
                         },
-                        "required": ["code", "message", "variant_index", "path"]
+                        "required": [
+                          "code",
+                          "message",
+                          "variant_index",
+                          "path",
+                          "display_error"
+                        ]
                       }
                     }
                   },
@@ -18383,7 +18474,8 @@
                           "allowed": ["Example allowed"],
                           "got": "Example got",
                           "variant_index": 42,
-                          "path": ["Example path"]
+                          "path": ["Example path"],
+                          "display_error": "Example display error"
                         }
                       ]
                     }
@@ -47579,9 +47671,17 @@
                                                 },
                                                 "message": {
                                                   "type": "string"
+                                                },
+                                                "display_error": {
+                                                  "type": "string",
+                                                  "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade."
                                                 }
                                               },
-                                              "required": ["code", "message"]
+                                              "required": [
+                                                "code",
+                                                "message",
+                                                "display_error"
+                                              ]
                                             },
                                             {
                                               "type": "null"
@@ -48476,9 +48576,17 @@
                                           },
                                           "message": {
                                             "type": "string"
+                                          },
+                                          "display_error": {
+                                            "type": "string",
+                                            "description": "A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade."
                                           }
                                         },
-                                        "required": ["code", "message"]
+                                        "required": [
+                                          "code",
+                                          "message",
+                                          "display_error"
+                                        ]
                                       },
                                       {
                                         "type": "null"

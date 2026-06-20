@@ -6504,10 +6504,11 @@
                       "x",
                       "linkedin",
                       "facebook_page",
+                      "instagram",
                       "tiktok"
                     ],
                     "type": "string",
-                    "description": "A platform a connection can start an OAuth connect flow for (the v1 launch set: Meta Ads, Google Ads, X, LinkedIn, Facebook Pages, TikTok)."
+                    "description": "A platform a connection can start an OAuth connect flow for (the v1 launch set: Meta Ads, Google Ads, X, LinkedIn, Facebook Pages, Instagram, TikTok)."
                   }
                 },
                 "required": ["platform"]
@@ -18444,6 +18445,17 @@
                               ]
                             }
                           },
+                          "platform": {
+                            "enum": [
+                              "x",
+                              "linkedin",
+                              "facebook_page",
+                              "instagram",
+                              "tiktok"
+                            ],
+                            "type": "string",
+                            "description": "The platform this issue belongs to. Group/branch on this directly rather than re-deriving from `variant_index` (variant order is canonical, not your channel order)."
+                          },
                           "display_error": {
                             "type": "string",
                             "description": "Short, friendly, render-this end-user line (the Plaid display_message model). The `code` stays the branch key for customer branching; `message` stays developer-grade. Populated centrally — never at construction sites."
@@ -18475,6 +18487,7 @@
                           "got": "Example got",
                           "variant_index": 42,
                           "path": ["Example path"],
+                          "platform": "x",
                           "display_error": "Example display error"
                         }
                       ]

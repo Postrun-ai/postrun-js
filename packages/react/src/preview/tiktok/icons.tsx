@@ -1,5 +1,9 @@
 import type { FC, ReactNode, SVGProps } from 'react';
 
+/** The music-row note glyph — a real maintained icon (Ionicons io5), not a
+ * hand-rolled path. Re-exported so the component imports it from one place. */
+export { IoMusicalNotes as MusicNoteIcon } from 'react-icons/io5';
+
 /**
  * TikTok's OWN action-rail + player glyphs, taken verbatim from TikTok's web UI
  * (their official marks) so the preview is pixel-faithful — not a hand-rolled
@@ -68,4 +72,5 @@ export const PlusIcon: FC<IconProps> = (p) => (
     <path d="M26 7a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v15H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h15v15a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V26h15a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H26V7Z" />
   </Icon>
 );
+
 

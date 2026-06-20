@@ -9,20 +9,27 @@ import type { ResolvedMedia } from '../types';
 /**
  * The full-bleed media inside the TikTok card. A video autoplays muted/looped
  * (cover-cropped to 9:16); photos render as a swipeable carousel (Embla — real
- * touch/drag, not a hand-rolled slider) with TikTok's top index counter, bottom
- * dots, and ‹ › arrows. The pixels are shown UNMODIFIED — no watermark, no logo,
- * nothing composited onto the media (TikTok audit §5b).
+ * touch/drag) with TikTok's bottom dots ONLY (no counter, no arrows — you swipe).
+ * The pixels are shown UNMODIFIED — no watermark, nothing composited on the media
+ * (TikTok audit §5b).
  */
-export function Media({ media }: { media: ResolvedMedia[] }) {
-  if (media.length === 0) {
-    return <EmptyMedia />;
+export function Media({
+  media,
+  pending = false,
+}: {
+  media: ResolvedMedia[];
+  /** Media is referenced but its pixels aren't resolved yet (still processing). */
+  pending?: boolean;
+}) {
+  const [first] = media;
+  if (!first) {
+    return pending ? <ProcessingMedia /> : <EmptyMedia />;
   }
 
-  const first = media[0]!;
   if (first.kind === 'video') {
     return (
       <video
-        src={first.posterSrc ? undefined : first.src}
+        src={first.src}
         poster={first.posterSrc}
         autoPlay
         muted
@@ -43,13 +50,9 @@ function PhotoCarousel({ media }: { media: ResolvedMedia[] }) {
     containScroll: 'trimSnaps',
   });
   const [selected, setSelected] = useState(0);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(false);
 
   const sync = useCallback((api: NonNullable<typeof emblaApi>) => {
     setSelected(api.selectedScrollSnap());
-    setCanPrev(api.canScrollPrev());
-    setCanNext(api.canScrollNext());
   }, []);
 
   useEffect(() => {
@@ -63,8 +66,6 @@ function PhotoCarousel({ media }: { media: ResolvedMedia[] }) {
     };
   }, [emblaApi, sync]);
 
-  const many = media.length > 1;
-
   return (
     <div style={{ position: 'absolute', inset: 0 }}>
       <div ref={emblaRef} style={viewportStyle}>
@@ -77,32 +78,15 @@ function PhotoCarousel({ media }: { media: ResolvedMedia[] }) {
         </div>
       </div>
 
-      {many ? (
-        <>
-          <div style={counterStyle}>
-            {selected + 1}/{media.length}
-          </div>
-          {canPrev ? (
-            <Arrow side="left" onClick={() => emblaApi?.scrollPrev()} />
-          ) : null}
-          {canNext ? (
-            <Arrow side="right" onClick={() => emblaApi?.scrollNext()} />
-          ) : null}
-          <div style={dotsStyle}>
-            {media.map((m, i) => (
-              <button
-                key={`dot-${m.src}-${i}`}
-                aria-label={`Go to photo ${i + 1}`}
-                onClick={() => emblaApi?.scrollTo(i)}
-                style={{
-                  ...dotStyle,
-                  opacity: i === selected ? 1 : 0.4,
-                  width: i === selected ? 16 : 6,
-                }}
-              />
-            ))}
-          </div>
-        </>
+      {media.length > 1 ? (
+        <div style={dotsStyle}>
+          {media.map((m, i) => (
+            <span
+              key={`dot-${m.src}-${i}`}
+              style={{ ...dotStyle, opacity: i === selected ? 1 : 0.4 }}
+            />
+          ))}
+        </div>
       ) : null}
     </div>
   );
@@ -112,21 +96,13 @@ function EmptyMedia() {
   return <div style={emptyStyle}>No media yet</div>;
 }
 
-function Arrow({
-  side,
-  onClick,
-}: {
-  side: 'left' | 'right';
-  onClick: () => void;
-}) {
+/** Shimmer placeholder while the asset's pixels are still being processed. */
+function ProcessingMedia() {
   return (
-    <button
-      aria-label={side === 'left' ? 'Previous photo' : 'Next photo'}
-      onClick={onClick}
-      style={{ ...arrowStyle, [side]: 10 }}
-    >
-      {side === 'left' ? '‹' : '›'}
-    </button>
+    <div style={emptyStyle}>
+      <div style={shimmerStyle} />
+      <span style={{ position: 'relative', zIndex: 1 }}>Processing media…</span>
+    </div>
   );
 }
 
@@ -156,24 +132,9 @@ const slideStyle: CSSProperties = {
   height: '100%',
 };
 
-const counterStyle: CSSProperties = {
-  position: 'absolute',
-  top: 12,
-  left: '50%',
-  transform: 'translateX(-50%)',
-  background: 'rgba(0,0,0,0.45)',
-  color: '#fff',
-  fontSize: 12,
-  fontWeight: 600,
-  padding: '2px 10px',
-  borderRadius: 999,
-  backdropFilter: 'blur(4px)',
-  pointerEvents: 'none',
-};
-
 const dotsStyle: CSSProperties = {
   position: 'absolute',
-  bottom: 70,
+  bottom: 124,
   left: '50%',
   transform: 'translateX(-50%)',
   display: 'flex',
@@ -182,30 +143,11 @@ const dotsStyle: CSSProperties = {
 };
 
 const dotStyle: CSSProperties = {
+  width: 6,
   height: 6,
-  borderRadius: 999,
-  border: 0,
-  padding: 0,
-  background: '#fff',
-  cursor: 'pointer',
-  transition: 'width 160ms ease, opacity 160ms ease',
-};
-
-const arrowStyle: CSSProperties = {
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  width: 30,
-  height: 30,
   borderRadius: '50%',
-  border: 0,
-  background: 'rgba(0,0,0,0.4)',
-  color: '#fff',
-  fontSize: 16,
-  cursor: 'pointer',
-  display: 'grid',
-  placeItems: 'center',
-  backdropFilter: 'blur(4px)',
+  background: '#fff',
+  transition: 'opacity 160ms ease',
 };
 
 const emptyStyle: CSSProperties = {
@@ -214,7 +156,17 @@ const emptyStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: 'rgba(255,255,255,0.5)',
+  color: 'rgba(255,255,255,0.55)',
   fontSize: 13,
   background: 'linear-gradient(180deg,#1c1c20,#101013)',
+  overflow: 'hidden',
+};
+
+const shimmerStyle: CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background:
+    'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%)',
+  backgroundSize: '200% 100%',
+  animation: 'pr-tt-shimmer 1.4s ease-in-out infinite',
 };

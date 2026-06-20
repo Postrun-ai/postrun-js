@@ -1,0 +1,172 @@
+import type { TikTokCreatorInfo, TikTokPostVariant } from '@postrun/js';
+import { render, screen } from '@testing-library/react';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+
+import type { PreviewMedia } from '../types';
+import { TikTokPostPreview } from './TikTokPostPreview';
+
+// Embla reads `ownerWindow.matchMedia` (the jsdom window), which jsdom omits —
+// define it on `window` directly so the carousel can mount in tests.
+beforeAll(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    configurable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+  // Embla observes slides + resizes with these (absent in jsdom).
+  class Observer {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() {
+      return [];
+    }
+  }
+  Object.defineProperty(window, 'IntersectionObserver', {
+    writable: true,
+    configurable: true,
+    value: Observer,
+  });
+  Object.defineProperty(window, 'ResizeObserver', {
+    writable: true,
+    configurable: true,
+    value: Observer,
+  });
+});
+
+afterAll(() => {
+  // @ts-expect-error — remove the test-only stubs.
+  delete window.matchMedia;
+  // @ts-expect-error — remove the test-only stubs.
+  delete window.IntersectionObserver;
+  // @ts-expect-error — remove the test-only stubs.
+  delete window.ResizeObserver;
+});
+
+const creatorInfo: TikTokCreatorInfo = {
+  creator: { nickname: 'Acme Studio', username: 'acmestudio', avatar_url: null },
+  privacy_options: ['PUBLIC_TO_EVERYONE', 'SELF_ONLY'],
+  interaction: { comment: true, duet: true, stitch: false },
+  max_video_duration_sec: 600,
+};
+
+function ttVariant(
+  overrides: Partial<TikTokPostVariant> = {},
+): TikTokPostVariant {
+  return {
+    platform: 'tiktok',
+    post_type: 'video',
+    connection_id: 'conn_1',
+    body: 'spring shoot',
+    media: [{ media_id: 'med_1' }],
+    settings: {},
+    ...overrides,
+  };
+}
+
+const videoMedia: PreviewMedia[] = [{ kind: 'video', url: 'https://cdn/v.mp4' }];
+const photoMedia: PreviewMedia[] = [
+  { kind: 'image', url: 'https://cdn/a.jpg' },
+  { kind: 'image', url: 'https://cdn/b.jpg' },
+];
+
+describe('<TikTokPostPreview>', () => {
+  it('renders the handle (no @), caption and music row', () => {
+    render(
+      <TikTokPostPreview variant={ttVariant()} creatorInfo={creatorInfo} media={videoMedia} />,
+    );
+    expect(screen.getByText('acmestudio')).toBeDefined();
+    expect(screen.getByText(/spring shoot/)).toBeDefined();
+    expect(screen.getByText(/Original sound - Acme Studio/)).toBeDefined();
+  });
+
+  it('shows dashes for counts (never fabricated numbers)', () => {
+    render(
+      <TikTokPostPreview variant={ttVariant()} creatorInfo={creatorInfo} media={videoMedia} />,
+    );
+    // like / comment / bookmark / share
+    expect(screen.getAllByText('‑‑‑')).toHaveLength(4);
+  });
+
+  it('renders a <video> for a video post', () => {
+    const { container } = render(
+      <TikTokPostPreview variant={ttVariant()} creatorInfo={creatorInfo} media={videoMedia} />,
+    );
+    expect(container.querySelector('video')).not.toBeNull();
+  });
+
+  it('renders an image carousel for a photo post', () => {
+    const { container } = render(
+      <TikTokPostPreview
+        variant={ttVariant({ post_type: 'carousel', media: [{ media_id: 'a' }, { media_id: 'b' }] })}
+        creatorInfo={creatorInfo}
+        media={photoMedia}
+      />,
+    );
+    expect(container.querySelector('video')).toBeNull();
+    expect(container.querySelectorAll('img').length).toBeGreaterThan(0);
+  });
+
+  it('shows the AIGC label only when is_aigc is set', () => {
+    const { rerender } = render(
+      <TikTokPostPreview variant={ttVariant()} creatorInfo={creatorInfo} media={videoMedia} />,
+    );
+    expect(screen.queryByText('Creator labeled as AI-generated')).toBeNull();
+
+    rerender(
+      <TikTokPostPreview
+        variant={ttVariant({ settings: { is_aigc: true } })}
+        creatorInfo={creatorInfo}
+        media={videoMedia}
+      />,
+    );
+    expect(screen.getByText('Creator labeled as AI-generated')).toBeDefined();
+  });
+
+  it('shows the commercial label from the disclosure toggles', () => {
+    const { rerender } = render(
+      <TikTokPostPreview
+        variant={ttVariant({ settings: { brand_organic_toggle: true } })}
+        creatorInfo={creatorInfo}
+        media={videoMedia}
+      />,
+    );
+    expect(screen.getByText('Promotional content')).toBeDefined();
+
+    rerender(
+      <TikTokPostPreview
+        variant={ttVariant({ settings: { brand_content_toggle: true } })}
+        creatorInfo={creatorInfo}
+        media={videoMedia}
+      />,
+    );
+    expect(screen.getByText('Paid partnership')).toBeDefined();
+  });
+
+  it('shows a processing skeleton when media is referenced but unresolved', () => {
+    render(
+      <TikTokPostPreview variant={ttVariant()} creatorInfo={creatorInfo} media={[{ kind: 'video' }]} />,
+    );
+    expect(screen.getByText('Processing media…')).toBeDefined();
+  });
+
+  it('shows the empty state when there is no media', () => {
+    render(
+      <TikTokPostPreview
+        variant={ttVariant({ media: [] })}
+        creatorInfo={creatorInfo}
+        media={[]}
+      />,
+    );
+    expect(screen.getByText('No media yet')).toBeDefined();
+  });
+});

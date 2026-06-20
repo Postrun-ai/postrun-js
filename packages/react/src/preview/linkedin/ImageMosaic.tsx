@@ -87,12 +87,12 @@ export interface ImageMosaicProps {
 }
 
 export function ImageMosaic({ media }: ImageMosaicProps) {
-  if (media.length === 0) {
+  const [only] = media;
+  if (!only) {
     return null;
   }
 
   if (media.length === 1) {
-    const only = media[0]!;
     return (
       <img
         src={only.src}

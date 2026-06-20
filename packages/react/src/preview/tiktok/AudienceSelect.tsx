@@ -41,10 +41,9 @@ export function AudienceSelect({
         onChange={(e) =>
           onChange({
             ...value,
-            privacy_level: parsePrivacyLevel(
-              e.target.value,
-              creatorInfo.privacy_options,
-            ),
+            // Validate against the OFFERED (filtered) options, not the full set —
+            // so a manipulated value (e.g. SELF_ONLY while branded) can't slip in.
+            privacy_level: parsePrivacyLevel(e.target.value, options),
           })
         }
         style={selectStyle}

@@ -3,15 +3,19 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { useId } from 'react';
 
+import { TT_VAR, varRef } from './theme';
+
 /**
  * Small shared controls for the TikTok publish panel — a switch, a labelled row,
- * and a required-field hint. Neutral, theme-inheriting styles (transparent
- * backgrounds, `currentColor` text) so the panel adapts to the host surface.
+ * and a required-field hint. Colours come from the panel theme variables
+ * (`var(--pr-tt-*)`), so every control adapts to light/dark without a fork.
  */
 
-const MUTED = '#8a8a92';
-const BORDER = 'rgba(255,255,255,0.14)';
-const ACCENT = '#fe2c55';
+const MUTED = varRef(TT_VAR.muted);
+const BORDER = varRef(TT_VAR.border);
+const ACCENT = varRef(TT_VAR.accent);
+const SWITCH_OFF = varRef(TT_VAR.switchOff);
+/** "On" stays a literal green in both themes (universally reads as enabled). */
 const ON = '#34c759';
 
 /** A labelled control row: title (+ optional sublabel) on the left, control on
@@ -63,7 +67,7 @@ export function Switch({
       onClick={() => onChange(!checked)}
       style={{
         ...switchTrackStyle,
-        background: checked ? ON : 'rgba(255,255,255,0.22)',
+        background: checked ? ON : SWITCH_OFF,
         opacity: disabled ? 0.4 : 1,
         cursor: disabled ? 'not-allowed' : 'pointer',
       }}

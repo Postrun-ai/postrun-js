@@ -4,12 +4,15 @@ import type { LinkedInPostVariant } from '@postrun/js';
 import { memo } from 'react';
 import type { CSSProperties } from 'react';
 
-import type { LinkedInPreviewAuthor, PreviewMedia } from '../types';
+import type { LinkedInPreviewAuthor, PreviewMedia, ResolvedMedia } from '../types';
 import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
+import { ArticleCard } from './ArticleCard';
+import { DocumentCard } from './DocumentCard';
 import { EngagementBar } from './EngagementBar';
 import { Header } from './Header';
 import type { LinkedInVisibility } from './Header';
 import { Media } from './Media';
+import { Poll } from './Poll';
 import { PostBody } from './PostBody';
 import {
   LI_VAR,
@@ -26,8 +29,9 @@ import {
  * with headline + audience icon, an entity-highlighted body with the "…more"
  * fold, the 1/2/3/4/+N image mosaic (or a video), and a static action bar.
  *
- * v1 renders text + images + video. The richer `content_kind`s (article, poll,
- * document) degrade gracefully to the text/media card and arrive next.
+ * Renders every `content_kind`: text, single/multi image, video, plus the rich
+ * units — article share card, poll, and document — each driven from
+ * `settings.{article,poll,document}` (see `renderContent`).
  *
  * Customize via `theme` (light/dark/auto), `className`/`style`, or by overriding
  * the `--pr-li-*` CSS variables the card reads.
@@ -103,15 +107,56 @@ function LinkedInPostPreviewImpl({
           />
         </div>
       ) : null}
-      {resolvedMedia.length > 0 ? (
-        <div style={{ marginTop: 12 }}>
-          <Media media={resolvedMedia} />
-        </div>
-      ) : null}
+      {renderContent(variant, resolvedMedia)}
       {showActions ? <EngagementBar /> : null}
     </div>
   );
 }
+
+/**
+ * The content unit below the commentary, by `content_kind`: an article share
+ * card, a poll, or a document card — else the image mosaic / video. Article and
+ * document thumbnails come from the first resolved media item (the host resolves
+ * `article.thumbnail_media_id` / the document asset to pixels). The inset
+ * cards (article/poll/document) sit in the text column; media is edge-to-edge.
+ */
+function renderContent(
+  variant: LinkedInPostVariant,
+  media: readonly ResolvedMedia[],
+) {
+  const settings = variant.settings;
+  const kind = settings?.content_kind;
+  const [firstMedia] = media;
+
+  if (kind === 'article' && settings?.article) {
+    return (
+      <div style={INSET}>
+        <ArticleCard article={settings.article} thumbnail={firstMedia} />
+      </div>
+    );
+  }
+  if (kind === 'poll' && settings?.poll) {
+    return (
+      <div style={INSET}>
+        <Poll poll={settings.poll} />
+      </div>
+    );
+  }
+  if (kind === 'document' && settings?.document) {
+    return (
+      <div style={INSET}>
+        <DocumentCard document={settings.document} cover={firstMedia} />
+      </div>
+    );
+  }
+  return media.length > 0 ? (
+    <div style={{ marginTop: 12 }}>
+      <Media media={media} />
+    </div>
+  ) : null;
+}
+
+const INSET: CSSProperties = { padding: '12px 16px 0' };
 
 /** Memoized: re-renders only when its props change (the resolved-media hook
  * absorbs unstable media arrays). */

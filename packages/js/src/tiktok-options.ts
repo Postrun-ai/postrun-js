@@ -1,4 +1,8 @@
-import type { SettingsFor, TikTokCreatorInfo } from './resources';
+import type {
+  SettingsFor,
+  TikTokCreatorInfo,
+  TikTokPostVariant,
+} from './resources';
 import { type TikTokPrivacyLevel } from './resources';
 import { tiktokPrivacyLabel } from './tiktok';
 
@@ -15,8 +19,23 @@ import { tiktokPrivacyLabel } from './tiktok';
  * per-platform `tiktok` settings.
  */
 
-/** The three creator-gated interactions TikTok requires us to surface. */
-export type TikTokInteractionKey = 'comment' | 'duet' | 'stitch';
+/** TikTok caption caps, mirrored from the publish contract (`BODY_MAX.tiktok_*`).
+ * A video post caps the title (2200), a photo post the description (4000). Lives
+ * here (not in React) so non-React consumers (MCP, API client, scripts) can use
+ * it. The server enforces these; the editor surfaces them. */
+export const TIKTOK_CAPTION_MAX = { video: 2200, photo: 4000 } as const;
+
+/** The caption cap for a given post_type (video → title cap, photo → description). */
+export function captionMaxFor(postType: TikTokPostVariant['post_type']): number {
+  return postType === 'video'
+    ? TIKTOK_CAPTION_MAX.video
+    : TIKTOK_CAPTION_MAX.photo;
+}
+
+/** The creator-gated interactions TikTok requires us to surface — DERIVED from
+ * the creator-info contract (`interaction` keys), never hand-listed, so it can
+ * never drift from the API shape. */
+export type TikTokInteractionKey = keyof TikTokCreatorInfo['interaction'];
 
 /** Which commercial-disclosure brand option a control maps to. */
 export type TikTokBrandKind = 'your_brand' | 'branded_content';
@@ -200,11 +219,13 @@ export function setBrandKind(
   kind: TikTokBrandKind,
   on: boolean,
 ): TikTokOptionsValue {
-  const next: TikTokOptionsValue = { ...value, [kind]: on };
-  if (kind === 'branded_content' && on && value.privacy_level === 'SELF_ONLY') {
-    next.privacy_level = undefined;
-  }
-  return next;
+  const clearPrivacy =
+    kind === 'branded_content' && on && value.privacy_level === 'SELF_ONLY';
+  return {
+    ...value,
+    [kind]: on,
+    ...(clearPrivacy ? { privacy_level: undefined } : {}),
+  };
 }
 
 /* ------------------------------ interactions ------------------------------ */
@@ -307,5 +328,14 @@ export function tiktokSettings(
  * The caption-cap + media-count checks live with their own components.
  */
 export function tiktokOptionsReady(value: TikTokOptionsValue): boolean {
-  return !audienceUnselected(value) && !commercialDisclosureIncomplete(value);
+  // Branded content cannot be SELF_ONLY (the API rejects it) — mirror that here so
+  // the Post button never enables on a state the wire will refuse, even if a host
+  // constructs the options object directly (bypassing setBrandKind's clearing).
+  const brandedPrivate =
+    discloses(value, 'branded_content') && value.privacy_level === 'SELF_ONLY';
+  return (
+    !audienceUnselected(value) &&
+    !commercialDisclosureIncomplete(value) &&
+    !brandedPrivate
+  );
 }

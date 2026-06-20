@@ -91,10 +91,32 @@ export {
   tiktokKeys,
 } from './keys';
 
-export { XPostPreview, LinkedInPostPreview } from './preview';
+export {
+  XPostPreview,
+  LinkedInPostPreview,
+  ArticleCard,
+  Poll,
+  DocumentCard,
+  TikTokPostPreview,
+  TikTokPublishPanel,
+  TikTokCaptionField,
+  AudienceSelect,
+  InteractionToggles,
+  CommercialDisclosure,
+  Declaration,
+  TIKTOK_CAPTION_MAX,
+  captionMaxFor,
+} from './preview';
 export type {
   XPostPreviewProps,
   LinkedInPostPreviewProps,
+  ArticleCardProps,
+  PollProps,
+  DocumentCardProps,
+  TikTokPostPreviewProps,
+  TikTokPublishPanelProps,
+  TikTokCaptionFieldProps,
+  TikTokTheme,
   XPreviewAuthor,
   LinkedInPreviewAuthor,
   PreviewMedia,

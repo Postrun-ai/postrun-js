@@ -1,5 +1,79 @@
 # @postrun/react
 
+## 2.5.0
+
+### Minor Changes
+
+- LinkedIn preview: render the rich `content_kind`s (article, poll, document) + resync the OpenAPI spec.
+
+  `@postrun/react`:
+
+  - `LinkedInPostPreview` now renders every `content_kind`, not just text/image/video:
+    - **`ArticleCard`** — the link share card (source domain, headline, description,
+      optional thumbnail), driven from `settings.article`.
+    - **`Poll`** — the question + 2–4 pre-vote option pills + "0 votes • <duration>"
+      footer (no fabricated counts), driven from `settings.poll`.
+    - **`DocumentCard`** — the document unit (first-page cover or a document
+      affordance + a dark caption bar with the title), driven from `settings.document`.
+  - All three are exported for recomposition, render in light/dark/`auto`, and the
+    image mosaic's last `media[0]!` cast was removed.
+
+  `@postrun/js`:
+
+  - `linkedinPollDurationLabel` + the `LinkedInPollDuration` type (derived from the
+    contract) — the poll card's "time left" label.
+  - OpenAPI spec resynced from the API (types + Zod validators regenerated).
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.5.0
+
+## 2.4.0
+
+### Minor Changes
+
+- Add the TikTok post preview + publish panel (TikTok Content-Posting Required UX).
+
+  `@postrun/react`:
+
+  - `TikTokPostPreview` — a faithful, schema-driven render of how a post looks on
+    TikTok (mobile layout): 9:16 card with the action rail over the video, a
+    swipeable photo carousel (Embla) with bottom dots, the username/caption/music
+    row, the commercial label ("Paid partnership" / "Promotional content") and the
+    AIGC label ("Creator labeled as AI-generated") derived from the post settings,
+    and `‑‑‑` counts (no fabricated metrics). The caption clamps to two lines with a
+    "more"/"less" toggle and scrolls so the full to-be-posted content is always
+    readable (Required UX §5a). Unmodified media — no watermark.
+  - `TikTokPublishPanel` — the Required-UX confirmation surface: editable caption
+    with the correct caps (video 2200 / photo 4000), audience selector with no
+    default, creator-gated Comment/Duet/Stitch toggles, commercial disclosure, a
+    video-only AIGC toggle, a processing notice, the consent declaration directly
+    above the Post button, and a Post button whose click is the affirmative-consent
+    gate (disabled until valid). Light/dark/`auto` theming.
+  - Sub-components (`TikTokCaptionField`, `AudienceSelect`, `InteractionToggles`,
+    `CommercialDisclosure`, `Declaration`) exported for recomposition.
+
+  `@postrun/js`:
+
+  - `TikTokPostVariant` type (the compose-time TikTok variant).
+  - TikTok options model + helpers (`defaultTikTokOptions`, `audiencePrivacyOptions`,
+    `interactionRows`, `commercialLabelNotice`, `tiktokSettings`, …) — the single
+    source for TikTok's Required-UX rules, consumed by the React panel.
+
+- Publish-validation issues now carry `platform` — the authoritative platform a
+  readiness issue belongs to. Group or branch on it directly instead of re-deriving
+  from `variant_index` (the variant order is canonical, not your channel order, so
+  that index does not track your selection). The `display_error` for count/content
+  issues is now platform-aware ("Your TikTok post needs exactly 1 image — you
+  attached 0").
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @postrun/js@2.4.0
+
 ## 2.3.0
 
 ### Minor Changes

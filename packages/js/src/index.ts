@@ -83,6 +83,9 @@ export { isPublished, failedVariants } from './resources';
 
 export { tiktokPrivacyLabel } from './tiktok';
 
+export { linkedinPollDurationLabel } from './linkedin';
+export type { LinkedInPollDuration } from './linkedin';
+
 export {
   defaultTikTokOptions,
   privacyChoices,
@@ -100,6 +103,8 @@ export {
   toggleInteraction,
   tiktokSettings,
   tiktokOptionsReady,
+  captionMaxFor,
+  TIKTOK_CAPTION_MAX,
   TIKTOK_MUSIC_CONFIRMATION_URL,
   TIKTOK_BRANDED_CONTENT_POLICY_URL,
   TIKTOK_DISCLOSURE_REQUIRED_HINT,

@@ -2923,9 +2923,9 @@ export type ConnectionsListAccountsResponse = ConnectionsListAccountsResponses[k
 export type ConnectionsConnectData = {
     body: {
         /**
-         * A platform a connection can start an OAuth connect flow for (the v1 launch set: Meta Ads, Google Ads, X, LinkedIn, Facebook Pages, TikTok).
+         * A platform a connection can start an OAuth connect flow for (the v1 launch set: Meta Ads, Google Ads, X, LinkedIn, Facebook Pages, Instagram, TikTok).
          */
-        platform: 'meta_ads' | 'google_ads' | 'x' | 'linkedin' | 'facebook_page' | 'tiktok';
+        platform: 'meta_ads' | 'google_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
     };
     path: {
         /**
@@ -7857,6 +7857,10 @@ export type PostsValidateResponses = {
             got?: string;
             variant_index: number;
             path: Array<string | number>;
+            /**
+             * The platform this issue belongs to. Group/branch on this directly rather than re-deriving from `variant_index` (variant order is canonical, not your channel order).
+             */
+            platform?: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
             /**
              * Short, friendly, render-this end-user line (the Plaid display_message model). The `code` stays the branch key for customer branching; `message` stays developer-grade. Populated centrally — never at construction sites.
              */

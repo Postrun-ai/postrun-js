@@ -13,6 +13,7 @@ import { captionMaxFor, TikTokCaptionField } from './CaptionField';
 import { CommercialDisclosure } from './CommercialDisclosure';
 import { Declaration } from './Declaration';
 import { InteractionToggles } from './InteractionToggles';
+import { type TikTokTheme, TT_VAR, paletteVars, useIsDark, varRef } from './theme';
 import { Notice, Row, Switch, TOKENS } from './ui';
 
 /**
@@ -41,6 +42,8 @@ export interface TikTokPublishPanelProps {
   onPost: () => void;
   /** Disable the button + show a busy label while a publish is in flight. */
   posting?: boolean;
+  /** Colour scheme. `auto` (default) follows the OS preference. */
+  theme?: TikTokTheme;
   className?: string;
   style?: CSSProperties;
 }
@@ -65,17 +68,27 @@ export function TikTokPublishPanel({
   onOptionsChange,
   onPost,
   posting = false,
+  theme = 'auto',
   className,
   style,
 }: TikTokPublishPanelProps) {
+  const dark = useIsDark(theme);
   const isVideo = variant.post_type === 'video';
 
   const captionOver = caption.length > captionMaxFor(variant.post_type);
-  const mediaOk = mediaCountValid(variant.post_type, variant.media.length);
+  const mediaOk = mediaCountValid(variant.post_type, variant.media?.length ?? 0);
   const ready = !captionOver && mediaOk && tiktokOptionsReady(options);
 
   return (
-    <div className={className} style={{ ...panelStyle, ...style }}>
+    <div
+      className={className}
+      style={{
+        ...paletteVars(dark),
+        ...panelStyle,
+        color: varRef(TT_VAR.text),
+        ...style,
+      }}
+    >
       <TikTokCaptionField
         value={caption}
         onChange={onCaptionChange}

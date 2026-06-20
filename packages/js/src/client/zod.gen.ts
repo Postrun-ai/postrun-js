@@ -420,6 +420,7 @@ export const zConnectionsConnectBody = z.object({
         'x',
         'linkedin',
         'facebook_page',
+        'instagram',
         'tiktok'
     ])
 });
@@ -2277,6 +2278,13 @@ export const zPostsValidateResponse = z.object({
         got: z.string().optional(),
         variant_index: z.int().gte(-9007199254740991).lte(9007199254740991),
         path: z.array(z.union([z.string(), z.number()])),
+        platform: z.enum([
+            'x',
+            'linkedin',
+            'facebook_page',
+            'instagram',
+            'tiktok'
+        ]).optional(),
         display_error: z.string()
     }))
 });

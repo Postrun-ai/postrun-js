@@ -6,8 +6,35 @@
  */
 export { XPostPreview } from './x';
 export type { XPostPreviewProps } from './x';
-export { LinkedInPostPreview } from './linkedin';
-export type { LinkedInPostPreviewProps } from './linkedin';
+export {
+  LinkedInPostPreview,
+  ArticleCard,
+  Poll,
+  DocumentCard,
+} from './linkedin';
+export type {
+  LinkedInPostPreviewProps,
+  ArticleCardProps,
+  PollProps,
+  DocumentCardProps,
+} from './linkedin';
+export {
+  TikTokPostPreview,
+  TikTokPublishPanel,
+  TikTokCaptionField,
+  AudienceSelect,
+  InteractionToggles,
+  CommercialDisclosure,
+  Declaration,
+  TIKTOK_CAPTION_MAX,
+  captionMaxFor,
+} from './tiktok';
+export type {
+  TikTokPostPreviewProps,
+  TikTokPublishPanelProps,
+  TikTokCaptionFieldProps,
+  TikTokTheme,
+} from './tiktok';
 export type {
   XPreviewAuthor,
   LinkedInPreviewAuthor,

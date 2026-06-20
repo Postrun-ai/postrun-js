@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "paths": {
+      "@postrun/react": ["../../packages/react/src/index.ts"],
+      "@postrun/js": ["../../packages/js/src/index.ts"],
+      "@preview/*": ["../../packages/react/src/preview/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

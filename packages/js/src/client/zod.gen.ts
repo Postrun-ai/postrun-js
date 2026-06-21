@@ -111,56 +111,7 @@ export const zErrorCode = z.enum([
     'connection_removed'
 ]);
 
-export const zProfilesListQuery = z.object({
-    limit: z.int().gte(1).lte(100).optional().default(20),
-    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
-    external_id: z.string().optional(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])).optional()
-});
-
-/**
- * OK
- */
-export const zProfilesListResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        name: z.string(),
-        description: z.string().nullable(),
-        external_id: z.string().nullable(),
-        metadata: z.record(z.string(), z.union([
-            z.string().max(500),
-            z.number(),
-            z.boolean()
-        ])),
-        created_at: z.string().nullable(),
-        updated_at: z.string().nullable()
-    })),
-    total: z.int().gte(-9007199254740991).lte(9007199254740991),
-    limit: z.int().gte(-9007199254740991).lte(9007199254740991),
-    offset: z.int().gte(-9007199254740991).lte(9007199254740991),
-    has_more: z.boolean()
-});
-
-export const zProfilesCreateBody = z.object({
-    name: z.string().min(1).max(255),
-    description: z.string().max(280).optional(),
-    external_id: z.string().min(1).max(255).optional(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])).optional()
-});
-
-/**
- * OK
- */
-export const zProfilesCreateResponse = z.object({
+export const zProfile = z.object({
     id: z.string(),
     name: z.string(),
     description: z.string().nullable(),
@@ -174,265 +125,26 @@ export const zProfilesCreateResponse = z.object({
     updated_at: z.string().nullable()
 });
 
-export const zProfilesDeletePath = z.object({
-    id: z.string()
-});
-
 /**
- * OK
+ * An external ad account reachable through a connection’s OAuth grant, offered for selection.
  */
-export const zProfilesDeleteResponse = z.object({
-    id: z.string(),
-    object: z.literal('profile'),
-    deleted: z.literal(true)
-});
-
-export const zProfilesGetPath = z.object({
-    id: z.string()
-});
-
-/**
- * OK
- */
-export const zProfilesGetResponse = z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().nullable(),
-    external_id: z.string().nullable(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])),
-    created_at: z.string().nullable(),
-    updated_at: z.string().nullable()
-});
-
-export const zProfilesUpdateBody = z.object({
-    name: z.string().min(1).max(255).optional(),
-    description: z.string().max(280).nullish(),
-    external_id: z.string().min(1).max(255).optional(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])).optional()
-});
-
-export const zProfilesUpdatePath = z.object({
-    id: z.string()
-});
-
-/**
- * OK
- */
-export const zProfilesUpdateResponse = z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().nullable(),
-    external_id: z.string().nullable(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])),
-    created_at: z.string().nullable(),
-    updated_at: z.string().nullable()
-});
-
-export const zConnectionsListByProfilePath = z.object({
-    id: z.string()
-});
-
-export const zConnectionsListByProfileQuery = z.object({
-    limit: z.int().gte(1).lte(100).optional().default(20),
-    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
-    nango_connection_id: z.string().min(1).optional(),
-    kind: z.enum(['posting', 'ads']).optional(),
-    status: z.enum([
-        'pending',
-        'active',
-        'needs_reauth'
-    ]).optional()
-});
-
-/**
- * OK
- */
-export const zConnectionsListByProfileResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        profile_id: z.string(),
-        platform: z.enum([
-            'meta_ads',
-            'google_ads',
-            'tiktok_ads',
-            'x',
-            'linkedin',
-            'facebook_page',
-            'instagram',
-            'tiktok'
-        ]),
-        kind: z.enum(['posting', 'ads']),
-        status: z.enum([
-            'pending',
-            'active',
-            'needs_reauth'
-        ]),
-        external_account_id: z.string().nullable(),
-        external_account_name: z.string().nullable(),
-        username: z.string().nullable(),
-        avatar_url: z.string().nullable(),
-        profile_url: z.string().nullable(),
-        reauth_at: z.string().nullable(),
-        currency: z.string().nullable(),
-        created_at: z.string().nullable(),
-        updated_at: z.string().nullable()
-    })),
-    total: z.int().gte(-9007199254740991).lte(9007199254740991),
-    limit: z.int().gte(-9007199254740991).lte(9007199254740991),
-    offset: z.int().gte(-9007199254740991).lte(9007199254740991),
-    has_more: z.boolean()
-});
-
-export const zConnectionsDeletePath = z.object({
-    id: z.string()
-});
-
-/**
- * OK
- */
-export const zConnectionsDeleteResponse = z.object({
-    id: z.string(),
-    object: z.literal('connection'),
-    deleted: z.literal(true)
-});
-
-export const zConnectionsGetPath = z.object({
-    id: z.string()
-});
-
-/**
- * OK
- */
-export const zConnectionsGetResponse = z.object({
-    id: z.string(),
-    profile_id: z.string(),
-    platform: z.enum([
-        'meta_ads',
-        'google_ads',
-        'tiktok_ads',
-        'x',
-        'linkedin',
-        'facebook_page',
-        'instagram',
-        'tiktok'
-    ]),
-    kind: z.enum(['posting', 'ads']),
-    status: z.enum([
-        'pending',
-        'active',
-        'needs_reauth'
-    ]),
-    external_account_id: z.string().nullable(),
-    external_account_name: z.string().nullable(),
-    username: z.string().nullable(),
-    avatar_url: z.string().nullable(),
-    profile_url: z.string().nullable(),
-    reauth_at: z.string().nullable(),
+export const zDiscoverableAccount = z.object({
+    external_account_id: z.string(),
+    name: z.string().nullable(),
     currency: z.string().nullable(),
-    created_at: z.string().nullable(),
-    updated_at: z.string().nullable()
-});
-
-export const zConnectionsSelectBody = z.object({
-    external_account_id: z.string().min(1)
-});
-
-export const zConnectionsSelectPath = z.object({
-    id: z.string()
-});
-
-/**
- * OK
- */
-export const zConnectionsSelectResponse = z.object({
-    id: z.string(),
-    profile_id: z.string(),
-    platform: z.enum([
-        'meta_ads',
-        'google_ads',
-        'tiktok_ads',
-        'x',
-        'linkedin',
-        'facebook_page',
-        'instagram',
-        'tiktok'
-    ]),
-    kind: z.enum(['posting', 'ads']),
-    status: z.enum([
-        'pending',
-        'active',
-        'needs_reauth'
-    ]),
-    external_account_id: z.string().nullable(),
-    external_account_name: z.string().nullable(),
-    username: z.string().nullable(),
-    avatar_url: z.string().nullable(),
-    profile_url: z.string().nullable(),
-    reauth_at: z.string().nullable(),
-    currency: z.string().nullable(),
-    created_at: z.string().nullable(),
-    updated_at: z.string().nullable()
-});
-
-export const zConnectionsListAccountsPath = z.object({
-    id: z.string()
-});
-
-/**
- * OK
- */
-export const zConnectionsListAccountsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
+    username: z.string().nullish(),
+    avatar_url: z.string().nullish(),
+    profile_url: z.string().nullish(),
+    instagram: z.object({
         external_account_id: z.string(),
         name: z.string().nullable(),
-        currency: z.string().nullable(),
         username: z.string().nullish(),
         avatar_url: z.string().nullish(),
-        profile_url: z.string().nullish(),
-        instagram: z.object({
-            external_account_id: z.string(),
-            name: z.string().nullable(),
-            username: z.string().nullish(),
-            avatar_url: z.string().nullish(),
-            profile_url: z.string().nullish()
-        }).nullish()
-    }))
+        profile_url: z.string().nullish()
+    }).nullish()
 });
 
-export const zConnectionsConnectBody = z.object({
-    platform: z.enum([
-        'meta_ads',
-        'google_ads',
-        'x',
-        'linkedin',
-        'facebook_page',
-        'instagram',
-        'tiktok'
-    ])
-});
-
-export const zConnectionsConnectPath = z.object({
-    id: z.string()
-});
-
-/**
- * OK
- */
-export const zConnectionsConnectResponse = z.object({
+export const zConnectSession = z.object({
     hosted_connect_url: z.string(),
     connect_token: z.string(),
     connect_session_token: z.string(),
@@ -441,63 +153,94 @@ export const zConnectionsConnectResponse = z.object({
     expires_at: z.string()
 });
 
-export const zMediaListQuery = z.object({
-    limit: z.int().gte(1).lte(100).optional().default(20),
-    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
-    profile_id: z.string().optional(),
-    status: z.enum([
-        'uploading',
-        'processing',
-        'ready',
-        'failed'
-    ]).optional(),
-    kind: z.enum([
-        'image',
-        'video',
-        'gif',
-        'document'
-    ]).optional(),
-    external_id: z.string().optional(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])).optional()
-});
+export const zMediaKind = z.enum([
+    'image',
+    'video',
+    'gif',
+    'document'
+]);
 
-/**
- * OK
- */
-export const zMediaListResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        object: z.literal('media'),
-        profile_id: z.string(),
-        kind: z.enum([
-            'image',
-            'video',
-            'gif',
-            'document'
-        ]).nullable(),
-        content_type: z.string().nullable(),
+export const zMediaStatus = z.enum([
+    'uploading',
+    'processing',
+    'ready',
+    'failed'
+]);
+
+export const zMediaStage = z.enum([
+    'queued',
+    'analyzing',
+    'transcoding',
+    'done'
+]);
+
+export const zMedia = z.object({
+    id: z.string(),
+    object: z.literal('media'),
+    profile_id: z.string(),
+    kind: zMediaKind.nullable(),
+    content_type: z.string().nullable(),
+    status: zMediaStatus,
+    progress: z.object({
+        stage: zMediaStage,
+        percent: z.int().gte(0).lte(100)
+    }),
+    raw: z.boolean(),
+    error: z.object({
+        code: z.enum([
+            'media_unprobeable',
+            'media_format_indeterminate',
+            'media_format_unsupported',
+            'media_too_large',
+            'media_aspect_ratio_unsupported',
+            'media_resolution_too_low',
+            'media_gif_unsupported',
+            'media_format_recompressed',
+            'media_resolution_downscaled',
+            'video_container_unsupported',
+            'video_codec_unsupported',
+            'video_audio_codec_unsupported',
+            'video_too_large',
+            'video_too_small',
+            'video_dimensions_unsupported',
+            'video_dimensions_too_large',
+            'video_fps_unsupported',
+            'video_fps_too_low',
+            'video_aspect_unsupported',
+            'video_duration_too_short',
+            'video_duration_exceeds_max',
+            'video_transform_failed',
+            'media_fetch_failed',
+            'document_format_unsupported',
+            'document_too_large',
+            'document_too_many_pages',
+            'media_unsupported'
+        ]),
+        message: z.string(),
+        hint: z.string().optional(),
+        allowed: z.array(z.string()).optional(),
+        got: z.string().optional(),
+        display_error: z.string()
+    }).nullable(),
+    source: z.object({
+        format: z.string(),
+        bytes: z.int().gte(0).lte(9007199254740991),
+        width: z.int().gt(0).lte(9007199254740991).nullable(),
+        height: z.int().gt(0).lte(9007199254740991).nullable(),
+        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+    }).nullable(),
+    alt_text: z.string().max(1000).nullable(),
+    per_platform: z.record(z.string(), z.object({
         status: z.enum([
-            'uploading',
             'processing',
             'ready',
             'failed'
         ]),
-        progress: z.object({
-            stage: z.enum([
-                'queued',
-                'analyzing',
-                'transcoding',
-                'done'
-            ]),
-            percent: z.int().gte(0).lte(100)
-        }),
-        raw: z.boolean(),
-        error: z.object({
+        url: z.string().nullable(),
+        width: z.int().gt(0).lte(9007199254740991).nullable(),
+        height: z.int().gt(0).lte(9007199254740991).nullable(),
+        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+        warnings: z.array(z.object({
             code: z.enum([
                 'media_unprobeable',
                 'media_format_indeterminate',
@@ -532,107 +275,841 @@ export const zMediaListResponse = z.object({
             allowed: z.array(z.string()).optional(),
             got: z.string().optional(),
             display_error: z.string()
-        }).nullable(),
-        source: z.object({
-            format: z.string(),
-            bytes: z.int().gte(0).lte(9007199254740991),
-            width: z.int().gt(0).lte(9007199254740991).nullable(),
-            height: z.int().gt(0).lte(9007199254740991).nullable(),
-            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-        }).nullable(),
-        alt_text: z.string().max(1000).nullable(),
-        per_platform: z.record(z.string(), z.object({
-            status: z.enum([
-                'processing',
-                'ready',
-                'failed'
-            ]),
-            url: z.string().nullable(),
-            width: z.int().gt(0).lte(9007199254740991).nullable(),
-            height: z.int().gt(0).lte(9007199254740991).nullable(),
-            bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-            warnings: z.array(z.object({
-                code: z.enum([
-                    'media_unprobeable',
-                    'media_format_indeterminate',
-                    'media_format_unsupported',
-                    'media_too_large',
-                    'media_aspect_ratio_unsupported',
-                    'media_resolution_too_low',
-                    'media_gif_unsupported',
-                    'media_format_recompressed',
-                    'media_resolution_downscaled',
-                    'video_container_unsupported',
-                    'video_codec_unsupported',
-                    'video_audio_codec_unsupported',
-                    'video_too_large',
-                    'video_too_small',
-                    'video_dimensions_unsupported',
-                    'video_dimensions_too_large',
-                    'video_fps_unsupported',
-                    'video_fps_too_low',
-                    'video_aspect_unsupported',
-                    'video_duration_too_short',
-                    'video_duration_exceeds_max',
-                    'video_transform_failed',
-                    'media_fetch_failed',
-                    'document_format_unsupported',
-                    'document_too_large',
-                    'document_too_many_pages',
-                    'media_unsupported'
-                ]),
-                message: z.string(),
-                hint: z.string().optional(),
-                allowed: z.array(z.string()).optional(),
-                got: z.string().optional(),
-                display_error: z.string()
-            })),
-            errors: z.array(z.object({
-                code: z.enum([
-                    'media_unprobeable',
-                    'media_format_indeterminate',
-                    'media_format_unsupported',
-                    'media_too_large',
-                    'media_aspect_ratio_unsupported',
-                    'media_resolution_too_low',
-                    'media_gif_unsupported',
-                    'media_format_recompressed',
-                    'media_resolution_downscaled',
-                    'video_container_unsupported',
-                    'video_codec_unsupported',
-                    'video_audio_codec_unsupported',
-                    'video_too_large',
-                    'video_too_small',
-                    'video_dimensions_unsupported',
-                    'video_dimensions_too_large',
-                    'video_fps_unsupported',
-                    'video_fps_too_low',
-                    'video_aspect_unsupported',
-                    'video_duration_too_short',
-                    'video_duration_exceeds_max',
-                    'video_transform_failed',
-                    'media_fetch_failed',
-                    'document_format_unsupported',
-                    'document_too_large',
-                    'document_too_many_pages',
-                    'media_unsupported'
-                ]),
-                message: z.string(),
-                hint: z.string().optional(),
-                allowed: z.array(z.string()).optional(),
-                got: z.string().optional(),
-                display_error: z.string()
-            }))
         })),
-        external_id: z.string().nullable(),
-        metadata: z.record(z.string(), z.union([
-            z.string().max(500),
-            z.number(),
-            z.boolean()
-        ])),
-        created_at: z.string(),
-        updated_at: z.string()
+        errors: z.array(z.object({
+            code: z.enum([
+                'media_unprobeable',
+                'media_format_indeterminate',
+                'media_format_unsupported',
+                'media_too_large',
+                'media_aspect_ratio_unsupported',
+                'media_resolution_too_low',
+                'media_gif_unsupported',
+                'media_format_recompressed',
+                'media_resolution_downscaled',
+                'video_container_unsupported',
+                'video_codec_unsupported',
+                'video_audio_codec_unsupported',
+                'video_too_large',
+                'video_too_small',
+                'video_dimensions_unsupported',
+                'video_dimensions_too_large',
+                'video_fps_unsupported',
+                'video_fps_too_low',
+                'video_aspect_unsupported',
+                'video_duration_too_short',
+                'video_duration_exceeds_max',
+                'video_transform_failed',
+                'media_fetch_failed',
+                'document_format_unsupported',
+                'document_too_large',
+                'document_too_many_pages',
+                'media_unsupported'
+            ]),
+            message: z.string(),
+            hint: z.string().optional(),
+            allowed: z.array(z.string()).optional(),
+            got: z.string().optional(),
+            display_error: z.string()
+        }))
     })),
+    external_id: z.string().nullable(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])),
+    created_at: z.string(),
+    updated_at: z.string()
+});
+
+export const zPostPlatform = z.enum([
+    'x',
+    'linkedin',
+    'facebook_page',
+    'instagram',
+    'tiktok'
+]);
+
+export const zPostType = z.enum([
+    'text',
+    'single_image',
+    'multi_image',
+    'video',
+    'reel',
+    'carousel'
+]);
+
+export const zPostStatus = z.enum([
+    'draft',
+    'scheduled',
+    'publishing',
+    'partially_published',
+    'published',
+    'failed'
+]);
+
+export const zPostVariantStatus = z.enum([
+    'draft',
+    'scheduled',
+    'publishing',
+    'published',
+    'failed'
+]);
+
+/**
+ * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
+ */
+export const zConnectionKind = z.enum(['posting', 'ads']);
+
+/**
+ * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
+ */
+export const zConnectionStatus = z.enum([
+    'pending',
+    'active',
+    'needs_reauth'
+]);
+
+export const zConnection = z.object({
+    id: z.string(),
+    profile_id: z.string(),
+    platform: z.enum([
+        'meta_ads',
+        'google_ads',
+        'tiktok_ads',
+        'x',
+        'linkedin',
+        'facebook_page',
+        'instagram',
+        'tiktok'
+    ]),
+    kind: zConnectionKind,
+    status: zConnectionStatus,
+    external_account_id: z.string().nullable(),
+    external_account_name: z.string().nullable(),
+    username: z.string().nullable(),
+    avatar_url: z.string().nullable(),
+    profile_url: z.string().nullable(),
+    reauth_at: z.string().nullable(),
+    currency: z.string().nullable(),
+    created_at: z.string().nullable(),
+    updated_at: z.string().nullable()
+});
+
+export const zTikTokPrivacyLevel = z.enum([
+    'PUBLIC_TO_EVERYONE',
+    'MUTUAL_FOLLOW_FRIENDS',
+    'FOLLOWER_OF_CREATOR',
+    'SELF_ONLY'
+]);
+
+export const zPostVariant = z.union([
+    z.object({
+        platform: z.literal('x'),
+        post_type: z.enum([
+            'text',
+            'single_image',
+            'multi_image',
+            'video'
+        ]),
+        settings: z.object({
+            reply_settings: z.enum([
+                'everyone',
+                'following',
+                'mentionedUsers',
+                'subscribers',
+                'verified'
+            ]).optional(),
+            quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+            poll: z.object({
+                options: z.array(z.string().min(1).max(25)).min(2).max(4),
+                duration_minutes: z.int().gte(5).lte(10080),
+                reply_settings: z.enum([
+                    'following',
+                    'mentionedUsers',
+                    'subscribers',
+                    'verified'
+                ]).optional()
+            }).optional(),
+            reply: z.object({
+                in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
+                exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
+                auto_populate_reply_metadata: z.boolean().optional()
+            }).optional(),
+            community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+            for_super_followers_only: z.boolean().optional(),
+            geo: z.object({
+                place_id: z.string()
+            }).optional(),
+            card_uri: z.string().optional(),
+            media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+        }),
+        id: z.string(),
+        object: z.literal('post_variant'),
+        connection_id: z.string().nullable(),
+        body: z.string().nullable(),
+        status: zPostVariantStatus,
+        schedule_at: z.string().nullable(),
+        result: z.object({
+            platform_post_id: z.string(),
+            permalink: z.string().nullable(),
+            published_at: z.string()
+        }).nullable(),
+        error: z.object({
+            code: z.string(),
+            message: z.string(),
+            display_error: z.string()
+        }).nullable(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            position: z.int().gte(-9007199254740991).lte(9007199254740991),
+            crop_box: z.record(z.string(), z.unknown()).nullable(),
+            alt_text_override: z.string().nullable(),
+            media: zMedia
+        }))
+    }),
+    z.object({
+        platform: z.literal('linkedin'),
+        post_type: z.enum([
+            'text',
+            'single_image',
+            'multi_image',
+            'video'
+        ]),
+        settings: z.object({
+            visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
+            content_kind: z.enum([
+                'text',
+                'single_image',
+                'video',
+                'multi_image',
+                'document',
+                'article',
+                'poll'
+            ]),
+            article: z.object({
+                source: z.url(),
+                title: z.string().max(400).optional(),
+                description: z.string().max(4086).optional(),
+                thumbnail_media_id: z.string().optional()
+            }).optional(),
+            poll: z.object({
+                question: z.string().min(1).max(140),
+                options: z.array(z.string().min(1).max(30)).min(2).max(4),
+                duration: z.enum([
+                    'ONE_DAY',
+                    'THREE_DAYS',
+                    'SEVEN_DAYS',
+                    'FOURTEEN_DAYS'
+                ])
+            }).optional(),
+            document: z.object({
+                title: z.string().min(1).max(400)
+            }).optional(),
+            disable_reshare: z.boolean().optional(),
+            mentions: z.array(z.object({
+                type: z.enum(['person', 'organization']),
+                name: z.string().min(1),
+                urn: z.string().regex(/^urn:li:(person|organization):/)
+            })).optional()
+        }),
+        id: z.string(),
+        object: z.literal('post_variant'),
+        connection_id: z.string().nullable(),
+        body: z.string().nullable(),
+        status: zPostVariantStatus,
+        schedule_at: z.string().nullable(),
+        result: z.object({
+            platform_post_id: z.string(),
+            permalink: z.string().nullable(),
+            published_at: z.string()
+        }).nullable(),
+        error: z.object({
+            code: z.string(),
+            message: z.string(),
+            display_error: z.string()
+        }).nullable(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            position: z.int().gte(-9007199254740991).lte(9007199254740991),
+            crop_box: z.record(z.string(), z.unknown()).nullable(),
+            alt_text_override: z.string().nullable(),
+            media: zMedia
+        }))
+    }),
+    z.object({
+        platform: z.literal('facebook_page'),
+        post_type: z.enum([
+            'text',
+            'single_image',
+            'multi_image',
+            'reel'
+        ]),
+        settings: z.object({
+            link: z.url().optional()
+        }),
+        id: z.string(),
+        object: z.literal('post_variant'),
+        connection_id: z.string().nullable(),
+        body: z.string().nullable(),
+        status: zPostVariantStatus,
+        schedule_at: z.string().nullable(),
+        result: z.object({
+            platform_post_id: z.string(),
+            permalink: z.string().nullable(),
+            published_at: z.string()
+        }).nullable(),
+        error: z.object({
+            code: z.string(),
+            message: z.string(),
+            display_error: z.string()
+        }).nullable(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            position: z.int().gte(-9007199254740991).lte(9007199254740991),
+            crop_box: z.record(z.string(), z.unknown()).nullable(),
+            alt_text_override: z.string().nullable(),
+            media: zMedia
+        }))
+    }),
+    z.object({
+        platform: z.literal('instagram'),
+        post_type: z.enum([
+            'single_image',
+            'carousel',
+            'reel'
+        ]),
+        settings: z.object({
+            media_type: z.enum([
+                'IMAGE',
+                'CAROUSEL',
+                'REELS'
+            ]).optional(),
+            location_id: z.string().optional(),
+            user_tags: z.array(z.object({
+                username: z.string().min(1),
+                x: z.number().gte(0).lte(1),
+                y: z.number().gte(0).lte(1)
+            })).optional(),
+            collaborators: z.array(z.string().min(1)).max(3).optional(),
+            share_to_feed: z.boolean().optional(),
+            thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
+            cover_url: z.url().optional(),
+            audio_name: z.string().optional()
+        }),
+        id: z.string(),
+        object: z.literal('post_variant'),
+        connection_id: z.string().nullable(),
+        body: z.string().nullable(),
+        status: zPostVariantStatus,
+        schedule_at: z.string().nullable(),
+        result: z.object({
+            platform_post_id: z.string(),
+            permalink: z.string().nullable(),
+            published_at: z.string()
+        }).nullable(),
+        error: z.object({
+            code: z.string(),
+            message: z.string(),
+            display_error: z.string()
+        }).nullable(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            position: z.int().gte(-9007199254740991).lte(9007199254740991),
+            crop_box: z.record(z.string(), z.unknown()).nullable(),
+            alt_text_override: z.string().nullable(),
+            media: zMedia
+        }))
+    }),
+    z.object({
+        platform: z.literal('tiktok'),
+        post_type: z.enum([
+            'video',
+            'single_image',
+            'carousel'
+        ]),
+        settings: z.object({
+            privacy_level: zTikTokPrivacyLevel.optional(),
+            disable_comment: z.boolean().optional(),
+            disable_duet: z.boolean().optional(),
+            disable_stitch: z.boolean().optional(),
+            video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+            photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+            auto_add_music: z.boolean().optional(),
+            brand_content_toggle: z.boolean().optional(),
+            brand_organic_toggle: z.boolean().optional(),
+            is_aigc: z.boolean().optional()
+        }),
+        id: z.string(),
+        object: z.literal('post_variant'),
+        connection_id: z.string().nullable(),
+        body: z.string().nullable(),
+        status: zPostVariantStatus,
+        schedule_at: z.string().nullable(),
+        result: z.object({
+            platform_post_id: z.string(),
+            permalink: z.string().nullable(),
+            published_at: z.string()
+        }).nullable(),
+        error: z.object({
+            code: z.string(),
+            message: z.string(),
+            display_error: z.string()
+        }).nullable(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            position: z.int().gte(-9007199254740991).lte(9007199254740991),
+            crop_box: z.record(z.string(), z.unknown()).nullable(),
+            alt_text_override: z.string().nullable(),
+            media: zMedia
+        }))
+    })
+]);
+
+export const zPost = z.object({
+    id: z.string(),
+    object: z.literal('post'),
+    profile_id: z.string(),
+    external_id: z.string().nullable(),
+    status: z.enum([
+        'draft',
+        'scheduled',
+        'publishing',
+        'partially_published',
+        'published',
+        'failed'
+    ]),
+    schedule_at: z.string().nullable(),
+    tags: z.array(z.string()),
+    notes: z.string().nullable(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])),
+    variants: z.array(zPostVariant),
+    created_at: z.string(),
+    updated_at: z.string()
+});
+
+/**
+ * A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account.
+ */
+export const zTikTokCreatorInfo = z.object({
+    creator: z.object({
+        nickname: z.string(),
+        username: z.string(),
+        avatar_url: z.string().nullable()
+    }),
+    privacy_options: z.array(zTikTokPrivacyLevel),
+    interaction: z.object({
+        comment: z.boolean(),
+        duet: z.boolean(),
+        stitch: z.boolean()
+    }),
+    max_video_duration_sec: z.int().gte(-9007199254740991).lte(9007199254740991)
+});
+
+/**
+ * A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings.
+ */
+export const zPostVariantInput = z.union([
+    z.object({
+        platform: z.literal('x'),
+        post_type: z.enum([
+            'text',
+            'single_image',
+            'multi_image',
+            'video'
+        ]),
+        settings: z.object({
+            reply_settings: z.enum([
+                'everyone',
+                'following',
+                'mentionedUsers',
+                'subscribers',
+                'verified'
+            ]).optional(),
+            quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+            poll: z.object({
+                options: z.array(z.string().min(1).max(25)).min(2).max(4),
+                duration_minutes: z.int().gte(5).lte(10080),
+                reply_settings: z.enum([
+                    'following',
+                    'mentionedUsers',
+                    'subscribers',
+                    'verified'
+                ]).optional()
+            }).optional(),
+            reply: z.object({
+                in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
+                exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
+                auto_populate_reply_metadata: z.boolean().optional()
+            }).optional(),
+            community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+            for_super_followers_only: z.boolean().optional(),
+            geo: z.object({
+                place_id: z.string()
+            }).optional(),
+            card_uri: z.string().optional(),
+            media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+        }).optional().default({}),
+        connection_id: z.string(),
+        body: z.string().optional(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            crop_box: z.record(z.string(), z.unknown()).nullish(),
+            alt_text_override: z.string().nullish()
+        })).optional().default([])
+    }),
+    z.object({
+        platform: z.literal('linkedin'),
+        post_type: z.enum([
+            'text',
+            'single_image',
+            'multi_image',
+            'video'
+        ]),
+        settings: z.object({
+            visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
+            content_kind: z.enum([
+                'text',
+                'single_image',
+                'video',
+                'multi_image',
+                'document',
+                'article',
+                'poll'
+            ]),
+            article: z.object({
+                source: z.url(),
+                title: z.string().max(400).optional(),
+                description: z.string().max(4086).optional(),
+                thumbnail_media_id: z.string().optional()
+            }).optional(),
+            poll: z.object({
+                question: z.string().min(1).max(140),
+                options: z.array(z.string().min(1).max(30)).min(2).max(4),
+                duration: z.enum([
+                    'ONE_DAY',
+                    'THREE_DAYS',
+                    'SEVEN_DAYS',
+                    'FOURTEEN_DAYS'
+                ])
+            }).optional(),
+            document: z.object({
+                title: z.string().min(1).max(400)
+            }).optional(),
+            disable_reshare: z.boolean().optional(),
+            mentions: z.array(z.object({
+                type: z.enum(['person', 'organization']),
+                name: z.string().min(1),
+                urn: z.string().regex(/^urn:li:(person|organization):/)
+            })).optional()
+        }),
+        connection_id: z.string(),
+        body: z.string().optional(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            crop_box: z.record(z.string(), z.unknown()).nullish(),
+            alt_text_override: z.string().nullish()
+        })).optional().default([])
+    }),
+    z.object({
+        platform: z.literal('instagram'),
+        post_type: z.enum([
+            'single_image',
+            'carousel',
+            'reel'
+        ]),
+        settings: z.object({
+            media_type: z.enum([
+                'IMAGE',
+                'CAROUSEL',
+                'REELS'
+            ]).optional(),
+            location_id: z.string().optional(),
+            user_tags: z.array(z.object({
+                username: z.string().min(1),
+                x: z.number().gte(0).lte(1),
+                y: z.number().gte(0).lte(1)
+            })).optional(),
+            collaborators: z.array(z.string().min(1)).max(3).optional(),
+            share_to_feed: z.boolean().optional(),
+            thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
+            cover_url: z.url().optional(),
+            audio_name: z.string().optional()
+        }),
+        connection_id: z.string(),
+        body: z.string().optional(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            crop_box: z.record(z.string(), z.unknown()).nullish(),
+            alt_text_override: z.string().nullish()
+        })).optional().default([])
+    }),
+    z.object({
+        platform: z.literal('facebook_page'),
+        post_type: z.enum([
+            'text',
+            'single_image',
+            'multi_image',
+            'reel'
+        ]),
+        settings: z.object({
+            link: z.url().optional()
+        }).optional().default({}),
+        connection_id: z.string(),
+        body: z.string().optional(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            crop_box: z.record(z.string(), z.unknown()).nullish(),
+            alt_text_override: z.string().nullish()
+        })).optional().default([])
+    }),
+    z.object({
+        platform: z.literal('tiktok'),
+        post_type: z.enum([
+            'video',
+            'single_image',
+            'carousel'
+        ]),
+        settings: z.object({
+            privacy_level: zTikTokPrivacyLevel.optional(),
+            disable_comment: z.boolean().optional(),
+            disable_duet: z.boolean().optional(),
+            disable_stitch: z.boolean().optional(),
+            video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+            photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+            auto_add_music: z.boolean().optional(),
+            brand_content_toggle: z.boolean().optional(),
+            brand_organic_toggle: z.boolean().optional(),
+            is_aigc: z.boolean().optional()
+        }).optional().default({}),
+        connection_id: z.string(),
+        body: z.string().optional(),
+        media: z.array(z.object({
+            media_id: z.string(),
+            crop_box: z.record(z.string(), z.unknown()).nullish(),
+            alt_text_override: z.string().nullish()
+        })).optional().default([])
+    })
+]);
+
+export const zCreatePostBody = z.object({
+    profile_id: z.string(),
+    publish: z.enum([
+        'now',
+        'schedule',
+        'draft'
+    ]).optional().default('draft'),
+    schedule_at: z.iso.datetime().optional(),
+    external_id: z.string().min(1).max(255).optional(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])).optional(),
+    tags: z.array(z.string()).optional(),
+    notes: z.string().optional(),
+    dry_run: z.boolean().optional().default(false),
+    variants: z.array(zPostVariantInput).min(1)
+});
+
+export const zProfilesListQuery = z.object({
+    limit: z.int().gte(1).lte(100).optional().default(20),
+    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
+    external_id: z.string().optional(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])).optional()
+});
+
+/**
+ * OK
+ */
+export const zProfilesListResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zProfile),
+    total: z.int().gte(-9007199254740991).lte(9007199254740991),
+    limit: z.int().gte(-9007199254740991).lte(9007199254740991),
+    offset: z.int().gte(-9007199254740991).lte(9007199254740991),
+    has_more: z.boolean()
+});
+
+export const zProfilesCreateBody = z.object({
+    name: z.string().min(1).max(255),
+    description: z.string().max(280).optional(),
+    external_id: z.string().min(1).max(255).optional(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])).optional()
+});
+
+/**
+ * OK
+ */
+export const zProfilesCreateResponse = zProfile;
+
+export const zProfilesDeletePath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zProfilesDeleteResponse = z.object({
+    id: z.string(),
+    object: z.literal('profile'),
+    deleted: z.literal(true)
+});
+
+export const zProfilesGetPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zProfilesGetResponse = zProfile;
+
+export const zProfilesUpdateBody = z.object({
+    name: z.string().min(1).max(255).optional(),
+    description: z.string().max(280).nullish(),
+    external_id: z.string().min(1).max(255).optional(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])).optional()
+});
+
+export const zProfilesUpdatePath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zProfilesUpdateResponse = zProfile;
+
+export const zConnectionsListByProfilePath = z.object({
+    id: z.string()
+});
+
+export const zConnectionsListByProfileQuery = z.object({
+    limit: z.int().gte(1).lte(100).optional().default(20),
+    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
+    nango_connection_id: z.string().min(1).optional(),
+    kind: zConnectionKind.optional(),
+    status: zConnectionStatus.optional()
+});
+
+/**
+ * OK
+ */
+export const zConnectionsListByProfileResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zConnection),
+    total: z.int().gte(-9007199254740991).lte(9007199254740991),
+    limit: z.int().gte(-9007199254740991).lte(9007199254740991),
+    offset: z.int().gte(-9007199254740991).lte(9007199254740991),
+    has_more: z.boolean()
+});
+
+export const zConnectionsDeletePath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zConnectionsDeleteResponse = z.object({
+    id: z.string(),
+    object: z.literal('connection'),
+    deleted: z.literal(true)
+});
+
+export const zConnectionsGetPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zConnectionsGetResponse = zConnection;
+
+export const zConnectionsSelectBody = z.object({
+    external_account_id: z.string().min(1)
+});
+
+export const zConnectionsSelectPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zConnectionsSelectResponse = zConnection;
+
+export const zConnectionsListAccountsPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zConnectionsListAccountsResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zDiscoverableAccount)
+});
+
+export const zConnectionsConnectBody = z.object({
+    platform: z.enum([
+        'meta_ads',
+        'google_ads',
+        'x',
+        'linkedin',
+        'facebook_page',
+        'instagram',
+        'tiktok'
+    ])
+});
+
+export const zConnectionsConnectPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zConnectionsConnectResponse = zConnectSession;
+
+export const zMediaListQuery = z.object({
+    limit: z.int().gte(1).lte(100).optional().default(20),
+    offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
+    profile_id: z.string().optional(),
+    status: zMediaStatus.optional(),
+    kind: zMediaKind.optional(),
+    external_id: z.string().optional(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])).optional()
+});
+
+/**
+ * OK
+ */
+export const zMediaListResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zMedia),
     total: z.int().gte(-9007199254740991).lte(9007199254740991),
     limit: z.int().gte(-9007199254740991).lte(9007199254740991),
     offset: z.int().gte(-9007199254740991).lte(9007199254740991),
@@ -670,26 +1147,11 @@ export const zMediaCreateResponse = z.object({
     id: z.string(),
     object: z.literal('media'),
     profile_id: z.string(),
-    kind: z.enum([
-        'image',
-        'video',
-        'gif',
-        'document'
-    ]).nullable(),
+    kind: zMediaKind.nullable(),
     content_type: z.string().nullable(),
-    status: z.enum([
-        'uploading',
-        'processing',
-        'ready',
-        'failed'
-    ]),
+    status: zMediaStatus,
     progress: z.object({
-        stage: z.enum([
-            'queued',
-            'analyzing',
-            'transcoding',
-            'done'
-        ]),
+        stage: zMediaStage,
         percent: z.int().gte(0).lte(100)
     }),
     raw: z.boolean(),
@@ -856,169 +1318,7 @@ export const zMediaGetPath = z.object({
 /**
  * OK
  */
-export const zMediaGetResponse = z.object({
-    id: z.string(),
-    object: z.literal('media'),
-    profile_id: z.string(),
-    kind: z.enum([
-        'image',
-        'video',
-        'gif',
-        'document'
-    ]).nullable(),
-    content_type: z.string().nullable(),
-    status: z.enum([
-        'uploading',
-        'processing',
-        'ready',
-        'failed'
-    ]),
-    progress: z.object({
-        stage: z.enum([
-            'queued',
-            'analyzing',
-            'transcoding',
-            'done'
-        ]),
-        percent: z.int().gte(0).lte(100)
-    }),
-    raw: z.boolean(),
-    error: z.object({
-        code: z.enum([
-            'media_unprobeable',
-            'media_format_indeterminate',
-            'media_format_unsupported',
-            'media_too_large',
-            'media_aspect_ratio_unsupported',
-            'media_resolution_too_low',
-            'media_gif_unsupported',
-            'media_format_recompressed',
-            'media_resolution_downscaled',
-            'video_container_unsupported',
-            'video_codec_unsupported',
-            'video_audio_codec_unsupported',
-            'video_too_large',
-            'video_too_small',
-            'video_dimensions_unsupported',
-            'video_dimensions_too_large',
-            'video_fps_unsupported',
-            'video_fps_too_low',
-            'video_aspect_unsupported',
-            'video_duration_too_short',
-            'video_duration_exceeds_max',
-            'video_transform_failed',
-            'media_fetch_failed',
-            'document_format_unsupported',
-            'document_too_large',
-            'document_too_many_pages',
-            'media_unsupported'
-        ]),
-        message: z.string(),
-        hint: z.string().optional(),
-        allowed: z.array(z.string()).optional(),
-        got: z.string().optional(),
-        display_error: z.string()
-    }).nullable(),
-    source: z.object({
-        format: z.string(),
-        bytes: z.int().gte(0).lte(9007199254740991),
-        width: z.int().gt(0).lte(9007199254740991).nullable(),
-        height: z.int().gt(0).lte(9007199254740991).nullable(),
-        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-    }).nullable(),
-    alt_text: z.string().max(1000).nullable(),
-    per_platform: z.record(z.string(), z.object({
-        status: z.enum([
-            'processing',
-            'ready',
-            'failed'
-        ]),
-        url: z.string().nullable(),
-        width: z.int().gt(0).lte(9007199254740991).nullable(),
-        height: z.int().gt(0).lte(9007199254740991).nullable(),
-        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-        warnings: z.array(z.object({
-            code: z.enum([
-                'media_unprobeable',
-                'media_format_indeterminate',
-                'media_format_unsupported',
-                'media_too_large',
-                'media_aspect_ratio_unsupported',
-                'media_resolution_too_low',
-                'media_gif_unsupported',
-                'media_format_recompressed',
-                'media_resolution_downscaled',
-                'video_container_unsupported',
-                'video_codec_unsupported',
-                'video_audio_codec_unsupported',
-                'video_too_large',
-                'video_too_small',
-                'video_dimensions_unsupported',
-                'video_dimensions_too_large',
-                'video_fps_unsupported',
-                'video_fps_too_low',
-                'video_aspect_unsupported',
-                'video_duration_too_short',
-                'video_duration_exceeds_max',
-                'video_transform_failed',
-                'media_fetch_failed',
-                'document_format_unsupported',
-                'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
-            ]),
-            message: z.string(),
-            hint: z.string().optional(),
-            allowed: z.array(z.string()).optional(),
-            got: z.string().optional(),
-            display_error: z.string()
-        })),
-        errors: z.array(z.object({
-            code: z.enum([
-                'media_unprobeable',
-                'media_format_indeterminate',
-                'media_format_unsupported',
-                'media_too_large',
-                'media_aspect_ratio_unsupported',
-                'media_resolution_too_low',
-                'media_gif_unsupported',
-                'media_format_recompressed',
-                'media_resolution_downscaled',
-                'video_container_unsupported',
-                'video_codec_unsupported',
-                'video_audio_codec_unsupported',
-                'video_too_large',
-                'video_too_small',
-                'video_dimensions_unsupported',
-                'video_dimensions_too_large',
-                'video_fps_unsupported',
-                'video_fps_too_low',
-                'video_aspect_unsupported',
-                'video_duration_too_short',
-                'video_duration_exceeds_max',
-                'video_transform_failed',
-                'media_fetch_failed',
-                'document_format_unsupported',
-                'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
-            ]),
-            message: z.string(),
-            hint: z.string().optional(),
-            allowed: z.array(z.string()).optional(),
-            got: z.string().optional(),
-            display_error: z.string()
-        }))
-    })),
-    external_id: z.string().nullable(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])),
-    created_at: z.string(),
-    updated_at: z.string()
-});
+export const zMediaGetResponse = zMedia;
 
 export const zMediaUpdateBody = z.object({
     alt_text: z.string().max(1000).nullish(),
@@ -1045,169 +1345,7 @@ export const zMediaUpdatePath = z.object({
 /**
  * OK
  */
-export const zMediaUpdateResponse = z.object({
-    id: z.string(),
-    object: z.literal('media'),
-    profile_id: z.string(),
-    kind: z.enum([
-        'image',
-        'video',
-        'gif',
-        'document'
-    ]).nullable(),
-    content_type: z.string().nullable(),
-    status: z.enum([
-        'uploading',
-        'processing',
-        'ready',
-        'failed'
-    ]),
-    progress: z.object({
-        stage: z.enum([
-            'queued',
-            'analyzing',
-            'transcoding',
-            'done'
-        ]),
-        percent: z.int().gte(0).lte(100)
-    }),
-    raw: z.boolean(),
-    error: z.object({
-        code: z.enum([
-            'media_unprobeable',
-            'media_format_indeterminate',
-            'media_format_unsupported',
-            'media_too_large',
-            'media_aspect_ratio_unsupported',
-            'media_resolution_too_low',
-            'media_gif_unsupported',
-            'media_format_recompressed',
-            'media_resolution_downscaled',
-            'video_container_unsupported',
-            'video_codec_unsupported',
-            'video_audio_codec_unsupported',
-            'video_too_large',
-            'video_too_small',
-            'video_dimensions_unsupported',
-            'video_dimensions_too_large',
-            'video_fps_unsupported',
-            'video_fps_too_low',
-            'video_aspect_unsupported',
-            'video_duration_too_short',
-            'video_duration_exceeds_max',
-            'video_transform_failed',
-            'media_fetch_failed',
-            'document_format_unsupported',
-            'document_too_large',
-            'document_too_many_pages',
-            'media_unsupported'
-        ]),
-        message: z.string(),
-        hint: z.string().optional(),
-        allowed: z.array(z.string()).optional(),
-        got: z.string().optional(),
-        display_error: z.string()
-    }).nullable(),
-    source: z.object({
-        format: z.string(),
-        bytes: z.int().gte(0).lte(9007199254740991),
-        width: z.int().gt(0).lte(9007199254740991).nullable(),
-        height: z.int().gt(0).lte(9007199254740991).nullable(),
-        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-    }).nullable(),
-    alt_text: z.string().max(1000).nullable(),
-    per_platform: z.record(z.string(), z.object({
-        status: z.enum([
-            'processing',
-            'ready',
-            'failed'
-        ]),
-        url: z.string().nullable(),
-        width: z.int().gt(0).lte(9007199254740991).nullable(),
-        height: z.int().gt(0).lte(9007199254740991).nullable(),
-        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-        warnings: z.array(z.object({
-            code: z.enum([
-                'media_unprobeable',
-                'media_format_indeterminate',
-                'media_format_unsupported',
-                'media_too_large',
-                'media_aspect_ratio_unsupported',
-                'media_resolution_too_low',
-                'media_gif_unsupported',
-                'media_format_recompressed',
-                'media_resolution_downscaled',
-                'video_container_unsupported',
-                'video_codec_unsupported',
-                'video_audio_codec_unsupported',
-                'video_too_large',
-                'video_too_small',
-                'video_dimensions_unsupported',
-                'video_dimensions_too_large',
-                'video_fps_unsupported',
-                'video_fps_too_low',
-                'video_aspect_unsupported',
-                'video_duration_too_short',
-                'video_duration_exceeds_max',
-                'video_transform_failed',
-                'media_fetch_failed',
-                'document_format_unsupported',
-                'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
-            ]),
-            message: z.string(),
-            hint: z.string().optional(),
-            allowed: z.array(z.string()).optional(),
-            got: z.string().optional(),
-            display_error: z.string()
-        })),
-        errors: z.array(z.object({
-            code: z.enum([
-                'media_unprobeable',
-                'media_format_indeterminate',
-                'media_format_unsupported',
-                'media_too_large',
-                'media_aspect_ratio_unsupported',
-                'media_resolution_too_low',
-                'media_gif_unsupported',
-                'media_format_recompressed',
-                'media_resolution_downscaled',
-                'video_container_unsupported',
-                'video_codec_unsupported',
-                'video_audio_codec_unsupported',
-                'video_too_large',
-                'video_too_small',
-                'video_dimensions_unsupported',
-                'video_dimensions_too_large',
-                'video_fps_unsupported',
-                'video_fps_too_low',
-                'video_aspect_unsupported',
-                'video_duration_too_short',
-                'video_duration_exceeds_max',
-                'video_transform_failed',
-                'media_fetch_failed',
-                'document_format_unsupported',
-                'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
-            ]),
-            message: z.string(),
-            hint: z.string().optional(),
-            allowed: z.array(z.string()).optional(),
-            got: z.string().optional(),
-            display_error: z.string()
-        }))
-    })),
-    external_id: z.string().nullable(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])),
-    created_at: z.string(),
-    updated_at: z.string()
-});
+export const zMediaUpdateResponse = zMedia;
 
 export const zPostsListQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),
@@ -1222,14 +1360,7 @@ export const zPostsListQuery = z.object({
     scheduled_after: z.iso.datetime().optional(),
     scheduled_before: z.iso.datetime().optional(),
     updated_after: z.iso.datetime().optional(),
-    status: z.array(z.enum([
-        'draft',
-        'scheduled',
-        'publishing',
-        'partially_published',
-        'published',
-        'failed'
-    ])).optional()
+    status: z.array(zPostStatus).optional()
 });
 
 /**
@@ -1237,958 +1368,14 @@ export const zPostsListQuery = z.object({
  */
 export const zPostsListResponse = z.object({
     object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        object: z.literal('post'),
-        profile_id: z.string(),
-        external_id: z.string().nullable(),
-        status: z.enum([
-            'draft',
-            'scheduled',
-            'publishing',
-            'partially_published',
-            'published',
-            'failed'
-        ]),
-        schedule_at: z.string().nullable(),
-        tags: z.array(z.string()),
-        notes: z.string().nullable(),
-        metadata: z.record(z.string(), z.union([
-            z.string().max(500),
-            z.number(),
-            z.boolean()
-        ])),
-        variants: z.array(z.union([
-            z.object({
-                platform: z.literal('x'),
-                post_type: z.enum([
-                    'text',
-                    'single_image',
-                    'multi_image',
-                    'video'
-                ]),
-                settings: z.object({
-                    reply_settings: z.enum([
-                        'everyone',
-                        'following',
-                        'mentionedUsers',
-                        'subscribers',
-                        'verified'
-                    ]).optional(),
-                    quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                    poll: z.object({
-                        options: z.array(z.string().min(1).max(25)).min(2).max(4),
-                        duration_minutes: z.int().gte(5).lte(10080),
-                        reply_settings: z.enum([
-                            'following',
-                            'mentionedUsers',
-                            'subscribers',
-                            'verified'
-                        ]).optional()
-                    }).optional(),
-                    reply: z.object({
-                        in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
-                        exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
-                        auto_populate_reply_metadata: z.boolean().optional()
-                    }).optional(),
-                    community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                    for_super_followers_only: z.boolean().optional(),
-                    geo: z.object({
-                        place_id: z.string()
-                    }).optional(),
-                    card_uri: z.string().optional(),
-                    media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-                }),
-                id: z.string(),
-                object: z.literal('post_variant'),
-                connection_id: z.string().nullable(),
-                body: z.string().nullable(),
-                status: z.enum([
-                    'draft',
-                    'scheduled',
-                    'publishing',
-                    'published',
-                    'failed'
-                ]),
-                schedule_at: z.string().nullable(),
-                result: z.object({
-                    platform_post_id: z.string(),
-                    permalink: z.string().nullable(),
-                    published_at: z.string()
-                }).nullable(),
-                error: z.object({
-                    code: z.string(),
-                    message: z.string(),
-                    display_error: z.string()
-                }).nullable(),
-                media: z.array(z.object({
-                    media_id: z.string(),
-                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                    crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable(),
-                    media: z.object({
-                        id: z.string(),
-                        object: z.literal('media'),
-                        profile_id: z.string(),
-                        kind: z.enum([
-                            'image',
-                            'video',
-                            'gif',
-                            'document'
-                        ]).nullable(),
-                        content_type: z.string().nullable(),
-                        status: z.enum([
-                            'uploading',
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        progress: z.object({
-                            stage: z.enum([
-                                'queued',
-                                'analyzing',
-                                'transcoding',
-                                'done'
-                            ]),
-                            percent: z.int().gte(0).lte(100)
-                        }),
-                        raw: z.boolean(),
-                        error: z.object({
-                            code: z.enum([
-                                'media_unprobeable',
-                                'media_format_indeterminate',
-                                'media_format_unsupported',
-                                'media_too_large',
-                                'media_aspect_ratio_unsupported',
-                                'media_resolution_too_low',
-                                'media_gif_unsupported',
-                                'media_format_recompressed',
-                                'media_resolution_downscaled',
-                                'video_container_unsupported',
-                                'video_codec_unsupported',
-                                'video_audio_codec_unsupported',
-                                'video_too_large',
-                                'video_too_small',
-                                'video_dimensions_unsupported',
-                                'video_dimensions_too_large',
-                                'video_fps_unsupported',
-                                'video_fps_too_low',
-                                'video_aspect_unsupported',
-                                'video_duration_too_short',
-                                'video_duration_exceeds_max',
-                                'video_transform_failed',
-                                'media_fetch_failed',
-                                'document_format_unsupported',
-                                'document_too_large',
-                                'document_too_many_pages',
-                                'media_unsupported'
-                            ]),
-                            message: z.string(),
-                            hint: z.string().optional(),
-                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
-                            got: z.string().optional(),
-                            display_error: z.string()
-                        }).nullable(),
-                        source: z.object({
-                            format: z.string(),
-                            bytes: z.int().gte(0).lte(9007199254740991),
-                            width: z.int().gt(0).lte(9007199254740991).nullable(),
-                            height: z.int().gt(0).lte(9007199254740991).nullable(),
-                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                        }).nullable(),
-                        alt_text: z.string().max(1000).nullable(),
-                        per_platform: z.record(z.string(), z.object({
-                            status: z.unknown().optional(),
-                            url: z.unknown().optional(),
-                            width: z.unknown().optional(),
-                            height: z.unknown().optional(),
-                            bytes: z.unknown().optional(),
-                            warnings: z.unknown().optional(),
-                            errors: z.unknown().optional()
-                        })),
-                        external_id: z.string().nullable(),
-                        metadata: z.record(z.string(), z.unknown()),
-                        created_at: z.string(),
-                        updated_at: z.string()
-                    })
-                }))
-            }),
-            z.object({
-                platform: z.literal('linkedin'),
-                post_type: z.enum([
-                    'text',
-                    'single_image',
-                    'multi_image',
-                    'video'
-                ]),
-                settings: z.object({
-                    visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-                    content_kind: z.enum([
-                        'text',
-                        'single_image',
-                        'video',
-                        'multi_image',
-                        'document',
-                        'article',
-                        'poll'
-                    ]),
-                    article: z.object({
-                        source: z.url(),
-                        title: z.string().max(400).optional(),
-                        description: z.string().max(4086).optional(),
-                        thumbnail_media_id: z.string().optional()
-                    }).optional(),
-                    poll: z.object({
-                        question: z.string().min(1).max(140),
-                        options: z.array(z.string().min(1).max(30)).min(2).max(4),
-                        duration: z.enum([
-                            'ONE_DAY',
-                            'THREE_DAYS',
-                            'SEVEN_DAYS',
-                            'FOURTEEN_DAYS'
-                        ])
-                    }).optional(),
-                    document: z.object({
-                        title: z.string().min(1).max(400)
-                    }).optional(),
-                    disable_reshare: z.boolean().optional(),
-                    mentions: z.array(z.object({
-                        type: z.enum(['person', 'organization']),
-                        name: z.string().min(1),
-                        urn: z.string().regex(/^urn:li:(person|organization):/)
-                    })).optional()
-                }),
-                id: z.string(),
-                object: z.literal('post_variant'),
-                connection_id: z.string().nullable(),
-                body: z.string().nullable(),
-                status: z.enum([
-                    'draft',
-                    'scheduled',
-                    'publishing',
-                    'published',
-                    'failed'
-                ]),
-                schedule_at: z.string().nullable(),
-                result: z.object({
-                    platform_post_id: z.string(),
-                    permalink: z.string().nullable(),
-                    published_at: z.string()
-                }).nullable(),
-                error: z.object({
-                    code: z.string(),
-                    message: z.string(),
-                    display_error: z.string()
-                }).nullable(),
-                media: z.array(z.object({
-                    media_id: z.string(),
-                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                    crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable(),
-                    media: z.object({
-                        id: z.string(),
-                        object: z.literal('media'),
-                        profile_id: z.string(),
-                        kind: z.enum([
-                            'image',
-                            'video',
-                            'gif',
-                            'document'
-                        ]).nullable(),
-                        content_type: z.string().nullable(),
-                        status: z.enum([
-                            'uploading',
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        progress: z.object({
-                            stage: z.enum([
-                                'queued',
-                                'analyzing',
-                                'transcoding',
-                                'done'
-                            ]),
-                            percent: z.int().gte(0).lte(100)
-                        }),
-                        raw: z.boolean(),
-                        error: z.object({
-                            code: z.enum([
-                                'media_unprobeable',
-                                'media_format_indeterminate',
-                                'media_format_unsupported',
-                                'media_too_large',
-                                'media_aspect_ratio_unsupported',
-                                'media_resolution_too_low',
-                                'media_gif_unsupported',
-                                'media_format_recompressed',
-                                'media_resolution_downscaled',
-                                'video_container_unsupported',
-                                'video_codec_unsupported',
-                                'video_audio_codec_unsupported',
-                                'video_too_large',
-                                'video_too_small',
-                                'video_dimensions_unsupported',
-                                'video_dimensions_too_large',
-                                'video_fps_unsupported',
-                                'video_fps_too_low',
-                                'video_aspect_unsupported',
-                                'video_duration_too_short',
-                                'video_duration_exceeds_max',
-                                'video_transform_failed',
-                                'media_fetch_failed',
-                                'document_format_unsupported',
-                                'document_too_large',
-                                'document_too_many_pages',
-                                'media_unsupported'
-                            ]),
-                            message: z.string(),
-                            hint: z.string().optional(),
-                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
-                            got: z.string().optional(),
-                            display_error: z.string()
-                        }).nullable(),
-                        source: z.object({
-                            format: z.string(),
-                            bytes: z.int().gte(0).lte(9007199254740991),
-                            width: z.int().gt(0).lte(9007199254740991).nullable(),
-                            height: z.int().gt(0).lte(9007199254740991).nullable(),
-                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                        }).nullable(),
-                        alt_text: z.string().max(1000).nullable(),
-                        per_platform: z.record(z.string(), z.object({
-                            status: z.unknown().optional(),
-                            url: z.unknown().optional(),
-                            width: z.unknown().optional(),
-                            height: z.unknown().optional(),
-                            bytes: z.unknown().optional(),
-                            warnings: z.unknown().optional(),
-                            errors: z.unknown().optional()
-                        })),
-                        external_id: z.string().nullable(),
-                        metadata: z.record(z.string(), z.unknown()),
-                        created_at: z.string(),
-                        updated_at: z.string()
-                    })
-                }))
-            }),
-            z.object({
-                platform: z.literal('facebook_page'),
-                post_type: z.enum([
-                    'text',
-                    'single_image',
-                    'multi_image',
-                    'reel'
-                ]),
-                settings: z.object({
-                    link: z.url().optional()
-                }),
-                id: z.string(),
-                object: z.literal('post_variant'),
-                connection_id: z.string().nullable(),
-                body: z.string().nullable(),
-                status: z.enum([
-                    'draft',
-                    'scheduled',
-                    'publishing',
-                    'published',
-                    'failed'
-                ]),
-                schedule_at: z.string().nullable(),
-                result: z.object({
-                    platform_post_id: z.string(),
-                    permalink: z.string().nullable(),
-                    published_at: z.string()
-                }).nullable(),
-                error: z.object({
-                    code: z.string(),
-                    message: z.string(),
-                    display_error: z.string()
-                }).nullable(),
-                media: z.array(z.object({
-                    media_id: z.string(),
-                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                    crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable(),
-                    media: z.object({
-                        id: z.string(),
-                        object: z.literal('media'),
-                        profile_id: z.string(),
-                        kind: z.enum([
-                            'image',
-                            'video',
-                            'gif',
-                            'document'
-                        ]).nullable(),
-                        content_type: z.string().nullable(),
-                        status: z.enum([
-                            'uploading',
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        progress: z.object({
-                            stage: z.enum([
-                                'queued',
-                                'analyzing',
-                                'transcoding',
-                                'done'
-                            ]),
-                            percent: z.int().gte(0).lte(100)
-                        }),
-                        raw: z.boolean(),
-                        error: z.object({
-                            code: z.enum([
-                                'media_unprobeable',
-                                'media_format_indeterminate',
-                                'media_format_unsupported',
-                                'media_too_large',
-                                'media_aspect_ratio_unsupported',
-                                'media_resolution_too_low',
-                                'media_gif_unsupported',
-                                'media_format_recompressed',
-                                'media_resolution_downscaled',
-                                'video_container_unsupported',
-                                'video_codec_unsupported',
-                                'video_audio_codec_unsupported',
-                                'video_too_large',
-                                'video_too_small',
-                                'video_dimensions_unsupported',
-                                'video_dimensions_too_large',
-                                'video_fps_unsupported',
-                                'video_fps_too_low',
-                                'video_aspect_unsupported',
-                                'video_duration_too_short',
-                                'video_duration_exceeds_max',
-                                'video_transform_failed',
-                                'media_fetch_failed',
-                                'document_format_unsupported',
-                                'document_too_large',
-                                'document_too_many_pages',
-                                'media_unsupported'
-                            ]),
-                            message: z.string(),
-                            hint: z.string().optional(),
-                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
-                            got: z.string().optional(),
-                            display_error: z.string()
-                        }).nullable(),
-                        source: z.object({
-                            format: z.string(),
-                            bytes: z.int().gte(0).lte(9007199254740991),
-                            width: z.int().gt(0).lte(9007199254740991).nullable(),
-                            height: z.int().gt(0).lte(9007199254740991).nullable(),
-                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                        }).nullable(),
-                        alt_text: z.string().max(1000).nullable(),
-                        per_platform: z.record(z.string(), z.object({
-                            status: z.unknown().optional(),
-                            url: z.unknown().optional(),
-                            width: z.unknown().optional(),
-                            height: z.unknown().optional(),
-                            bytes: z.unknown().optional(),
-                            warnings: z.unknown().optional(),
-                            errors: z.unknown().optional()
-                        })),
-                        external_id: z.string().nullable(),
-                        metadata: z.record(z.string(), z.unknown()),
-                        created_at: z.string(),
-                        updated_at: z.string()
-                    })
-                }))
-            }),
-            z.object({
-                platform: z.literal('instagram'),
-                post_type: z.enum([
-                    'single_image',
-                    'carousel',
-                    'reel'
-                ]),
-                settings: z.object({
-                    media_type: z.enum([
-                        'IMAGE',
-                        'CAROUSEL',
-                        'REELS'
-                    ]).optional(),
-                    location_id: z.string().optional(),
-                    user_tags: z.array(z.object({
-                        username: z.string().min(1),
-                        x: z.number().gte(0).lte(1),
-                        y: z.number().gte(0).lte(1)
-                    })).optional(),
-                    collaborators: z.array(z.string().min(1)).max(3).optional(),
-                    share_to_feed: z.boolean().optional(),
-                    thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
-                    cover_url: z.url().optional(),
-                    audio_name: z.string().optional()
-                }),
-                id: z.string(),
-                object: z.literal('post_variant'),
-                connection_id: z.string().nullable(),
-                body: z.string().nullable(),
-                status: z.enum([
-                    'draft',
-                    'scheduled',
-                    'publishing',
-                    'published',
-                    'failed'
-                ]),
-                schedule_at: z.string().nullable(),
-                result: z.object({
-                    platform_post_id: z.string(),
-                    permalink: z.string().nullable(),
-                    published_at: z.string()
-                }).nullable(),
-                error: z.object({
-                    code: z.string(),
-                    message: z.string(),
-                    display_error: z.string()
-                }).nullable(),
-                media: z.array(z.object({
-                    media_id: z.string(),
-                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                    crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable(),
-                    media: z.object({
-                        id: z.string(),
-                        object: z.literal('media'),
-                        profile_id: z.string(),
-                        kind: z.enum([
-                            'image',
-                            'video',
-                            'gif',
-                            'document'
-                        ]).nullable(),
-                        content_type: z.string().nullable(),
-                        status: z.enum([
-                            'uploading',
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        progress: z.object({
-                            stage: z.enum([
-                                'queued',
-                                'analyzing',
-                                'transcoding',
-                                'done'
-                            ]),
-                            percent: z.int().gte(0).lte(100)
-                        }),
-                        raw: z.boolean(),
-                        error: z.object({
-                            code: z.enum([
-                                'media_unprobeable',
-                                'media_format_indeterminate',
-                                'media_format_unsupported',
-                                'media_too_large',
-                                'media_aspect_ratio_unsupported',
-                                'media_resolution_too_low',
-                                'media_gif_unsupported',
-                                'media_format_recompressed',
-                                'media_resolution_downscaled',
-                                'video_container_unsupported',
-                                'video_codec_unsupported',
-                                'video_audio_codec_unsupported',
-                                'video_too_large',
-                                'video_too_small',
-                                'video_dimensions_unsupported',
-                                'video_dimensions_too_large',
-                                'video_fps_unsupported',
-                                'video_fps_too_low',
-                                'video_aspect_unsupported',
-                                'video_duration_too_short',
-                                'video_duration_exceeds_max',
-                                'video_transform_failed',
-                                'media_fetch_failed',
-                                'document_format_unsupported',
-                                'document_too_large',
-                                'document_too_many_pages',
-                                'media_unsupported'
-                            ]),
-                            message: z.string(),
-                            hint: z.string().optional(),
-                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
-                            got: z.string().optional(),
-                            display_error: z.string()
-                        }).nullable(),
-                        source: z.object({
-                            format: z.string(),
-                            bytes: z.int().gte(0).lte(9007199254740991),
-                            width: z.int().gt(0).lte(9007199254740991).nullable(),
-                            height: z.int().gt(0).lte(9007199254740991).nullable(),
-                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                        }).nullable(),
-                        alt_text: z.string().max(1000).nullable(),
-                        per_platform: z.record(z.string(), z.object({
-                            status: z.unknown().optional(),
-                            url: z.unknown().optional(),
-                            width: z.unknown().optional(),
-                            height: z.unknown().optional(),
-                            bytes: z.unknown().optional(),
-                            warnings: z.unknown().optional(),
-                            errors: z.unknown().optional()
-                        })),
-                        external_id: z.string().nullable(),
-                        metadata: z.record(z.string(), z.unknown()),
-                        created_at: z.string(),
-                        updated_at: z.string()
-                    })
-                }))
-            }),
-            z.object({
-                platform: z.literal('tiktok'),
-                post_type: z.enum([
-                    'video',
-                    'single_image',
-                    'carousel'
-                ]),
-                settings: z.object({
-                    privacy_level: z.enum([
-                        'PUBLIC_TO_EVERYONE',
-                        'MUTUAL_FOLLOW_FRIENDS',
-                        'FOLLOWER_OF_CREATOR',
-                        'SELF_ONLY'
-                    ]).optional(),
-                    disable_comment: z.boolean().optional(),
-                    disable_duet: z.boolean().optional(),
-                    disable_stitch: z.boolean().optional(),
-                    video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
-                    photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
-                    auto_add_music: z.boolean().optional(),
-                    brand_content_toggle: z.boolean().optional(),
-                    brand_organic_toggle: z.boolean().optional(),
-                    is_aigc: z.boolean().optional()
-                }),
-                id: z.string(),
-                object: z.literal('post_variant'),
-                connection_id: z.string().nullable(),
-                body: z.string().nullable(),
-                status: z.enum([
-                    'draft',
-                    'scheduled',
-                    'publishing',
-                    'published',
-                    'failed'
-                ]),
-                schedule_at: z.string().nullable(),
-                result: z.object({
-                    platform_post_id: z.string(),
-                    permalink: z.string().nullable(),
-                    published_at: z.string()
-                }).nullable(),
-                error: z.object({
-                    code: z.string(),
-                    message: z.string(),
-                    display_error: z.string()
-                }).nullable(),
-                media: z.array(z.object({
-                    media_id: z.string(),
-                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                    crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable(),
-                    media: z.object({
-                        id: z.string(),
-                        object: z.literal('media'),
-                        profile_id: z.string(),
-                        kind: z.enum([
-                            'image',
-                            'video',
-                            'gif',
-                            'document'
-                        ]).nullable(),
-                        content_type: z.string().nullable(),
-                        status: z.enum([
-                            'uploading',
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        progress: z.object({
-                            stage: z.enum([
-                                'queued',
-                                'analyzing',
-                                'transcoding',
-                                'done'
-                            ]),
-                            percent: z.int().gte(0).lte(100)
-                        }),
-                        raw: z.boolean(),
-                        error: z.object({
-                            code: z.enum([
-                                'media_unprobeable',
-                                'media_format_indeterminate',
-                                'media_format_unsupported',
-                                'media_too_large',
-                                'media_aspect_ratio_unsupported',
-                                'media_resolution_too_low',
-                                'media_gif_unsupported',
-                                'media_format_recompressed',
-                                'media_resolution_downscaled',
-                                'video_container_unsupported',
-                                'video_codec_unsupported',
-                                'video_audio_codec_unsupported',
-                                'video_too_large',
-                                'video_too_small',
-                                'video_dimensions_unsupported',
-                                'video_dimensions_too_large',
-                                'video_fps_unsupported',
-                                'video_fps_too_low',
-                                'video_aspect_unsupported',
-                                'video_duration_too_short',
-                                'video_duration_exceeds_max',
-                                'video_transform_failed',
-                                'media_fetch_failed',
-                                'document_format_unsupported',
-                                'document_too_large',
-                                'document_too_many_pages',
-                                'media_unsupported'
-                            ]),
-                            message: z.string(),
-                            hint: z.string().optional(),
-                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
-                            got: z.string().optional(),
-                            display_error: z.string()
-                        }).nullable(),
-                        source: z.object({
-                            format: z.string(),
-                            bytes: z.int().gte(0).lte(9007199254740991),
-                            width: z.int().gt(0).lte(9007199254740991).nullable(),
-                            height: z.int().gt(0).lte(9007199254740991).nullable(),
-                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                        }).nullable(),
-                        alt_text: z.string().max(1000).nullable(),
-                        per_platform: z.record(z.string(), z.object({
-                            status: z.unknown().optional(),
-                            url: z.unknown().optional(),
-                            width: z.unknown().optional(),
-                            height: z.unknown().optional(),
-                            bytes: z.unknown().optional(),
-                            warnings: z.unknown().optional(),
-                            errors: z.unknown().optional()
-                        })),
-                        external_id: z.string().nullable(),
-                        metadata: z.record(z.string(), z.unknown()),
-                        created_at: z.string(),
-                        updated_at: z.string()
-                    })
-                }))
-            })
-        ])),
-        created_at: z.string(),
-        updated_at: z.string()
-    })),
+    data: z.array(zPost),
     total: z.int().gte(-9007199254740991).lte(9007199254740991),
     limit: z.int().gte(-9007199254740991).lte(9007199254740991),
     offset: z.int().gte(-9007199254740991).lte(9007199254740991),
     has_more: z.boolean()
 });
 
-export const zPostsCreateBody = z.object({
-    profile_id: z.string(),
-    publish: z.enum([
-        'now',
-        'schedule',
-        'draft'
-    ]).optional().default('draft'),
-    schedule_at: z.iso.datetime().optional(),
-    external_id: z.string().min(1).max(255).optional(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])).optional(),
-    tags: z.array(z.string()).optional(),
-    notes: z.string().optional(),
-    dry_run: z.boolean().optional().default(false),
-    variants: z.array(z.union([
-        z.object({
-            platform: z.literal('x'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                reply_settings: z.enum([
-                    'everyone',
-                    'following',
-                    'mentionedUsers',
-                    'subscribers',
-                    'verified'
-                ]).optional(),
-                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                poll: z.object({
-                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
-                    duration_minutes: z.int().gte(5).lte(10080),
-                    reply_settings: z.enum([
-                        'following',
-                        'mentionedUsers',
-                        'subscribers',
-                        'verified'
-                    ]).optional()
-                }).optional(),
-                reply: z.object({
-                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
-                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
-                    auto_populate_reply_metadata: z.boolean().optional()
-                }).optional(),
-                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                for_super_followers_only: z.boolean().optional(),
-                geo: z.object({
-                    place_id: z.string()
-                }).optional(),
-                card_uri: z.string().optional(),
-                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('linkedin'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-                content_kind: z.enum([
-                    'text',
-                    'single_image',
-                    'video',
-                    'multi_image',
-                    'document',
-                    'article',
-                    'poll'
-                ]),
-                article: z.object({
-                    source: z.url(),
-                    title: z.string().max(400).optional(),
-                    description: z.string().max(4086).optional(),
-                    thumbnail_media_id: z.string().optional()
-                }).optional(),
-                poll: z.object({
-                    question: z.string().min(1).max(140),
-                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
-                    duration: z.enum([
-                        'ONE_DAY',
-                        'THREE_DAYS',
-                        'SEVEN_DAYS',
-                        'FOURTEEN_DAYS'
-                    ])
-                }).optional(),
-                document: z.object({
-                    title: z.string().min(1).max(400)
-                }).optional(),
-                disable_reshare: z.boolean().optional(),
-                mentions: z.array(z.object({
-                    type: z.enum(['person', 'organization']),
-                    name: z.string().min(1),
-                    urn: z.string().regex(/^urn:li:(person|organization):/)
-                })).optional()
-            }),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('instagram'),
-            post_type: z.enum([
-                'single_image',
-                'carousel',
-                'reel'
-            ]),
-            settings: z.object({
-                media_type: z.enum([
-                    'IMAGE',
-                    'CAROUSEL',
-                    'REELS'
-                ]).optional(),
-                location_id: z.string().optional(),
-                user_tags: z.array(z.object({
-                    username: z.string().min(1),
-                    x: z.number().gte(0).lte(1),
-                    y: z.number().gte(0).lte(1)
-                })).optional(),
-                collaborators: z.array(z.string().min(1)).max(3).optional(),
-                share_to_feed: z.boolean().optional(),
-                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
-                cover_url: z.url().optional(),
-                audio_name: z.string().optional()
-            }),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
-            ]),
-            settings: z.object({
-                link: z.url().optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('tiktok'),
-            post_type: z.enum([
-                'video',
-                'single_image',
-                'carousel'
-            ]),
-            settings: z.object({
-                privacy_level: z.enum([
-                    'PUBLIC_TO_EVERYONE',
-                    'MUTUAL_FOLLOW_FRIENDS',
-                    'FOLLOWER_OF_CREATOR',
-                    'SELF_ONLY'
-                ]).optional(),
-                disable_comment: z.boolean().optional(),
-                disable_duet: z.boolean().optional(),
-                disable_stitch: z.boolean().optional(),
-                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
-                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
-                auto_add_music: z.boolean().optional(),
-                brand_content_toggle: z.boolean().optional(),
-                brand_organic_toggle: z.boolean().optional(),
-                is_aigc: z.boolean().optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        })
-    ])).min(1)
-});
+export const zPostsCreateBody = zCreatePostBody;
 
 /**
  * OK
@@ -2214,833 +1401,7 @@ export const zPostsCreateResponse = z.object({
         z.number(),
         z.boolean()
     ])),
-    variants: z.array(z.union([
-        z.object({
-            platform: z.literal('x'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                reply_settings: z.enum([
-                    'everyone',
-                    'following',
-                    'mentionedUsers',
-                    'subscribers',
-                    'verified'
-                ]).optional(),
-                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                poll: z.object({
-                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
-                    duration_minutes: z.int().gte(5).lte(10080),
-                    reply_settings: z.enum([
-                        'following',
-                        'mentionedUsers',
-                        'subscribers',
-                        'verified'
-                    ]).optional()
-                }).optional(),
-                reply: z.object({
-                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
-                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
-                    auto_populate_reply_metadata: z.boolean().optional()
-                }).optional(),
-                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                for_super_followers_only: z.boolean().optional(),
-                geo: z.object({
-                    place_id: z.string()
-                }).optional(),
-                card_uri: z.string().optional(),
-                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('linkedin'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-                content_kind: z.enum([
-                    'text',
-                    'single_image',
-                    'video',
-                    'multi_image',
-                    'document',
-                    'article',
-                    'poll'
-                ]),
-                article: z.object({
-                    source: z.url(),
-                    title: z.string().max(400).optional(),
-                    description: z.string().max(4086).optional(),
-                    thumbnail_media_id: z.string().optional()
-                }).optional(),
-                poll: z.object({
-                    question: z.string().min(1).max(140),
-                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
-                    duration: z.enum([
-                        'ONE_DAY',
-                        'THREE_DAYS',
-                        'SEVEN_DAYS',
-                        'FOURTEEN_DAYS'
-                    ])
-                }).optional(),
-                document: z.object({
-                    title: z.string().min(1).max(400)
-                }).optional(),
-                disable_reshare: z.boolean().optional(),
-                mentions: z.array(z.object({
-                    type: z.enum(['person', 'organization']),
-                    name: z.string().min(1),
-                    urn: z.string().regex(/^urn:li:(person|organization):/)
-                })).optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
-            ]),
-            settings: z.object({
-                link: z.url().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('instagram'),
-            post_type: z.enum([
-                'single_image',
-                'carousel',
-                'reel'
-            ]),
-            settings: z.object({
-                media_type: z.enum([
-                    'IMAGE',
-                    'CAROUSEL',
-                    'REELS'
-                ]).optional(),
-                location_id: z.string().optional(),
-                user_tags: z.array(z.object({
-                    username: z.string().min(1),
-                    x: z.number().gte(0).lte(1),
-                    y: z.number().gte(0).lte(1)
-                })).optional(),
-                collaborators: z.array(z.string().min(1)).max(3).optional(),
-                share_to_feed: z.boolean().optional(),
-                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
-                cover_url: z.url().optional(),
-                audio_name: z.string().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('tiktok'),
-            post_type: z.enum([
-                'video',
-                'single_image',
-                'carousel'
-            ]),
-            settings: z.object({
-                privacy_level: z.enum([
-                    'PUBLIC_TO_EVERYONE',
-                    'MUTUAL_FOLLOW_FRIENDS',
-                    'FOLLOWER_OF_CREATOR',
-                    'SELF_ONLY'
-                ]).optional(),
-                disable_comment: z.boolean().optional(),
-                disable_duet: z.boolean().optional(),
-                disable_stitch: z.boolean().optional(),
-                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
-                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
-                auto_add_music: z.boolean().optional(),
-                brand_content_toggle: z.boolean().optional(),
-                brand_organic_toggle: z.boolean().optional(),
-                is_aigc: z.boolean().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        })
-    ])),
+    variants: z.array(zPostVariant),
     created_at: z.string(),
     updated_at: z.string(),
     dry_run: z.boolean(),
@@ -3067,857 +1428,7 @@ export const zPostsGetPath = z.object({
 /**
  * OK
  */
-export const zPostsGetResponse = z.object({
-    id: z.string(),
-    object: z.literal('post'),
-    profile_id: z.string(),
-    external_id: z.string().nullable(),
-    status: z.enum([
-        'draft',
-        'scheduled',
-        'publishing',
-        'partially_published',
-        'published',
-        'failed'
-    ]),
-    schedule_at: z.string().nullable(),
-    tags: z.array(z.string()),
-    notes: z.string().nullable(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])),
-    variants: z.array(z.union([
-        z.object({
-            platform: z.literal('x'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                reply_settings: z.enum([
-                    'everyone',
-                    'following',
-                    'mentionedUsers',
-                    'subscribers',
-                    'verified'
-                ]).optional(),
-                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                poll: z.object({
-                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
-                    duration_minutes: z.int().gte(5).lte(10080),
-                    reply_settings: z.enum([
-                        'following',
-                        'mentionedUsers',
-                        'subscribers',
-                        'verified'
-                    ]).optional()
-                }).optional(),
-                reply: z.object({
-                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
-                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
-                    auto_populate_reply_metadata: z.boolean().optional()
-                }).optional(),
-                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                for_super_followers_only: z.boolean().optional(),
-                geo: z.object({
-                    place_id: z.string()
-                }).optional(),
-                card_uri: z.string().optional(),
-                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('linkedin'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-                content_kind: z.enum([
-                    'text',
-                    'single_image',
-                    'video',
-                    'multi_image',
-                    'document',
-                    'article',
-                    'poll'
-                ]),
-                article: z.object({
-                    source: z.url(),
-                    title: z.string().max(400).optional(),
-                    description: z.string().max(4086).optional(),
-                    thumbnail_media_id: z.string().optional()
-                }).optional(),
-                poll: z.object({
-                    question: z.string().min(1).max(140),
-                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
-                    duration: z.enum([
-                        'ONE_DAY',
-                        'THREE_DAYS',
-                        'SEVEN_DAYS',
-                        'FOURTEEN_DAYS'
-                    ])
-                }).optional(),
-                document: z.object({
-                    title: z.string().min(1).max(400)
-                }).optional(),
-                disable_reshare: z.boolean().optional(),
-                mentions: z.array(z.object({
-                    type: z.enum(['person', 'organization']),
-                    name: z.string().min(1),
-                    urn: z.string().regex(/^urn:li:(person|organization):/)
-                })).optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
-            ]),
-            settings: z.object({
-                link: z.url().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('instagram'),
-            post_type: z.enum([
-                'single_image',
-                'carousel',
-                'reel'
-            ]),
-            settings: z.object({
-                media_type: z.enum([
-                    'IMAGE',
-                    'CAROUSEL',
-                    'REELS'
-                ]).optional(),
-                location_id: z.string().optional(),
-                user_tags: z.array(z.object({
-                    username: z.string().min(1),
-                    x: z.number().gte(0).lte(1),
-                    y: z.number().gte(0).lte(1)
-                })).optional(),
-                collaborators: z.array(z.string().min(1)).max(3).optional(),
-                share_to_feed: z.boolean().optional(),
-                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
-                cover_url: z.url().optional(),
-                audio_name: z.string().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('tiktok'),
-            post_type: z.enum([
-                'video',
-                'single_image',
-                'carousel'
-            ]),
-            settings: z.object({
-                privacy_level: z.enum([
-                    'PUBLIC_TO_EVERYONE',
-                    'MUTUAL_FOLLOW_FRIENDS',
-                    'FOLLOWER_OF_CREATOR',
-                    'SELF_ONLY'
-                ]).optional(),
-                disable_comment: z.boolean().optional(),
-                disable_duet: z.boolean().optional(),
-                disable_stitch: z.boolean().optional(),
-                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
-                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
-                auto_add_music: z.boolean().optional(),
-                brand_content_toggle: z.boolean().optional(),
-                brand_organic_toggle: z.boolean().optional(),
-                is_aigc: z.boolean().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        })
-    ])),
-    created_at: z.string(),
-    updated_at: z.string()
-});
+export const zPostsGetResponse = zPost;
 
 export const zPostsUpdateBody = z.object({
     publish: z.enum([
@@ -3935,193 +1446,7 @@ export const zPostsUpdateBody = z.object({
     tags: z.array(z.string()).optional(),
     notes: z.string().nullish(),
     dry_run: z.boolean().optional().default(false),
-    variants: z.array(z.union([
-        z.object({
-            platform: z.literal('x'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                reply_settings: z.enum([
-                    'everyone',
-                    'following',
-                    'mentionedUsers',
-                    'subscribers',
-                    'verified'
-                ]).optional(),
-                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                poll: z.object({
-                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
-                    duration_minutes: z.int().gte(5).lte(10080),
-                    reply_settings: z.enum([
-                        'following',
-                        'mentionedUsers',
-                        'subscribers',
-                        'verified'
-                    ]).optional()
-                }).optional(),
-                reply: z.object({
-                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
-                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
-                    auto_populate_reply_metadata: z.boolean().optional()
-                }).optional(),
-                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                for_super_followers_only: z.boolean().optional(),
-                geo: z.object({
-                    place_id: z.string()
-                }).optional(),
-                card_uri: z.string().optional(),
-                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('linkedin'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-                content_kind: z.enum([
-                    'text',
-                    'single_image',
-                    'video',
-                    'multi_image',
-                    'document',
-                    'article',
-                    'poll'
-                ]),
-                article: z.object({
-                    source: z.url(),
-                    title: z.string().max(400).optional(),
-                    description: z.string().max(4086).optional(),
-                    thumbnail_media_id: z.string().optional()
-                }).optional(),
-                poll: z.object({
-                    question: z.string().min(1).max(140),
-                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
-                    duration: z.enum([
-                        'ONE_DAY',
-                        'THREE_DAYS',
-                        'SEVEN_DAYS',
-                        'FOURTEEN_DAYS'
-                    ])
-                }).optional(),
-                document: z.object({
-                    title: z.string().min(1).max(400)
-                }).optional(),
-                disable_reshare: z.boolean().optional(),
-                mentions: z.array(z.object({
-                    type: z.enum(['person', 'organization']),
-                    name: z.string().min(1),
-                    urn: z.string().regex(/^urn:li:(person|organization):/)
-                })).optional()
-            }),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('instagram'),
-            post_type: z.enum([
-                'single_image',
-                'carousel',
-                'reel'
-            ]),
-            settings: z.object({
-                media_type: z.enum([
-                    'IMAGE',
-                    'CAROUSEL',
-                    'REELS'
-                ]).optional(),
-                location_id: z.string().optional(),
-                user_tags: z.array(z.object({
-                    username: z.string().min(1),
-                    x: z.number().gte(0).lte(1),
-                    y: z.number().gte(0).lte(1)
-                })).optional(),
-                collaborators: z.array(z.string().min(1)).max(3).optional(),
-                share_to_feed: z.boolean().optional(),
-                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
-                cover_url: z.url().optional(),
-                audio_name: z.string().optional()
-            }),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
-            ]),
-            settings: z.object({
-                link: z.url().optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('tiktok'),
-            post_type: z.enum([
-                'video',
-                'single_image',
-                'carousel'
-            ]),
-            settings: z.object({
-                privacy_level: z.enum([
-                    'PUBLIC_TO_EVERYONE',
-                    'MUTUAL_FOLLOW_FRIENDS',
-                    'FOLLOWER_OF_CREATOR',
-                    'SELF_ONLY'
-                ]).optional(),
-                disable_comment: z.boolean().optional(),
-                disable_duet: z.boolean().optional(),
-                disable_stitch: z.boolean().optional(),
-                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
-                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
-                auto_add_music: z.boolean().optional(),
-                brand_content_toggle: z.boolean().optional(),
-                brand_organic_toggle: z.boolean().optional(),
-                is_aigc: z.boolean().optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        })
-    ])).min(1).optional()
+    variants: z.array(zPostVariantInput).min(1).optional()
 });
 
 export const zPostsUpdatePath = z.object({
@@ -4152,833 +1477,7 @@ export const zPostsUpdateResponse = z.object({
         z.number(),
         z.boolean()
     ])),
-    variants: z.array(z.union([
-        z.object({
-            platform: z.literal('x'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                reply_settings: z.enum([
-                    'everyone',
-                    'following',
-                    'mentionedUsers',
-                    'subscribers',
-                    'verified'
-                ]).optional(),
-                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                poll: z.object({
-                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
-                    duration_minutes: z.int().gte(5).lte(10080),
-                    reply_settings: z.enum([
-                        'following',
-                        'mentionedUsers',
-                        'subscribers',
-                        'verified'
-                    ]).optional()
-                }).optional(),
-                reply: z.object({
-                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
-                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
-                    auto_populate_reply_metadata: z.boolean().optional()
-                }).optional(),
-                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                for_super_followers_only: z.boolean().optional(),
-                geo: z.object({
-                    place_id: z.string()
-                }).optional(),
-                card_uri: z.string().optional(),
-                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('linkedin'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-                content_kind: z.enum([
-                    'text',
-                    'single_image',
-                    'video',
-                    'multi_image',
-                    'document',
-                    'article',
-                    'poll'
-                ]),
-                article: z.object({
-                    source: z.url(),
-                    title: z.string().max(400).optional(),
-                    description: z.string().max(4086).optional(),
-                    thumbnail_media_id: z.string().optional()
-                }).optional(),
-                poll: z.object({
-                    question: z.string().min(1).max(140),
-                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
-                    duration: z.enum([
-                        'ONE_DAY',
-                        'THREE_DAYS',
-                        'SEVEN_DAYS',
-                        'FOURTEEN_DAYS'
-                    ])
-                }).optional(),
-                document: z.object({
-                    title: z.string().min(1).max(400)
-                }).optional(),
-                disable_reshare: z.boolean().optional(),
-                mentions: z.array(z.object({
-                    type: z.enum(['person', 'organization']),
-                    name: z.string().min(1),
-                    urn: z.string().regex(/^urn:li:(person|organization):/)
-                })).optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
-            ]),
-            settings: z.object({
-                link: z.url().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('instagram'),
-            post_type: z.enum([
-                'single_image',
-                'carousel',
-                'reel'
-            ]),
-            settings: z.object({
-                media_type: z.enum([
-                    'IMAGE',
-                    'CAROUSEL',
-                    'REELS'
-                ]).optional(),
-                location_id: z.string().optional(),
-                user_tags: z.array(z.object({
-                    username: z.string().min(1),
-                    x: z.number().gte(0).lte(1),
-                    y: z.number().gte(0).lte(1)
-                })).optional(),
-                collaborators: z.array(z.string().min(1)).max(3).optional(),
-                share_to_feed: z.boolean().optional(),
-                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
-                cover_url: z.url().optional(),
-                audio_name: z.string().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        }),
-        z.object({
-            platform: z.literal('tiktok'),
-            post_type: z.enum([
-                'video',
-                'single_image',
-                'carousel'
-            ]),
-            settings: z.object({
-                privacy_level: z.enum([
-                    'PUBLIC_TO_EVERYONE',
-                    'MUTUAL_FOLLOW_FRIENDS',
-                    'FOLLOWER_OF_CREATOR',
-                    'SELF_ONLY'
-                ]).optional(),
-                disable_comment: z.boolean().optional(),
-                disable_duet: z.boolean().optional(),
-                disable_stitch: z.boolean().optional(),
-                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
-                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
-                auto_add_music: z.boolean().optional(),
-                brand_content_toggle: z.boolean().optional(),
-                brand_organic_toggle: z.boolean().optional(),
-                is_aigc: z.boolean().optional()
-            }),
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable(),
-                media: z.object({
-                    id: z.string(),
-                    object: z.literal('media'),
-                    profile_id: z.string(),
-                    kind: z.enum([
-                        'image',
-                        'video',
-                        'gif',
-                        'document'
-                    ]).nullable(),
-                    content_type: z.string().nullable(),
-                    status: z.enum([
-                        'uploading',
-                        'processing',
-                        'ready',
-                        'failed'
-                    ]),
-                    progress: z.object({
-                        stage: z.enum([
-                            'queued',
-                            'analyzing',
-                            'transcoding',
-                            'done'
-                        ]),
-                        percent: z.int().gte(0).lte(100)
-                    }),
-                    raw: z.boolean(),
-                    error: z.object({
-                        code: z.enum([
-                            'media_unprobeable',
-                            'media_format_indeterminate',
-                            'media_format_unsupported',
-                            'media_too_large',
-                            'media_aspect_ratio_unsupported',
-                            'media_resolution_too_low',
-                            'media_gif_unsupported',
-                            'media_format_recompressed',
-                            'media_resolution_downscaled',
-                            'video_container_unsupported',
-                            'video_codec_unsupported',
-                            'video_audio_codec_unsupported',
-                            'video_too_large',
-                            'video_too_small',
-                            'video_dimensions_unsupported',
-                            'video_dimensions_too_large',
-                            'video_fps_unsupported',
-                            'video_fps_too_low',
-                            'video_aspect_unsupported',
-                            'video_duration_too_short',
-                            'video_duration_exceeds_max',
-                            'video_transform_failed',
-                            'media_fetch_failed',
-                            'document_format_unsupported',
-                            'document_too_large',
-                            'document_too_many_pages',
-                            'media_unsupported'
-                        ]),
-                        message: z.string(),
-                        hint: z.string().optional(),
-                        allowed: z.array(z.string()).optional(),
-                        got: z.string().optional(),
-                        display_error: z.string()
-                    }).nullable(),
-                    source: z.object({
-                        format: z.string(),
-                        bytes: z.int().gte(0).lte(9007199254740991),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
-                    }).nullable(),
-                    alt_text: z.string().max(1000).nullable(),
-                    per_platform: z.record(z.string(), z.object({
-                        status: z.enum([
-                            'processing',
-                            'ready',
-                            'failed'
-                        ]),
-                        url: z.string().nullable(),
-                        width: z.int().gt(0).lte(9007199254740991).nullable(),
-                        height: z.int().gt(0).lte(9007199254740991).nullable(),
-                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
-                        warnings: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        })),
-                        errors: z.array(z.object({
-                            code: z.unknown().optional(),
-                            message: z.unknown().optional(),
-                            hint: z.unknown().optional(),
-                            allowed: z.unknown().optional(),
-                            got: z.unknown().optional(),
-                            display_error: z.unknown().optional()
-                        }))
-                    })),
-                    external_id: z.string().nullable(),
-                    metadata: z.record(z.string(), z.union([
-                        z.string().max(500),
-                        z.number(),
-                        z.boolean()
-                    ])),
-                    created_at: z.string(),
-                    updated_at: z.string()
-                })
-            }))
-        })
-    ])),
+    variants: z.array(zPostVariant),
     created_at: z.string(),
     updated_at: z.string(),
     dry_run: z.boolean(),
@@ -4987,193 +1486,7 @@ export const zPostsUpdateResponse = z.object({
 
 export const zPostsValidateBody = z.object({
     profile_id: z.string(),
-    variants: z.array(z.union([
-        z.object({
-            platform: z.literal('x'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                reply_settings: z.enum([
-                    'everyone',
-                    'following',
-                    'mentionedUsers',
-                    'subscribers',
-                    'verified'
-                ]).optional(),
-                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                poll: z.object({
-                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
-                    duration_minutes: z.int().gte(5).lte(10080),
-                    reply_settings: z.enum([
-                        'following',
-                        'mentionedUsers',
-                        'subscribers',
-                        'verified'
-                    ]).optional()
-                }).optional(),
-                reply: z.object({
-                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
-                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
-                    auto_populate_reply_metadata: z.boolean().optional()
-                }).optional(),
-                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
-                for_super_followers_only: z.boolean().optional(),
-                geo: z.object({
-                    place_id: z.string()
-                }).optional(),
-                card_uri: z.string().optional(),
-                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('linkedin'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video'
-            ]),
-            settings: z.object({
-                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-                content_kind: z.enum([
-                    'text',
-                    'single_image',
-                    'video',
-                    'multi_image',
-                    'document',
-                    'article',
-                    'poll'
-                ]),
-                article: z.object({
-                    source: z.url(),
-                    title: z.string().max(400).optional(),
-                    description: z.string().max(4086).optional(),
-                    thumbnail_media_id: z.string().optional()
-                }).optional(),
-                poll: z.object({
-                    question: z.string().min(1).max(140),
-                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
-                    duration: z.enum([
-                        'ONE_DAY',
-                        'THREE_DAYS',
-                        'SEVEN_DAYS',
-                        'FOURTEEN_DAYS'
-                    ])
-                }).optional(),
-                document: z.object({
-                    title: z.string().min(1).max(400)
-                }).optional(),
-                disable_reshare: z.boolean().optional(),
-                mentions: z.array(z.object({
-                    type: z.enum(['person', 'organization']),
-                    name: z.string().min(1),
-                    urn: z.string().regex(/^urn:li:(person|organization):/)
-                })).optional()
-            }),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('instagram'),
-            post_type: z.enum([
-                'single_image',
-                'carousel',
-                'reel'
-            ]),
-            settings: z.object({
-                media_type: z.enum([
-                    'IMAGE',
-                    'CAROUSEL',
-                    'REELS'
-                ]).optional(),
-                location_id: z.string().optional(),
-                user_tags: z.array(z.object({
-                    username: z.string().min(1),
-                    x: z.number().gte(0).lte(1),
-                    y: z.number().gte(0).lte(1)
-                })).optional(),
-                collaborators: z.array(z.string().min(1)).max(3).optional(),
-                share_to_feed: z.boolean().optional(),
-                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
-                cover_url: z.url().optional(),
-                audio_name: z.string().optional()
-            }),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
-            ]),
-            settings: z.object({
-                link: z.url().optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        }),
-        z.object({
-            platform: z.literal('tiktok'),
-            post_type: z.enum([
-                'video',
-                'single_image',
-                'carousel'
-            ]),
-            settings: z.object({
-                privacy_level: z.enum([
-                    'PUBLIC_TO_EVERYONE',
-                    'MUTUAL_FOLLOW_FRIENDS',
-                    'FOLLOWER_OF_CREATOR',
-                    'SELF_ONLY'
-                ]).optional(),
-                disable_comment: z.boolean().optional(),
-                disable_duet: z.boolean().optional(),
-                disable_stitch: z.boolean().optional(),
-                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
-                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
-                auto_add_music: z.boolean().optional(),
-                brand_content_toggle: z.boolean().optional(),
-                brand_organic_toggle: z.boolean().optional(),
-                is_aigc: z.boolean().optional()
-            }).optional().default({}),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([])
-        })
-    ])).min(1)
+    variants: z.array(zPostVariantInput).min(1)
 });
 
 /**
@@ -5292,13 +1605,7 @@ export const zPostsValidateResponse = z.object({
         got: z.string().optional(),
         variant_index: z.int().gte(-9007199254740991).lte(9007199254740991),
         path: z.array(z.union([z.string(), z.number()])),
-        platform: z.enum([
-            'x',
-            'linkedin',
-            'facebook_page',
-            'instagram',
-            'tiktok'
-        ]).optional(),
+        platform: zPostPlatform.optional(),
         display_error: z.string()
     }))
 });
@@ -7048,27 +3355,9 @@ export const zTiktokCreatorInfoPath = z.object({
 });
 
 /**
- * A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account.
+ * OK
  */
-export const zTiktokCreatorInfoResponse = z.object({
-    creator: z.object({
-        nickname: z.string(),
-        username: z.string(),
-        avatar_url: z.string().nullable()
-    }),
-    privacy_options: z.array(z.enum([
-        'PUBLIC_TO_EVERYONE',
-        'MUTUAL_FOLLOW_FRIENDS',
-        'FOLLOWER_OF_CREATOR',
-        'SELF_ONLY'
-    ])),
-    interaction: z.object({
-        comment: z.boolean(),
-        duet: z.boolean(),
-        stitch: z.boolean()
-    }),
-    max_video_duration_sec: z.int().gte(-9007199254740991).lte(9007199254740991)
-});
+export const zTiktokCreatorInfoResponse = zTikTokCreatorInfo;
 
 export const zLogsListQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),

@@ -1,5 +1,24 @@
 # @postrun/js
 
+## 2.15.0
+
+### Minor Changes
+
+- Regenerate the SDK from the improved OpenAPI spec (shared components).
+
+  The API now emits shared `components.schemas` with `$ref` reuse (21 named
+  components, was 1) instead of inlining every shape. Regenerating the client
+  collapses the duplication:
+
+  - `types.gen.ts` and `zod.gen.ts` shrink by ~8,000 lines net — reused shapes
+    (`Media`, `Connection`, `Post`, `PostVariant`, …) are now single named types
+    referenced everywhere, not re-inlined at each use site.
+  - Better DX: hover/IDE shows a named `Media`/`Connection`/etc. instead of a giant
+    inline object literal, and the nested asset on a fetched post
+    (`variant.media[].media`) is the same `Media` shape as `GET /v1/media`.
+  - Public types are unchanged in shape (all hand-written derivations still resolve);
+    this is an internal codegen cleanup with no API surface change.
+
 ## 2.14.0
 
 ### Minor Changes

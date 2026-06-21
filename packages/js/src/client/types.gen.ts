@@ -11,6 +11,1259 @@ export type ClientOptions = {
  */
 export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
 
+export type Media = {
+    id: string;
+    object: 'media';
+    profile_id: string;
+    /**
+     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+     */
+    kind: MediaKind | null;
+    /**
+     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+     */
+    content_type: string | null;
+    status: MediaStatus;
+    /**
+     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+     */
+    progress: {
+        stage: MediaStage;
+        percent: number;
+    };
+    raw: boolean;
+    /**
+     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+     */
+    error: {
+        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+        message: string;
+        hint?: string;
+        allowed?: Array<string>;
+        got?: string;
+        /**
+         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+         */
+        display_error: string;
+    } | null;
+    source: {
+        /**
+         * MIME of the original, e.g. image/heic.
+         */
+        format: string;
+        bytes: number;
+        width: number | null;
+        height: number | null;
+        duration_ms: number | null;
+    } | null;
+    alt_text: string | null;
+    per_platform: {
+        [key: string]: {
+            status: 'processing' | 'ready' | 'failed';
+            /**
+             * Public URL of this platform’s rendition (null until ready).
+             */
+            url: string | null;
+            width: number | null;
+            height: number | null;
+            bytes: number | null;
+            warnings: Array<{
+                code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                message: string;
+                hint?: string;
+                allowed?: Array<string>;
+                got?: string;
+                /**
+                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                 */
+                display_error: string;
+            }>;
+            errors: Array<{
+                code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                message: string;
+                hint?: string;
+                allowed?: Array<string>;
+                got?: string;
+                /**
+                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                 */
+                display_error: string;
+            }>;
+        };
+    };
+    external_id: string | null;
+    /**
+     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+     */
+    metadata: {
+        [key: string]: string | number | boolean;
+    };
+    /**
+     * ISO-8601 creation time.
+     */
+    created_at: string;
+    /**
+     * ISO-8601 last-update time.
+     */
+    updated_at: string;
+};
+
+export type Connection = {
+    /**
+     * Connection id.
+     */
+    id: string;
+    /**
+     * Id of the profile this connection belongs to.
+     */
+    profile_id: string;
+    /**
+     * Ad/social platform a connection targets.
+     */
+    platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
+    kind: ConnectionKind;
+    status: ConnectionStatus;
+    /**
+     * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
+     */
+    external_account_id: string | null;
+    /**
+     * Display cache of the platform account's name, or null if unknown.
+     */
+    external_account_name: string | null;
+    /**
+     * Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn).
+     */
+    username: string | null;
+    /**
+     * Display cache of the social account avatar image url, or null (ad accounts have none).
+     */
+    avatar_url: string | null;
+    /**
+     * Display cache of the social account canonical profile url, or null (ad accounts, or gated handles).
+     */
+    profile_url: string | null;
+    /**
+     * ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status.
+     */
+    reauth_at: string | null;
+    /**
+     * ISO-4217 account currency, or null if unknown.
+     */
+    currency: string | null;
+    /**
+     * ISO-8601 creation time.
+     */
+    created_at: string | null;
+    /**
+     * ISO-8601 last-update time.
+     */
+    updated_at: string | null;
+};
+
+export type Profile = {
+    /**
+     * Profile id.
+     */
+    id: string;
+    /**
+     * Display name.
+     */
+    name: string;
+    /**
+     * Optional short note, or null if unset.
+     */
+    description: string | null;
+    /**
+     * Your own id for this client/brand, or null if unset.
+     */
+    external_id: string | null;
+    /**
+     * Your own key/value context (defaults to {}).
+     */
+    metadata: {
+        [key: string]: string | number | boolean;
+    };
+    /**
+     * ISO-8601 creation time.
+     */
+    created_at: string | null;
+    /**
+     * ISO-8601 last-update time.
+     */
+    updated_at: string | null;
+};
+
+export type Post = {
+    id: string;
+    object: 'post';
+    profile_id: string;
+    external_id: string | null;
+    /**
+     * Derived rollup of the variants’ statuses (never set directly).
+     */
+    status: 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
+    /**
+     * Shared schedule (ISO-8601). null = draft/publish-now.
+     */
+    schedule_at: string | null;
+    tags: Array<string>;
+    notes: string | null;
+    /**
+     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+     */
+    metadata: {
+        [key: string]: string | number | boolean;
+    };
+    variants: Array<PostVariant>;
+    /**
+     * ISO-8601 creation time.
+     */
+    created_at: string;
+    /**
+     * ISO-8601 last-update time.
+     */
+    updated_at: string;
+};
+
+export type PostVariant = {
+    platform: 'x';
+    post_type: 'text' | 'single_image' | 'multi_image' | 'video';
+    /**
+     * X (Twitter) organic post settings.
+     */
+    settings: {
+        /**
+         * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
+         */
+        reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
+        /**
+         * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
+         */
+        quote_tweet_id?: string;
+        /**
+         * Create a poll. Mutually exclusive with media, quote, and card_uri.
+         */
+        poll?: {
+            /**
+             * 2–4 options, each 1–25 characters.
+             */
+            options: Array<string>;
+            /**
+             * Poll duration in minutes (5 min – 7 days).
+             */
+            duration_minutes: number;
+            /**
+             * Reply restriction for the poll post (same enum).
+             */
+            reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
+        };
+        /**
+         * Reply/thread chaining controls.
+         */
+        reply?: {
+            /**
+             * Parent post id; required when `reply` is present.
+             */
+            in_reply_to_tweet_id: string;
+            /**
+             * User ids dropped from the auto-mention chain.
+             */
+            exclude_reply_user_ids?: Array<string>;
+            /**
+             * Auto-prepend the parent participants' @mentions.
+             */
+            auto_populate_reply_metadata?: boolean;
+        };
+        /**
+         * Post to an X Community.
+         */
+        community_id?: string;
+        /**
+         * Restrict to Super Followers (default false).
+         */
+        for_super_followers_only?: boolean;
+        /**
+         * Attach a place.
+         */
+        geo?: {
+            place_id: string;
+        };
+        /**
+         * Cards-API reference. Mutually exclusive with quote/poll/media.
+         */
+        card_uri?: string;
+        /**
+         * Tag ≤10 users on attached media.
+         */
+        media_tagged_user_ids?: Array<string>;
+    };
+    id: string;
+    object: 'post_variant';
+    /**
+     * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
+     */
+    connection_id: string | null;
+    body: string | null;
+    status: PostVariantStatus;
+    /**
+     * Per-variant schedule override (ISO-8601); null inherits the post.
+     */
+    schedule_at: string | null;
+    result: {
+        platform_post_id: string;
+        permalink: string | null;
+        published_at: string;
+    } | null;
+    error: {
+        code: string;
+        message: string;
+        /**
+         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+         */
+        display_error: string;
+    } | null;
+    media: Array<{
+        media_id: string;
+        /**
+         * Ordering of this media within the variant (e.g. carousel order).
+         */
+        position: number;
+        /**
+         * Per-variant crop, applied at publish; null = none.
+         */
+        crop_box: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset’s alt_text.
+         */
+        alt_text_override: string | null;
+        media: Media;
+    }>;
+} | {
+    platform: 'linkedin';
+    post_type: 'text' | 'single_image' | 'multi_image' | 'video';
+    /**
+     * LinkedIn personal member post settings.
+     */
+    settings: {
+        /**
+         * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
+         */
+        visibility: 'PUBLIC' | 'CONNECTIONS';
+        /**
+         * Which content shape this post carries (mutually exclusive with the others).
+         */
+        content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
+        /**
+         * An article share card.
+         */
+        article?: {
+            /**
+             * Article URL. Required for an article post.
+             */
+            source: string;
+            /**
+             * Article headline, ≤400 characters.
+             */
+            title?: string;
+            /**
+             * Subtext on the article card, ≤4086 characters.
+             */
+            description?: string;
+            /**
+             * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
+             */
+            thumbnail_media_id?: string;
+        };
+        /**
+         * A LinkedIn poll (mutually exclusive with other content).
+         */
+        poll?: {
+            /**
+             * The poll question, ≤140 characters.
+             */
+            question: string;
+            /**
+             * 2–4 options, each 1–30 characters.
+             */
+            options: Array<string>;
+            /**
+             * How long the poll runs.
+             */
+            duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
+        };
+        /**
+         * Document-post display options (asset rides on media[]).
+         */
+        document?: {
+            /**
+             * Display title shown above the document. Required for document posts.
+             */
+            title: string;
+        };
+        /**
+         * Disable resharing of this post (default false).
+         */
+        disable_reshare?: boolean;
+        /**
+         * Inline @mentions encoded into the commentary at publish.
+         */
+        mentions?: Array<{
+            /**
+             * Whether the mentioned entity is a member or an organization.
+             */
+            type: 'person' | 'organization';
+            /**
+             * Rendered text; must match the entity name (case-sensitive) for the link to convert.
+             */
+            name: string;
+            /**
+             * The mentioned entity urn (supplied by the caller).
+             */
+            urn: string;
+        }>;
+    };
+    id: string;
+    object: 'post_variant';
+    /**
+     * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
+     */
+    connection_id: string | null;
+    body: string | null;
+    status: PostVariantStatus;
+    /**
+     * Per-variant schedule override (ISO-8601); null inherits the post.
+     */
+    schedule_at: string | null;
+    result: {
+        platform_post_id: string;
+        permalink: string | null;
+        published_at: string;
+    } | null;
+    error: {
+        code: string;
+        message: string;
+        /**
+         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+         */
+        display_error: string;
+    } | null;
+    media: Array<{
+        media_id: string;
+        /**
+         * Ordering of this media within the variant (e.g. carousel order).
+         */
+        position: number;
+        /**
+         * Per-variant crop, applied at publish; null = none.
+         */
+        crop_box: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset’s alt_text.
+         */
+        alt_text_override: string | null;
+        media: Media;
+    }>;
+} | {
+    platform: 'facebook_page';
+    post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
+    /**
+     * Facebook Page organic post settings.
+     */
+    settings: {
+        /**
+         * URL to unfurl. A feed post needs a body (message) OR a link.
+         */
+        link?: string;
+    };
+    id: string;
+    object: 'post_variant';
+    /**
+     * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
+     */
+    connection_id: string | null;
+    body: string | null;
+    status: PostVariantStatus;
+    /**
+     * Per-variant schedule override (ISO-8601); null inherits the post.
+     */
+    schedule_at: string | null;
+    result: {
+        platform_post_id: string;
+        permalink: string | null;
+        published_at: string;
+    } | null;
+    error: {
+        code: string;
+        message: string;
+        /**
+         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+         */
+        display_error: string;
+    } | null;
+    media: Array<{
+        media_id: string;
+        /**
+         * Ordering of this media within the variant (e.g. carousel order).
+         */
+        position: number;
+        /**
+         * Per-variant crop, applied at publish; null = none.
+         */
+        crop_box: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset’s alt_text.
+         */
+        alt_text_override: string | null;
+        media: Media;
+    }>;
+} | {
+    platform: 'instagram';
+    post_type: 'single_image' | 'carousel' | 'reel';
+    /**
+     * Instagram organic post settings (feed image/carousel + reels).
+     */
+    settings: {
+        /**
+         * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
+         */
+        media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
+        /**
+         * Facebook Page id representing a location.
+         */
+        location_id?: string;
+        /**
+         * Tag users on an image; x/y are fractional positions in [0,1].
+         */
+        user_tags?: Array<{
+            /**
+             * IG username to tag.
+             */
+            username: string;
+            /**
+             * Horizontal position on the image, in [0,1].
+             */
+            x: number;
+            /**
+             * Vertical position on the image, in [0,1].
+             */
+            y: number;
+        }>;
+        /**
+         * ≤3 co-author usernames.
+         */
+        collaborators?: Array<string>;
+        /**
+         * Reel also appears in the main feed.
+         */
+        share_to_feed?: boolean;
+        /**
+         * Reel cover frame offset (ms).
+         */
+        thumb_offset?: number;
+        /**
+         * Custom reel cover image URL.
+         */
+        cover_url?: string;
+        /**
+         * Label for the reel's original audio.
+         */
+        audio_name?: string;
+    };
+    id: string;
+    object: 'post_variant';
+    /**
+     * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
+     */
+    connection_id: string | null;
+    body: string | null;
+    status: PostVariantStatus;
+    /**
+     * Per-variant schedule override (ISO-8601); null inherits the post.
+     */
+    schedule_at: string | null;
+    result: {
+        platform_post_id: string;
+        permalink: string | null;
+        published_at: string;
+    } | null;
+    error: {
+        code: string;
+        message: string;
+        /**
+         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+         */
+        display_error: string;
+    } | null;
+    media: Array<{
+        media_id: string;
+        /**
+         * Ordering of this media within the variant (e.g. carousel order).
+         */
+        position: number;
+        /**
+         * Per-variant crop, applied at publish; null = none.
+         */
+        crop_box: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset’s alt_text.
+         */
+        alt_text_override: string | null;
+        media: Media;
+    }>;
+} | {
+    platform: 'tiktok';
+    post_type: 'video' | 'single_image' | 'carousel';
+    /**
+     * TikTok organic post settings (Direct Post: video + photo).
+     */
+    settings: {
+        /**
+         * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
+         */
+        privacy_level?: TikTokPrivacyLevel;
+        /**
+         * Disable comments on this post.
+         */
+        disable_comment?: boolean;
+        /**
+         * Disable Duet (video only).
+         */
+        disable_duet?: boolean;
+        /**
+         * Disable Stitch (video only).
+         */
+        disable_stitch?: boolean;
+        /**
+         * Video cover frame offset (ms). Video posts only.
+         */
+        video_cover_timestamp_ms?: number;
+        /**
+         * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
+         */
+        photo_cover_index?: number;
+        /**
+         * Auto-add a TikTok soundtrack. Photo posts only.
+         */
+        auto_add_music?: boolean;
+        /**
+         * Disclose a paid partnership (branded content).
+         */
+        brand_content_toggle?: boolean;
+        /**
+         * Disclose own-brand promotional content.
+         */
+        brand_organic_toggle?: boolean;
+        /**
+         * Disclose AI-generated content. Video posts only.
+         */
+        is_aigc?: boolean;
+    };
+    id: string;
+    object: 'post_variant';
+    /**
+     * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
+     */
+    connection_id: string | null;
+    body: string | null;
+    status: PostVariantStatus;
+    /**
+     * Per-variant schedule override (ISO-8601); null inherits the post.
+     */
+    schedule_at: string | null;
+    result: {
+        platform_post_id: string;
+        permalink: string | null;
+        published_at: string;
+    } | null;
+    error: {
+        code: string;
+        message: string;
+        /**
+         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+         */
+        display_error: string;
+    } | null;
+    media: Array<{
+        media_id: string;
+        /**
+         * Ordering of this media within the variant (e.g. carousel order).
+         */
+        position: number;
+        /**
+         * Per-variant crop, applied at publish; null = none.
+         */
+        crop_box: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset’s alt_text.
+         */
+        alt_text_override: string | null;
+        media: Media;
+    }>;
+};
+
+/**
+ * A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account.
+ */
+export type TikTokCreatorInfo = {
+    creator: {
+        nickname: string;
+        username: string;
+        avatar_url: string | null;
+    };
+    privacy_options: Array<TikTokPrivacyLevel>;
+    interaction: {
+        comment: boolean;
+        duet: boolean;
+        stitch: boolean;
+    };
+    max_video_duration_sec: number;
+};
+
+/**
+ * An external ad account reachable through a connection’s OAuth grant, offered for selection.
+ */
+export type DiscoverableAccount = {
+    /**
+     * Platform account id to pass to the select endpoint to activate the connection (e.g. act_123456789 for Meta).
+     */
+    external_account_id: string;
+    /**
+     * Human-readable account name, or null if the platform omits it.
+     */
+    name: string | null;
+    /**
+     * ISO-4217 account currency, or null if the platform omits it.
+     */
+    currency: string | null;
+    /**
+     * Social account @handle for this discoverable account, or null (ad accounts / gated handles).
+     */
+    username?: string | null;
+    /**
+     * Social account avatar image url, or null if the platform omits it.
+     */
+    avatar_url?: string | null;
+    /**
+     * Social account canonical profile url, or null if the platform omits it.
+     */
+    profile_url?: string | null;
+    /**
+     * The Instagram professional account linked to this Facebook Page, if any. Present (Facebook Pages) or absent (every other platform); null when a Page has no linked Instagram account.
+     */
+    instagram?: {
+        /**
+         * The linked Instagram professional account id (the IG user id).
+         */
+        external_account_id: string;
+        /**
+         * The Instagram account username, or null if the platform omits it.
+         */
+        name: string | null;
+        /**
+         * The Instagram account @handle, or null if omitted.
+         */
+        username?: string | null;
+        /**
+         * The Instagram account avatar image url, or null.
+         */
+        avatar_url?: string | null;
+        /**
+         * The Instagram account canonical profile url, or null.
+         */
+        profile_url?: string | null;
+    } | null;
+};
+
+export type ConnectSession = {
+    /**
+     * Ready-to-open Postrun hosted connect URL. Open it (popup or tab) to run the OAuth grant and account picker — the client never hand-assembles connect params.
+     */
+    hosted_connect_url: string;
+    /**
+     * Short-lived scoped token (connections read/write on this profile) the hosted page uses to drive the public discover/select API.
+     */
+    connect_token: string;
+    /**
+     * The raw Nango connect-session token to pass to `nango.auth()` for the embedded (no-redirect) flow. ~30-min short-lived scoped bearer — keep in client memory, never log.
+     */
+    connect_session_token: string;
+    /**
+     * The Nango integration id for the platform, the first argument to `nango.auth()` (e.g. `facebook` for Meta, `twitter-v2` for X).
+     */
+    provider_config_key: string;
+    /**
+     * The Nango host the embedded SDK constructs its client with (`new Nango({ host, connectSessionToken })`).
+     */
+    nango_host: string;
+    /**
+     * ISO-8601 time when the session token expires.
+     */
+    expires_at: string;
+};
+
+export type MediaKind = 'image' | 'video' | 'gif' | 'document';
+
+export type MediaStatus = 'uploading' | 'processing' | 'ready' | 'failed';
+
+export type MediaStage = 'queued' | 'analyzing' | 'transcoding' | 'done';
+
+export type PostPlatform = 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
+
+export type PostType = 'text' | 'single_image' | 'multi_image' | 'video' | 'reel' | 'carousel';
+
+export type PostStatus = 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
+
+export type PostVariantStatus = 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
+
+/**
+ * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
+ */
+export type ConnectionKind = 'posting' | 'ads';
+
+/**
+ * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
+ */
+export type ConnectionStatus = 'pending' | 'active' | 'needs_reauth';
+
+export type TikTokPrivacyLevel = 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
+
+/**
+ * A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings.
+ */
+export type PostVariantInput = {
+    platform: 'x';
+    post_type: 'text' | 'single_image' | 'multi_image' | 'video';
+    /**
+     * X (Twitter) organic post settings.
+     */
+    settings?: {
+        /**
+         * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
+         */
+        reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
+        /**
+         * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
+         */
+        quote_tweet_id?: string;
+        /**
+         * Create a poll. Mutually exclusive with media, quote, and card_uri.
+         */
+        poll?: {
+            /**
+             * 2–4 options, each 1–25 characters.
+             */
+            options: Array<string>;
+            /**
+             * Poll duration in minutes (5 min – 7 days).
+             */
+            duration_minutes: number;
+            /**
+             * Reply restriction for the poll post (same enum).
+             */
+            reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
+        };
+        /**
+         * Reply/thread chaining controls.
+         */
+        reply?: {
+            /**
+             * Parent post id; required when `reply` is present.
+             */
+            in_reply_to_tweet_id: string;
+            /**
+             * User ids dropped from the auto-mention chain.
+             */
+            exclude_reply_user_ids?: Array<string>;
+            /**
+             * Auto-prepend the parent participants' @mentions.
+             */
+            auto_populate_reply_metadata?: boolean;
+        };
+        /**
+         * Post to an X Community.
+         */
+        community_id?: string;
+        /**
+         * Restrict to Super Followers (default false).
+         */
+        for_super_followers_only?: boolean;
+        /**
+         * Attach a place.
+         */
+        geo?: {
+            place_id: string;
+        };
+        /**
+         * Cards-API reference. Mutually exclusive with quote/poll/media.
+         */
+        card_uri?: string;
+        /**
+         * Tag ≤10 users on attached media.
+         */
+        media_tagged_user_ids?: Array<string>;
+    };
+    /**
+     * The connected account this variant publishes to.
+     */
+    connection_id: string;
+    /**
+     * Caption / commentary / message for the post.
+     */
+    body?: string;
+    /**
+     * Ordered media references; the count drives the post-type rules.
+     */
+    media?: Array<{
+        media_id: string;
+        /**
+         * Per-variant crop applied at publish; omit for none.
+         */
+        crop_box?: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset's.
+         */
+        alt_text_override?: string | null;
+    }>;
+} | {
+    platform: 'linkedin';
+    post_type: 'text' | 'single_image' | 'multi_image' | 'video';
+    /**
+     * LinkedIn personal member post settings.
+     */
+    settings: {
+        /**
+         * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
+         */
+        visibility: 'PUBLIC' | 'CONNECTIONS';
+        /**
+         * Which content shape this post carries (mutually exclusive with the others).
+         */
+        content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
+        /**
+         * An article share card.
+         */
+        article?: {
+            /**
+             * Article URL. Required for an article post.
+             */
+            source: string;
+            /**
+             * Article headline, ≤400 characters.
+             */
+            title?: string;
+            /**
+             * Subtext on the article card, ≤4086 characters.
+             */
+            description?: string;
+            /**
+             * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
+             */
+            thumbnail_media_id?: string;
+        };
+        /**
+         * A LinkedIn poll (mutually exclusive with other content).
+         */
+        poll?: {
+            /**
+             * The poll question, ≤140 characters.
+             */
+            question: string;
+            /**
+             * 2–4 options, each 1–30 characters.
+             */
+            options: Array<string>;
+            /**
+             * How long the poll runs.
+             */
+            duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
+        };
+        /**
+         * Document-post display options (asset rides on media[]).
+         */
+        document?: {
+            /**
+             * Display title shown above the document. Required for document posts.
+             */
+            title: string;
+        };
+        /**
+         * Disable resharing of this post (default false).
+         */
+        disable_reshare?: boolean;
+        /**
+         * Inline @mentions encoded into the commentary at publish.
+         */
+        mentions?: Array<{
+            /**
+             * Whether the mentioned entity is a member or an organization.
+             */
+            type: 'person' | 'organization';
+            /**
+             * Rendered text; must match the entity name (case-sensitive) for the link to convert.
+             */
+            name: string;
+            /**
+             * The mentioned entity urn (supplied by the caller).
+             */
+            urn: string;
+        }>;
+    };
+    /**
+     * The connected account this variant publishes to.
+     */
+    connection_id: string;
+    /**
+     * Caption / commentary / message for the post.
+     */
+    body?: string;
+    /**
+     * Ordered media references; the count drives the post-type rules.
+     */
+    media?: Array<{
+        media_id: string;
+        /**
+         * Per-variant crop applied at publish; omit for none.
+         */
+        crop_box?: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset's.
+         */
+        alt_text_override?: string | null;
+    }>;
+} | {
+    platform: 'instagram';
+    post_type: 'single_image' | 'carousel' | 'reel';
+    /**
+     * Instagram organic post settings (feed image/carousel + reels).
+     */
+    settings: {
+        /**
+         * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
+         */
+        media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
+        /**
+         * Facebook Page id representing a location.
+         */
+        location_id?: string;
+        /**
+         * Tag users on an image; x/y are fractional positions in [0,1].
+         */
+        user_tags?: Array<{
+            /**
+             * IG username to tag.
+             */
+            username: string;
+            /**
+             * Horizontal position on the image, in [0,1].
+             */
+            x: number;
+            /**
+             * Vertical position on the image, in [0,1].
+             */
+            y: number;
+        }>;
+        /**
+         * ≤3 co-author usernames.
+         */
+        collaborators?: Array<string>;
+        /**
+         * Reel also appears in the main feed.
+         */
+        share_to_feed?: boolean;
+        /**
+         * Reel cover frame offset (ms).
+         */
+        thumb_offset?: number;
+        /**
+         * Custom reel cover image URL.
+         */
+        cover_url?: string;
+        /**
+         * Label for the reel's original audio.
+         */
+        audio_name?: string;
+    };
+    /**
+     * The connected account this variant publishes to.
+     */
+    connection_id: string;
+    /**
+     * Caption / commentary / message for the post.
+     */
+    body?: string;
+    /**
+     * Ordered media references; the count drives the post-type rules.
+     */
+    media?: Array<{
+        media_id: string;
+        /**
+         * Per-variant crop applied at publish; omit for none.
+         */
+        crop_box?: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset's.
+         */
+        alt_text_override?: string | null;
+    }>;
+} | {
+    platform: 'facebook_page';
+    post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
+    /**
+     * Facebook Page organic post settings.
+     */
+    settings?: {
+        /**
+         * URL to unfurl. A feed post needs a body (message) OR a link.
+         */
+        link?: string;
+    };
+    /**
+     * The connected account this variant publishes to.
+     */
+    connection_id: string;
+    /**
+     * Caption / commentary / message for the post.
+     */
+    body?: string;
+    /**
+     * Ordered media references; the count drives the post-type rules.
+     */
+    media?: Array<{
+        media_id: string;
+        /**
+         * Per-variant crop applied at publish; omit for none.
+         */
+        crop_box?: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset's.
+         */
+        alt_text_override?: string | null;
+    }>;
+} | {
+    platform: 'tiktok';
+    post_type: 'video' | 'single_image' | 'carousel';
+    /**
+     * TikTok organic post settings (Direct Post: video + photo).
+     */
+    settings?: {
+        /**
+         * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
+         */
+        privacy_level?: TikTokPrivacyLevel;
+        /**
+         * Disable comments on this post.
+         */
+        disable_comment?: boolean;
+        /**
+         * Disable Duet (video only).
+         */
+        disable_duet?: boolean;
+        /**
+         * Disable Stitch (video only).
+         */
+        disable_stitch?: boolean;
+        /**
+         * Video cover frame offset (ms). Video posts only.
+         */
+        video_cover_timestamp_ms?: number;
+        /**
+         * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
+         */
+        photo_cover_index?: number;
+        /**
+         * Auto-add a TikTok soundtrack. Photo posts only.
+         */
+        auto_add_music?: boolean;
+        /**
+         * Disclose a paid partnership (branded content).
+         */
+        brand_content_toggle?: boolean;
+        /**
+         * Disclose own-brand promotional content.
+         */
+        brand_organic_toggle?: boolean;
+        /**
+         * Disclose AI-generated content. Video posts only.
+         */
+        is_aigc?: boolean;
+    };
+    /**
+     * The connected account this variant publishes to.
+     */
+    connection_id: string;
+    /**
+     * Caption / commentary / message for the post.
+     */
+    body?: string;
+    /**
+     * Ordered media references; the count drives the post-type rules.
+     */
+    media?: Array<{
+        media_id: string;
+        /**
+         * Per-variant crop applied at publish; omit for none.
+         */
+        crop_box?: {
+            [key: string]: unknown;
+        } | null;
+        /**
+         * Per-variant alt text; falls back to the asset's.
+         */
+        alt_text_override?: string | null;
+    }>;
+};
+
+export type CreatePostBody = {
+    /**
+     * Profile that owns this post.
+     */
+    profile_id: string;
+    /**
+     * now = publish immediately; schedule = publish at schedule_at; draft = store only.
+     */
+    publish?: 'now' | 'schedule' | 'draft';
+    /**
+     * UTC ISO-8601 publish time. Required when publish = schedule.
+     */
+    schedule_at?: string;
+    external_id?: string;
+    /**
+     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+     */
+    metadata?: {
+        [key: string]: string | number | boolean;
+    };
+    tags?: Array<string>;
+    notes?: string;
+    /**
+     * Validate the post without persisting or scheduling.
+     */
+    dry_run?: boolean;
+    /**
+     * One entry per channel; at least one.
+     */
+    variants: Array<PostVariantInput>;
+};
+
 export type ProfilesListData = {
     body?: never;
     path?: never;
@@ -257,38 +1510,7 @@ export type ProfilesListResponses = {
         /**
          * The items on this page.
          */
-        data: Array<{
-            /**
-             * Profile id.
-             */
-            id: string;
-            /**
-             * Display name.
-             */
-            name: string;
-            /**
-             * Optional short note, or null if unset.
-             */
-            description: string | null;
-            /**
-             * Your own id for this client/brand, or null if unset.
-             */
-            external_id: string | null;
-            /**
-             * Your own key/value context (defaults to {}).
-             */
-            metadata: {
-                [key: string]: string | number | boolean;
-            };
-            /**
-             * ISO-8601 creation time.
-             */
-            created_at: string | null;
-            /**
-             * ISO-8601 last-update time.
-             */
-            updated_at: string | null;
-        }>;
+        data: Array<Profile>;
         /**
          * Total items matching the query, across all pages.
          */
@@ -548,38 +1770,7 @@ export type ProfilesCreateResponses = {
     /**
      * OK
      */
-    201: {
-        /**
-         * Profile id.
-         */
-        id: string;
-        /**
-         * Display name.
-         */
-        name: string;
-        /**
-         * Optional short note, or null if unset.
-         */
-        description: string | null;
-        /**
-         * Your own id for this client/brand, or null if unset.
-         */
-        external_id: string | null;
-        /**
-         * Your own key/value context (defaults to {}).
-         */
-        metadata: {
-            [key: string]: string | number | boolean;
-        };
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string | null;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string | null;
-    };
+    201: Profile;
 };
 
 export type ProfilesCreateResponse = ProfilesCreateResponses[keyof ProfilesCreateResponses];
@@ -1050,38 +2241,7 @@ export type ProfilesGetResponses = {
     /**
      * OK
      */
-    200: {
-        /**
-         * Profile id.
-         */
-        id: string;
-        /**
-         * Display name.
-         */
-        name: string;
-        /**
-         * Optional short note, or null if unset.
-         */
-        description: string | null;
-        /**
-         * Your own id for this client/brand, or null if unset.
-         */
-        external_id: string | null;
-        /**
-         * Your own key/value context (defaults to {}).
-         */
-        metadata: {
-            [key: string]: string | number | boolean;
-        };
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string | null;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string | null;
-    };
+    200: Profile;
 };
 
 export type ProfilesGetResponse = ProfilesGetResponses[keyof ProfilesGetResponses];
@@ -1329,38 +2489,7 @@ export type ProfilesUpdateResponses = {
     /**
      * OK
      */
-    200: {
-        /**
-         * Profile id.
-         */
-        id: string;
-        /**
-         * Display name.
-         */
-        name: string;
-        /**
-         * Optional short note, or null if unset.
-         */
-        description: string | null;
-        /**
-         * Your own id for this client/brand, or null if unset.
-         */
-        external_id: string | null;
-        /**
-         * Your own key/value context (defaults to {}).
-         */
-        metadata: {
-            [key: string]: string | number | boolean;
-        };
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string | null;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string | null;
-    };
+    200: Profile;
 };
 
 export type ProfilesUpdateResponse = ProfilesUpdateResponses[keyof ProfilesUpdateResponses];
@@ -1389,11 +2518,11 @@ export type ConnectionsListByProfileData = {
         /**
          * Return only connections of this kind (`posting` or `ads`). Translated server-side to a filter on the underlying `platform` column.
          */
-        kind?: 'posting' | 'ads';
+        kind?: ConnectionKind;
         /**
          * Return only connections in this lifecycle status (`pending`, `active`, or `needs_reauth`). Translated server-side to predicates on `external_account_id`/`reauth_at`.
          */
-        status?: 'pending' | 'active' | 'needs_reauth';
+        status?: ConnectionStatus;
     };
     url: '/profiles/{id}/connections';
 };
@@ -1618,64 +2747,7 @@ export type ConnectionsListByProfileResponses = {
         /**
          * The items on this page.
          */
-        data: Array<{
-            /**
-             * Connection id.
-             */
-            id: string;
-            /**
-             * Id of the profile this connection belongs to.
-             */
-            profile_id: string;
-            /**
-             * Ad/social platform a connection targets.
-             */
-            platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
-            /**
-             * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
-             */
-            kind: 'posting' | 'ads';
-            /**
-             * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
-             */
-            status: 'pending' | 'active' | 'needs_reauth';
-            /**
-             * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
-             */
-            external_account_id: string | null;
-            /**
-             * Display cache of the platform account's name, or null if unknown.
-             */
-            external_account_name: string | null;
-            /**
-             * Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn).
-             */
-            username: string | null;
-            /**
-             * Display cache of the social account avatar image url, or null (ad accounts have none).
-             */
-            avatar_url: string | null;
-            /**
-             * Display cache of the social account canonical profile url, or null (ad accounts, or gated handles).
-             */
-            profile_url: string | null;
-            /**
-             * ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status.
-             */
-            reauth_at: string | null;
-            /**
-             * ISO-4217 account currency, or null if unknown.
-             */
-            currency: string | null;
-            /**
-             * ISO-8601 creation time.
-             */
-            created_at: string | null;
-            /**
-             * ISO-8601 last-update time.
-             */
-            updated_at: string | null;
-        }>;
+        data: Array<Connection>;
         /**
          * Total items matching the query, across all pages.
          */
@@ -2163,64 +3235,7 @@ export type ConnectionsGetResponses = {
     /**
      * OK
      */
-    200: {
-        /**
-         * Connection id.
-         */
-        id: string;
-        /**
-         * Id of the profile this connection belongs to.
-         */
-        profile_id: string;
-        /**
-         * Ad/social platform a connection targets.
-         */
-        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
-        /**
-         * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
-         */
-        kind: 'posting' | 'ads';
-        /**
-         * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
-         */
-        status: 'pending' | 'active' | 'needs_reauth';
-        /**
-         * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
-         */
-        external_account_id: string | null;
-        /**
-         * Display cache of the platform account's name, or null if unknown.
-         */
-        external_account_name: string | null;
-        /**
-         * Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn).
-         */
-        username: string | null;
-        /**
-         * Display cache of the social account avatar image url, or null (ad accounts have none).
-         */
-        avatar_url: string | null;
-        /**
-         * Display cache of the social account canonical profile url, or null (ad accounts, or gated handles).
-         */
-        profile_url: string | null;
-        /**
-         * ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status.
-         */
-        reauth_at: string | null;
-        /**
-         * ISO-4217 account currency, or null if unknown.
-         */
-        currency: string | null;
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string | null;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string | null;
-    };
+    200: Connection;
 };
 
 export type ConnectionsGetResponse = ConnectionsGetResponses[keyof ConnectionsGetResponses];
@@ -2512,64 +3527,7 @@ export type ConnectionsSelectResponses = {
     /**
      * OK
      */
-    200: {
-        /**
-         * Connection id.
-         */
-        id: string;
-        /**
-         * Id of the profile this connection belongs to.
-         */
-        profile_id: string;
-        /**
-         * Ad/social platform a connection targets.
-         */
-        platform: 'meta_ads' | 'google_ads' | 'tiktok_ads' | 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
-        /**
-         * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
-         */
-        kind: 'posting' | 'ads';
-        /**
-         * Lifecycle status: `pending` (no account chosen), `active` (account selected, grant healthy), or `needs_reauth` (the OAuth grant died — reconnect needed). Computed from reauth_at and external_account_id.
-         */
-        status: 'pending' | 'active' | 'needs_reauth';
-        /**
-         * Platform account id selected from the grant (e.g. act_123 for Meta), or null while the connection is pending account selection.
-         */
-        external_account_id: string | null;
-        /**
-         * Display cache of the platform account's name, or null if unknown.
-         */
-        external_account_name: string | null;
-        /**
-         * Display cache of the social account @handle, or null (ad accounts, or platforms that gate it — e.g. LinkedIn).
-         */
-        username: string | null;
-        /**
-         * Display cache of the social account avatar image url, or null (ad accounts have none).
-         */
-        avatar_url: string | null;
-        /**
-         * Display cache of the social account canonical profile url, or null (ad accounts, or gated handles).
-         */
-        profile_url: string | null;
-        /**
-         * ISO-8601 time the OAuth grant was detected dead (reconnect needed), or null when healthy. Drives the computed `needs_reauth` status.
-         */
-        reauth_at: string | null;
-        /**
-         * ISO-4217 account currency, or null if unknown.
-         */
-        currency: string | null;
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string | null;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string | null;
-    };
+    200: Connection;
 };
 
 export type ConnectionsSelectResponse = ConnectionsSelectResponses[keyof ConnectionsSelectResponses];
@@ -2864,57 +3822,7 @@ export type ConnectionsListAccountsResponses = {
         /**
          * The accounts reachable through this connection.
          */
-        data: Array<{
-            /**
-             * Platform account id to pass to the select endpoint to activate the connection (e.g. act_123456789 for Meta).
-             */
-            external_account_id: string;
-            /**
-             * Human-readable account name, or null if the platform omits it.
-             */
-            name: string | null;
-            /**
-             * ISO-4217 account currency, or null if the platform omits it.
-             */
-            currency: string | null;
-            /**
-             * Social account @handle for this discoverable account, or null (ad accounts / gated handles).
-             */
-            username?: string | null;
-            /**
-             * Social account avatar image url, or null if the platform omits it.
-             */
-            avatar_url?: string | null;
-            /**
-             * Social account canonical profile url, or null if the platform omits it.
-             */
-            profile_url?: string | null;
-            /**
-             * The Instagram professional account linked to this Facebook Page, if any. Present (Facebook Pages) or absent (every other platform); null when a Page has no linked Instagram account.
-             */
-            instagram?: {
-                /**
-                 * The linked Instagram professional account id (the IG user id).
-                 */
-                external_account_id: string;
-                /**
-                 * The Instagram account username, or null if the platform omits it.
-                 */
-                name: string | null;
-                /**
-                 * The Instagram account @handle, or null if omitted.
-                 */
-                username?: string | null;
-                /**
-                 * The Instagram account avatar image url, or null.
-                 */
-                avatar_url?: string | null;
-                /**
-                 * The Instagram account canonical profile url, or null.
-                 */
-                profile_url?: string | null;
-            } | null;
-        }>;
+        data: Array<DiscoverableAccount>;
     };
 };
 
@@ -3149,32 +4057,7 @@ export type ConnectionsConnectResponses = {
     /**
      * OK
      */
-    201: {
-        /**
-         * Ready-to-open Postrun hosted connect URL. Open it (popup or tab) to run the OAuth grant and account picker — the client never hand-assembles connect params.
-         */
-        hosted_connect_url: string;
-        /**
-         * Short-lived scoped token (connections read/write on this profile) the hosted page uses to drive the public discover/select API.
-         */
-        connect_token: string;
-        /**
-         * The raw Nango connect-session token to pass to `nango.auth()` for the embedded (no-redirect) flow. ~30-min short-lived scoped bearer — keep in client memory, never log.
-         */
-        connect_session_token: string;
-        /**
-         * The Nango integration id for the platform, the first argument to `nango.auth()` (e.g. `facebook` for Meta, `twitter-v2` for X).
-         */
-        provider_config_key: string;
-        /**
-         * The Nango host the embedded SDK constructs its client with (`new Nango({ host, connectSessionToken })`).
-         */
-        nango_host: string;
-        /**
-         * ISO-8601 time when the session token expires.
-         */
-        expires_at: string;
-    };
+    201: ConnectSession;
 };
 
 export type ConnectionsConnectResponse = ConnectionsConnectResponses[keyof ConnectionsConnectResponses];
@@ -3198,11 +4081,11 @@ export type MediaListData = {
         /**
          * Only assets in this lifecycle state (uploading / processing / ready / failed).
          */
-        status?: 'uploading' | 'processing' | 'ready' | 'failed';
+        status?: MediaStatus;
         /**
          * Only assets of this family (image / video / gif / document). Unset on assets still in the pre-detection `uploading` window, so a `kind` filter excludes those.
          */
-        kind?: 'image' | 'video' | 'gif' | 'document';
+        kind?: MediaKind;
         /**
          * Look up the asset by your own id (exact match).
          */
@@ -3437,102 +4320,7 @@ export type MediaListResponses = {
         /**
          * The items on this page.
          */
-        data: Array<{
-            id: string;
-            object: 'media';
-            profile_id: string;
-            /**
-             * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-             */
-            kind: 'image' | 'video' | 'gif' | 'document' | null;
-            /**
-             * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-             */
-            content_type: string | null;
-            status: 'uploading' | 'processing' | 'ready' | 'failed';
-            /**
-             * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-             */
-            progress: {
-                stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                percent: number;
-            };
-            raw: boolean;
-            /**
-             * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-             */
-            error: {
-                code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                message: string;
-                hint?: string;
-                allowed?: Array<string>;
-                got?: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                 */
-                display_error: string;
-            } | null;
-            source: {
-                /**
-                 * MIME of the original, e.g. image/heic.
-                 */
-                format: string;
-                bytes: number;
-                width: number | null;
-                height: number | null;
-                duration_ms: number | null;
-            } | null;
-            alt_text: string | null;
-            per_platform: {
-                [key: string]: {
-                    status: 'processing' | 'ready' | 'failed';
-                    /**
-                     * Public URL of this platform’s rendition (null until ready).
-                     */
-                    url: string | null;
-                    width: number | null;
-                    height: number | null;
-                    bytes: number | null;
-                    warnings: Array<{
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    }>;
-                    errors: Array<{
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    }>;
-                };
-            };
-            external_id: string | null;
-            /**
-             * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-             */
-            metadata: {
-                [key: string]: string | number | boolean;
-            };
-            /**
-             * ISO-8601 creation time.
-             */
-            created_at: string;
-            /**
-             * ISO-8601 last-update time.
-             */
-            updated_at: string;
-        }>;
+        data: Array<Media>;
         /**
          * Total items matching the query, across all pages.
          */
@@ -3808,17 +4596,17 @@ export type MediaCreateResponses = {
         /**
          * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
          */
-        kind: 'image' | 'video' | 'gif' | 'document' | null;
+        kind: MediaKind | null;
         /**
          * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
          */
         content_type: string | null;
-        status: 'uploading' | 'processing' | 'ready' | 'failed';
+        status: MediaStatus;
         /**
          * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
          */
         progress: {
-            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+            stage: MediaStage;
             percent: number;
         };
         raw: boolean;
@@ -4366,102 +5154,7 @@ export type MediaGetResponses = {
     /**
      * OK
      */
-    200: {
-        id: string;
-        object: 'media';
-        profile_id: string;
-        /**
-         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-         */
-        kind: 'image' | 'video' | 'gif' | 'document' | null;
-        /**
-         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-         */
-        content_type: string | null;
-        status: 'uploading' | 'processing' | 'ready' | 'failed';
-        /**
-         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-         */
-        progress: {
-            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-            percent: number;
-        };
-        raw: boolean;
-        /**
-         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-         */
-        error: {
-            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-            message: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-            /**
-             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-             */
-            display_error: string;
-        } | null;
-        source: {
-            /**
-             * MIME of the original, e.g. image/heic.
-             */
-            format: string;
-            bytes: number;
-            width: number | null;
-            height: number | null;
-            duration_ms: number | null;
-        } | null;
-        alt_text: string | null;
-        per_platform: {
-            [key: string]: {
-                status: 'processing' | 'ready' | 'failed';
-                /**
-                 * Public URL of this platform’s rendition (null until ready).
-                 */
-                url: string | null;
-                width: number | null;
-                height: number | null;
-                bytes: number | null;
-                warnings: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                    message: string;
-                    hint?: string;
-                    allowed?: Array<string>;
-                    got?: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                     */
-                    display_error: string;
-                }>;
-                errors: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                    message: string;
-                    hint?: string;
-                    allowed?: Array<string>;
-                    got?: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                     */
-                    display_error: string;
-                }>;
-            };
-        };
-        external_id: string | null;
-        /**
-         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-         */
-        metadata: {
-            [key: string]: string | number | boolean;
-        };
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string;
-    };
+    200: Media;
 };
 
 export type MediaGetResponse = MediaGetResponses[keyof MediaGetResponses];
@@ -4703,102 +5396,7 @@ export type MediaUpdateResponses = {
     /**
      * OK
      */
-    200: {
-        id: string;
-        object: 'media';
-        profile_id: string;
-        /**
-         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-         */
-        kind: 'image' | 'video' | 'gif' | 'document' | null;
-        /**
-         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-         */
-        content_type: string | null;
-        status: 'uploading' | 'processing' | 'ready' | 'failed';
-        /**
-         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-         */
-        progress: {
-            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-            percent: number;
-        };
-        raw: boolean;
-        /**
-         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-         */
-        error: {
-            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-            message: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-            /**
-             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-             */
-            display_error: string;
-        } | null;
-        source: {
-            /**
-             * MIME of the original, e.g. image/heic.
-             */
-            format: string;
-            bytes: number;
-            width: number | null;
-            height: number | null;
-            duration_ms: number | null;
-        } | null;
-        alt_text: string | null;
-        per_platform: {
-            [key: string]: {
-                status: 'processing' | 'ready' | 'failed';
-                /**
-                 * Public URL of this platform’s rendition (null until ready).
-                 */
-                url: string | null;
-                width: number | null;
-                height: number | null;
-                bytes: number | null;
-                warnings: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                    message: string;
-                    hint?: string;
-                    allowed?: Array<string>;
-                    got?: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                     */
-                    display_error: string;
-                }>;
-                errors: Array<{
-                    code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                    message: string;
-                    hint?: string;
-                    allowed?: Array<string>;
-                    got?: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                     */
-                    display_error: string;
-                }>;
-            };
-        };
-        external_id: string | null;
-        /**
-         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-         */
-        metadata: {
-            [key: string]: string | number | boolean;
-        };
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string;
-    };
+    200: Media;
 };
 
 export type MediaUpdateResponse = MediaUpdateResponses[keyof MediaUpdateResponses];
@@ -4844,7 +5442,7 @@ export type PostsListData = {
         /**
          * Only posts whose derived status is one of these. Repeat the param or pass an array to filter on multiple (e.g. `?status=scheduled&status=failed`).
          */
-        status?: Array<'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed'>;
+        status?: Array<PostStatus>;
     };
     url: '/posts';
 };
@@ -5069,896 +5667,7 @@ export type PostsListResponses = {
         /**
          * The items on this page.
          */
-        data: Array<{
-            id: string;
-            object: 'post';
-            profile_id: string;
-            external_id: string | null;
-            /**
-             * Derived rollup of the variants’ statuses (never set directly).
-             */
-            status: 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
-            /**
-             * Shared schedule (ISO-8601). null = draft/publish-now.
-             */
-            schedule_at: string | null;
-            tags: Array<string>;
-            notes: string | null;
-            /**
-             * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-             */
-            metadata: {
-                [key: string]: string | number | boolean;
-            };
-            variants: Array<{
-                platform: 'x';
-                post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-                /**
-                 * X (Twitter) organic post settings.
-                 */
-                settings: {
-                    /**
-                     * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
-                     */
-                    reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                    /**
-                     * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
-                     */
-                    quote_tweet_id?: string;
-                    /**
-                     * Create a poll. Mutually exclusive with media, quote, and card_uri.
-                     */
-                    poll?: {
-                        /**
-                         * 2–4 options, each 1–25 characters.
-                         */
-                        options: Array<string>;
-                        /**
-                         * Poll duration in minutes (5 min – 7 days).
-                         */
-                        duration_minutes: number;
-                        /**
-                         * Reply restriction for the poll post (same enum).
-                         */
-                        reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                    };
-                    /**
-                     * Reply/thread chaining controls.
-                     */
-                    reply?: {
-                        /**
-                         * Parent post id; required when `reply` is present.
-                         */
-                        in_reply_to_tweet_id: string;
-                        /**
-                         * User ids dropped from the auto-mention chain.
-                         */
-                        exclude_reply_user_ids?: Array<string>;
-                        /**
-                         * Auto-prepend the parent participants' @mentions.
-                         */
-                        auto_populate_reply_metadata?: boolean;
-                    };
-                    /**
-                     * Post to an X Community.
-                     */
-                    community_id?: string;
-                    /**
-                     * Restrict to Super Followers (default false).
-                     */
-                    for_super_followers_only?: boolean;
-                    /**
-                     * Attach a place.
-                     */
-                    geo?: {
-                        place_id: string;
-                    };
-                    /**
-                     * Cards-API reference. Mutually exclusive with quote/poll/media.
-                     */
-                    card_uri?: string;
-                    /**
-                     * Tag ≤10 users on attached media.
-                     */
-                    media_tagged_user_ids?: Array<string>;
-                };
-                id: string;
-                object: 'post_variant';
-                /**
-                 * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-                 */
-                connection_id: string | null;
-                body: string | null;
-                status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-                /**
-                 * Per-variant schedule override (ISO-8601); null inherits the post.
-                 */
-                schedule_at: string | null;
-                result: {
-                    platform_post_id: string;
-                    permalink: string | null;
-                    published_at: string;
-                } | null;
-                error: {
-                    code: string;
-                    message: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                     */
-                    display_error: string;
-                } | null;
-                media: Array<{
-                    media_id: string;
-                    /**
-                     * Ordering of this media within the variant (e.g. carousel order).
-                     */
-                    position: number;
-                    /**
-                     * Per-variant crop, applied at publish; null = none.
-                     */
-                    crop_box: {
-                        [key: string]: unknown;
-                    } | null;
-                    /**
-                     * Per-variant alt text; falls back to the asset’s alt_text.
-                     */
-                    alt_text_override: string | null;
-                    /**
-                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                     */
-                    media: {
-                        id: string;
-                        object: 'media';
-                        profile_id: string;
-                        /**
-                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                         */
-                        kind: 'image' | 'video' | 'gif' | 'document' | null;
-                        /**
-                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                         */
-                        content_type: string | null;
-                        status: 'uploading' | 'processing' | 'ready' | 'failed';
-                        /**
-                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                         */
-                        progress: {
-                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                            percent: number;
-                        };
-                        raw: boolean;
-                        /**
-                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                         */
-                        error: {
-                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                            message: string;
-                            hint?: string;
-                            allowed?: Array<unknown | null>;
-                            got?: string;
-                            /**
-                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                             */
-                            display_error: string;
-                        } | null;
-                        source: {
-                            /**
-                             * MIME of the original, e.g. image/heic.
-                             */
-                            format: string;
-                            bytes: number;
-                            width: number | null;
-                            height: number | null;
-                            duration_ms: number | null;
-                        } | null;
-                        alt_text: string | null;
-                        per_platform: {
-                            [key: string]: {
-                                status?: unknown;
-                                url?: unknown;
-                                width?: unknown;
-                                height?: unknown;
-                                bytes?: unknown;
-                                warnings?: unknown;
-                                errors?: unknown;
-                            };
-                        };
-                        external_id: string | null;
-                        /**
-                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                         */
-                        metadata: {
-                            [key: string]: unknown;
-                        };
-                        /**
-                         * ISO-8601 creation time.
-                         */
-                        created_at: string;
-                        /**
-                         * ISO-8601 last-update time.
-                         */
-                        updated_at: string;
-                    };
-                }>;
-            } | {
-                platform: 'linkedin';
-                post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-                /**
-                 * LinkedIn personal member post settings.
-                 */
-                settings: {
-                    /**
-                     * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
-                     */
-                    visibility: 'PUBLIC' | 'CONNECTIONS';
-                    /**
-                     * Which content shape this post carries (mutually exclusive with the others).
-                     */
-                    content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
-                    /**
-                     * An article share card.
-                     */
-                    article?: {
-                        /**
-                         * Article URL. Required for an article post.
-                         */
-                        source: string;
-                        /**
-                         * Article headline, ≤400 characters.
-                         */
-                        title?: string;
-                        /**
-                         * Subtext on the article card, ≤4086 characters.
-                         */
-                        description?: string;
-                        /**
-                         * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
-                         */
-                        thumbnail_media_id?: string;
-                    };
-                    /**
-                     * A LinkedIn poll (mutually exclusive with other content).
-                     */
-                    poll?: {
-                        /**
-                         * The poll question, ≤140 characters.
-                         */
-                        question: string;
-                        /**
-                         * 2–4 options, each 1–30 characters.
-                         */
-                        options: Array<string>;
-                        /**
-                         * How long the poll runs.
-                         */
-                        duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
-                    };
-                    /**
-                     * Document-post display options (asset rides on media[]).
-                     */
-                    document?: {
-                        /**
-                         * Display title shown above the document. Required for document posts.
-                         */
-                        title: string;
-                    };
-                    /**
-                     * Disable resharing of this post (default false).
-                     */
-                    disable_reshare?: boolean;
-                    /**
-                     * Inline @mentions encoded into the commentary at publish.
-                     */
-                    mentions?: Array<{
-                        /**
-                         * Whether the mentioned entity is a member or an organization.
-                         */
-                        type: 'person' | 'organization';
-                        /**
-                         * Rendered text; must match the entity name (case-sensitive) for the link to convert.
-                         */
-                        name: string;
-                        /**
-                         * The mentioned entity urn (supplied by the caller).
-                         */
-                        urn: string;
-                    }>;
-                };
-                id: string;
-                object: 'post_variant';
-                /**
-                 * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-                 */
-                connection_id: string | null;
-                body: string | null;
-                status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-                /**
-                 * Per-variant schedule override (ISO-8601); null inherits the post.
-                 */
-                schedule_at: string | null;
-                result: {
-                    platform_post_id: string;
-                    permalink: string | null;
-                    published_at: string;
-                } | null;
-                error: {
-                    code: string;
-                    message: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                     */
-                    display_error: string;
-                } | null;
-                media: Array<{
-                    media_id: string;
-                    /**
-                     * Ordering of this media within the variant (e.g. carousel order).
-                     */
-                    position: number;
-                    /**
-                     * Per-variant crop, applied at publish; null = none.
-                     */
-                    crop_box: {
-                        [key: string]: unknown;
-                    } | null;
-                    /**
-                     * Per-variant alt text; falls back to the asset’s alt_text.
-                     */
-                    alt_text_override: string | null;
-                    /**
-                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                     */
-                    media: {
-                        id: string;
-                        object: 'media';
-                        profile_id: string;
-                        /**
-                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                         */
-                        kind: 'image' | 'video' | 'gif' | 'document' | null;
-                        /**
-                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                         */
-                        content_type: string | null;
-                        status: 'uploading' | 'processing' | 'ready' | 'failed';
-                        /**
-                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                         */
-                        progress: {
-                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                            percent: number;
-                        };
-                        raw: boolean;
-                        /**
-                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                         */
-                        error: {
-                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                            message: string;
-                            hint?: string;
-                            allowed?: Array<unknown | null>;
-                            got?: string;
-                            /**
-                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                             */
-                            display_error: string;
-                        } | null;
-                        source: {
-                            /**
-                             * MIME of the original, e.g. image/heic.
-                             */
-                            format: string;
-                            bytes: number;
-                            width: number | null;
-                            height: number | null;
-                            duration_ms: number | null;
-                        } | null;
-                        alt_text: string | null;
-                        per_platform: {
-                            [key: string]: {
-                                status?: unknown;
-                                url?: unknown;
-                                width?: unknown;
-                                height?: unknown;
-                                bytes?: unknown;
-                                warnings?: unknown;
-                                errors?: unknown;
-                            };
-                        };
-                        external_id: string | null;
-                        /**
-                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                         */
-                        metadata: {
-                            [key: string]: unknown;
-                        };
-                        /**
-                         * ISO-8601 creation time.
-                         */
-                        created_at: string;
-                        /**
-                         * ISO-8601 last-update time.
-                         */
-                        updated_at: string;
-                    };
-                }>;
-            } | {
-                platform: 'facebook_page';
-                post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
-                /**
-                 * Facebook Page organic post settings.
-                 */
-                settings: {
-                    /**
-                     * URL to unfurl. A feed post needs a body (message) OR a link.
-                     */
-                    link?: string;
-                };
-                id: string;
-                object: 'post_variant';
-                /**
-                 * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-                 */
-                connection_id: string | null;
-                body: string | null;
-                status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-                /**
-                 * Per-variant schedule override (ISO-8601); null inherits the post.
-                 */
-                schedule_at: string | null;
-                result: {
-                    platform_post_id: string;
-                    permalink: string | null;
-                    published_at: string;
-                } | null;
-                error: {
-                    code: string;
-                    message: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                     */
-                    display_error: string;
-                } | null;
-                media: Array<{
-                    media_id: string;
-                    /**
-                     * Ordering of this media within the variant (e.g. carousel order).
-                     */
-                    position: number;
-                    /**
-                     * Per-variant crop, applied at publish; null = none.
-                     */
-                    crop_box: {
-                        [key: string]: unknown;
-                    } | null;
-                    /**
-                     * Per-variant alt text; falls back to the asset’s alt_text.
-                     */
-                    alt_text_override: string | null;
-                    /**
-                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                     */
-                    media: {
-                        id: string;
-                        object: 'media';
-                        profile_id: string;
-                        /**
-                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                         */
-                        kind: 'image' | 'video' | 'gif' | 'document' | null;
-                        /**
-                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                         */
-                        content_type: string | null;
-                        status: 'uploading' | 'processing' | 'ready' | 'failed';
-                        /**
-                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                         */
-                        progress: {
-                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                            percent: number;
-                        };
-                        raw: boolean;
-                        /**
-                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                         */
-                        error: {
-                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                            message: string;
-                            hint?: string;
-                            allowed?: Array<unknown | null>;
-                            got?: string;
-                            /**
-                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                             */
-                            display_error: string;
-                        } | null;
-                        source: {
-                            /**
-                             * MIME of the original, e.g. image/heic.
-                             */
-                            format: string;
-                            bytes: number;
-                            width: number | null;
-                            height: number | null;
-                            duration_ms: number | null;
-                        } | null;
-                        alt_text: string | null;
-                        per_platform: {
-                            [key: string]: {
-                                status?: unknown;
-                                url?: unknown;
-                                width?: unknown;
-                                height?: unknown;
-                                bytes?: unknown;
-                                warnings?: unknown;
-                                errors?: unknown;
-                            };
-                        };
-                        external_id: string | null;
-                        /**
-                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                         */
-                        metadata: {
-                            [key: string]: unknown;
-                        };
-                        /**
-                         * ISO-8601 creation time.
-                         */
-                        created_at: string;
-                        /**
-                         * ISO-8601 last-update time.
-                         */
-                        updated_at: string;
-                    };
-                }>;
-            } | {
-                platform: 'instagram';
-                post_type: 'single_image' | 'carousel' | 'reel';
-                /**
-                 * Instagram organic post settings (feed image/carousel + reels).
-                 */
-                settings: {
-                    /**
-                     * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
-                     */
-                    media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
-                    /**
-                     * Facebook Page id representing a location.
-                     */
-                    location_id?: string;
-                    /**
-                     * Tag users on an image; x/y are fractional positions in [0,1].
-                     */
-                    user_tags?: Array<{
-                        /**
-                         * IG username to tag.
-                         */
-                        username: string;
-                        /**
-                         * Horizontal position on the image, in [0,1].
-                         */
-                        x: number;
-                        /**
-                         * Vertical position on the image, in [0,1].
-                         */
-                        y: number;
-                    }>;
-                    /**
-                     * ≤3 co-author usernames.
-                     */
-                    collaborators?: Array<string>;
-                    /**
-                     * Reel also appears in the main feed.
-                     */
-                    share_to_feed?: boolean;
-                    /**
-                     * Reel cover frame offset (ms).
-                     */
-                    thumb_offset?: number;
-                    /**
-                     * Custom reel cover image URL.
-                     */
-                    cover_url?: string;
-                    /**
-                     * Label for the reel's original audio.
-                     */
-                    audio_name?: string;
-                };
-                id: string;
-                object: 'post_variant';
-                /**
-                 * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-                 */
-                connection_id: string | null;
-                body: string | null;
-                status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-                /**
-                 * Per-variant schedule override (ISO-8601); null inherits the post.
-                 */
-                schedule_at: string | null;
-                result: {
-                    platform_post_id: string;
-                    permalink: string | null;
-                    published_at: string;
-                } | null;
-                error: {
-                    code: string;
-                    message: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                     */
-                    display_error: string;
-                } | null;
-                media: Array<{
-                    media_id: string;
-                    /**
-                     * Ordering of this media within the variant (e.g. carousel order).
-                     */
-                    position: number;
-                    /**
-                     * Per-variant crop, applied at publish; null = none.
-                     */
-                    crop_box: {
-                        [key: string]: unknown;
-                    } | null;
-                    /**
-                     * Per-variant alt text; falls back to the asset’s alt_text.
-                     */
-                    alt_text_override: string | null;
-                    /**
-                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                     */
-                    media: {
-                        id: string;
-                        object: 'media';
-                        profile_id: string;
-                        /**
-                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                         */
-                        kind: 'image' | 'video' | 'gif' | 'document' | null;
-                        /**
-                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                         */
-                        content_type: string | null;
-                        status: 'uploading' | 'processing' | 'ready' | 'failed';
-                        /**
-                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                         */
-                        progress: {
-                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                            percent: number;
-                        };
-                        raw: boolean;
-                        /**
-                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                         */
-                        error: {
-                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                            message: string;
-                            hint?: string;
-                            allowed?: Array<unknown | null>;
-                            got?: string;
-                            /**
-                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                             */
-                            display_error: string;
-                        } | null;
-                        source: {
-                            /**
-                             * MIME of the original, e.g. image/heic.
-                             */
-                            format: string;
-                            bytes: number;
-                            width: number | null;
-                            height: number | null;
-                            duration_ms: number | null;
-                        } | null;
-                        alt_text: string | null;
-                        per_platform: {
-                            [key: string]: {
-                                status?: unknown;
-                                url?: unknown;
-                                width?: unknown;
-                                height?: unknown;
-                                bytes?: unknown;
-                                warnings?: unknown;
-                                errors?: unknown;
-                            };
-                        };
-                        external_id: string | null;
-                        /**
-                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                         */
-                        metadata: {
-                            [key: string]: unknown;
-                        };
-                        /**
-                         * ISO-8601 creation time.
-                         */
-                        created_at: string;
-                        /**
-                         * ISO-8601 last-update time.
-                         */
-                        updated_at: string;
-                    };
-                }>;
-            } | {
-                platform: 'tiktok';
-                post_type: 'video' | 'single_image' | 'carousel';
-                /**
-                 * TikTok organic post settings (Direct Post: video + photo).
-                 */
-                settings: {
-                    /**
-                     * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
-                     */
-                    privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
-                    /**
-                     * Disable comments on this post.
-                     */
-                    disable_comment?: boolean;
-                    /**
-                     * Disable Duet (video only).
-                     */
-                    disable_duet?: boolean;
-                    /**
-                     * Disable Stitch (video only).
-                     */
-                    disable_stitch?: boolean;
-                    /**
-                     * Video cover frame offset (ms). Video posts only.
-                     */
-                    video_cover_timestamp_ms?: number;
-                    /**
-                     * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
-                     */
-                    photo_cover_index?: number;
-                    /**
-                     * Auto-add a TikTok soundtrack. Photo posts only.
-                     */
-                    auto_add_music?: boolean;
-                    /**
-                     * Disclose a paid partnership (branded content).
-                     */
-                    brand_content_toggle?: boolean;
-                    /**
-                     * Disclose own-brand promotional content.
-                     */
-                    brand_organic_toggle?: boolean;
-                    /**
-                     * Disclose AI-generated content. Video posts only.
-                     */
-                    is_aigc?: boolean;
-                };
-                id: string;
-                object: 'post_variant';
-                /**
-                 * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-                 */
-                connection_id: string | null;
-                body: string | null;
-                status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-                /**
-                 * Per-variant schedule override (ISO-8601); null inherits the post.
-                 */
-                schedule_at: string | null;
-                result: {
-                    platform_post_id: string;
-                    permalink: string | null;
-                    published_at: string;
-                } | null;
-                error: {
-                    code: string;
-                    message: string;
-                    /**
-                     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                     */
-                    display_error: string;
-                } | null;
-                media: Array<{
-                    media_id: string;
-                    /**
-                     * Ordering of this media within the variant (e.g. carousel order).
-                     */
-                    position: number;
-                    /**
-                     * Per-variant crop, applied at publish; null = none.
-                     */
-                    crop_box: {
-                        [key: string]: unknown;
-                    } | null;
-                    /**
-                     * Per-variant alt text; falls back to the asset’s alt_text.
-                     */
-                    alt_text_override: string | null;
-                    /**
-                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                     */
-                    media: {
-                        id: string;
-                        object: 'media';
-                        profile_id: string;
-                        /**
-                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                         */
-                        kind: 'image' | 'video' | 'gif' | 'document' | null;
-                        /**
-                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                         */
-                        content_type: string | null;
-                        status: 'uploading' | 'processing' | 'ready' | 'failed';
-                        /**
-                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                         */
-                        progress: {
-                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                            percent: number;
-                        };
-                        raw: boolean;
-                        /**
-                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                         */
-                        error: {
-                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                            message: string;
-                            hint?: string;
-                            allowed?: Array<unknown | null>;
-                            got?: string;
-                            /**
-                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                             */
-                            display_error: string;
-                        } | null;
-                        source: {
-                            /**
-                             * MIME of the original, e.g. image/heic.
-                             */
-                            format: string;
-                            bytes: number;
-                            width: number | null;
-                            height: number | null;
-                            duration_ms: number | null;
-                        } | null;
-                        alt_text: string | null;
-                        per_platform: {
-                            [key: string]: {
-                                status?: unknown;
-                                url?: unknown;
-                                width?: unknown;
-                                height?: unknown;
-                                bytes?: unknown;
-                                warnings?: unknown;
-                                errors?: unknown;
-                            };
-                        };
-                        external_id: string | null;
-                        /**
-                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                         */
-                        metadata: {
-                            [key: string]: unknown;
-                        };
-                        /**
-                         * ISO-8601 creation time.
-                         */
-                        created_at: string;
-                        /**
-                         * ISO-8601 last-update time.
-                         */
-                        updated_at: string;
-                    };
-                }>;
-            }>;
-            /**
-             * ISO-8601 creation time.
-             */
-            created_at: string;
-            /**
-             * ISO-8601 last-update time.
-             */
-            updated_at: string;
-        }>;
+        data: Array<Post>;
         /**
          * Total items matching the query, across all pages.
          */
@@ -5981,426 +5690,7 @@ export type PostsListResponses = {
 export type PostsListResponse = PostsListResponses[keyof PostsListResponses];
 
 export type PostsCreateData = {
-    body: {
-        /**
-         * Profile that owns this post.
-         */
-        profile_id: string;
-        /**
-         * now = publish immediately; schedule = publish at schedule_at; draft = store only.
-         */
-        publish?: 'now' | 'schedule' | 'draft';
-        /**
-         * UTC ISO-8601 publish time. Required when publish = schedule.
-         */
-        schedule_at?: string;
-        external_id?: string;
-        /**
-         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-         */
-        metadata?: {
-            [key: string]: string | number | boolean;
-        };
-        tags?: Array<string>;
-        notes?: string;
-        /**
-         * Validate the post without persisting or scheduling.
-         */
-        dry_run?: boolean;
-        /**
-         * A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings.
-         */
-        variants: Array<{
-            platform: 'x';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * X (Twitter) organic post settings.
-             */
-            settings?: {
-                /**
-                 * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
-                 */
-                reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                /**
-                 * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
-                 */
-                quote_tweet_id?: string;
-                /**
-                 * Create a poll. Mutually exclusive with media, quote, and card_uri.
-                 */
-                poll?: {
-                    /**
-                     * 2–4 options, each 1–25 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * Poll duration in minutes (5 min – 7 days).
-                     */
-                    duration_minutes: number;
-                    /**
-                     * Reply restriction for the poll post (same enum).
-                     */
-                    reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                };
-                /**
-                 * Reply/thread chaining controls.
-                 */
-                reply?: {
-                    /**
-                     * Parent post id; required when `reply` is present.
-                     */
-                    in_reply_to_tweet_id: string;
-                    /**
-                     * User ids dropped from the auto-mention chain.
-                     */
-                    exclude_reply_user_ids?: Array<string>;
-                    /**
-                     * Auto-prepend the parent participants' @mentions.
-                     */
-                    auto_populate_reply_metadata?: boolean;
-                };
-                /**
-                 * Post to an X Community.
-                 */
-                community_id?: string;
-                /**
-                 * Restrict to Super Followers (default false).
-                 */
-                for_super_followers_only?: boolean;
-                /**
-                 * Attach a place.
-                 */
-                geo?: {
-                    place_id: string;
-                };
-                /**
-                 * Cards-API reference. Mutually exclusive with quote/poll/media.
-                 */
-                card_uri?: string;
-                /**
-                 * Tag ≤10 users on attached media.
-                 */
-                media_tagged_user_ids?: Array<string>;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'linkedin';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * LinkedIn personal member post settings.
-             */
-            settings: {
-                /**
-                 * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
-                 */
-                visibility: 'PUBLIC' | 'CONNECTIONS';
-                /**
-                 * Which content shape this post carries (mutually exclusive with the others).
-                 */
-                content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
-                /**
-                 * An article share card.
-                 */
-                article?: {
-                    /**
-                     * Article URL. Required for an article post.
-                     */
-                    source: string;
-                    /**
-                     * Article headline, ≤400 characters.
-                     */
-                    title?: string;
-                    /**
-                     * Subtext on the article card, ≤4086 characters.
-                     */
-                    description?: string;
-                    /**
-                     * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
-                     */
-                    thumbnail_media_id?: string;
-                };
-                /**
-                 * A LinkedIn poll (mutually exclusive with other content).
-                 */
-                poll?: {
-                    /**
-                     * The poll question, ≤140 characters.
-                     */
-                    question: string;
-                    /**
-                     * 2–4 options, each 1–30 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * How long the poll runs.
-                     */
-                    duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
-                };
-                /**
-                 * Document-post display options (asset rides on media[]).
-                 */
-                document?: {
-                    /**
-                     * Display title shown above the document. Required for document posts.
-                     */
-                    title: string;
-                };
-                /**
-                 * Disable resharing of this post (default false).
-                 */
-                disable_reshare?: boolean;
-                /**
-                 * Inline @mentions encoded into the commentary at publish.
-                 */
-                mentions?: Array<{
-                    /**
-                     * Whether the mentioned entity is a member or an organization.
-                     */
-                    type: 'person' | 'organization';
-                    /**
-                     * Rendered text; must match the entity name (case-sensitive) for the link to convert.
-                     */
-                    name: string;
-                    /**
-                     * The mentioned entity urn (supplied by the caller).
-                     */
-                    urn: string;
-                }>;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'instagram';
-            post_type: 'single_image' | 'carousel' | 'reel';
-            /**
-             * Instagram organic post settings (feed image/carousel + reels).
-             */
-            settings: {
-                /**
-                 * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
-                 */
-                media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
-                /**
-                 * Facebook Page id representing a location.
-                 */
-                location_id?: string;
-                /**
-                 * Tag users on an image; x/y are fractional positions in [0,1].
-                 */
-                user_tags?: Array<{
-                    /**
-                     * IG username to tag.
-                     */
-                    username: string;
-                    /**
-                     * Horizontal position on the image, in [0,1].
-                     */
-                    x: number;
-                    /**
-                     * Vertical position on the image, in [0,1].
-                     */
-                    y: number;
-                }>;
-                /**
-                 * ≤3 co-author usernames.
-                 */
-                collaborators?: Array<string>;
-                /**
-                 * Reel also appears in the main feed.
-                 */
-                share_to_feed?: boolean;
-                /**
-                 * Reel cover frame offset (ms).
-                 */
-                thumb_offset?: number;
-                /**
-                 * Custom reel cover image URL.
-                 */
-                cover_url?: string;
-                /**
-                 * Label for the reel's original audio.
-                 */
-                audio_name?: string;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'facebook_page';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
-            /**
-             * Facebook Page organic post settings.
-             */
-            settings?: {
-                /**
-                 * URL to unfurl. A feed post needs a body (message) OR a link.
-                 */
-                link?: string;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'tiktok';
-            post_type: 'video' | 'single_image' | 'carousel';
-            /**
-             * TikTok organic post settings (Direct Post: video + photo).
-             */
-            settings?: {
-                /**
-                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
-                 */
-                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
-                /**
-                 * Disable comments on this post.
-                 */
-                disable_comment?: boolean;
-                /**
-                 * Disable Duet (video only).
-                 */
-                disable_duet?: boolean;
-                /**
-                 * Disable Stitch (video only).
-                 */
-                disable_stitch?: boolean;
-                /**
-                 * Video cover frame offset (ms). Video posts only.
-                 */
-                video_cover_timestamp_ms?: number;
-                /**
-                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
-                 */
-                photo_cover_index?: number;
-                /**
-                 * Auto-add a TikTok soundtrack. Photo posts only.
-                 */
-                auto_add_music?: boolean;
-                /**
-                 * Disclose a paid partnership (branded content).
-                 */
-                brand_content_toggle?: boolean;
-                /**
-                 * Disclose own-brand promotional content.
-                 */
-                brand_organic_toggle?: boolean;
-                /**
-                 * Disclose AI-generated content. Video posts only.
-                 */
-                is_aigc?: boolean;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        }>;
-    };
+    body: CreatePostBody;
     path?: never;
     query?: never;
     url: '/posts';
@@ -6668,951 +5958,7 @@ export type PostsCreateResponses = {
         metadata: {
             [key: string]: string | number | boolean;
         };
-        variants: Array<{
-            platform: 'x';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * X (Twitter) organic post settings.
-             */
-            settings: {
-                /**
-                 * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
-                 */
-                reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                /**
-                 * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
-                 */
-                quote_tweet_id?: string;
-                /**
-                 * Create a poll. Mutually exclusive with media, quote, and card_uri.
-                 */
-                poll?: {
-                    /**
-                     * 2–4 options, each 1–25 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * Poll duration in minutes (5 min – 7 days).
-                     */
-                    duration_minutes: number;
-                    /**
-                     * Reply restriction for the poll post (same enum).
-                     */
-                    reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                };
-                /**
-                 * Reply/thread chaining controls.
-                 */
-                reply?: {
-                    /**
-                     * Parent post id; required when `reply` is present.
-                     */
-                    in_reply_to_tweet_id: string;
-                    /**
-                     * User ids dropped from the auto-mention chain.
-                     */
-                    exclude_reply_user_ids?: Array<string>;
-                    /**
-                     * Auto-prepend the parent participants' @mentions.
-                     */
-                    auto_populate_reply_metadata?: boolean;
-                };
-                /**
-                 * Post to an X Community.
-                 */
-                community_id?: string;
-                /**
-                 * Restrict to Super Followers (default false).
-                 */
-                for_super_followers_only?: boolean;
-                /**
-                 * Attach a place.
-                 */
-                geo?: {
-                    place_id: string;
-                };
-                /**
-                 * Cards-API reference. Mutually exclusive with quote/poll/media.
-                 */
-                card_uri?: string;
-                /**
-                 * Tag ≤10 users on attached media.
-                 */
-                media_tagged_user_ids?: Array<string>;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'linkedin';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * LinkedIn personal member post settings.
-             */
-            settings: {
-                /**
-                 * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
-                 */
-                visibility: 'PUBLIC' | 'CONNECTIONS';
-                /**
-                 * Which content shape this post carries (mutually exclusive with the others).
-                 */
-                content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
-                /**
-                 * An article share card.
-                 */
-                article?: {
-                    /**
-                     * Article URL. Required for an article post.
-                     */
-                    source: string;
-                    /**
-                     * Article headline, ≤400 characters.
-                     */
-                    title?: string;
-                    /**
-                     * Subtext on the article card, ≤4086 characters.
-                     */
-                    description?: string;
-                    /**
-                     * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
-                     */
-                    thumbnail_media_id?: string;
-                };
-                /**
-                 * A LinkedIn poll (mutually exclusive with other content).
-                 */
-                poll?: {
-                    /**
-                     * The poll question, ≤140 characters.
-                     */
-                    question: string;
-                    /**
-                     * 2–4 options, each 1–30 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * How long the poll runs.
-                     */
-                    duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
-                };
-                /**
-                 * Document-post display options (asset rides on media[]).
-                 */
-                document?: {
-                    /**
-                     * Display title shown above the document. Required for document posts.
-                     */
-                    title: string;
-                };
-                /**
-                 * Disable resharing of this post (default false).
-                 */
-                disable_reshare?: boolean;
-                /**
-                 * Inline @mentions encoded into the commentary at publish.
-                 */
-                mentions?: Array<{
-                    /**
-                     * Whether the mentioned entity is a member or an organization.
-                     */
-                    type: 'person' | 'organization';
-                    /**
-                     * Rendered text; must match the entity name (case-sensitive) for the link to convert.
-                     */
-                    name: string;
-                    /**
-                     * The mentioned entity urn (supplied by the caller).
-                     */
-                    urn: string;
-                }>;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'facebook_page';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
-            /**
-             * Facebook Page organic post settings.
-             */
-            settings: {
-                /**
-                 * URL to unfurl. A feed post needs a body (message) OR a link.
-                 */
-                link?: string;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'instagram';
-            post_type: 'single_image' | 'carousel' | 'reel';
-            /**
-             * Instagram organic post settings (feed image/carousel + reels).
-             */
-            settings: {
-                /**
-                 * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
-                 */
-                media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
-                /**
-                 * Facebook Page id representing a location.
-                 */
-                location_id?: string;
-                /**
-                 * Tag users on an image; x/y are fractional positions in [0,1].
-                 */
-                user_tags?: Array<{
-                    /**
-                     * IG username to tag.
-                     */
-                    username: string;
-                    /**
-                     * Horizontal position on the image, in [0,1].
-                     */
-                    x: number;
-                    /**
-                     * Vertical position on the image, in [0,1].
-                     */
-                    y: number;
-                }>;
-                /**
-                 * ≤3 co-author usernames.
-                 */
-                collaborators?: Array<string>;
-                /**
-                 * Reel also appears in the main feed.
-                 */
-                share_to_feed?: boolean;
-                /**
-                 * Reel cover frame offset (ms).
-                 */
-                thumb_offset?: number;
-                /**
-                 * Custom reel cover image URL.
-                 */
-                cover_url?: string;
-                /**
-                 * Label for the reel's original audio.
-                 */
-                audio_name?: string;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'tiktok';
-            post_type: 'video' | 'single_image' | 'carousel';
-            /**
-             * TikTok organic post settings (Direct Post: video + photo).
-             */
-            settings: {
-                /**
-                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
-                 */
-                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
-                /**
-                 * Disable comments on this post.
-                 */
-                disable_comment?: boolean;
-                /**
-                 * Disable Duet (video only).
-                 */
-                disable_duet?: boolean;
-                /**
-                 * Disable Stitch (video only).
-                 */
-                disable_stitch?: boolean;
-                /**
-                 * Video cover frame offset (ms). Video posts only.
-                 */
-                video_cover_timestamp_ms?: number;
-                /**
-                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
-                 */
-                photo_cover_index?: number;
-                /**
-                 * Auto-add a TikTok soundtrack. Photo posts only.
-                 */
-                auto_add_music?: boolean;
-                /**
-                 * Disclose a paid partnership (branded content).
-                 */
-                brand_content_toggle?: boolean;
-                /**
-                 * Disclose own-brand promotional content.
-                 */
-                brand_organic_toggle?: boolean;
-                /**
-                 * Disclose AI-generated content. Video posts only.
-                 */
-                is_aigc?: boolean;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        }>;
+        variants: Array<PostVariant>;
         /**
          * ISO-8601 creation time.
          */
@@ -8091,981 +6437,7 @@ export type PostsGetResponses = {
     /**
      * OK
      */
-    200: {
-        id: string;
-        object: 'post';
-        profile_id: string;
-        external_id: string | null;
-        /**
-         * Derived rollup of the variants’ statuses (never set directly).
-         */
-        status: 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
-        /**
-         * Shared schedule (ISO-8601). null = draft/publish-now.
-         */
-        schedule_at: string | null;
-        tags: Array<string>;
-        notes: string | null;
-        /**
-         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-         */
-        metadata: {
-            [key: string]: string | number | boolean;
-        };
-        variants: Array<{
-            platform: 'x';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * X (Twitter) organic post settings.
-             */
-            settings: {
-                /**
-                 * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
-                 */
-                reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                /**
-                 * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
-                 */
-                quote_tweet_id?: string;
-                /**
-                 * Create a poll. Mutually exclusive with media, quote, and card_uri.
-                 */
-                poll?: {
-                    /**
-                     * 2–4 options, each 1–25 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * Poll duration in minutes (5 min – 7 days).
-                     */
-                    duration_minutes: number;
-                    /**
-                     * Reply restriction for the poll post (same enum).
-                     */
-                    reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                };
-                /**
-                 * Reply/thread chaining controls.
-                 */
-                reply?: {
-                    /**
-                     * Parent post id; required when `reply` is present.
-                     */
-                    in_reply_to_tweet_id: string;
-                    /**
-                     * User ids dropped from the auto-mention chain.
-                     */
-                    exclude_reply_user_ids?: Array<string>;
-                    /**
-                     * Auto-prepend the parent participants' @mentions.
-                     */
-                    auto_populate_reply_metadata?: boolean;
-                };
-                /**
-                 * Post to an X Community.
-                 */
-                community_id?: string;
-                /**
-                 * Restrict to Super Followers (default false).
-                 */
-                for_super_followers_only?: boolean;
-                /**
-                 * Attach a place.
-                 */
-                geo?: {
-                    place_id: string;
-                };
-                /**
-                 * Cards-API reference. Mutually exclusive with quote/poll/media.
-                 */
-                card_uri?: string;
-                /**
-                 * Tag ≤10 users on attached media.
-                 */
-                media_tagged_user_ids?: Array<string>;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'linkedin';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * LinkedIn personal member post settings.
-             */
-            settings: {
-                /**
-                 * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
-                 */
-                visibility: 'PUBLIC' | 'CONNECTIONS';
-                /**
-                 * Which content shape this post carries (mutually exclusive with the others).
-                 */
-                content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
-                /**
-                 * An article share card.
-                 */
-                article?: {
-                    /**
-                     * Article URL. Required for an article post.
-                     */
-                    source: string;
-                    /**
-                     * Article headline, ≤400 characters.
-                     */
-                    title?: string;
-                    /**
-                     * Subtext on the article card, ≤4086 characters.
-                     */
-                    description?: string;
-                    /**
-                     * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
-                     */
-                    thumbnail_media_id?: string;
-                };
-                /**
-                 * A LinkedIn poll (mutually exclusive with other content).
-                 */
-                poll?: {
-                    /**
-                     * The poll question, ≤140 characters.
-                     */
-                    question: string;
-                    /**
-                     * 2–4 options, each 1–30 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * How long the poll runs.
-                     */
-                    duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
-                };
-                /**
-                 * Document-post display options (asset rides on media[]).
-                 */
-                document?: {
-                    /**
-                     * Display title shown above the document. Required for document posts.
-                     */
-                    title: string;
-                };
-                /**
-                 * Disable resharing of this post (default false).
-                 */
-                disable_reshare?: boolean;
-                /**
-                 * Inline @mentions encoded into the commentary at publish.
-                 */
-                mentions?: Array<{
-                    /**
-                     * Whether the mentioned entity is a member or an organization.
-                     */
-                    type: 'person' | 'organization';
-                    /**
-                     * Rendered text; must match the entity name (case-sensitive) for the link to convert.
-                     */
-                    name: string;
-                    /**
-                     * The mentioned entity urn (supplied by the caller).
-                     */
-                    urn: string;
-                }>;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'facebook_page';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
-            /**
-             * Facebook Page organic post settings.
-             */
-            settings: {
-                /**
-                 * URL to unfurl. A feed post needs a body (message) OR a link.
-                 */
-                link?: string;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'instagram';
-            post_type: 'single_image' | 'carousel' | 'reel';
-            /**
-             * Instagram organic post settings (feed image/carousel + reels).
-             */
-            settings: {
-                /**
-                 * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
-                 */
-                media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
-                /**
-                 * Facebook Page id representing a location.
-                 */
-                location_id?: string;
-                /**
-                 * Tag users on an image; x/y are fractional positions in [0,1].
-                 */
-                user_tags?: Array<{
-                    /**
-                     * IG username to tag.
-                     */
-                    username: string;
-                    /**
-                     * Horizontal position on the image, in [0,1].
-                     */
-                    x: number;
-                    /**
-                     * Vertical position on the image, in [0,1].
-                     */
-                    y: number;
-                }>;
-                /**
-                 * ≤3 co-author usernames.
-                 */
-                collaborators?: Array<string>;
-                /**
-                 * Reel also appears in the main feed.
-                 */
-                share_to_feed?: boolean;
-                /**
-                 * Reel cover frame offset (ms).
-                 */
-                thumb_offset?: number;
-                /**
-                 * Custom reel cover image URL.
-                 */
-                cover_url?: string;
-                /**
-                 * Label for the reel's original audio.
-                 */
-                audio_name?: string;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'tiktok';
-            post_type: 'video' | 'single_image' | 'carousel';
-            /**
-             * TikTok organic post settings (Direct Post: video + photo).
-             */
-            settings: {
-                /**
-                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
-                 */
-                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
-                /**
-                 * Disable comments on this post.
-                 */
-                disable_comment?: boolean;
-                /**
-                 * Disable Duet (video only).
-                 */
-                disable_duet?: boolean;
-                /**
-                 * Disable Stitch (video only).
-                 */
-                disable_stitch?: boolean;
-                /**
-                 * Video cover frame offset (ms). Video posts only.
-                 */
-                video_cover_timestamp_ms?: number;
-                /**
-                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
-                 */
-                photo_cover_index?: number;
-                /**
-                 * Auto-add a TikTok soundtrack. Photo posts only.
-                 */
-                auto_add_music?: boolean;
-                /**
-                 * Disclose a paid partnership (branded content).
-                 */
-                brand_content_toggle?: boolean;
-                /**
-                 * Disclose own-brand promotional content.
-                 */
-                brand_organic_toggle?: boolean;
-                /**
-                 * Disclose AI-generated content. Video posts only.
-                 */
-                is_aigc?: boolean;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        }>;
-        /**
-         * ISO-8601 creation time.
-         */
-        created_at: string;
-        /**
-         * ISO-8601 last-update time.
-         */
-        updated_at: string;
-    };
+    200: Post;
 };
 
 export type PostsGetResponse = PostsGetResponses[keyof PostsGetResponses];
@@ -9084,399 +6456,7 @@ export type PostsUpdateData = {
         tags?: Array<string>;
         notes?: string | null;
         dry_run?: boolean;
-        /**
-         * A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings.
-         */
-        variants?: Array<{
-            platform: 'x';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * X (Twitter) organic post settings.
-             */
-            settings?: {
-                /**
-                 * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
-                 */
-                reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                /**
-                 * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
-                 */
-                quote_tweet_id?: string;
-                /**
-                 * Create a poll. Mutually exclusive with media, quote, and card_uri.
-                 */
-                poll?: {
-                    /**
-                     * 2–4 options, each 1–25 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * Poll duration in minutes (5 min – 7 days).
-                     */
-                    duration_minutes: number;
-                    /**
-                     * Reply restriction for the poll post (same enum).
-                     */
-                    reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                };
-                /**
-                 * Reply/thread chaining controls.
-                 */
-                reply?: {
-                    /**
-                     * Parent post id; required when `reply` is present.
-                     */
-                    in_reply_to_tweet_id: string;
-                    /**
-                     * User ids dropped from the auto-mention chain.
-                     */
-                    exclude_reply_user_ids?: Array<string>;
-                    /**
-                     * Auto-prepend the parent participants' @mentions.
-                     */
-                    auto_populate_reply_metadata?: boolean;
-                };
-                /**
-                 * Post to an X Community.
-                 */
-                community_id?: string;
-                /**
-                 * Restrict to Super Followers (default false).
-                 */
-                for_super_followers_only?: boolean;
-                /**
-                 * Attach a place.
-                 */
-                geo?: {
-                    place_id: string;
-                };
-                /**
-                 * Cards-API reference. Mutually exclusive with quote/poll/media.
-                 */
-                card_uri?: string;
-                /**
-                 * Tag ≤10 users on attached media.
-                 */
-                media_tagged_user_ids?: Array<string>;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'linkedin';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * LinkedIn personal member post settings.
-             */
-            settings: {
-                /**
-                 * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
-                 */
-                visibility: 'PUBLIC' | 'CONNECTIONS';
-                /**
-                 * Which content shape this post carries (mutually exclusive with the others).
-                 */
-                content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
-                /**
-                 * An article share card.
-                 */
-                article?: {
-                    /**
-                     * Article URL. Required for an article post.
-                     */
-                    source: string;
-                    /**
-                     * Article headline, ≤400 characters.
-                     */
-                    title?: string;
-                    /**
-                     * Subtext on the article card, ≤4086 characters.
-                     */
-                    description?: string;
-                    /**
-                     * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
-                     */
-                    thumbnail_media_id?: string;
-                };
-                /**
-                 * A LinkedIn poll (mutually exclusive with other content).
-                 */
-                poll?: {
-                    /**
-                     * The poll question, ≤140 characters.
-                     */
-                    question: string;
-                    /**
-                     * 2–4 options, each 1–30 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * How long the poll runs.
-                     */
-                    duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
-                };
-                /**
-                 * Document-post display options (asset rides on media[]).
-                 */
-                document?: {
-                    /**
-                     * Display title shown above the document. Required for document posts.
-                     */
-                    title: string;
-                };
-                /**
-                 * Disable resharing of this post (default false).
-                 */
-                disable_reshare?: boolean;
-                /**
-                 * Inline @mentions encoded into the commentary at publish.
-                 */
-                mentions?: Array<{
-                    /**
-                     * Whether the mentioned entity is a member or an organization.
-                     */
-                    type: 'person' | 'organization';
-                    /**
-                     * Rendered text; must match the entity name (case-sensitive) for the link to convert.
-                     */
-                    name: string;
-                    /**
-                     * The mentioned entity urn (supplied by the caller).
-                     */
-                    urn: string;
-                }>;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'instagram';
-            post_type: 'single_image' | 'carousel' | 'reel';
-            /**
-             * Instagram organic post settings (feed image/carousel + reels).
-             */
-            settings: {
-                /**
-                 * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
-                 */
-                media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
-                /**
-                 * Facebook Page id representing a location.
-                 */
-                location_id?: string;
-                /**
-                 * Tag users on an image; x/y are fractional positions in [0,1].
-                 */
-                user_tags?: Array<{
-                    /**
-                     * IG username to tag.
-                     */
-                    username: string;
-                    /**
-                     * Horizontal position on the image, in [0,1].
-                     */
-                    x: number;
-                    /**
-                     * Vertical position on the image, in [0,1].
-                     */
-                    y: number;
-                }>;
-                /**
-                 * ≤3 co-author usernames.
-                 */
-                collaborators?: Array<string>;
-                /**
-                 * Reel also appears in the main feed.
-                 */
-                share_to_feed?: boolean;
-                /**
-                 * Reel cover frame offset (ms).
-                 */
-                thumb_offset?: number;
-                /**
-                 * Custom reel cover image URL.
-                 */
-                cover_url?: string;
-                /**
-                 * Label for the reel's original audio.
-                 */
-                audio_name?: string;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'facebook_page';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
-            /**
-             * Facebook Page organic post settings.
-             */
-            settings?: {
-                /**
-                 * URL to unfurl. A feed post needs a body (message) OR a link.
-                 */
-                link?: string;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'tiktok';
-            post_type: 'video' | 'single_image' | 'carousel';
-            /**
-             * TikTok organic post settings (Direct Post: video + photo).
-             */
-            settings?: {
-                /**
-                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
-                 */
-                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
-                /**
-                 * Disable comments on this post.
-                 */
-                disable_comment?: boolean;
-                /**
-                 * Disable Duet (video only).
-                 */
-                disable_duet?: boolean;
-                /**
-                 * Disable Stitch (video only).
-                 */
-                disable_stitch?: boolean;
-                /**
-                 * Video cover frame offset (ms). Video posts only.
-                 */
-                video_cover_timestamp_ms?: number;
-                /**
-                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
-                 */
-                photo_cover_index?: number;
-                /**
-                 * Auto-add a TikTok soundtrack. Photo posts only.
-                 */
-                auto_add_music?: boolean;
-                /**
-                 * Disclose a paid partnership (branded content).
-                 */
-                brand_content_toggle?: boolean;
-                /**
-                 * Disclose own-brand promotional content.
-                 */
-                brand_organic_toggle?: boolean;
-                /**
-                 * Disclose AI-generated content. Video posts only.
-                 */
-                is_aigc?: boolean;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        }>;
+        variants?: Array<PostVariantInput>;
     };
     path: {
         /**
@@ -9750,951 +6730,7 @@ export type PostsUpdateResponses = {
         metadata: {
             [key: string]: string | number | boolean;
         };
-        variants: Array<{
-            platform: 'x';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * X (Twitter) organic post settings.
-             */
-            settings: {
-                /**
-                 * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
-                 */
-                reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                /**
-                 * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
-                 */
-                quote_tweet_id?: string;
-                /**
-                 * Create a poll. Mutually exclusive with media, quote, and card_uri.
-                 */
-                poll?: {
-                    /**
-                     * 2–4 options, each 1–25 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * Poll duration in minutes (5 min – 7 days).
-                     */
-                    duration_minutes: number;
-                    /**
-                     * Reply restriction for the poll post (same enum).
-                     */
-                    reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                };
-                /**
-                 * Reply/thread chaining controls.
-                 */
-                reply?: {
-                    /**
-                     * Parent post id; required when `reply` is present.
-                     */
-                    in_reply_to_tweet_id: string;
-                    /**
-                     * User ids dropped from the auto-mention chain.
-                     */
-                    exclude_reply_user_ids?: Array<string>;
-                    /**
-                     * Auto-prepend the parent participants' @mentions.
-                     */
-                    auto_populate_reply_metadata?: boolean;
-                };
-                /**
-                 * Post to an X Community.
-                 */
-                community_id?: string;
-                /**
-                 * Restrict to Super Followers (default false).
-                 */
-                for_super_followers_only?: boolean;
-                /**
-                 * Attach a place.
-                 */
-                geo?: {
-                    place_id: string;
-                };
-                /**
-                 * Cards-API reference. Mutually exclusive with quote/poll/media.
-                 */
-                card_uri?: string;
-                /**
-                 * Tag ≤10 users on attached media.
-                 */
-                media_tagged_user_ids?: Array<string>;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'linkedin';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * LinkedIn personal member post settings.
-             */
-            settings: {
-                /**
-                 * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
-                 */
-                visibility: 'PUBLIC' | 'CONNECTIONS';
-                /**
-                 * Which content shape this post carries (mutually exclusive with the others).
-                 */
-                content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
-                /**
-                 * An article share card.
-                 */
-                article?: {
-                    /**
-                     * Article URL. Required for an article post.
-                     */
-                    source: string;
-                    /**
-                     * Article headline, ≤400 characters.
-                     */
-                    title?: string;
-                    /**
-                     * Subtext on the article card, ≤4086 characters.
-                     */
-                    description?: string;
-                    /**
-                     * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
-                     */
-                    thumbnail_media_id?: string;
-                };
-                /**
-                 * A LinkedIn poll (mutually exclusive with other content).
-                 */
-                poll?: {
-                    /**
-                     * The poll question, ≤140 characters.
-                     */
-                    question: string;
-                    /**
-                     * 2–4 options, each 1–30 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * How long the poll runs.
-                     */
-                    duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
-                };
-                /**
-                 * Document-post display options (asset rides on media[]).
-                 */
-                document?: {
-                    /**
-                     * Display title shown above the document. Required for document posts.
-                     */
-                    title: string;
-                };
-                /**
-                 * Disable resharing of this post (default false).
-                 */
-                disable_reshare?: boolean;
-                /**
-                 * Inline @mentions encoded into the commentary at publish.
-                 */
-                mentions?: Array<{
-                    /**
-                     * Whether the mentioned entity is a member or an organization.
-                     */
-                    type: 'person' | 'organization';
-                    /**
-                     * Rendered text; must match the entity name (case-sensitive) for the link to convert.
-                     */
-                    name: string;
-                    /**
-                     * The mentioned entity urn (supplied by the caller).
-                     */
-                    urn: string;
-                }>;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'facebook_page';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
-            /**
-             * Facebook Page organic post settings.
-             */
-            settings: {
-                /**
-                 * URL to unfurl. A feed post needs a body (message) OR a link.
-                 */
-                link?: string;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'instagram';
-            post_type: 'single_image' | 'carousel' | 'reel';
-            /**
-             * Instagram organic post settings (feed image/carousel + reels).
-             */
-            settings: {
-                /**
-                 * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
-                 */
-                media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
-                /**
-                 * Facebook Page id representing a location.
-                 */
-                location_id?: string;
-                /**
-                 * Tag users on an image; x/y are fractional positions in [0,1].
-                 */
-                user_tags?: Array<{
-                    /**
-                     * IG username to tag.
-                     */
-                    username: string;
-                    /**
-                     * Horizontal position on the image, in [0,1].
-                     */
-                    x: number;
-                    /**
-                     * Vertical position on the image, in [0,1].
-                     */
-                    y: number;
-                }>;
-                /**
-                 * ≤3 co-author usernames.
-                 */
-                collaborators?: Array<string>;
-                /**
-                 * Reel also appears in the main feed.
-                 */
-                share_to_feed?: boolean;
-                /**
-                 * Reel cover frame offset (ms).
-                 */
-                thumb_offset?: number;
-                /**
-                 * Custom reel cover image URL.
-                 */
-                cover_url?: string;
-                /**
-                 * Label for the reel's original audio.
-                 */
-                audio_name?: string;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        } | {
-            platform: 'tiktok';
-            post_type: 'video' | 'single_image' | 'carousel';
-            /**
-             * TikTok organic post settings (Direct Post: video + photo).
-             */
-            settings: {
-                /**
-                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
-                 */
-                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
-                /**
-                 * Disable comments on this post.
-                 */
-                disable_comment?: boolean;
-                /**
-                 * Disable Duet (video only).
-                 */
-                disable_duet?: boolean;
-                /**
-                 * Disable Stitch (video only).
-                 */
-                disable_stitch?: boolean;
-                /**
-                 * Video cover frame offset (ms). Video posts only.
-                 */
-                video_cover_timestamp_ms?: number;
-                /**
-                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
-                 */
-                photo_cover_index?: number;
-                /**
-                 * Auto-add a TikTok soundtrack. Photo posts only.
-                 */
-                auto_add_music?: boolean;
-                /**
-                 * Disclose a paid partnership (branded content).
-                 */
-                brand_content_toggle?: boolean;
-                /**
-                 * Disclose own-brand promotional content.
-                 */
-                brand_organic_toggle?: boolean;
-                /**
-                 * Disclose AI-generated content. Video posts only.
-                 */
-                is_aigc?: boolean;
-            };
-            id: string;
-            object: 'post_variant';
-            /**
-             * The connected account this variant publishes to. null when that connection was removed (disconnected) — the variant then fails at publish time with a `connection_removed` error; reconnect + reschedule to resume.
-             */
-            connection_id: string | null;
-            body: string | null;
-            status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
-            /**
-             * Per-variant schedule override (ISO-8601); null inherits the post.
-             */
-            schedule_at: string | null;
-            result: {
-                platform_post_id: string;
-                permalink: string | null;
-                published_at: string;
-            } | null;
-            error: {
-                code: string;
-                message: string;
-                /**
-                 * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-                 */
-                display_error: string;
-            } | null;
-            media: Array<{
-                media_id: string;
-                /**
-                 * Ordering of this media within the variant (e.g. carousel order).
-                 */
-                position: number;
-                /**
-                 * Per-variant crop, applied at publish; null = none.
-                 */
-                crop_box: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset’s alt_text.
-                 */
-                alt_text_override: string | null;
-                /**
-                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
-                 */
-                media: {
-                    id: string;
-                    object: 'media';
-                    profile_id: string;
-                    /**
-                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
-                     */
-                    kind: 'image' | 'video' | 'gif' | 'document' | null;
-                    /**
-                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
-                     */
-                    content_type: string | null;
-                    status: 'uploading' | 'processing' | 'ready' | 'failed';
-                    /**
-                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
-                     */
-                    progress: {
-                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
-                        percent: number;
-                    };
-                    raw: boolean;
-                    /**
-                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
-                     */
-                    error: {
-                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
-                        message: string;
-                        hint?: string;
-                        allowed?: Array<string>;
-                        got?: string;
-                        /**
-                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
-                         */
-                        display_error: string;
-                    } | null;
-                    source: {
-                        /**
-                         * MIME of the original, e.g. image/heic.
-                         */
-                        format: string;
-                        bytes: number;
-                        width: number | null;
-                        height: number | null;
-                        duration_ms: number | null;
-                    } | null;
-                    alt_text: string | null;
-                    per_platform: {
-                        [key: string]: {
-                            status: 'processing' | 'ready' | 'failed';
-                            /**
-                             * Public URL of this platform’s rendition (null until ready).
-                             */
-                            url: string | null;
-                            width: number | null;
-                            height: number | null;
-                            bytes: number | null;
-                            warnings: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                            errors: Array<{
-                                code?: unknown;
-                                message?: unknown;
-                                hint?: unknown;
-                                allowed?: unknown;
-                                got?: unknown;
-                                display_error?: unknown;
-                            }>;
-                        };
-                    };
-                    external_id: string | null;
-                    /**
-                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
-                     */
-                    metadata: {
-                        [key: string]: string | number | boolean;
-                    };
-                    /**
-                     * ISO-8601 creation time.
-                     */
-                    created_at: string;
-                    /**
-                     * ISO-8601 last-update time.
-                     */
-                    updated_at: string;
-                };
-            }>;
-        }>;
+        variants: Array<PostVariant>;
         /**
          * ISO-8601 creation time.
          */
@@ -10723,398 +6759,9 @@ export type PostsValidateData = {
          */
         profile_id: string;
         /**
-         * A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings.
+         * One entry per channel; at least one.
          */
-        variants: Array<{
-            platform: 'x';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * X (Twitter) organic post settings.
-             */
-            settings?: {
-                /**
-                 * Who may reply. Omit (or `everyone`) = anyone. `everyone` is sugar that is normalised to an omitted field.
-                 */
-                reply_settings?: 'everyone' | 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                /**
-                 * Quote a post by id. Mutually exclusive with poll/card_uri/media. Enterprise-tier at publish.
-                 */
-                quote_tweet_id?: string;
-                /**
-                 * Create a poll. Mutually exclusive with media, quote, and card_uri.
-                 */
-                poll?: {
-                    /**
-                     * 2–4 options, each 1–25 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * Poll duration in minutes (5 min – 7 days).
-                     */
-                    duration_minutes: number;
-                    /**
-                     * Reply restriction for the poll post (same enum).
-                     */
-                    reply_settings?: 'following' | 'mentionedUsers' | 'subscribers' | 'verified';
-                };
-                /**
-                 * Reply/thread chaining controls.
-                 */
-                reply?: {
-                    /**
-                     * Parent post id; required when `reply` is present.
-                     */
-                    in_reply_to_tweet_id: string;
-                    /**
-                     * User ids dropped from the auto-mention chain.
-                     */
-                    exclude_reply_user_ids?: Array<string>;
-                    /**
-                     * Auto-prepend the parent participants' @mentions.
-                     */
-                    auto_populate_reply_metadata?: boolean;
-                };
-                /**
-                 * Post to an X Community.
-                 */
-                community_id?: string;
-                /**
-                 * Restrict to Super Followers (default false).
-                 */
-                for_super_followers_only?: boolean;
-                /**
-                 * Attach a place.
-                 */
-                geo?: {
-                    place_id: string;
-                };
-                /**
-                 * Cards-API reference. Mutually exclusive with quote/poll/media.
-                 */
-                card_uri?: string;
-                /**
-                 * Tag ≤10 users on attached media.
-                 */
-                media_tagged_user_ids?: Array<string>;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'linkedin';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'video';
-            /**
-             * LinkedIn personal member post settings.
-             */
-            settings: {
-                /**
-                 * Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts.
-                 */
-                visibility: 'PUBLIC' | 'CONNECTIONS';
-                /**
-                 * Which content shape this post carries (mutually exclusive with the others).
-                 */
-                content_kind: 'text' | 'single_image' | 'video' | 'multi_image' | 'document' | 'article' | 'poll';
-                /**
-                 * An article share card.
-                 */
-                article?: {
-                    /**
-                     * Article URL. Required for an article post.
-                     */
-                    source: string;
-                    /**
-                     * Article headline, ≤400 characters.
-                     */
-                    title?: string;
-                    /**
-                     * Subtext on the article card, ≤4086 characters.
-                     */
-                    description?: string;
-                    /**
-                     * Optional thumbnail, referenced by OUR media id (resolved to a urn:li:image at publish).
-                     */
-                    thumbnail_media_id?: string;
-                };
-                /**
-                 * A LinkedIn poll (mutually exclusive with other content).
-                 */
-                poll?: {
-                    /**
-                     * The poll question, ≤140 characters.
-                     */
-                    question: string;
-                    /**
-                     * 2–4 options, each 1–30 characters.
-                     */
-                    options: Array<string>;
-                    /**
-                     * How long the poll runs.
-                     */
-                    duration: 'ONE_DAY' | 'THREE_DAYS' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS';
-                };
-                /**
-                 * Document-post display options (asset rides on media[]).
-                 */
-                document?: {
-                    /**
-                     * Display title shown above the document. Required for document posts.
-                     */
-                    title: string;
-                };
-                /**
-                 * Disable resharing of this post (default false).
-                 */
-                disable_reshare?: boolean;
-                /**
-                 * Inline @mentions encoded into the commentary at publish.
-                 */
-                mentions?: Array<{
-                    /**
-                     * Whether the mentioned entity is a member or an organization.
-                     */
-                    type: 'person' | 'organization';
-                    /**
-                     * Rendered text; must match the entity name (case-sensitive) for the link to convert.
-                     */
-                    name: string;
-                    /**
-                     * The mentioned entity urn (supplied by the caller).
-                     */
-                    urn: string;
-                }>;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'instagram';
-            post_type: 'single_image' | 'carousel' | 'reel';
-            /**
-             * Instagram organic post settings (feed image/carousel + reels).
-             */
-            settings: {
-                /**
-                 * Feed image, carousel, or reel. Defaults to IMAGE for a single image.
-                 */
-                media_type?: 'IMAGE' | 'CAROUSEL' | 'REELS';
-                /**
-                 * Facebook Page id representing a location.
-                 */
-                location_id?: string;
-                /**
-                 * Tag users on an image; x/y are fractional positions in [0,1].
-                 */
-                user_tags?: Array<{
-                    /**
-                     * IG username to tag.
-                     */
-                    username: string;
-                    /**
-                     * Horizontal position on the image, in [0,1].
-                     */
-                    x: number;
-                    /**
-                     * Vertical position on the image, in [0,1].
-                     */
-                    y: number;
-                }>;
-                /**
-                 * ≤3 co-author usernames.
-                 */
-                collaborators?: Array<string>;
-                /**
-                 * Reel also appears in the main feed.
-                 */
-                share_to_feed?: boolean;
-                /**
-                 * Reel cover frame offset (ms).
-                 */
-                thumb_offset?: number;
-                /**
-                 * Custom reel cover image URL.
-                 */
-                cover_url?: string;
-                /**
-                 * Label for the reel's original audio.
-                 */
-                audio_name?: string;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'facebook_page';
-            post_type: 'text' | 'single_image' | 'multi_image' | 'reel';
-            /**
-             * Facebook Page organic post settings.
-             */
-            settings?: {
-                /**
-                 * URL to unfurl. A feed post needs a body (message) OR a link.
-                 */
-                link?: string;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        } | {
-            platform: 'tiktok';
-            post_type: 'video' | 'single_image' | 'carousel';
-            /**
-             * TikTok organic post settings (Direct Post: video + photo).
-             */
-            settings?: {
-                /**
-                 * Audience for the post. The per-account allowed set is returned by creator_info at publish; an out-of-set value is rejected then. Unaudited apps may only use SELF_ONLY.
-                 */
-                privacy_level?: 'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY';
-                /**
-                 * Disable comments on this post.
-                 */
-                disable_comment?: boolean;
-                /**
-                 * Disable Duet (video only).
-                 */
-                disable_duet?: boolean;
-                /**
-                 * Disable Stitch (video only).
-                 */
-                disable_stitch?: boolean;
-                /**
-                 * Video cover frame offset (ms). Video posts only.
-                 */
-                video_cover_timestamp_ms?: number;
-                /**
-                 * Which carousel image is the cover (0-based index into the ordered image list). Photo posts only.
-                 */
-                photo_cover_index?: number;
-                /**
-                 * Auto-add a TikTok soundtrack. Photo posts only.
-                 */
-                auto_add_music?: boolean;
-                /**
-                 * Disclose a paid partnership (branded content).
-                 */
-                brand_content_toggle?: boolean;
-                /**
-                 * Disclose own-brand promotional content.
-                 */
-                brand_organic_toggle?: boolean;
-                /**
-                 * Disclose AI-generated content. Video posts only.
-                 */
-                is_aigc?: boolean;
-            };
-            /**
-             * The connected account this variant publishes to.
-             */
-            connection_id: string;
-            /**
-             * Caption / commentary / message for the post.
-             */
-            body?: string;
-            /**
-             * Ordered media references; the count drives the post-type rules.
-             */
-            media?: Array<{
-                media_id: string;
-                /**
-                 * Per-variant crop applied at publish; omit for none.
-                 */
-                crop_box?: {
-                    [key: string]: unknown;
-                } | null;
-                /**
-                 * Per-variant alt text; falls back to the asset's.
-                 */
-                alt_text_override?: string | null;
-            }>;
-        }>;
+        variants: Array<PostVariantInput>;
     };
     path?: never;
     query?: never;
@@ -11347,7 +6994,7 @@ export type PostsValidateResponses = {
             /**
              * The platform this issue belongs to. Group/branch on this directly rather than re-deriving from `variant_index` (variant order is canonical, not your channel order).
              */
-            platform?: 'x' | 'linkedin' | 'facebook_page' | 'instagram' | 'tiktok';
+            platform?: PostPlatform;
             /**
              * Short, friendly, render-this end-user line (the Plaid display_message model). The `code` stays the branch key for customer branching; `message` stays developer-grade. Populated centrally — never at construction sites.
              */
@@ -24629,22 +20276,9 @@ export type TiktokCreatorInfoError = TiktokCreatorInfoErrors[keyof TiktokCreator
 
 export type TiktokCreatorInfoResponses = {
     /**
-     * A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account.
+     * OK
      */
-    200: {
-        creator: {
-            nickname: string;
-            username: string;
-            avatar_url: string | null;
-        };
-        privacy_options: Array<'PUBLIC_TO_EVERYONE' | 'MUTUAL_FOLLOW_FRIENDS' | 'FOLLOWER_OF_CREATOR' | 'SELF_ONLY'>;
-        interaction: {
-            comment: boolean;
-            duet: boolean;
-            stitch: boolean;
-        };
-        max_video_duration_sec: number;
-    };
+    200: TikTokCreatorInfo;
 };
 
 export type TiktokCreatorInfoResponse = TiktokCreatorInfoResponses[keyof TiktokCreatorInfoResponses];

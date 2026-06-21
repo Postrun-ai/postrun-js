@@ -29,41 +29,15 @@ import type { PreviewMediaKind, ResolvedMedia } from './types';
  */
 
 /** One variant's media reference — the WRITE (compose, id-only) OR the READ
- * (enriched, carries the full asset inline) shape. Both are derived from the SDK
- * variant unions, never re-declared. The write member is `media_id`-only; the
- * read member adds `media`/`position`. */
+ * (enriched, carries the full `MediaResource` inline) shape. Both are derived
+ * from the SDK variant unions, never re-declared. The read member's inline asset
+ * IS the shared `Media` component (same type as `MediaResource`), so no bridge. */
 type VariantMediaRef =
   | NonNullable<PostVariantInput['media']>[number]
   | NonNullable<PostVariant['media']>[number];
 
-/** The enriched asset the READ variant carries inline. It's the same shape as
- * `MediaResource` ("same shape as GET /v1/media") but a distinct generated type
- * (its `per_platform` warnings/errors are typed loosely inline) — so we derive
- * the resolver's asset shape from it and accept the GET `MediaResource` too, by
- * reading only the fields BOTH provide. Never re-declared. */
-type InlineAsset = NonNullable<
-  Extract<NonNullable<PostVariant['media']>[number], { media: unknown }>['media']
->;
-
-/** The minimal asset shape the resolver reads — the fields `MediaResource` and
- * the read variant's inline asset agree on (kind, status, source dims, alt, and
- * the per-target rendition's status/url/dims). Both SDK types satisfy it, so we
- * never cast between the two unrelated-but-identical generated shapes. */
-type PreviewAsset = Pick<
-  InlineAsset,
-  'id' | 'kind' | 'status' | 'source' | 'alt_text'
-> & {
-  per_platform: Record<
-    string,
-    Pick<
-      InlineAsset['per_platform'][string],
-      'status' | 'url' | 'width' | 'height'
-    >
-  >;
-};
-
 /** The media kinds a social card can render — documents are dropped. */
-function previewKind(kind: PreviewAsset['kind']): PreviewMediaKind | null {
+function previewKind(kind: MediaResource['kind']): PreviewMediaKind | null {
   return kind === 'image' || kind === 'video' || kind === 'gif' ? kind : null;
 }
 
@@ -71,18 +45,12 @@ function previewKind(kind: PreviewAsset['kind']): PreviewMediaKind | null {
  * the matching uploaded asset the host supplied for a compose-time draft. */
 function resourceFor(
   ref: VariantMediaRef,
-  fallback: readonly PreviewAsset[] | undefined,
-): PreviewAsset | undefined {
+  fallback: readonly MediaResource[] | undefined,
+): MediaResource | undefined {
   if ('media' in ref && ref.media) {
     return ref.media;
   }
   return fallback?.find((asset) => asset.id === ref.media_id);
-}
-
-/** This platform's rendition entry on an asset (`per_platform[target]`), or
- * undefined if it hasn't been targeted/produced yet. */
-function renditionFor(asset: PreviewAsset, target: MediaTarget) {
-  return asset.per_platform[target];
 }
 
 /**
@@ -112,7 +80,7 @@ export function resolveVariantMedia(
     const alt = ref.alt_text_override ?? asset.alt_text ?? undefined;
     const width = asset.source?.width ?? undefined;
     const height = asset.source?.height ?? undefined;
-    const rendition = renditionFor(asset, target);
+    const rendition = asset.per_platform[target];
 
     // Ready ONLY when this platform's rendition has produced a URL. Anything
     // else — asset still uploading/processing/failed, or the rendition not yet

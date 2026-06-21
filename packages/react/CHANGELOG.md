@@ -1,5 +1,26 @@
 # @postrun/react
 
+## 2.16.0
+
+### Minor Changes
+
+- Regenerate from the improved media typing; drop the resolver's bridge type.
+
+  The spec now `$ref`s the shared `Media` component for the nested asset on a
+  fetched post (`variant.media[].media`), so it's the SAME named type as
+  `MediaResource` (from `GET /v1/media`) — no longer a structurally-identical
+  duplicate.
+
+  - Regenerated the client (`types.gen.ts`/`zod.gen.ts`) from the refreshed spec.
+  - `media-resolver.ts` drops the `InlineAsset`/`PreviewAsset` `Pick` bridge that
+    existed only to reconcile the two duplicate types — it now uses `MediaResource`
+    directly (140 → 107 lines). Behavior unchanged; all preview tests green.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.16.0
+
 ## 2.15.0
 
 ### Minor Changes

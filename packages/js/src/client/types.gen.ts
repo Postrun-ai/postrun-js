@@ -5203,6 +5203,82 @@ export type PostsListResponses = {
                      * Per-variant alt text; falls back to the asset’s alt_text.
                      */
                     alt_text_override: string | null;
+                    /**
+                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                     */
+                    media: {
+                        id: string;
+                        object: 'media';
+                        profile_id: string;
+                        /**
+                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                         */
+                        kind: 'image' | 'video' | 'gif' | 'document' | null;
+                        /**
+                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                         */
+                        content_type: string | null;
+                        status: 'uploading' | 'processing' | 'ready' | 'failed';
+                        /**
+                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                         */
+                        progress: {
+                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                            percent: number;
+                        };
+                        raw: boolean;
+                        /**
+                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                         */
+                        error: {
+                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                            message: string;
+                            hint?: string;
+                            allowed?: Array<unknown | null>;
+                            got?: string;
+                            /**
+                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                             */
+                            display_error: string;
+                        } | null;
+                        source: {
+                            /**
+                             * MIME of the original, e.g. image/heic.
+                             */
+                            format: string;
+                            bytes: number;
+                            width: number | null;
+                            height: number | null;
+                            duration_ms: number | null;
+                        } | null;
+                        alt_text: string | null;
+                        per_platform: {
+                            [key: string]: {
+                                status?: unknown;
+                                url?: unknown;
+                                width?: unknown;
+                                height?: unknown;
+                                bytes?: unknown;
+                                warnings?: unknown;
+                                errors?: unknown;
+                            };
+                        };
+                        external_id: string | null;
+                        /**
+                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                         */
+                        metadata: {
+                            [key: string]: unknown;
+                        };
+                        /**
+                         * ISO-8601 creation time.
+                         */
+                        created_at: string;
+                        /**
+                         * ISO-8601 last-update time.
+                         */
+                        updated_at: string;
+                    };
                 }>;
             } | {
                 platform: 'linkedin';
@@ -5329,6 +5405,82 @@ export type PostsListResponses = {
                      * Per-variant alt text; falls back to the asset’s alt_text.
                      */
                     alt_text_override: string | null;
+                    /**
+                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                     */
+                    media: {
+                        id: string;
+                        object: 'media';
+                        profile_id: string;
+                        /**
+                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                         */
+                        kind: 'image' | 'video' | 'gif' | 'document' | null;
+                        /**
+                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                         */
+                        content_type: string | null;
+                        status: 'uploading' | 'processing' | 'ready' | 'failed';
+                        /**
+                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                         */
+                        progress: {
+                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                            percent: number;
+                        };
+                        raw: boolean;
+                        /**
+                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                         */
+                        error: {
+                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                            message: string;
+                            hint?: string;
+                            allowed?: Array<unknown | null>;
+                            got?: string;
+                            /**
+                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                             */
+                            display_error: string;
+                        } | null;
+                        source: {
+                            /**
+                             * MIME of the original, e.g. image/heic.
+                             */
+                            format: string;
+                            bytes: number;
+                            width: number | null;
+                            height: number | null;
+                            duration_ms: number | null;
+                        } | null;
+                        alt_text: string | null;
+                        per_platform: {
+                            [key: string]: {
+                                status?: unknown;
+                                url?: unknown;
+                                width?: unknown;
+                                height?: unknown;
+                                bytes?: unknown;
+                                warnings?: unknown;
+                                errors?: unknown;
+                            };
+                        };
+                        external_id: string | null;
+                        /**
+                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                         */
+                        metadata: {
+                            [key: string]: unknown;
+                        };
+                        /**
+                         * ISO-8601 creation time.
+                         */
+                        created_at: string;
+                        /**
+                         * ISO-8601 last-update time.
+                         */
+                        updated_at: string;
+                    };
                 }>;
             } | {
                 platform: 'facebook_page';
@@ -5383,6 +5535,82 @@ export type PostsListResponses = {
                      * Per-variant alt text; falls back to the asset’s alt_text.
                      */
                     alt_text_override: string | null;
+                    /**
+                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                     */
+                    media: {
+                        id: string;
+                        object: 'media';
+                        profile_id: string;
+                        /**
+                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                         */
+                        kind: 'image' | 'video' | 'gif' | 'document' | null;
+                        /**
+                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                         */
+                        content_type: string | null;
+                        status: 'uploading' | 'processing' | 'ready' | 'failed';
+                        /**
+                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                         */
+                        progress: {
+                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                            percent: number;
+                        };
+                        raw: boolean;
+                        /**
+                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                         */
+                        error: {
+                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                            message: string;
+                            hint?: string;
+                            allowed?: Array<unknown | null>;
+                            got?: string;
+                            /**
+                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                             */
+                            display_error: string;
+                        } | null;
+                        source: {
+                            /**
+                             * MIME of the original, e.g. image/heic.
+                             */
+                            format: string;
+                            bytes: number;
+                            width: number | null;
+                            height: number | null;
+                            duration_ms: number | null;
+                        } | null;
+                        alt_text: string | null;
+                        per_platform: {
+                            [key: string]: {
+                                status?: unknown;
+                                url?: unknown;
+                                width?: unknown;
+                                height?: unknown;
+                                bytes?: unknown;
+                                warnings?: unknown;
+                                errors?: unknown;
+                            };
+                        };
+                        external_id: string | null;
+                        /**
+                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                         */
+                        metadata: {
+                            [key: string]: unknown;
+                        };
+                        /**
+                         * ISO-8601 creation time.
+                         */
+                        created_at: string;
+                        /**
+                         * ISO-8601 last-update time.
+                         */
+                        updated_at: string;
+                    };
                 }>;
             } | {
                 platform: 'instagram';
@@ -5478,6 +5706,82 @@ export type PostsListResponses = {
                      * Per-variant alt text; falls back to the asset’s alt_text.
                      */
                     alt_text_override: string | null;
+                    /**
+                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                     */
+                    media: {
+                        id: string;
+                        object: 'media';
+                        profile_id: string;
+                        /**
+                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                         */
+                        kind: 'image' | 'video' | 'gif' | 'document' | null;
+                        /**
+                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                         */
+                        content_type: string | null;
+                        status: 'uploading' | 'processing' | 'ready' | 'failed';
+                        /**
+                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                         */
+                        progress: {
+                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                            percent: number;
+                        };
+                        raw: boolean;
+                        /**
+                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                         */
+                        error: {
+                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                            message: string;
+                            hint?: string;
+                            allowed?: Array<unknown | null>;
+                            got?: string;
+                            /**
+                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                             */
+                            display_error: string;
+                        } | null;
+                        source: {
+                            /**
+                             * MIME of the original, e.g. image/heic.
+                             */
+                            format: string;
+                            bytes: number;
+                            width: number | null;
+                            height: number | null;
+                            duration_ms: number | null;
+                        } | null;
+                        alt_text: string | null;
+                        per_platform: {
+                            [key: string]: {
+                                status?: unknown;
+                                url?: unknown;
+                                width?: unknown;
+                                height?: unknown;
+                                bytes?: unknown;
+                                warnings?: unknown;
+                                errors?: unknown;
+                            };
+                        };
+                        external_id: string | null;
+                        /**
+                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                         */
+                        metadata: {
+                            [key: string]: unknown;
+                        };
+                        /**
+                         * ISO-8601 creation time.
+                         */
+                        created_at: string;
+                        /**
+                         * ISO-8601 last-update time.
+                         */
+                        updated_at: string;
+                    };
                 }>;
             } | {
                 platform: 'tiktok';
@@ -5568,6 +5872,82 @@ export type PostsListResponses = {
                      * Per-variant alt text; falls back to the asset’s alt_text.
                      */
                     alt_text_override: string | null;
+                    /**
+                     * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                     */
+                    media: {
+                        id: string;
+                        object: 'media';
+                        profile_id: string;
+                        /**
+                         * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                         */
+                        kind: 'image' | 'video' | 'gif' | 'document' | null;
+                        /**
+                         * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                         */
+                        content_type: string | null;
+                        status: 'uploading' | 'processing' | 'ready' | 'failed';
+                        /**
+                         * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                         */
+                        progress: {
+                            stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                            percent: number;
+                        };
+                        raw: boolean;
+                        /**
+                         * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                         */
+                        error: {
+                            code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                            message: string;
+                            hint?: string;
+                            allowed?: Array<unknown | null>;
+                            got?: string;
+                            /**
+                             * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                             */
+                            display_error: string;
+                        } | null;
+                        source: {
+                            /**
+                             * MIME of the original, e.g. image/heic.
+                             */
+                            format: string;
+                            bytes: number;
+                            width: number | null;
+                            height: number | null;
+                            duration_ms: number | null;
+                        } | null;
+                        alt_text: string | null;
+                        per_platform: {
+                            [key: string]: {
+                                status?: unknown;
+                                url?: unknown;
+                                width?: unknown;
+                                height?: unknown;
+                                bytes?: unknown;
+                                warnings?: unknown;
+                                errors?: unknown;
+                            };
+                        };
+                        external_id: string | null;
+                        /**
+                         * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                         */
+                        metadata: {
+                            [key: string]: unknown;
+                        };
+                        /**
+                         * ISO-8601 creation time.
+                         */
+                        created_at: string;
+                        /**
+                         * ISO-8601 last-update time.
+                         */
+                        updated_at: string;
+                    };
                 }>;
             }>;
             /**
@@ -6401,6 +6781,99 @@ export type PostsCreateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'linkedin';
@@ -6527,6 +7000,99 @@ export type PostsCreateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'facebook_page';
@@ -6581,6 +7147,99 @@ export type PostsCreateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'instagram';
@@ -6676,6 +7335,99 @@ export type PostsCreateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'tiktok';
@@ -6766,6 +7518,99 @@ export type PostsCreateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         }>;
         /**
@@ -7380,6 +8225,99 @@ export type PostsGetResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'linkedin';
@@ -7506,6 +8444,99 @@ export type PostsGetResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'facebook_page';
@@ -7560,6 +8591,99 @@ export type PostsGetResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'instagram';
@@ -7655,6 +8779,99 @@ export type PostsGetResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'tiktok';
@@ -7745,6 +8962,99 @@ export type PostsGetResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         }>;
         /**
@@ -8553,6 +9863,99 @@ export type PostsUpdateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'linkedin';
@@ -8679,6 +10082,99 @@ export type PostsUpdateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'facebook_page';
@@ -8733,6 +10229,99 @@ export type PostsUpdateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'instagram';
@@ -8828,6 +10417,99 @@ export type PostsUpdateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         } | {
             platform: 'tiktok';
@@ -8918,6 +10600,99 @@ export type PostsUpdateResponses = {
                  * Per-variant alt text; falls back to the asset’s alt_text.
                  */
                 alt_text_override: string | null;
+                /**
+                 * The full media asset (kind, content_type, source dimensions, per-platform renditions) — the same shape as GET /v1/media.
+                 */
+                media: {
+                    id: string;
+                    object: 'media';
+                    profile_id: string;
+                    /**
+                     * The detected asset family (image/video/gif/document). We sniff it from the uploaded bytes. null only in the brief pre-detection window while status is `uploading`; non-null once probed.
+                     */
+                    kind: 'image' | 'video' | 'gif' | 'document' | null;
+                    /**
+                     * The detected MIME of the uploaded original (e.g. video/mp4), sniffed from the bytes. null only in the brief pre-detection window while status is `uploading`.
+                     */
+                    content_type: string | null;
+                    status: 'uploading' | 'processing' | 'ready' | 'failed';
+                    /**
+                     * In-pipeline progress: the current step (stage) and a 0–100 bar (percent). Read `status` for the outcome; `percent` can regress on a transient retry.
+                     */
+                    progress: {
+                        stage: 'queued' | 'analyzing' | 'transcoding' | 'done';
+                        percent: number;
+                    };
+                    raw: boolean;
+                    /**
+                     * Asset-wide failure (the original itself is unusable, so no platform can succeed); null otherwise.
+                     */
+                    error: {
+                        code: 'media_unprobeable' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_unsupported';
+                        message: string;
+                        hint?: string;
+                        allowed?: Array<string>;
+                        got?: string;
+                        /**
+                         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string. Size/limit codes interpolate the human cap/size.
+                         */
+                        display_error: string;
+                    } | null;
+                    source: {
+                        /**
+                         * MIME of the original, e.g. image/heic.
+                         */
+                        format: string;
+                        bytes: number;
+                        width: number | null;
+                        height: number | null;
+                        duration_ms: number | null;
+                    } | null;
+                    alt_text: string | null;
+                    per_platform: {
+                        [key: string]: {
+                            status: 'processing' | 'ready' | 'failed';
+                            /**
+                             * Public URL of this platform’s rendition (null until ready).
+                             */
+                            url: string | null;
+                            width: number | null;
+                            height: number | null;
+                            bytes: number | null;
+                            warnings: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                            errors: Array<{
+                                code?: unknown;
+                                message?: unknown;
+                                hint?: unknown;
+                                allowed?: unknown;
+                                got?: unknown;
+                                display_error?: unknown;
+                            }>;
+                        };
+                    };
+                    external_id: string | null;
+                    /**
+                     * Customer-owned key/value context, returned on reads and filterable on list endpoints (exact match). Values are scalars: string (≤500 chars), number, or boolean. At most 50 keys; keys ≤40 chars; total serialized JSON must fit in 16 KiB. Arrays and nested objects are out of scope for v1 (kept out to keep the contract scalar + exact-match). Keep a key’s value type consistent across records — filtering matches type-exactly. Never derive auth/scopes from metadata.
+                     */
+                    metadata: {
+                        [key: string]: string | number | boolean;
+                    };
+                    /**
+                     * ISO-8601 creation time.
+                     */
+                    created_at: string;
+                    /**
+                     * ISO-8601 last-update time.
+                     */
+                    updated_at: string;
+                };
             }>;
         }>;
         /**

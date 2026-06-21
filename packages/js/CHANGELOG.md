@@ -1,5 +1,17 @@
 # @postrun/js
 
+## 2.13.0
+
+### Minor Changes
+
+- Regenerate the SDK for enriched read-post media.
+
+  A fetched post's variant media now carries the full `MediaResource` inline
+  (`variant.media[].media` — id, kind, content_type, status, `per_platform`
+  renditions, …), so reading a post no longer needs a separate `GET /v1/media` per
+  attachment to resolve URLs/dimensions. The regenerated client + Zod validators
+  reflect the enriched shape; the change is additive.
+
 ## 2.12.0
 
 ### Minor Changes

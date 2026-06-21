@@ -1325,7 +1325,92 @@ export const zPostsListResponse = z.object({
                     media_id: z.string(),
                     position: z.int().gte(-9007199254740991).lte(9007199254740991),
                     crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable()
+                    alt_text_override: z.string().nullable(),
+                    media: z.object({
+                        id: z.string(),
+                        object: z.literal('media'),
+                        profile_id: z.string(),
+                        kind: z.enum([
+                            'image',
+                            'video',
+                            'gif',
+                            'document'
+                        ]).nullable(),
+                        content_type: z.string().nullable(),
+                        status: z.enum([
+                            'uploading',
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        progress: z.object({
+                            stage: z.enum([
+                                'queued',
+                                'analyzing',
+                                'transcoding',
+                                'done'
+                            ]),
+                            percent: z.int().gte(0).lte(100)
+                        }),
+                        raw: z.boolean(),
+                        error: z.object({
+                            code: z.enum([
+                                'media_unprobeable',
+                                'media_format_indeterminate',
+                                'media_format_unsupported',
+                                'media_too_large',
+                                'media_aspect_ratio_unsupported',
+                                'media_resolution_too_low',
+                                'media_gif_unsupported',
+                                'media_format_recompressed',
+                                'media_resolution_downscaled',
+                                'video_container_unsupported',
+                                'video_codec_unsupported',
+                                'video_audio_codec_unsupported',
+                                'video_too_large',
+                                'video_too_small',
+                                'video_dimensions_unsupported',
+                                'video_dimensions_too_large',
+                                'video_fps_unsupported',
+                                'video_fps_too_low',
+                                'video_aspect_unsupported',
+                                'video_duration_too_short',
+                                'video_duration_exceeds_max',
+                                'video_transform_failed',
+                                'media_fetch_failed',
+                                'document_format_unsupported',
+                                'document_too_large',
+                                'document_too_many_pages',
+                                'media_unsupported'
+                            ]),
+                            message: z.string(),
+                            hint: z.string().optional(),
+                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
+                            got: z.string().optional(),
+                            display_error: z.string()
+                        }).nullable(),
+                        source: z.object({
+                            format: z.string(),
+                            bytes: z.int().gte(0).lte(9007199254740991),
+                            width: z.int().gt(0).lte(9007199254740991).nullable(),
+                            height: z.int().gt(0).lte(9007199254740991).nullable(),
+                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                        }).nullable(),
+                        alt_text: z.string().max(1000).nullable(),
+                        per_platform: z.record(z.string(), z.object({
+                            status: z.unknown().optional(),
+                            url: z.unknown().optional(),
+                            width: z.unknown().optional(),
+                            height: z.unknown().optional(),
+                            bytes: z.unknown().optional(),
+                            warnings: z.unknown().optional(),
+                            errors: z.unknown().optional()
+                        })),
+                        external_id: z.string().nullable(),
+                        metadata: z.record(z.string(), z.unknown()),
+                        created_at: z.string(),
+                        updated_at: z.string()
+                    })
                 }))
             }),
             z.object({
@@ -1399,7 +1484,92 @@ export const zPostsListResponse = z.object({
                     media_id: z.string(),
                     position: z.int().gte(-9007199254740991).lte(9007199254740991),
                     crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable()
+                    alt_text_override: z.string().nullable(),
+                    media: z.object({
+                        id: z.string(),
+                        object: z.literal('media'),
+                        profile_id: z.string(),
+                        kind: z.enum([
+                            'image',
+                            'video',
+                            'gif',
+                            'document'
+                        ]).nullable(),
+                        content_type: z.string().nullable(),
+                        status: z.enum([
+                            'uploading',
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        progress: z.object({
+                            stage: z.enum([
+                                'queued',
+                                'analyzing',
+                                'transcoding',
+                                'done'
+                            ]),
+                            percent: z.int().gte(0).lte(100)
+                        }),
+                        raw: z.boolean(),
+                        error: z.object({
+                            code: z.enum([
+                                'media_unprobeable',
+                                'media_format_indeterminate',
+                                'media_format_unsupported',
+                                'media_too_large',
+                                'media_aspect_ratio_unsupported',
+                                'media_resolution_too_low',
+                                'media_gif_unsupported',
+                                'media_format_recompressed',
+                                'media_resolution_downscaled',
+                                'video_container_unsupported',
+                                'video_codec_unsupported',
+                                'video_audio_codec_unsupported',
+                                'video_too_large',
+                                'video_too_small',
+                                'video_dimensions_unsupported',
+                                'video_dimensions_too_large',
+                                'video_fps_unsupported',
+                                'video_fps_too_low',
+                                'video_aspect_unsupported',
+                                'video_duration_too_short',
+                                'video_duration_exceeds_max',
+                                'video_transform_failed',
+                                'media_fetch_failed',
+                                'document_format_unsupported',
+                                'document_too_large',
+                                'document_too_many_pages',
+                                'media_unsupported'
+                            ]),
+                            message: z.string(),
+                            hint: z.string().optional(),
+                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
+                            got: z.string().optional(),
+                            display_error: z.string()
+                        }).nullable(),
+                        source: z.object({
+                            format: z.string(),
+                            bytes: z.int().gte(0).lte(9007199254740991),
+                            width: z.int().gt(0).lte(9007199254740991).nullable(),
+                            height: z.int().gt(0).lte(9007199254740991).nullable(),
+                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                        }).nullable(),
+                        alt_text: z.string().max(1000).nullable(),
+                        per_platform: z.record(z.string(), z.object({
+                            status: z.unknown().optional(),
+                            url: z.unknown().optional(),
+                            width: z.unknown().optional(),
+                            height: z.unknown().optional(),
+                            bytes: z.unknown().optional(),
+                            warnings: z.unknown().optional(),
+                            errors: z.unknown().optional()
+                        })),
+                        external_id: z.string().nullable(),
+                        metadata: z.record(z.string(), z.unknown()),
+                        created_at: z.string(),
+                        updated_at: z.string()
+                    })
                 }))
             }),
             z.object({
@@ -1439,7 +1609,92 @@ export const zPostsListResponse = z.object({
                     media_id: z.string(),
                     position: z.int().gte(-9007199254740991).lte(9007199254740991),
                     crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable()
+                    alt_text_override: z.string().nullable(),
+                    media: z.object({
+                        id: z.string(),
+                        object: z.literal('media'),
+                        profile_id: z.string(),
+                        kind: z.enum([
+                            'image',
+                            'video',
+                            'gif',
+                            'document'
+                        ]).nullable(),
+                        content_type: z.string().nullable(),
+                        status: z.enum([
+                            'uploading',
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        progress: z.object({
+                            stage: z.enum([
+                                'queued',
+                                'analyzing',
+                                'transcoding',
+                                'done'
+                            ]),
+                            percent: z.int().gte(0).lte(100)
+                        }),
+                        raw: z.boolean(),
+                        error: z.object({
+                            code: z.enum([
+                                'media_unprobeable',
+                                'media_format_indeterminate',
+                                'media_format_unsupported',
+                                'media_too_large',
+                                'media_aspect_ratio_unsupported',
+                                'media_resolution_too_low',
+                                'media_gif_unsupported',
+                                'media_format_recompressed',
+                                'media_resolution_downscaled',
+                                'video_container_unsupported',
+                                'video_codec_unsupported',
+                                'video_audio_codec_unsupported',
+                                'video_too_large',
+                                'video_too_small',
+                                'video_dimensions_unsupported',
+                                'video_dimensions_too_large',
+                                'video_fps_unsupported',
+                                'video_fps_too_low',
+                                'video_aspect_unsupported',
+                                'video_duration_too_short',
+                                'video_duration_exceeds_max',
+                                'video_transform_failed',
+                                'media_fetch_failed',
+                                'document_format_unsupported',
+                                'document_too_large',
+                                'document_too_many_pages',
+                                'media_unsupported'
+                            ]),
+                            message: z.string(),
+                            hint: z.string().optional(),
+                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
+                            got: z.string().optional(),
+                            display_error: z.string()
+                        }).nullable(),
+                        source: z.object({
+                            format: z.string(),
+                            bytes: z.int().gte(0).lte(9007199254740991),
+                            width: z.int().gt(0).lte(9007199254740991).nullable(),
+                            height: z.int().gt(0).lte(9007199254740991).nullable(),
+                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                        }).nullable(),
+                        alt_text: z.string().max(1000).nullable(),
+                        per_platform: z.record(z.string(), z.object({
+                            status: z.unknown().optional(),
+                            url: z.unknown().optional(),
+                            width: z.unknown().optional(),
+                            height: z.unknown().optional(),
+                            bytes: z.unknown().optional(),
+                            warnings: z.unknown().optional(),
+                            errors: z.unknown().optional()
+                        })),
+                        external_id: z.string().nullable(),
+                        metadata: z.record(z.string(), z.unknown()),
+                        created_at: z.string(),
+                        updated_at: z.string()
+                    })
                 }))
             }),
             z.object({
@@ -1493,7 +1748,92 @@ export const zPostsListResponse = z.object({
                     media_id: z.string(),
                     position: z.int().gte(-9007199254740991).lte(9007199254740991),
                     crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable()
+                    alt_text_override: z.string().nullable(),
+                    media: z.object({
+                        id: z.string(),
+                        object: z.literal('media'),
+                        profile_id: z.string(),
+                        kind: z.enum([
+                            'image',
+                            'video',
+                            'gif',
+                            'document'
+                        ]).nullable(),
+                        content_type: z.string().nullable(),
+                        status: z.enum([
+                            'uploading',
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        progress: z.object({
+                            stage: z.enum([
+                                'queued',
+                                'analyzing',
+                                'transcoding',
+                                'done'
+                            ]),
+                            percent: z.int().gte(0).lte(100)
+                        }),
+                        raw: z.boolean(),
+                        error: z.object({
+                            code: z.enum([
+                                'media_unprobeable',
+                                'media_format_indeterminate',
+                                'media_format_unsupported',
+                                'media_too_large',
+                                'media_aspect_ratio_unsupported',
+                                'media_resolution_too_low',
+                                'media_gif_unsupported',
+                                'media_format_recompressed',
+                                'media_resolution_downscaled',
+                                'video_container_unsupported',
+                                'video_codec_unsupported',
+                                'video_audio_codec_unsupported',
+                                'video_too_large',
+                                'video_too_small',
+                                'video_dimensions_unsupported',
+                                'video_dimensions_too_large',
+                                'video_fps_unsupported',
+                                'video_fps_too_low',
+                                'video_aspect_unsupported',
+                                'video_duration_too_short',
+                                'video_duration_exceeds_max',
+                                'video_transform_failed',
+                                'media_fetch_failed',
+                                'document_format_unsupported',
+                                'document_too_large',
+                                'document_too_many_pages',
+                                'media_unsupported'
+                            ]),
+                            message: z.string(),
+                            hint: z.string().optional(),
+                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
+                            got: z.string().optional(),
+                            display_error: z.string()
+                        }).nullable(),
+                        source: z.object({
+                            format: z.string(),
+                            bytes: z.int().gte(0).lte(9007199254740991),
+                            width: z.int().gt(0).lte(9007199254740991).nullable(),
+                            height: z.int().gt(0).lte(9007199254740991).nullable(),
+                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                        }).nullable(),
+                        alt_text: z.string().max(1000).nullable(),
+                        per_platform: z.record(z.string(), z.object({
+                            status: z.unknown().optional(),
+                            url: z.unknown().optional(),
+                            width: z.unknown().optional(),
+                            height: z.unknown().optional(),
+                            bytes: z.unknown().optional(),
+                            warnings: z.unknown().optional(),
+                            errors: z.unknown().optional()
+                        })),
+                        external_id: z.string().nullable(),
+                        metadata: z.record(z.string(), z.unknown()),
+                        created_at: z.string(),
+                        updated_at: z.string()
+                    })
                 }))
             }),
             z.object({
@@ -1546,7 +1886,92 @@ export const zPostsListResponse = z.object({
                     media_id: z.string(),
                     position: z.int().gte(-9007199254740991).lte(9007199254740991),
                     crop_box: z.record(z.string(), z.unknown()).nullable(),
-                    alt_text_override: z.string().nullable()
+                    alt_text_override: z.string().nullable(),
+                    media: z.object({
+                        id: z.string(),
+                        object: z.literal('media'),
+                        profile_id: z.string(),
+                        kind: z.enum([
+                            'image',
+                            'video',
+                            'gif',
+                            'document'
+                        ]).nullable(),
+                        content_type: z.string().nullable(),
+                        status: z.enum([
+                            'uploading',
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        progress: z.object({
+                            stage: z.enum([
+                                'queued',
+                                'analyzing',
+                                'transcoding',
+                                'done'
+                            ]),
+                            percent: z.int().gte(0).lte(100)
+                        }),
+                        raw: z.boolean(),
+                        error: z.object({
+                            code: z.enum([
+                                'media_unprobeable',
+                                'media_format_indeterminate',
+                                'media_format_unsupported',
+                                'media_too_large',
+                                'media_aspect_ratio_unsupported',
+                                'media_resolution_too_low',
+                                'media_gif_unsupported',
+                                'media_format_recompressed',
+                                'media_resolution_downscaled',
+                                'video_container_unsupported',
+                                'video_codec_unsupported',
+                                'video_audio_codec_unsupported',
+                                'video_too_large',
+                                'video_too_small',
+                                'video_dimensions_unsupported',
+                                'video_dimensions_too_large',
+                                'video_fps_unsupported',
+                                'video_fps_too_low',
+                                'video_aspect_unsupported',
+                                'video_duration_too_short',
+                                'video_duration_exceeds_max',
+                                'video_transform_failed',
+                                'media_fetch_failed',
+                                'document_format_unsupported',
+                                'document_too_large',
+                                'document_too_many_pages',
+                                'media_unsupported'
+                            ]),
+                            message: z.string(),
+                            hint: z.string().optional(),
+                            allowed: z.array(z.union([z.unknown(), z.null()])).optional(),
+                            got: z.string().optional(),
+                            display_error: z.string()
+                        }).nullable(),
+                        source: z.object({
+                            format: z.string(),
+                            bytes: z.int().gte(0).lte(9007199254740991),
+                            width: z.int().gt(0).lte(9007199254740991).nullable(),
+                            height: z.int().gt(0).lte(9007199254740991).nullable(),
+                            duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                        }).nullable(),
+                        alt_text: z.string().max(1000).nullable(),
+                        per_platform: z.record(z.string(), z.object({
+                            status: z.unknown().optional(),
+                            url: z.unknown().optional(),
+                            width: z.unknown().optional(),
+                            height: z.unknown().optional(),
+                            bytes: z.unknown().optional(),
+                            warnings: z.unknown().optional(),
+                            errors: z.unknown().optional()
+                        })),
+                        external_id: z.string().nullable(),
+                        metadata: z.record(z.string(), z.unknown()),
+                        created_at: z.string(),
+                        updated_at: z.string()
+                    })
                 }))
             })
         ])),
@@ -1856,7 +2281,114 @@ export const zPostsCreateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -1930,7 +2462,114 @@ export const zPostsCreateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -1970,7 +2609,114 @@ export const zPostsCreateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2024,7 +2770,114 @@ export const zPostsCreateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2077,7 +2930,114 @@ export const zPostsCreateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         })
     ])),
@@ -2195,7 +3155,114 @@ export const zPostsGetResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2269,7 +3336,114 @@ export const zPostsGetResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2309,7 +3483,114 @@ export const zPostsGetResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2363,7 +3644,114 @@ export const zPostsGetResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2416,7 +3804,114 @@ export const zPostsGetResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         })
     ])),
@@ -2724,7 +4219,114 @@ export const zPostsUpdateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2798,7 +4400,114 @@ export const zPostsUpdateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2838,7 +4547,114 @@ export const zPostsUpdateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2892,7 +4708,114 @@ export const zPostsUpdateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         }),
         z.object({
@@ -2945,7 +4868,114 @@ export const zPostsUpdateResponse = z.object({
                 media_id: z.string(),
                 position: z.int().gte(-9007199254740991).lte(9007199254740991),
                 crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
+                alt_text_override: z.string().nullable(),
+                media: z.object({
+                    id: z.string(),
+                    object: z.literal('media'),
+                    profile_id: z.string(),
+                    kind: z.enum([
+                        'image',
+                        'video',
+                        'gif',
+                        'document'
+                    ]).nullable(),
+                    content_type: z.string().nullable(),
+                    status: z.enum([
+                        'uploading',
+                        'processing',
+                        'ready',
+                        'failed'
+                    ]),
+                    progress: z.object({
+                        stage: z.enum([
+                            'queued',
+                            'analyzing',
+                            'transcoding',
+                            'done'
+                        ]),
+                        percent: z.int().gte(0).lte(100)
+                    }),
+                    raw: z.boolean(),
+                    error: z.object({
+                        code: z.enum([
+                            'media_unprobeable',
+                            'media_format_indeterminate',
+                            'media_format_unsupported',
+                            'media_too_large',
+                            'media_aspect_ratio_unsupported',
+                            'media_resolution_too_low',
+                            'media_gif_unsupported',
+                            'media_format_recompressed',
+                            'media_resolution_downscaled',
+                            'video_container_unsupported',
+                            'video_codec_unsupported',
+                            'video_audio_codec_unsupported',
+                            'video_too_large',
+                            'video_too_small',
+                            'video_dimensions_unsupported',
+                            'video_dimensions_too_large',
+                            'video_fps_unsupported',
+                            'video_fps_too_low',
+                            'video_aspect_unsupported',
+                            'video_duration_too_short',
+                            'video_duration_exceeds_max',
+                            'video_transform_failed',
+                            'media_fetch_failed',
+                            'document_format_unsupported',
+                            'document_too_large',
+                            'document_too_many_pages',
+                            'media_unsupported'
+                        ]),
+                        message: z.string(),
+                        hint: z.string().optional(),
+                        allowed: z.array(z.string()).optional(),
+                        got: z.string().optional(),
+                        display_error: z.string()
+                    }).nullable(),
+                    source: z.object({
+                        format: z.string(),
+                        bytes: z.int().gte(0).lte(9007199254740991),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        duration_ms: z.int().gte(0).lte(9007199254740991).nullable()
+                    }).nullable(),
+                    alt_text: z.string().max(1000).nullable(),
+                    per_platform: z.record(z.string(), z.object({
+                        status: z.enum([
+                            'processing',
+                            'ready',
+                            'failed'
+                        ]),
+                        url: z.string().nullable(),
+                        width: z.int().gt(0).lte(9007199254740991).nullable(),
+                        height: z.int().gt(0).lte(9007199254740991).nullable(),
+                        bytes: z.int().gte(0).lte(9007199254740991).nullable(),
+                        warnings: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        })),
+                        errors: z.array(z.object({
+                            code: z.unknown().optional(),
+                            message: z.unknown().optional(),
+                            hint: z.unknown().optional(),
+                            allowed: z.unknown().optional(),
+                            got: z.unknown().optional(),
+                            display_error: z.unknown().optional()
+                        }))
+                    })),
+                    external_id: z.string().nullable(),
+                    metadata: z.record(z.string(), z.union([
+                        z.string().max(500),
+                        z.number(),
+                        z.boolean()
+                    ])),
+                    created_at: z.string(),
+                    updated_at: z.string()
+                })
             }))
         })
     ])),

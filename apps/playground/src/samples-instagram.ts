@@ -73,4 +73,23 @@ export const IG_SAMPLES: IgSample[] = [
     }),
     media: [{ kind: 'video', url: VIDEO }],
   },
+  {
+    id: 'empty',
+    label: 'Empty',
+    variant: v({ media: [], settings: { media_type: 'IMAGE' } }),
+    media: [],
+  },
+  {
+    id: 'processing',
+    label: 'Processing',
+    variant: v({ media: [{ media_id: 'med_i1' }], settings: { media_type: 'IMAGE' } }),
+    // Referenced but not yet resolved to pixels (no url/file) → processing.
+    media: [{ kind: 'image' }],
+  },
+  {
+    id: 'reel-empty',
+    label: 'Reel (empty)',
+    variant: v({ post_type: 'reel', media: [], settings: { media_type: 'REELS' } }),
+    media: [],
+  },
 ];

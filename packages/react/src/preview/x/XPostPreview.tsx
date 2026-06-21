@@ -116,6 +116,16 @@ function XPostPreviewImpl({
     replyToHandle,
   ]);
 
+  // With nothing typed and no media/poll/quote, react-tweet would render an empty
+  // body — a hollow card. Show X's own composer prompt (muted) instead, so the
+  // empty state reads as intentional. Media/poll/quote each fill the card on their
+  // own, so the prompt only appears when the post is truly empty.
+  const isEmpty =
+    !variant.body &&
+    resolvedMedia.length === 0 &&
+    !variant.settings?.poll &&
+    !tweet.quoted_tweet;
+
   return (
     <div
       data-theme={theme === 'auto' ? undefined : theme}
@@ -125,7 +135,7 @@ function XPostPreviewImpl({
       <TweetContainer>
         <TweetHeader tweet={tweet} components={components} />
         {tweet.in_reply_to_screen_name ? <TweetInReplyTo tweet={tweet} /> : null}
-        <TweetBody tweet={tweet} />
+        {isEmpty ? <EmptyBody /> : <TweetBody tweet={tweet} />}
         {tweet.mediaDetails?.length ? (
           <TweetMedia tweet={tweet} components={components} />
         ) : null}
@@ -138,6 +148,28 @@ function XPostPreviewImpl({
     </div>
   );
 }
+
+/**
+ * X's composer prompt, shown in the body slot when the post is empty. It reuses
+ * react-tweet's own body CSS variables (`--tweet-body-*`) so it sits at the exact
+ * size/position the real body would, and its `--tweet-font-color-secondary` color
+ * tracks the card's light/dark/auto theme — no layout shift when the user types.
+ */
+function EmptyBody() {
+  return (
+    <p style={emptyBodyStyle}>What&apos;s happening?</p>
+  );
+}
+
+const emptyBodyStyle: CSSProperties = {
+  margin: 'var(--tweet-body-margin)',
+  fontSize: 'var(--tweet-body-font-size)',
+  fontWeight: 'var(--tweet-body-font-weight)',
+  lineHeight: 'var(--tweet-body-line-height)',
+  color: 'var(--tweet-font-color-secondary)',
+  whiteSpace: 'pre-wrap',
+  overflowWrap: 'break-word',
+};
 
 /** Memoized: re-renders only when its props change (the resolved-media hook
  * already absorbs unstable media arrays). */

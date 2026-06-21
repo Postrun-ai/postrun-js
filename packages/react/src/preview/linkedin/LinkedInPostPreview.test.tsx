@@ -136,6 +136,38 @@ describe('<LinkedInPostPreview>', () => {
     expect(screen.getByText('Mon')).toBeDefined();
   });
 
+  it('shows a muted placeholder body when the post is empty', () => {
+    render(<LinkedInPostPreview variant={liVariant()} author={author} />);
+    expect(screen.getByText('What do you want to talk about?')).toBeDefined();
+  });
+
+  it('pins the card to a stable width so empty and populated cards match (zero shift)', () => {
+    const { container } = render(
+      <LinkedInPostPreview variant={liVariant()} author={author} />,
+    );
+    const card = container.firstElementChild as HTMLElement;
+    expect(card.style.width).toBe('100%');
+    expect(card.style.maxWidth).toBe('552px');
+  });
+
+  it('hides the placeholder once there is a body', () => {
+    render(
+      <LinkedInPostPreview variant={liVariant({ body: 'hello' })} author={author} />,
+    );
+    expect(screen.queryByText('What do you want to talk about?')).toBeNull();
+  });
+
+  it('hides the placeholder when only media is present', () => {
+    render(
+      <LinkedInPostPreview
+        variant={liVariant({ post_type: 'single_image' })}
+        author={author}
+        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg', alt: 'a cat' }]}
+      />,
+    );
+    expect(screen.queryByText('What do you want to talk about?')).toBeNull();
+  });
+
   it('dispatches to the document card for content_kind: document', () => {
     render(
       <LinkedInPostPreview

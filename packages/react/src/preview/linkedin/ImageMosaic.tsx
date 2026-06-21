@@ -92,11 +92,17 @@ export function ImageMosaic({ media }: ImageMosaicProps) {
   }
 
   if (media.length === 1) {
+    // Reserve the natural aspect ratio when known, so the row's height is set
+    // before the pixels load (zero layout shift) — and since the ratio matches
+    // the source, the image is shown uncropped. Unknown dims fall back to the
+    // natural `height: auto` (a one-time shift, as before).
+    const ratio =
+      only.width && only.height ? `${only.width} / ${only.height}` : undefined;
     return (
       <img
         src={only.src}
         alt={only.alt ?? ''}
-        style={{ width: '100%', height: 'auto', display: 'block' }}
+        style={{ width: '100%', height: 'auto', display: 'block', aspectRatio: ratio }}
       />
     );
   }

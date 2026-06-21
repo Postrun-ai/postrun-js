@@ -4,6 +4,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 
+import { MediaPlaceholder } from '../MediaPlaceholder';
 import type { ResolvedMedia } from '../types';
 
 /**
@@ -23,7 +24,14 @@ export function Media({
 }) {
   const [first] = media;
   if (!first) {
-    return pending ? <ProcessingMedia /> : <EmptyMedia />;
+    return (
+      <MediaPlaceholder
+        label={pending ? 'Processing media…' : 'No media yet'}
+        color="rgba(255,255,255,0.55)"
+        background="linear-gradient(180deg,#1c1c20,#101013)"
+        shimmer={pending}
+      />
+    );
   }
 
   if (first.kind === 'video') {
@@ -92,25 +100,6 @@ function PhotoCarousel({ media }: { media: ResolvedMedia[] }) {
   );
 }
 
-function EmptyMedia() {
-  return <div style={emptyStyle}>No media yet</div>;
-}
-
-/** Shimmer placeholder while the asset's pixels are still being processed. The
- * keyframe is injected here (not only in the parent) so `<Media>` animates even
- * when used standalone. */
-function ProcessingMedia() {
-  return (
-    <div style={emptyStyle}>
-      <style>{SHIMMER_KEYFRAME}</style>
-      <div style={shimmerStyle} />
-      <span style={{ position: 'relative', zIndex: 1 }}>Processing media…</span>
-    </div>
-  );
-}
-
-const SHIMMER_KEYFRAME = `@keyframes pr-tt-shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}`;
-
 const coverStyle: CSSProperties = {
   position: 'absolute',
   inset: 0,
@@ -153,25 +142,4 @@ const dotStyle: CSSProperties = {
   borderRadius: '50%',
   background: '#fff',
   transition: 'opacity 160ms ease',
-};
-
-const emptyStyle: CSSProperties = {
-  position: 'absolute',
-  inset: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: 'rgba(255,255,255,0.55)',
-  fontSize: 13,
-  background: 'linear-gradient(180deg,#1c1c20,#101013)',
-  overflow: 'hidden',
-};
-
-const shimmerStyle: CSSProperties = {
-  position: 'absolute',
-  inset: 0,
-  background:
-    'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%)',
-  backgroundSize: '200% 100%',
-  animation: 'pr-tt-shimmer 1.4s ease-in-out infinite',
 };

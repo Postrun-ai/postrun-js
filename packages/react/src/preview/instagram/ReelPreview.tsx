@@ -11,12 +11,15 @@ import {
 import { MdMusicNote, MdVerified } from 'react-icons/md';
 
 import { ExpandableText } from '../ExpandableText';
+import { MediaPlaceholder } from '../MediaPlaceholder';
 import type { InstagramPreviewAuthor, ResolvedMedia } from '../types';
 
 export interface ReelPreviewProps {
   author: InstagramPreviewAuthor;
   body: string;
   media: readonly ResolvedMedia[];
+  /** Media is referenced but its pixels aren't resolved yet (still processing). */
+  pending?: boolean;
   /** The reel's audio label (`settings.audio_name`); defaults to "Original audio". */
   audioName?: string;
   className?: string;
@@ -34,6 +37,7 @@ export function ReelPreview({
   author,
   body,
   media,
+  pending = false,
   audioName,
   className,
   style,
@@ -57,7 +61,14 @@ export function ReelPreview({
         ) : (
           <img src={first.src} alt={first.alt ?? ''} style={coverStyle} />
         )
-      ) : null}
+      ) : (
+        <MediaPlaceholder
+          label={pending ? 'Processing media…' : 'No media yet'}
+          color="rgba(255,255,255,0.55)"
+          background="transparent"
+          shimmer={pending}
+        />
+      )}
       <div style={scrimStyle} />
 
       <div style={infoStyle}>

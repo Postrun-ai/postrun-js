@@ -112,4 +112,10 @@ export const LI_SAMPLES: LiSample[] = [
       { kind: 'image', url: SQUARE('photo-1444703686981-a3abbc4d4fe3') },
     ],
   },
+  {
+    id: 'empty',
+    label: 'Empty',
+    variant: v({ body: '', settings: { visibility: 'PUBLIC', content_kind: 'text' } }),
+    media: [],
+  },
 ];

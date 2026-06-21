@@ -285,7 +285,7 @@ const discImgStyle: CSSProperties = {
   objectFit: 'cover',
 };
 
-const KEYFRAMES = `@keyframes pr-tt-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes pr-tt-shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}`;
+const KEYFRAMES = `@keyframes pr-tt-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`;
 
 /** Memoized: the resolved-media hook absorbs unstable media arrays. */
 export const TikTokPostPreview = memo(TikTokPostPreviewImpl);

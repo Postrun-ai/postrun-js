@@ -154,4 +154,45 @@ describe('<InstagramPostPreview>', () => {
     expect(container.querySelector('video')).not.toBeNull();
     expect(screen.getByText(/Original audio/)).toBeDefined();
   });
+
+  it('shows a media placeholder (not a black void) when a feed post has no media', () => {
+    render(<InstagramPostPreview variant={igVariant()} author={author} media={[]} />);
+    // The 1:1 frame is reserved (zero layout shift) and shows a tasteful empty
+    // state instead of a solid black square.
+    expect(screen.getByText('No media yet')).toBeDefined();
+  });
+
+  it('shows a processing skeleton when media is referenced but not yet resolved', () => {
+    render(
+      <InstagramPostPreview
+        variant={igVariant({ media: [{ media_id: 'm1' }] })}
+        author={author}
+        // A PreviewMedia with neither url nor file is unresolvable → pending.
+        media={[{ kind: 'image' }]}
+      />,
+    );
+    expect(screen.getByText('Processing media…')).toBeDefined();
+  });
+
+  it('pins the card to a stable width so empty and populated cards match (zero shift)', () => {
+    const { container } = render(
+      <InstagramPostPreview variant={igVariant()} author={author} media={[]} />,
+    );
+    const card = container.firstElementChild as HTMLElement;
+    // Without an explicit width the card shrinks to its content, so an empty post
+    // would collapse to a fraction of a populated card's width.
+    expect(card.style.width).toBe('100%');
+    expect(card.style.maxWidth).toBe('470px');
+  });
+
+  it('shows a media placeholder on an empty reel', () => {
+    render(
+      <InstagramPostPreview
+        variant={igVariant({ post_type: 'reel', settings: { media_type: 'REELS' } })}
+        author={author}
+        media={[]}
+      />,
+    );
+    expect(screen.getByText('No media yet')).toBeDefined();
+  });
 });

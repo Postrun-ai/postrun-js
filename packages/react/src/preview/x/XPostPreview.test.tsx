@@ -138,6 +138,27 @@ describe('<XPostPreview>', () => {
     expect(screen.getByText(/Replying to/i)).toBeDefined();
   });
 
+  it("shows X's muted placeholder body when there's no body or media", () => {
+    render(<XPostPreview variant={xVariant()} author={author} />);
+    expect(screen.getByText("What's happening?")).toBeDefined();
+  });
+
+  it('does not show the placeholder once a body is present', () => {
+    render(<XPostPreview variant={xVariant({ body: 'hi' })} author={author} />);
+    expect(screen.queryByText("What's happening?")).toBeNull();
+  });
+
+  it('does not show the placeholder when only media is present', () => {
+    render(
+      <XPostPreview
+        variant={xVariant({ post_type: 'single_image' })}
+        author={author}
+        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg' }]}
+      />,
+    );
+    expect(screen.queryByText("What's happening?")).toBeNull();
+  });
+
   it('renders a poll with its options and an honest 0-vote footer', () => {
     render(
       <XPostPreview

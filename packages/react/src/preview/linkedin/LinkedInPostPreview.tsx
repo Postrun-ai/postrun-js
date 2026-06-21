@@ -95,11 +95,23 @@ function LinkedInPostPreviewImpl({
     color: varRef(LI_VAR.text),
     border: `1px solid ${varRef(LI_VAR.border)}`,
     borderRadius: 10,
+    // Pin the width (see InstagramPostPreview): without it the card shrinks to its
+    // content, so an empty post collapses to a fraction of a populated card's width.
+    width: '100%',
     maxWidth: 552,
+    boxSizing: 'border-box',
     overflow: 'hidden',
     fontFamily: FONT_STACK,
     ...style,
   };
+
+  // A post with no commentary, media, or rich unit (article/poll/document) would
+  // render as just a header + action bar — a hollow card. Show LinkedIn's own
+  // "Start a post" prompt (muted) so the empty state reads as intentional.
+  const hasContent =
+    Boolean(variant.body) ||
+    resolvedMedia.length > 0 ||
+    Boolean(variant.settings?.content_kind && variant.settings.content_kind !== 'text');
 
   return (
     <div className={className} style={cardStyle}>
@@ -114,10 +126,22 @@ function LinkedInPostPreviewImpl({
         </div>
       ) : null}
       {renderContent(variant, resolvedMedia)}
+      {hasContent ? null : (
+        <p style={{ ...emptyBodyStyle, color: BODY_COLORS.muted }}>
+          What do you want to talk about?
+        </p>
+      )}
       {showActions ? <EngagementBar /> : null}
     </div>
   );
 }
+
+const emptyBodyStyle: CSSProperties = {
+  margin: 0,
+  padding: '8px 16px 4px',
+  fontSize: 14,
+  lineHeight: 1.4,
+};
 
 /**
  * The content unit below the commentary, by `content_kind`: an article share

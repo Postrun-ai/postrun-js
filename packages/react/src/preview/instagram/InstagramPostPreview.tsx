@@ -61,6 +61,9 @@ function InstagramPostPreviewImpl({
   // `post_type` is the authoritative discriminator (the contract). `media_type`
   // is an optional hint, so we never let it override post_type.
   const isReel = variant.post_type === 'reel';
+  // Media referenced but not yet resolved to pixels → still processing (the same
+  // signal TikTok's card uses to show a skeleton instead of an empty state).
+  const pending = (media?.length ?? 0) > 0 && resolvedMedia.length === 0;
 
   if (isReel) {
     return (
@@ -68,6 +71,7 @@ function InstagramPostPreviewImpl({
         author={author}
         body={variant.body ?? ''}
         media={resolvedMedia}
+        pending={pending}
         audioName={settings?.audio_name}
         className={className}
         style={style}
@@ -84,7 +88,13 @@ function InstagramPostPreviewImpl({
     color: varRef(IG_VAR.text),
     border: `1px solid ${varRef(IG_VAR.border)}`,
     borderRadius: 8,
+    // Fill the container up to IG's feed width. WITHOUT an explicit width the card
+    // shrinks to its content, so an empty post (no caption/media to widen it) would
+    // collapse to a fraction of a populated card's width — a jarring size change as
+    // you type. Pinning width keeps every state the SAME size (zero layout shift).
+    width: '100%',
     maxWidth: 470,
+    boxSizing: 'border-box',
     overflow: 'hidden',
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
@@ -94,7 +104,7 @@ function InstagramPostPreviewImpl({
   return (
     <div className={className} style={cardStyle}>
       <Header author={author} collaborators={collaborators} />
-      <FeedMedia media={resolvedMedia} />
+      <FeedMedia media={resolvedMedia} pending={pending} />
       <Actions />
       {variant.body ? (
         <div style={{ paddingBottom: 12 }}>

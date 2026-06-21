@@ -4,18 +4,38 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 
+import { MediaPlaceholder } from '../MediaPlaceholder';
 import type { ResolvedMedia } from '../types';
+import { IG_VAR, varRef } from './theme';
 
 /**
  * The Instagram feed media: a single edge-to-edge 1:1 image/video, or a swipeable
  * carousel (Embla — real drag) with a "n/N" pill top-right and the bottom dots.
- * Pixels are shown unmodified.
+ * Pixels are shown unmodified. The 1:1 frame is ALWAYS reserved, so the empty,
+ * processing, and loaded states are the same size (zero layout shift).
  */
-export function FeedMedia({ media }: { media: readonly ResolvedMedia[] }) {
+export function FeedMedia({
+  media,
+  pending = false,
+}: {
+  media: readonly ResolvedMedia[];
+  /** Media is referenced but its pixels aren't resolved yet (still processing). */
+  pending?: boolean;
+}) {
   if (media.length <= 1) {
+    const item = media[0];
     return (
       <div style={frameStyle}>
-        {media[0] ? <Tile item={media[0]} /> : null}
+        {item ? (
+          <Tile item={item} />
+        ) : (
+          <MediaPlaceholder
+            label={pending ? 'Processing media…' : 'No media yet'}
+            color={varRef(IG_VAR.muted)}
+            background={EMPTY_BG}
+            shimmer={pending}
+          />
+        )}
       </div>
     );
   }
@@ -83,6 +103,11 @@ const frameStyle: CSSProperties = {
   background: '#000',
   overflow: 'hidden',
 };
+
+/** Instagram's own media-loading placeholder grey (theme-aware) — present enough
+ * to read as a deliberate "media goes here" slot, NOT the pure black used to
+ * letterbox real media. */
+const EMPTY_BG = 'light-dark(#efefef, #1c1c1c)';
 
 const mediaStyle: CSSProperties = {
   position: 'absolute',

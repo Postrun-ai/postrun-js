@@ -97,4 +97,10 @@ export const X_SAMPLES: XSample[] = [
     media: [],
     replyToHandle: 'janedev',
   },
+  {
+    id: 'empty',
+    label: 'Empty',
+    variant: v({ body: '' }),
+    media: [],
+  },
 ];

@@ -1,5 +1,37 @@
 # @postrun/react
 
+## 2.10.0
+
+### Minor Changes
+
+- Polish the post-preview empty / processing states to the Linear/Vercel bar, with
+  zero layout shift across networks:
+
+  - **Stable card width (the layout-shift fix).** The Instagram and LinkedIn cards
+    used `maxWidth` with no `width`, so they shrank to their content — an empty post
+    collapsed to a fraction of a populated card's width. Both now pin `width: 100%`
+    (capped at the network's feed width), so the empty, processing, and loaded states
+    render at identical dimensions. Verified: IG card 470px / media box 468×468 across
+    all three states.
+  - **Instagram empty / processing.** Replaced the solid-black void (and the generic
+    placeholder icon) with Instagram's authentic media-loading grey skeleton — a quiet
+    "No media yet" line, a shimmer while pixels resolve, in the always-reserved 1:1
+    frame. The Reel card gets the same treatment.
+  - **X empty state.** Shows X's own "What's happening?" prompt (muted) in the body
+    slot, aligned via react-tweet's body CSS variables and theme-aware secondary color,
+    instead of a hollow header + action bar.
+  - **LinkedIn empty state.** Shows LinkedIn's "What do you want to talk about?" prompt
+    when the post has no commentary, media, or rich unit. Single images now reserve
+    their natural aspect ratio (when dimensions are known) to avoid a load-time jump.
+  - **Shared `MediaPlaceholder`.** Extracted the empty/processing tile every card uses
+    (TikTok now consumes it too), so the treatment stays consistent and icon-free.
+
+  `ReelPreview` gains an additive optional `pending` prop.
+
+### Patch Changes
+
+- @postrun/js@2.10.0
+
 ## 2.9.0
 
 ### Minor Changes

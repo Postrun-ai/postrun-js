@@ -35,7 +35,8 @@ export interface XPostPreviewProps {
   quotedTweet?: XPreviewQuotedTweet;
   /** The replied-to account's handle (our schema only stores the parent id). */
   replyToHandle?: string;
-  /** Color scheme. `auto` (default) inherits the host's theme. */
+  /** Color scheme. `auto` (default) follows the OS color scheme (light/dark) —
+   * the same resolution every Postrun preview card uses. */
   theme?: 'light' | 'dark' | 'auto';
   /** Show the static action row (icons, no counts). Default true. */
   showActions?: boolean;

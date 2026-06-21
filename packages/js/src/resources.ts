@@ -131,6 +131,15 @@ export type TikTokPostVariant = Extract<
   { platform: 'tiktok' }
 >;
 
+/** The Instagram member of the write variant union — typed native settings
+ * (`media_type`, `collaborators`, `user_tags`, `location_id`, and the reel-only
+ * `share_to_feed`/`audio_name`/`cover_url`/`thumb_offset`). Narrowed from the
+ * contract, never hand-declared — the compose-time shape an IG preview renders. */
+export type InstagramPostVariant = Extract<
+  PostVariantInput,
+  { platform: 'instagram' }
+>;
+
 /** A post — its variants, schedule, and derived status (the read resource). */
 export type Post = PostsGetResponse;
 

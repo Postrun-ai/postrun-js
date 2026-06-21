@@ -1,16 +1,20 @@
-import type { MediaKind } from '@postrun/js';
+import type { Connection, MediaKind } from '@postrun/js';
 
 /**
- * Public input types for the post-preview components. These describe data the
- * CUSTOMER supplies for presentation — NOT shapes from our OpenAPI contract — so
- * they are authored here rather than derived. The one value with a contract
- * counterpart, a media asset's `kind`, IS derived from the SDK's `MediaKind`.
+ * Public input types for the post-preview components.
  *
- * Why author/media live outside the post schema: a connection stores only a
- * cached account name (no avatar, no `@handle`, no verified flag), and a variant
- * references media by id, not by pixels — at compose time the only pixels that
- * exist are a local `File`.
+ * Identity that our API DOES store on a `Connection` (`username`, `avatar_url`,
+ * `profile_url`) is DERIVED from the SDK `Connection` type — never re-declared —
+ * so a preview author can be built straight from a connection and can't drift.
+ * Fields the API does NOT store (a verified badge, a display name distinct from
+ * the handle, a LinkedIn headline) are presentation extras the customer supplies;
+ * those are the documented backend gaps. Media `kind` derives from `MediaKind`;
+ * pixels are still a `url`/`File` because a variant references media by id.
  */
+
+/** The identity fields our `Connection` stores — the SDK-driven base every
+ * preview author derives from (so the field names + nullability match the API). */
+export type ConnectionIdentity = Pick<Connection, 'username' | 'avatar_url'>;
 
 /** The author identity rendered in an X preview header. */
 export interface XPreviewAuthor {
@@ -36,6 +40,20 @@ export interface LinkedInPreviewAuthor {
   /** Show the verified badge. Default false. */
   verified?: boolean;
 }
+
+/**
+ * The author identity rendered in an Instagram preview header. Instagram shows
+ * the `username` (no separate display name) + an optional verified badge.
+ *
+ * `username` / `avatar_url` are DERIVED from the SDK `Connection` (`string | null`,
+ * so build it straight from `useConnections()`). `verified` is a presentation
+ * extra — our API does NOT store verified status on a connection (a backend gap),
+ * so the customer supplies it (or omit it).
+ */
+export type InstagramPreviewAuthor = ConnectionIdentity & {
+  /** Verified badge. NOT sourced from our Connection — presentation-only. */
+  verified?: boolean;
+};
 
 /** The media kinds a social preview can render (documents are not previewable
  * here) — derived from the SDK's `MediaKind`, never re-listed. */

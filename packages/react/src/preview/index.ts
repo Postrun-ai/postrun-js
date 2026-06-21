@@ -13,6 +13,8 @@ export {
   Poll,
   DocumentCard,
 } from './linkedin';
+export { InstagramPostPreview, ReelPreview } from './instagram';
+export type { InstagramPostPreviewProps, InstagramTheme } from './instagram';
 export type {
   LinkedInPostPreviewProps,
   ArticleCardProps,
@@ -39,6 +41,7 @@ export type {
 export type {
   XPreviewAuthor,
   LinkedInPreviewAuthor,
+  InstagramPreviewAuthor,
   PreviewMedia,
   XPreviewMedia,
   XPreviewQuotedTweet,

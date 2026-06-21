@@ -17,8 +17,8 @@ import { PostBody } from './PostBody';
 import {
   LI_VAR,
   type LinkedInTheme,
+  colorSchemeFor,
   paletteVars,
-  useIsDark,
   varRef,
 } from './theme';
 
@@ -68,7 +68,6 @@ function LinkedInPostPreviewImpl({
   className,
   style,
 }: LinkedInPostPreviewProps) {
-  const dark = useIsDark(theme);
   const resolvedMedia = useResolvedMedia(
     media,
     variant.media,
@@ -84,7 +83,8 @@ function LinkedInPostPreviewImpl({
   };
 
   const cardStyle: CSSProperties = {
-    ...paletteVars(dark),
+    ...paletteVars(),
+    colorScheme: colorSchemeFor(theme),
     background: varRef(LI_VAR.bg),
     color: varRef(LI_VAR.text),
     border: `1px solid ${varRef(LI_VAR.border)}`,

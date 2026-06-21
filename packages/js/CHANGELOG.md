@@ -1,5 +1,33 @@
 # @postrun/js
 
+## 2.8.0
+
+### Minor Changes
+
+- Add the Instagram preview (feed + reel), unify the caption fold, and make
+  `theme="auto"` consistent across every card.
+
+  `@postrun/react`:
+
+  - **`InstagramPostPreview`** — a clean-room, schema-driven Instagram preview
+    covering everything the API supports: a **feed** post (single image / swipeable
+    carousel via Embla) and a **reel** (9:16 video). Header with avatar, username,
+    verified seal, and collaborators; the action row (like/comment/share/save — no
+    fabricated counts); a bold-username caption; the reel's audio label. Light/dark/
+    `auto` themed; the reel is always dark. Identity (`InstagramPreviewAuthor`) is
+    **SDK-driven** — `username`/`avatar_url` derive from the `Connection` type.
+  - **Caption fold polish** — a single shared `ExpandableText` powers the
+    "more"/"less" fold for the Instagram and TikTok captions: expands to the FULL
+    text with **no inner scrollbar** (removed TikTok's `max-height`/scroll).
+  - **`theme="auto"` now resolves identically on every card** — the CSS-variable
+    cards (LinkedIn, Instagram, the TikTok panel) follow the OS color scheme via CSS
+    `light-dark()` + `color-scheme`, matching how `react-tweet` (X) resolves `auto`.
+    No more JS-after-mount flash or X-vs-LinkedIn divergence.
+
+  `@postrun/js`:
+
+  - `InstagramPostVariant` type (derived from the contract).
+
 ## 2.7.0
 
 ## 2.6.0

@@ -49,6 +49,7 @@ export type {
   XPostVariant,
   LinkedInPostVariant,
   TikTokPostVariant,
+  InstagramPostVariant,
   Post,
   PostList,
   ListPostsQuery,

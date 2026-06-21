@@ -73,20 +73,21 @@ describe('<LinkedInPostPreview>', () => {
     expect(screen.getByText('Repost')).toBeDefined();
   });
 
-  it('applies the dark palette when theme is dark', () => {
+  it('sets color-scheme dark when theme is dark (palette via light-dark())', () => {
     const { container } = render(
       <LinkedInPostPreview variant={liVariant()} author={author} theme="dark" />,
     );
     const card = container.firstElementChild as HTMLElement;
-    expect(card.style.getPropertyValue('--pr-li-bg')).toBe('#1b1f23');
+    expect(card.style.colorScheme).toBe('dark');
+    expect(card.style.getPropertyValue('--pr-li-bg')).toContain('light-dark');
   });
 
-  it('applies the light palette by default (no OS preference in jsdom)', () => {
+  it('follows the OS color scheme by default (auto → color-scheme: light dark)', () => {
     const { container } = render(
       <LinkedInPostPreview variant={liVariant()} author={author} />,
     );
     const card = container.firstElementChild as HTMLElement;
-    expect(card.style.getPropertyValue('--pr-li-bg')).toBe('#ffffff');
+    expect(card.style.colorScheme).toBe('light dark');
   });
 
   it('forwards className for customer styling', () => {

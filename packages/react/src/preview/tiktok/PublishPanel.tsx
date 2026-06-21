@@ -13,7 +13,7 @@ import { captionMaxFor, TikTokCaptionField } from './CaptionField';
 import { CommercialDisclosure } from './CommercialDisclosure';
 import { Declaration } from './Declaration';
 import { InteractionToggles } from './InteractionToggles';
-import { type TikTokTheme, TT_VAR, paletteVars, useIsDark, varRef } from './theme';
+import { type TikTokTheme, TT_VAR, colorSchemeFor, paletteVars, varRef } from './theme';
 import { Notice, Row, Switch, TOKENS } from './ui';
 
 /**
@@ -72,7 +72,6 @@ export function TikTokPublishPanel({
   className,
   style,
 }: TikTokPublishPanelProps) {
-  const dark = useIsDark(theme);
   const isVideo = variant.post_type === 'video';
 
   const captionOver = caption.length > captionMaxFor(variant.post_type);
@@ -83,7 +82,8 @@ export function TikTokPublishPanel({
     <div
       className={className}
       style={{
-        ...paletteVars(dark),
+        ...paletteVars(),
+        colorScheme: colorSchemeFor(theme),
         ...panelStyle,
         color: varRef(TT_VAR.text),
         ...style,

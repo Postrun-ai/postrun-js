@@ -1,22 +1,11 @@
-import type { XPostVariant } from '@postrun/js';
-import type {
-  PreviewMedia,
-  XPreviewAuthor,
-  XPreviewQuotedTweet,
-} from '@preview/types';
+import type { MediaResource, XPostVariant } from '@postrun/js';
+import type { PreviewConnection, XPreviewQuotedTweet } from '@preview/types';
+
+import { conn, processingAsset, readyImage } from './samples-media';
 
 /** X preview fixtures — shaped exactly like our Post object (XPostVariant). */
 
-export const author: XPreviewAuthor = {
-  name: 'Acme Studio',
-  username: 'acmestudio',
-  avatar_url:
-    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop',
-  verified: true,
-};
-
-const PHOTO = (id: string) =>
-  `https://images.unsplash.com/${id}?w=1200&h=800&fit=crop`;
+export const connection: PreviewConnection = conn({ platform: 'x' });
 
 const CONN = 'conn_x0000000000000000000';
 
@@ -36,7 +25,8 @@ export interface XSample {
   id: string;
   label: string;
   variant: XPostVariant;
-  media: PreviewMedia[];
+  /** Uploaded assets the compose variant resolves its ids against. */
+  media: MediaResource[];
   quotedTweet?: XPreviewQuotedTweet;
   replyToHandle?: string;
 }
@@ -58,7 +48,20 @@ export const X_SAMPLES: XSample[] = [
       body: 'Golden hour from the offsite 🌅',
       media: [{ media_id: 'med_x1' }],
     }),
-    media: [{ kind: 'image', url: PHOTO('photo-1469474968028-56623f02e42e'), alt: 'Mountain vista' }],
+    media: [
+      readyImage('med_x1', 'photo-1469474968028-56623f02e42e', 'Mountain vista'),
+    ],
+  },
+  {
+    id: 'processing',
+    label: 'Processing',
+    variant: v({
+      post_type: 'single_image',
+      body: 'Uploading the keynote clip…',
+      media: [{ media_id: 'med_x1' }],
+    }),
+    // Attached but still transcoding → the honest processing tile.
+    media: [processingAsset('med_x1')],
   },
   {
     id: 'poll',
@@ -83,7 +86,9 @@ export const X_SAMPLES: XSample[] = [
     }),
     media: [],
     quotedTweet: {
-      author: { name: 'Jane Dev', username: 'janedev', avatar_url: null, verified: true },
+      name: 'Jane Dev',
+      username: 'janedev',
+      avatar_url: null,
       body: 'The best preview is the one that looks identical to the real thing.',
     },
   },

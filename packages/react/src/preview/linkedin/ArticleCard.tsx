@@ -1,7 +1,7 @@
 import type { LinkedInPostVariant } from '@postrun/js';
 import type { CSSProperties } from 'react';
 
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 import { LI_VAR, varRef } from './theme';
 
 /**
@@ -30,7 +30,7 @@ export function domainOf(source: string): string {
 export interface ArticleCardProps {
   article: LinkedInArticle;
   /** Resolved thumbnail pixels (from `article.thumbnail_media_id`), if any. */
-  thumbnail?: ResolvedMedia;
+  thumbnail?: ReadyMedia;
 }
 
 export function ArticleCard({ article, thumbnail }: ArticleCardProps) {

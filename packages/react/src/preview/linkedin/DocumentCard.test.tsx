@@ -18,7 +18,7 @@ describe('<DocumentCard>', () => {
     const { container } = render(
       <DocumentCard
         document={{ title: 'Deck' }}
-        cover={{ kind: 'image', src: 'https://cdn/page1.jpg' }}
+        cover={{ kind: 'image', state: 'ready', src: 'https://cdn/page1.jpg' }}
       />,
     );
     expect(container.querySelector('img')).not.toBeNull();

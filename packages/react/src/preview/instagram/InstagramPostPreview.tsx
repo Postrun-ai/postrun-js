@@ -1,14 +1,16 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
-import type {
-  InstagramPreviewAuthor,
-  InstagramPreviewVariant,
-  PreviewMedia,
+import type { MediaResource } from '@postrun/js';
+
+import { resolveVariantMedia } from '../media-resolver';
+import {
+  isReadyMedia,
+  type InstagramPreviewVariant,
+  type PreviewConnection,
 } from '../types';
-import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
 import { Actions } from './Actions';
 import { Caption } from './Caption';
 import { FeedMedia } from './FeedMedia';
@@ -24,23 +26,24 @@ import {
 
 /**
  * A faithful, schema-driven preview of how an Instagram post will look, rendered
- * straight from a Postrun Instagram variant. Covers everything the API supports:
- * a **feed** post (single image / carousel) and a **reel** (9:16 video). Identity
- * is SDK-driven (`author` derives from `Connection`); creator details (username,
- * avatar, verified, collaborators) and the audio label come from the variant +
- * author. Feed themes light/dark/`auto`; the reel is always dark.
- *
- * Clean-room (there's no package to "buy" — Instagram's embed only renders
- * already-published posts), referencing the real IG feed + Postiz.
+ * straight from a Postrun Instagram variant + the posting `Connection`. Covers a
+ * **feed** post (single image / carousel) and a **reel** (9:16 video). Identity
+ * (`username`/`avatar_url`) derives from the connection; `verified` is a caller
+ * extra. Media pixels come from the resolved per-platform renditions; a
+ * still-processing asset shows the shared "Processing media…" tile. Feed themes
+ * light/dark/`auto`; the reel is always dark.
  */
 export interface InstagramPostPreviewProps {
-  /** The Instagram variant — either a compose-time write variant or a fetched
-   * read variant (both carry the typed settings/body the card renders). */
+  /** The Instagram variant — compose-time write OR fetched read (carries assets
+   * inline). */
   variant: InstagramPreviewVariant;
-  /** Author identity (SDK-driven; `verified` is a presentation extra). */
-  author: InstagramPreviewAuthor;
-  /** Resolved media pixels (processed URLs or compose-time File blobs). */
-  media?: PreviewMedia[];
+  /** The posting account — the SDK `Connection`. Username/avatar derive from it. */
+  connection: PreviewConnection;
+  /** Uploaded assets to resolve a compose variant's media ids against (e.g.
+   * `useMediaUpload().ready`); a read variant carries its own inline. */
+  media?: readonly MediaResource[];
+  /** Show the verified seal — our API doesn't store it, so you supply it. */
+  verified?: boolean;
   /** Color scheme for the feed card. `auto` (default) follows the OS. */
   theme?: InstagramTheme;
   className?: string;
@@ -49,32 +52,36 @@ export interface InstagramPostPreviewProps {
 
 function InstagramPostPreviewImpl({
   variant,
-  author,
+  connection,
   media,
+  verified,
   theme = 'auto',
   className,
   style,
 }: InstagramPostPreviewProps) {
-  const resolvedMedia = useResolvedMedia(
-    media,
-    variant.media,
-    altSignatureOf(variant.media),
+  const resolved = useMemo(
+    () => resolveVariantMedia(variant.media, 'instagram', media),
+    [variant.media, media],
+  );
+  const readyMedia = useMemo(() => resolved.filter(isReadyMedia), [resolved]);
+  // Media referenced but no pixels resolved yet → still processing.
+  const pending = resolved.length > 0 && readyMedia.length === 0;
+
+  const author = useMemo(
+    () => ({ username: connection.username, avatar_url: connection.avatar_url, verified }),
+    [connection, verified],
   );
 
   const settings = variant.settings;
-  // `post_type` is the authoritative discriminator (the contract). `media_type`
-  // is an optional hint, so we never let it override post_type.
+  // `post_type` is the authoritative discriminator (the contract).
   const isReel = variant.post_type === 'reel';
-  // Media referenced but not yet resolved to pixels → still processing (the same
-  // signal TikTok's card uses to show a skeleton instead of an empty state).
-  const pending = (media?.length ?? 0) > 0 && resolvedMedia.length === 0;
 
   if (isReel) {
     return (
       <ReelPreview
         author={author}
         body={variant.body ?? ''}
-        media={resolvedMedia}
+        media={readyMedia}
         pending={pending}
         audioName={settings?.audio_name}
         className={className}
@@ -92,10 +99,6 @@ function InstagramPostPreviewImpl({
     color: varRef(IG_VAR.text),
     border: `1px solid ${varRef(IG_VAR.border)}`,
     borderRadius: 8,
-    // Fill the container up to IG's feed width. WITHOUT an explicit width the card
-    // shrinks to its content, so an empty post (no caption/media to widen it) would
-    // collapse to a fraction of a populated card's width — a jarring size change as
-    // you type. Pinning width keeps every state the SAME size (zero layout shift).
     width: '100%',
     maxWidth: 470,
     boxSizing: 'border-box',
@@ -108,7 +111,7 @@ function InstagramPostPreviewImpl({
   return (
     <div className={className} style={cardStyle}>
       <Header author={author} collaborators={collaborators} />
-      <FeedMedia media={resolvedMedia} pending={pending} />
+      <FeedMedia media={readyMedia} pending={pending} />
       <Actions />
       {variant.body ? (
         <div style={{ paddingBottom: 12 }}>
@@ -119,5 +122,5 @@ function InstagramPostPreviewImpl({
   );
 }
 
-/** Memoized: the resolved-media hook absorbs unstable media arrays. */
+/** Memoized. */
 export const InstagramPostPreview = memo(InstagramPostPreviewImpl);

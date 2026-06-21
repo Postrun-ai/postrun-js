@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 
 /**
  * LinkedIn's image layout: a single full-bleed image, or the 2/3/4 mosaic with a
@@ -53,7 +53,7 @@ function Tile({
   area,
   overlay,
 }: {
-  item: ResolvedMedia;
+  item: ReadyMedia;
   area?: string;
   overlay?: number;
 }) {
@@ -82,7 +82,7 @@ function Tile({
 }
 
 export interface ImageMosaicProps {
-  media: readonly ResolvedMedia[];
+  media: readonly ReadyMedia[];
 }
 
 export function ImageMosaic({ media }: ImageMosaicProps) {

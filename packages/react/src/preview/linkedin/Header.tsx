@@ -2,8 +2,16 @@ import type { LinkedInPostVariant } from '@postrun/js';
 import { FiGlobe, FiUsers } from 'react-icons/fi';
 import { LuBadgeCheck } from 'react-icons/lu';
 
-import type { LinkedInPreviewAuthor } from '../types';
 import { LI_VAR, varRef } from './theme';
+
+/** The LinkedIn header's identity view-model — `name`/`avatar_url` derive from
+ * the connection; `headline`/`verified` are caller-supplied (not stored). */
+export interface LinkedInAuthor {
+  name: string;
+  avatar_url?: string | null;
+  headline?: string;
+  verified?: boolean;
+}
 
 /**
  * The LinkedIn post header: avatar, actor name (+ optional verified badge),
@@ -25,7 +33,7 @@ const PLACEHOLDER_AVATAR =
   );
 
 export interface HeaderProps {
-  author: LinkedInPreviewAuthor;
+  author: LinkedInAuthor;
   visibility: LinkedInVisibility;
   /** Relative time label, e.g. "Now". */
   time?: string;

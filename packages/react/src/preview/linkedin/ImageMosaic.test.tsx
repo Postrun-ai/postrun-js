@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 import { ImageMosaic } from './ImageMosaic';
 
-const img = (n: number): ResolvedMedia => ({
+const img = (n: number): ReadyMedia => ({
   kind: 'image',
+  state: 'ready',
   src: `https://cdn.test/${n}.jpg`,
   alt: `image ${n}`,
 });

@@ -1,9 +1,10 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 
-import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
+import { resolveVariantMedia } from '../media-resolver';
+import { isReadyMedia } from '../types';
 import { Caption } from './Caption';
 import { Media } from './Media';
 import {
@@ -52,23 +53,23 @@ function TikTokPostPreviewImpl({
   className,
   style,
 }: TikTokPostPreviewProps) {
-  const resolvedMedia = useResolvedMedia(
-    media,
-    variant.media,
-    altSignatureOf(variant.media),
+  const resolved = useMemo(
+    () => resolveVariantMedia(variant.media, 'tiktok', media),
+    [variant.media, media],
   );
+  const readyMedia = useMemo(() => resolved.filter(isReadyMedia), [resolved]);
 
   const { creator } = creatorInfo;
   const handle = creator.username || creator.nickname;
   const label = commercialLabel(variant.settings);
   const isAigc = Boolean(variant.settings?.is_aigc);
   // Media referenced but not yet resolved to pixels → still processing.
-  const pending = (media?.length ?? 0) > 0 && resolvedMedia.length === 0;
+  const pending = resolved.length > 0 && readyMedia.length === 0;
 
   return (
     <div className={className} style={{ ...cardStyle, ...style }}>
       <style>{KEYFRAMES}</style>
-      <Media media={resolvedMedia} pending={pending} />
+      <Media media={readyMedia} pending={pending} />
       <div style={scrimStyle} />
 
       {/* bottom-left: username, caption, labels, music row */}

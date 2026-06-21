@@ -2,15 +2,21 @@ import type { PostVariant, XPostVariant } from '@postrun/js';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import type { XPreviewAuthor } from '../types';
+import {
+  connection,
+  mediaAsset,
+  processingMedia,
+  readyMedia,
+} from '../test-helpers';
 import { XPostPreview } from './XPostPreview';
 
-const author: XPreviewAuthor = {
-  name: 'Acme Studio',
+const conn = connection({
+  platform: 'x',
+  external_account_name: 'Acme Studio',
   username: 'acmestudio',
   avatar_url: 'https://cdn.test/acme.png',
-  verified: true,
-};
+});
+const image = [readyMedia('m1', 'x', { alt_text: 'a cat' })];
 
 function xVariant(overrides: Partial<XPostVariant> = {}): XPostVariant {
   return {
@@ -24,10 +30,19 @@ function xVariant(overrides: Partial<XPostVariant> = {}): XPostVariant {
   };
 }
 
+/** A single-image variant referencing `m1`. */
+function withImage(over: Partial<XPostVariant> = {}): XPostVariant {
+  return xVariant({ post_type: 'single_image', media: [{ media_id: 'm1' }], ...over });
+}
+
 describe('<XPostPreview>', () => {
-  it('renders the author name, handle, and body', () => {
+  it('derives the name/handle/avatar from the connection and renders the body', () => {
     render(
-      <XPostPreview variant={xVariant({ body: 'shipping day' })} author={author} />,
+      <XPostPreview
+        variant={xVariant({ body: 'shipping day' })}
+        connection={conn}
+        verified
+      />,
     );
 
     expect(screen.getByText('Acme Studio')).toBeDefined();
@@ -37,25 +52,21 @@ describe('<XPostPreview>', () => {
 
   it('defaults to no data-theme (auto / inherit)', () => {
     const { container } = render(
-      <XPostPreview variant={xVariant()} author={author} />,
+      <XPostPreview variant={xVariant()} connection={conn} />,
     );
     expect(container.firstElementChild?.getAttribute('data-theme')).toBeNull();
   });
 
   it('sets data-theme="dark" when theme is dark', () => {
     const { container } = render(
-      <XPostPreview variant={xVariant()} author={author} theme="dark" />,
+      <XPostPreview variant={xVariant()} connection={conn} theme="dark" />,
     );
     expect(container.firstElementChild?.getAttribute('data-theme')).toBe('dark');
   });
 
   it('forwards className to the wrapper for customer styling', () => {
     const { container } = render(
-      <XPostPreview
-        variant={xVariant()}
-        author={author}
-        className="my-preview"
-      />,
+      <XPostPreview variant={xVariant()} connection={conn} className="my-preview" />,
     );
     expect(container.firstElementChild?.className).toContain('my-preview');
   });
@@ -64,7 +75,7 @@ describe('<XPostPreview>', () => {
     render(
       <XPostPreview
         variant={xVariant()}
-        author={author}
+        connection={conn}
         components={{
           AvatarImg: (props) => <img {...props} data-testid="custom-avatar" />,
         }}
@@ -73,55 +84,49 @@ describe('<XPostPreview>', () => {
     expect(screen.getByTestId('custom-avatar')).toBeDefined();
   });
 
-  it('renders a media image with its alt text', () => {
-    render(
-      <XPostPreview
-        variant={xVariant({ post_type: 'single_image' })}
-        author={author}
-        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg', alt: 'a cat' }]}
-      />,
-    );
+  it('renders a media image with its alt text (from the asset)', () => {
+    render(<XPostPreview variant={withImage()} connection={conn} media={image} />);
     expect(screen.getByAltText('a cat')).toBeDefined();
   });
 
-  it("renders media with the ORIGINAL src, not react-tweet's Twitter-CDN transform", () => {
-    // react-tweet's getMediaUrl rewrites the path + appends ?format=&name= for
-    // pbs.twimg.com; for a customer CDN url that 404s (path stripped). We must
-    // render the raw url instead.
-    render(
-      <XPostPreview
-        variant={xVariant({ post_type: 'single_image' })}
-        author={author}
-        media={[{ kind: 'image', url: 'https://cdn.customer.com/photo.jpg' }]}
-      />,
-    );
+  it("renders media with the ORIGINAL rendition src, not react-tweet's CDN transform", () => {
+    const asset = mediaAsset('m1', {
+      per_platform: {
+        x: {
+          status: 'ready',
+          url: 'https://cdn.customer.com/photo.jpg',
+          width: 1200,
+          height: 800,
+          bytes: 1,
+          warnings: [],
+          errors: [],
+        },
+      },
+    });
+    render(<XPostPreview variant={withImage()} connection={conn} media={[asset]} />);
     const img = screen.getByAltText('Image');
     expect(img.getAttribute('src')).toBe('https://cdn.customer.com/photo.jpg');
   });
 
-  it("falls back to the variant media's alt_text_override when no alt is given", () => {
+  it("uses the variant media's alt_text_override over the asset alt_text", () => {
     render(
       <XPostPreview
-        variant={xVariant({
-          post_type: 'single_image',
-          media: [{ media_id: 'med_1', alt_text_override: 'from the asset' }],
+        variant={withImage({
+          media: [{ media_id: 'm1', alt_text_override: 'from the override' }],
         })}
-        author={author}
-        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg' }]}
+        connection={conn}
+        media={image}
       />,
     );
-    expect(screen.getByAltText('from the asset')).toBeDefined();
+    expect(screen.getByAltText('from the override')).toBeDefined();
   });
 
   it('renders the quoted card from quotedTweet', () => {
     render(
       <XPostPreview
         variant={xVariant({ settings: { quote_tweet_id: '123' } })}
-        author={author}
-        quotedTweet={{
-          author: { name: 'Quoted Co', username: 'quotedco', avatar_url: null },
-          body: 'original take',
-        }}
+        connection={conn}
+        quotedTweet={{ name: 'Quoted Co', username: 'quotedco', body: 'original take' }}
       />,
     );
     expect(screen.getByText(/original take/)).toBeDefined();
@@ -131,19 +136,17 @@ describe('<XPostPreview>', () => {
     render(
       <XPostPreview
         variant={xVariant({ settings: { reply: { in_reply_to_tweet_id: '9' } } })}
-        author={author}
+        connection={conn}
         replyToHandle="someone"
       />,
     );
     expect(screen.getByText(/Replying to/i)).toBeDefined();
   });
 
-  it('accepts a FETCHED (read-shape) variant straight from the API', () => {
-    // The read variant carries the read-only id/status/result/error on top of the
-    // same typed settings/body — the preview must take it without a transform.
+  it('accepts a FETCHED (read-shape) variant with enriched media inline', () => {
     const fetched: Extract<PostVariant, { platform: 'x' }> = {
       platform: 'x',
-      post_type: 'text',
+      post_type: 'single_image',
       id: 'pv_x1',
       object: 'post_variant',
       connection_id: 'conn_1',
@@ -152,31 +155,43 @@ describe('<XPostPreview>', () => {
       schedule_at: null,
       result: null,
       error: null,
-      media: [],
+      media: [
+        {
+          media_id: 'm1',
+          position: 0,
+          crop_box: null,
+          alt_text_override: 'inline cat',
+          media: readyMedia('m1', 'x'),
+        },
+      ],
       settings: {},
     };
-    render(<XPostPreview variant={fetched} author={author} />);
+    // No `media` prop — the read variant carries its asset inline.
+    render(<XPostPreview variant={fetched} connection={conn} />);
     expect(screen.getByText(/shipped from a fetched post/)).toBeDefined();
+    expect(screen.getByAltText('inline cat')).toBeDefined();
   });
 
   it("shows X's muted placeholder body when there's no body or media", () => {
-    render(<XPostPreview variant={xVariant()} author={author} />);
+    render(<XPostPreview variant={xVariant()} connection={conn} />);
     expect(screen.getByText("What's happening?")).toBeDefined();
   });
 
   it('does not show the placeholder once a body is present', () => {
-    render(<XPostPreview variant={xVariant({ body: 'hi' })} author={author} />);
+    render(<XPostPreview variant={xVariant({ body: 'hi' })} connection={conn} />);
     expect(screen.queryByText("What's happening?")).toBeNull();
   });
 
   it('does not show the placeholder when only media is present', () => {
+    render(<XPostPreview variant={withImage()} connection={conn} media={image} />);
+    expect(screen.queryByText("What's happening?")).toBeNull();
+  });
+
+  it('shows the processing tile when media is attached but its rendition is not ready', () => {
     render(
-      <XPostPreview
-        variant={xVariant({ post_type: 'single_image' })}
-        author={author}
-        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg' }]}
-      />,
+      <XPostPreview variant={withImage()} connection={conn} media={[processingMedia('m1')]} />,
     );
+    expect(screen.getByText('Processing media…')).toBeDefined();
     expect(screen.queryByText("What's happening?")).toBeNull();
   });
 
@@ -185,11 +200,9 @@ describe('<XPostPreview>', () => {
       <XPostPreview
         variant={xVariant({
           body: 'wdyt?',
-          settings: {
-            poll: { options: ['Yes', 'No'], duration_minutes: 1440 },
-          },
+          settings: { poll: { options: ['Yes', 'No'], duration_minutes: 1440 } },
         })}
-        author={author}
+        connection={conn}
       />,
     );
     expect(screen.getByText('Yes')).toBeDefined();

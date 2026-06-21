@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { InstagramPostPreview, type InstagramTheme } from '@preview/instagram';
 
-import { IG_SAMPLES, author } from './samples-instagram';
+import { IG_SAMPLES, connection } from './samples-instagram';
 
 export function InstagramDemo() {
   const [sampleId, setSampleId] = useState(IG_SAMPLES[0]!.id);
@@ -48,8 +48,9 @@ export function InstagramDemo() {
       <div className={stageLight ? 'stage stage-light' : 'stage'}>
         <InstagramPostPreview
           variant={sample.variant}
-          author={author}
+          connection={connection}
           media={sample.media}
+          verified
           theme={theme}
         />
       </div>

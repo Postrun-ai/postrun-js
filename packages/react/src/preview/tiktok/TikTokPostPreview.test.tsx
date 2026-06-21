@@ -6,7 +6,7 @@ import type {
 import { render, screen } from '@testing-library/react';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import type { PreviewMedia } from '../types';
+import { processingMedia, readyMedia, readyVideo } from '../test-helpers';
 import { TikTokPostPreview } from './TikTokPostPreview';
 
 // Embla reads `ownerWindow.matchMedia` (the jsdom window), which jsdom omits —
@@ -77,11 +77,8 @@ function ttVariant(
   };
 }
 
-const videoMedia: PreviewMedia[] = [{ kind: 'video', url: 'https://cdn/v.mp4' }];
-const photoMedia: PreviewMedia[] = [
-  { kind: 'image', url: 'https://cdn/a.jpg' },
-  { kind: 'image', url: 'https://cdn/b.jpg' },
-];
+const videoMedia = [readyVideo('med_1', 'tiktok')];
+const photoMedia = [readyMedia('a', 'tiktok'), readyMedia('b', 'tiktok')];
 
 describe('<TikTokPostPreview>', () => {
   it('renders the handle (no @), caption and music row', () => {
@@ -156,9 +153,13 @@ describe('<TikTokPostPreview>', () => {
     expect(screen.getByText('Paid partnership')).toBeDefined();
   });
 
-  it('shows a processing skeleton when media is referenced but unresolved', () => {
+  it('shows a processing skeleton when the asset is still processing', () => {
     render(
-      <TikTokPostPreview variant={ttVariant()} creatorInfo={creatorInfo} media={[{ kind: 'video' }]} />,
+      <TikTokPostPreview
+        variant={ttVariant()}
+        creatorInfo={creatorInfo}
+        media={[processingMedia('med_1')]}
+      />,
     );
     expect(screen.getByText('Processing media…')).toBeDefined();
   });
@@ -186,12 +187,19 @@ describe('<TikTokPostPreview>', () => {
       schedule_at: null,
       result: null,
       error: null,
-      media: [],
+      media: [
+        {
+          media_id: 'med_1',
+          position: 0,
+          crop_box: null,
+          alt_text_override: null,
+          media: readyVideo('med_1', 'tiktok'),
+        },
+      ],
       settings: {},
     };
-    render(
-      <TikTokPostPreview variant={fetched} creatorInfo={creatorInfo} media={videoMedia} />,
-    );
+    // No `media` prop — the read variant carries its asset inline.
+    render(<TikTokPostPreview variant={fetched} creatorInfo={creatorInfo} />);
     expect(screen.getByText(/fetched tiktok post/)).toBeDefined();
   });
 });

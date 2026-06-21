@@ -1,6 +1,6 @@
 import type { TwitterComponents } from 'react-tweet';
 
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 
 /**
  * react-tweet renders media `src` through its `getMediaUrl`, which rewrites the
@@ -38,14 +38,12 @@ export function twitterMediaUrl(src: string): string {
 /** Build the transformed-src → raw-src lookup for a set of resolved media (image
  * src and any video poster). */
 export function rawSrcLookup(
-  ...lists: readonly (readonly ResolvedMedia[])[]
+  ...lists: readonly (readonly ReadyMedia[])[]
 ): Map<string, string> {
   const map = new Map<string, string>();
   for (const list of lists) {
     for (const item of list) {
-      const poster = item.posterSrc ?? item.src;
       map.set(twitterMediaUrl(item.src), item.src);
-      map.set(twitterMediaUrl(poster), poster);
     }
   }
   return map;

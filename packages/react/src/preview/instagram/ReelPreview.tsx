@@ -12,12 +12,13 @@ import { MdMusicNote, MdVerified } from 'react-icons/md';
 
 import { ExpandableText } from '../ExpandableText';
 import { MediaPlaceholder } from '../MediaPlaceholder';
-import type { InstagramPreviewAuthor, ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
+import type { InstagramAuthor } from './Header';
 
 export interface ReelPreviewProps {
-  author: InstagramPreviewAuthor;
+  author: InstagramAuthor;
   body: string;
-  media: readonly ResolvedMedia[];
+  media: readonly ReadyMedia[];
   /** Media is referenced but its pixels aren't resolved yet (still processing). */
   pending?: boolean;
   /** The reel's audio label (`settings.audio_name`); defaults to "Original audio". */
@@ -51,7 +52,6 @@ export function ReelPreview({
         first.kind === 'video' ? (
           <video
             src={first.src}
-            poster={first.posterSrc}
             autoPlay
             muted
             loop

@@ -12,8 +12,9 @@ import type {
  * A platform's FETCHED (read) variant — one member of a stored `Post`'s
  * `variants`, as returned by `usePost`/`usePosts`/the calendar. Since the API's
  * read variant is now a typed discriminated union, it carries the SAME typed
- * `settings`/`body`/`post_type`/`media` the write variant does, plus the
- * read-only `id`/`status`/`result`/`error`.
+ * `settings`/`body`/`post_type` the write variant does, plus the read-only
+ * `id`/`status`/`result`/`error` AND the enriched `media[].media` (the full
+ * `MediaResource` inline) — so a fetched post previews with no extra fetch.
  */
 export type ReadPostVariant<P extends PostVariant['platform']> = Extract<
   PostVariant,
@@ -23,9 +24,10 @@ export type ReadPostVariant<P extends PostVariant['platform']> = Extract<
 /**
  * What a preview's `variant` prop accepts: EITHER the compose-time **write**
  * variant (`XPostVariant`, …) OR the fetched **read** variant. Both expose the
- * typed `settings`, `body`, `post_type`, and `media[].alt_text_override` the cards
- * read — so you can hand a preview a post you just built OR one you fetched from
- * the API, with no transform.
+ * typed `settings`, `body`, `post_type`, and ordered `media` refs the cards read
+ * — so you can hand a preview a post you just built OR one you fetched, with no
+ * transform. A read variant additionally carries each media's full asset inline;
+ * a write/draft variant references media by id (resolve it via the `media` prop).
  */
 export type XPreviewVariant = XPostVariant | ReadPostVariant<'x'>;
 export type LinkedInPreviewVariant =
@@ -37,106 +39,74 @@ export type InstagramPreviewVariant =
   | ReadPostVariant<'instagram'>;
 
 /**
- * Public input types for the post-preview components.
+ * The author a preview header renders. It is DERIVED from the SDK `Connection`
+ * (the system of record for who's posting) — the card reads `avatar_url`,
+ * `username`, and `external_account_name` straight off it, so the header can't
+ * drift from the connection. Pass the whole connection; the card picks what it
+ * needs.
  *
- * Identity that our API DOES store on a `Connection` (`username`, `avatar_url`,
- * `profile_url`) is DERIVED from the SDK `Connection` type — never re-declared —
- * so a preview author can be built straight from a connection and can't drift.
- * Fields the API does NOT store (a verified badge, a display name distinct from
- * the handle, a LinkedIn headline) are presentation extras the customer supplies;
- * those are the documented backend gaps. Media `kind` derives from `MediaKind`;
- * pixels are still a `url`/`File` because a variant references media by id.
+ * The two things our API does NOT store on a connection are presentation extras
+ * a customer may supply via the preview's own props: a `verified` badge and a
+ * LinkedIn `headline`. Everything else comes from the connection.
  */
-
-/** The identity fields our `Connection` stores — the SDK-driven base every
- * preview author derives from (so the field names + nullability match the API). */
-export type ConnectionIdentity = Pick<Connection, 'username' | 'avatar_url'>;
-
-/**
- * The author identity rendered in an X preview header. `username` (the `@handle`)
- * and `avatar_url` are DERIVED from the SDK `Connection`; `name` (the display
- * name) and `verified` are presentation extras our API doesn't store.
- */
-export type XPreviewAuthor = ConnectionIdentity & {
-  /** Display name, e.g. "Acme Studio". NOT on Connection — caller-supplied. */
-  name: string;
-  /** Show the verified badge. NOT on Connection — caller-supplied. */
-  verified?: boolean;
-};
-
-/**
- * The author identity rendered in a LinkedIn preview header. LinkedIn shows a
- * display `name` + a one-line `headline`. `username`/`avatar_url` are DERIVED
- * from the SDK `Connection`; `name`/`headline`/`verified` are presentation extras
- * our API doesn't store (LinkedIn's `username` is also documented as NULL today).
- */
-export type LinkedInPreviewAuthor = ConnectionIdentity & {
-  /** Display name, e.g. "Acme Studio". NOT on Connection — caller-supplied. */
-  name: string;
-  /** One-line headline under the name. NOT on Connection — caller-supplied. */
-  headline?: string;
-  /** Show the verified badge. NOT on Connection — caller-supplied. */
-  verified?: boolean;
-};
-
-/**
- * The author identity rendered in an Instagram preview header. Instagram shows
- * the `username` (no separate display name) + an optional verified badge.
- *
- * `username` / `avatar_url` are DERIVED from the SDK `Connection` (`string | null`,
- * so build it straight from `useConnections()`). `verified` is a presentation
- * extra — our API does NOT store verified status on a connection (a backend gap),
- * so the customer supplies it (or omit it).
- */
-export type InstagramPreviewAuthor = ConnectionIdentity & {
-  /** Verified badge. NOT sourced from our Connection — presentation-only. */
-  verified?: boolean;
-};
+export type PreviewConnection = Pick<
+  Connection,
+  'platform' | 'username' | 'avatar_url' | 'external_account_name'
+>;
 
 /** The media kinds a social preview can render (documents are not previewable
  * here) — derived from the SDK's `MediaKind`, never re-listed. */
 export type PreviewMediaKind = Extract<MediaKind, 'image' | 'video' | 'gif'>;
 
 /**
- * One media item to preview. Provide a `url` (e.g. the processed
- * `MediaResource.per_platform.<platform>.url`) OR a `file` (a compose-time blob,
- * before upload) — the component turns a `file` into an object URL and revokes it
- * on unmount. An item with neither is skipped.
+ * One media item resolved for rendering — the shared shape every platform card's
+ * renderer consumes. Produced by `resolveVariantMedia` straight from the SDK
+ * `MediaResource`; pixels come from the per-platform rendition `url`, never a
+ * local `File`.
+ *
+ * `state` is honest: a `ready` item has its `src` (the rendition URL); a
+ * `processing` item has NO `src` (the asset or its rendition isn't ready) and the
+ * card shows the shared "Processing media…" placeholder in its place.
  */
-export interface PreviewMedia {
-  kind: PreviewMediaKind;
-  url?: string;
-  file?: File;
-  /** Natural pixel width — improves layout fidelity when known. */
-  width?: number;
-  /** Natural pixel height — improves layout fidelity when known. */
-  height?: number;
-  /** Alt text; falls back to the variant media's `alt_text_override`. */
-  alt?: string;
-  /** Poster frame for a video; falls back to `url`/`file`. */
-  posterUrl?: string;
-}
+export type ResolvedMedia =
+  | {
+      kind: PreviewMediaKind;
+      state: 'ready';
+      src: string;
+      width?: number;
+      height?: number;
+      alt?: string;
+    }
+  | {
+      kind: PreviewMediaKind;
+      state: 'processing';
+      src?: undefined;
+      width?: number;
+      height?: number;
+      alt?: string;
+    };
 
-/** @deprecated Use {@link PreviewMedia}. Kept as an alias for back-compat. */
-export type XPreviewMedia = PreviewMedia;
+/** A resolved item that has pixels — the `ready` member of {@link ResolvedMedia}
+ * (so `src` is guaranteed). Renderers that draw actual media take this; the
+ * card decides up front whether to render pixels or the processing placeholder. */
+export type ReadyMedia = Extract<ResolvedMedia, { state: 'ready' }>;
 
-/** A media item with its pixels already resolved to a single URL by the
- * component (shared by every platform preview's renderer). */
-export interface ResolvedMedia {
-  kind: PreviewMediaKind;
-  src: string;
-  width?: number;
-  height?: number;
-  alt?: string;
-  posterSrc?: string;
+/** Narrow a resolved item to its ready (has-pixels) form. */
+export function isReadyMedia(item: ResolvedMedia): item is ReadyMedia {
+  return item.state === 'ready';
 }
 
 /**
  * Content for the nested quoted card. Supplied separately because our schema
- * carries only an opaque `quote_tweet_id` (no quoted text/author).
+ * carries only an opaque `quote_tweet_id` (no quoted text/author/media).
  */
 export interface XPreviewQuotedTweet {
-  author: XPreviewAuthor;
+  /** The quoted account's display name. */
+  name: string;
+  /** The quoted account's @handle. */
+  username?: string | null;
+  /** The quoted account's avatar URL. */
+  avatar_url?: string | null;
   body?: string;
-  media?: PreviewMedia[];
+  media?: ResolvedMedia[];
 }

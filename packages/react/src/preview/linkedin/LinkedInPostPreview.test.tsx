@@ -2,16 +2,17 @@ import type { LinkedInPostVariant, PostVariant } from '@postrun/js';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import type { LinkedInPreviewAuthor } from '../types';
+import { connection, readyMedia } from '../test-helpers';
 import { LinkedInPostPreview } from './LinkedInPostPreview';
 
-const author: LinkedInPreviewAuthor = {
-  name: 'Acme Studio',
-  headline: 'Founder & CEO at Acme',
+const conn = connection({
+  platform: 'linkedin',
+  external_account_name: 'Acme Studio',
   username: 'acmestudio',
   avatar_url: 'https://cdn.test/acme.png',
-  verified: true,
-};
+});
+const HEADLINE = 'Founder & CEO at Acme';
+const image = [readyMedia('m1', 'linkedin', { alt_text: 'a cat' })];
 
 function liVariant(
   overrides: Partial<LinkedInPostVariant> = {},
@@ -32,7 +33,7 @@ describe('<LinkedInPostPreview>', () => {
     render(
       <LinkedInPostPreview
         variant={liVariant({ body: 'big news today' })}
-        author={author}
+        connection={conn} headline={HEADLINE} verified
       />,
     );
     expect(screen.getByText('Acme Studio')).toBeDefined();
@@ -41,7 +42,7 @@ describe('<LinkedInPostPreview>', () => {
   });
 
   it('shows the public globe icon for PUBLIC visibility', () => {
-    render(<LinkedInPostPreview variant={liVariant()} author={author} />);
+    render(<LinkedInPostPreview variant={liVariant()} connection={conn} headline={HEADLINE} verified />);
     expect(screen.getByLabelText('Public')).toBeDefined();
   });
 
@@ -51,7 +52,7 @@ describe('<LinkedInPostPreview>', () => {
         variant={liVariant({
           settings: { visibility: 'CONNECTIONS', content_kind: 'text' },
         })}
-        author={author}
+        connection={conn} headline={HEADLINE} verified
       />,
     );
     expect(screen.getByLabelText('Connections')).toBeDefined();
@@ -60,23 +61,23 @@ describe('<LinkedInPostPreview>', () => {
   it('renders a media image', () => {
     render(
       <LinkedInPostPreview
-        variant={liVariant({ post_type: 'single_image' })}
-        author={author}
-        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg', alt: 'a cat' }]}
+        variant={liVariant({ post_type: 'single_image', media: [{ media_id: 'm1' }] })}
+        connection={conn} headline={HEADLINE} verified
+        media={image}
       />,
     );
     expect(screen.getByAltText('a cat')).toBeDefined();
   });
 
   it('renders the static action bar by default', () => {
-    render(<LinkedInPostPreview variant={liVariant()} author={author} />);
+    render(<LinkedInPostPreview variant={liVariant()} connection={conn} headline={HEADLINE} verified />);
     expect(screen.getByText('Like')).toBeDefined();
     expect(screen.getByText('Repost')).toBeDefined();
   });
 
   it('sets color-scheme dark when theme is dark (palette via light-dark())', () => {
     const { container } = render(
-      <LinkedInPostPreview variant={liVariant()} author={author} theme="dark" />,
+      <LinkedInPostPreview variant={liVariant()} connection={conn} headline={HEADLINE} verified theme="dark" />,
     );
     const card = container.firstElementChild as HTMLElement;
     expect(card.style.colorScheme).toBe('dark');
@@ -85,7 +86,7 @@ describe('<LinkedInPostPreview>', () => {
 
   it('follows the OS color scheme by default (auto → color-scheme: light dark)', () => {
     const { container } = render(
-      <LinkedInPostPreview variant={liVariant()} author={author} />,
+      <LinkedInPostPreview variant={liVariant()} connection={conn} headline={HEADLINE} verified />,
     );
     const card = container.firstElementChild as HTMLElement;
     expect(card.style.colorScheme).toBe('light dark');
@@ -95,7 +96,7 @@ describe('<LinkedInPostPreview>', () => {
     const { container } = render(
       <LinkedInPostPreview
         variant={liVariant()}
-        author={author}
+        connection={conn} headline={HEADLINE} verified
         className="my-li"
       />,
     );
@@ -112,7 +113,7 @@ describe('<LinkedInPostPreview>', () => {
             article: { source: 'https://acme.com/x', title: 'We launched' },
           },
         })}
-        author={author}
+        connection={conn} headline={HEADLINE} verified
       />,
     );
     expect(screen.getByText('We launched')).toBeDefined();
@@ -129,7 +130,7 @@ describe('<LinkedInPostPreview>', () => {
             poll: { question: 'Best day?', options: ['Mon', 'Fri'], duration: 'ONE_DAY' },
           },
         })}
-        author={author}
+        connection={conn} headline={HEADLINE} verified
       />,
     );
     expect(screen.getByText('Best day?')).toBeDefined();
@@ -151,18 +152,18 @@ describe('<LinkedInPostPreview>', () => {
       media: [],
       settings: { visibility: 'PUBLIC', content_kind: 'text' },
     };
-    render(<LinkedInPostPreview variant={fetched} author={author} />);
+    render(<LinkedInPostPreview variant={fetched} connection={conn} headline={HEADLINE} verified />);
     expect(screen.getByText(/fetched linkedin post/)).toBeDefined();
   });
 
   it('shows a muted placeholder body when the post is empty', () => {
-    render(<LinkedInPostPreview variant={liVariant()} author={author} />);
+    render(<LinkedInPostPreview variant={liVariant()} connection={conn} headline={HEADLINE} verified />);
     expect(screen.getByText('What do you want to talk about?')).toBeDefined();
   });
 
   it('pins the card to a stable width so empty and populated cards match (zero shift)', () => {
     const { container } = render(
-      <LinkedInPostPreview variant={liVariant()} author={author} />,
+      <LinkedInPostPreview variant={liVariant()} connection={conn} headline={HEADLINE} verified />,
     );
     const card = container.firstElementChild as HTMLElement;
     expect(card.style.width).toBe('100%');
@@ -171,7 +172,7 @@ describe('<LinkedInPostPreview>', () => {
 
   it('hides the placeholder once there is a body', () => {
     render(
-      <LinkedInPostPreview variant={liVariant({ body: 'hello' })} author={author} />,
+      <LinkedInPostPreview variant={liVariant({ body: 'hello' })} connection={conn} headline={HEADLINE} verified />,
     );
     expect(screen.queryByText('What do you want to talk about?')).toBeNull();
   });
@@ -179,9 +180,9 @@ describe('<LinkedInPostPreview>', () => {
   it('hides the placeholder when only media is present', () => {
     render(
       <LinkedInPostPreview
-        variant={liVariant({ post_type: 'single_image' })}
-        author={author}
-        media={[{ kind: 'image', url: 'https://cdn.test/a.jpg', alt: 'a cat' }]}
+        variant={liVariant({ post_type: 'single_image', media: [{ media_id: 'm1' }] })}
+        connection={conn} headline={HEADLINE} verified
+        media={image}
       />,
     );
     expect(screen.queryByText('What do you want to talk about?')).toBeNull();
@@ -197,7 +198,7 @@ describe('<LinkedInPostPreview>', () => {
             document: { title: 'Q3 Deck.pdf' },
           },
         })}
-        author={author}
+        connection={conn} headline={HEADLINE} verified
       />,
     );
     expect(screen.getByText('Q3 Deck.pdf')).toBeDefined();

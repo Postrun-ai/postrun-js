@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 
 import { MediaPlaceholder } from '../MediaPlaceholder';
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 
 /**
  * The full-bleed media inside the TikTok card. A video autoplays muted/looped
@@ -18,7 +18,7 @@ export function Media({
   media,
   pending = false,
 }: {
-  media: ResolvedMedia[];
+  media: ReadyMedia[];
   /** Media is referenced but its pixels aren't resolved yet (still processing). */
   pending?: boolean;
 }) {
@@ -38,7 +38,6 @@ export function Media({
     return (
       <video
         src={first.src}
-        poster={first.posterSrc}
         autoPlay
         muted
         loop
@@ -51,7 +50,7 @@ export function Media({
   return <PhotoCarousel media={media} />;
 }
 
-function PhotoCarousel({ media }: { media: ResolvedMedia[] }) {
+function PhotoCarousel({ media }: { media: ReadyMedia[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     align: 'start',

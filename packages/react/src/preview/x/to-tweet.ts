@@ -9,12 +9,21 @@ import type {
   VideoInfo,
 } from 'react-tweet/api';
 
-import type {
-  ResolvedMedia,
-  XPreviewAuthor,
-  XPreviewVariant,
-} from '../types';
+import type { ReadyMedia, XPreviewVariant } from '../types';
 import { extractEntities } from './entities';
+
+/**
+ * The minimal identity `toTweet` renders into the X card header — the display
+ * `name`, the @handle `username`, the `avatar_url`, and the `verified` badge. The
+ * component derives this from the SDK `Connection` (name/handle/avatar) plus the
+ * caller's optional `verified` override; the quoted card supplies its own.
+ */
+export interface XAuthor {
+  name: string;
+  username?: string | null;
+  avatar_url?: string | null;
+  verified?: boolean;
+}
 
 /**
  * Maps a Postrun X variant (+ the customer-supplied author/media) into the
@@ -27,15 +36,15 @@ import { extractEntities } from './entities';
 
 /** Quoted-card content with media already resolved. */
 export interface ResolvedQuotedTweet {
-  author: XPreviewAuthor;
+  author: XAuthor;
   body?: string;
-  media?: ResolvedMedia[];
+  media?: ReadyMedia[];
 }
 
 export interface ToTweetInput {
   variant: XPreviewVariant;
-  author: XPreviewAuthor;
-  media?: ResolvedMedia[];
+  author: XAuthor;
+  media?: ReadyMedia[];
   quotedTweet?: ResolvedQuotedTweet;
   /** The replied-to account's handle (our schema only stores the parent id). */
   replyToHandle?: string;
@@ -61,7 +70,7 @@ function codepointLength(text: string): number {
   return Array.from(text).length;
 }
 
-function buildUser(author: XPreviewAuthor): TweetUser {
+function buildUser(author: XAuthor): TweetUser {
   const verified = author.verified ?? false;
   return {
     id_str: '',
@@ -100,7 +109,7 @@ function mediaBase(
   };
 }
 
-function buildPhoto(media: ResolvedMedia): MediaPhoto {
+function buildPhoto(media: ReadyMedia): MediaPhoto {
   return {
     ...mediaBase(media.src, media.width, media.height),
     type: 'photo',
@@ -108,8 +117,8 @@ function buildPhoto(media: ResolvedMedia): MediaPhoto {
   };
 }
 
-function buildVideo(media: ResolvedMedia): MediaVideo | MediaAnimatedGif {
-  const poster = media.posterSrc ?? media.src;
+function buildVideo(media: ReadyMedia): MediaVideo | MediaAnimatedGif {
+  const poster = media.src;
   const videoInfo: VideoInfo = {
     aspect_ratio: [media.width ?? 16, media.height ?? 9],
     variants: [{ content_type: 'video/mp4', url: media.src }],
@@ -120,7 +129,7 @@ function buildVideo(media: ResolvedMedia): MediaVideo | MediaAnimatedGif {
     : { ...base, type: 'video', video_info: videoInfo };
 }
 
-function buildMediaDetails(media: readonly ResolvedMedia[]): MediaDetails[] {
+function buildMediaDetails(media: readonly ReadyMedia[]): MediaDetails[] {
   return media.map((item) =>
     item.kind === 'image' ? buildPhoto(item) : buildVideo(item),
   );

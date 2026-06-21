@@ -31,8 +31,9 @@ packages/js/src/
   resources.ts        <Network>PostVariant = Extract<PostVariantInput,{platform:'x'}>  ← derive, never declare
   <network>-options.ts  framework-agnostic Required-UX logic + verbatim strings (the SINGLE source)
 packages/react/src/preview/
-  types.ts            PreviewMedia / ResolvedMedia / PreviewMediaKind  (shared by ALL networks)
-  use-resolved-media.ts  File→objectURL + url resolution, memoized  (USE THIS, do not re-roll)
+  types.ts            PreviewConnection / ResolvedMedia / PreviewMediaKind  (shared by ALL networks)
+  media-resolver.ts   resolveVariantMedia: MediaResource → ResolvedMedia per platform  (USE THIS, do not re-roll)
+  author.ts           authorName(connection)  (derive the header identity)
   <network>/
     <Network>PostPreview.tsx   the feed/post card (presentational)
     <Network>PublishPanel.tsx  the confirmation+consent surface (only if the network has Required UX)
@@ -40,8 +41,10 @@ packages/react/src/preview/
     *.test.tsx
 ```
 
-- **Components are PRESENTATIONAL.** Host passes `variant` + (creator/account info)
-  + resolved `media`. No data fetching inside the preview.
+- **Components are PRESENTATIONAL.** Host passes `variant` + `connection` (TikTok:
+  `creatorInfo`) + uploaded `media: MediaResource[]` (a read variant carries its
+  assets inline). Pixels resolve from `MediaResource` only — never a local `File`.
+  No data fetching inside the preview.
 - **Generic, customer-reusable logic goes in `@postrun/js`** (the dogfood rule),
   consumed by React. Never fork it. Verbatim platform strings live there as named
   constants.

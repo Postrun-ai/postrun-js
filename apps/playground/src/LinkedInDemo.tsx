@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { LinkedInPostPreview } from '@preview/linkedin';
 import type { LinkedInTheme } from '@preview/linkedin/theme';
 
-import { LI_SAMPLES, author } from './samples-linkedin';
+import { HEADLINE, LI_SAMPLES, connection } from './samples-linkedin';
 
 export function LinkedInDemo() {
   const [sampleId, setSampleId] = useState(LI_SAMPLES[0]!.id);
@@ -49,8 +49,10 @@ export function LinkedInDemo() {
       <div className={stageLight ? 'stage stage-light' : 'stage'}>
         <LinkedInPostPreview
           variant={sample.variant}
-          author={author}
+          connection={connection}
           media={sample.media}
+          headline={HEADLINE}
+          verified
           theme={theme}
         />
       </div>

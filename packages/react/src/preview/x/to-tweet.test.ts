@@ -1,10 +1,11 @@
 import type { XPostVariant } from '@postrun/js';
 import { describe, expect, it } from 'vitest';
 
-import type { ResolvedMedia, XPreviewAuthor } from '../types';
+import type { ReadyMedia } from '../types';
 import { toTweet } from './to-tweet';
+import type { XAuthor } from './to-tweet';
 
-const author: XPreviewAuthor = {
+const author: XAuthor = {
   name: 'Acme Studio',
   username: 'acmestudio',
   avatar_url: 'https://cdn.test/acme.png',
@@ -24,8 +25,9 @@ function xVariant(overrides: Partial<XPostVariant> = {}): XPostVariant {
   };
 }
 
-const photo = (src: string, alt?: string): ResolvedMedia => ({
+const photo = (src: string, alt?: string): ReadyMedia => ({
   kind: 'image',
+  state: 'ready',
   src,
   width: 1200,
   height: 800,
@@ -141,8 +143,8 @@ describe('toTweet — media', () => {
       media: [
         {
           kind: 'video',
+          state: 'ready',
           src: 'https://cdn.test/clip.mp4',
-          posterSrc: 'https://cdn.test/poster.jpg',
           width: 1280,
           height: 720,
         },

@@ -1,10 +1,11 @@
 /**
  * Post-preview components — faithful, schema-driven previews of how a post will
- * look once published. Hooks do the data work; these render the platform card so
- * you don't have to reproduce it. X and LinkedIn ship today; the per-platform
- * input types are shared so the others slot in next.
+ * look once published. Each card takes the post `variant` + the posting
+ * `Connection` (the author derives from it) and resolves its pixels from the SDK
+ * `MediaResource` — a read variant carries its assets inline; a compose draft
+ * passes the uploaded assets via `media` and is matched by id.
  */
-export { toPreviewMedia } from './from-upload';
+export { resolveVariantMedia } from './media-resolver';
 export { XPostPreview, XPoll } from './x';
 export type { XPostPreviewProps, XPollProps } from './x';
 export {
@@ -42,14 +43,11 @@ export type {
   TikTokCaptionFieldProps,
   TikTokTheme,
 } from './tiktok';
+export { isReadyMedia } from './types';
 export type {
-  XPreviewAuthor,
-  LinkedInPreviewAuthor,
-  InstagramPreviewAuthor,
-  ConnectionIdentity,
-  PreviewMedia,
+  PreviewConnection,
   ResolvedMedia,
-  XPreviewMedia,
+  ReadyMedia,
   XPreviewQuotedTweet,
   PreviewMediaKind,
   ReadPostVariant,

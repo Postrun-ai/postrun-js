@@ -1,19 +1,11 @@
-import type { InstagramPostVariant } from '@postrun/js';
-import type { InstagramPreviewAuthor, PreviewMedia } from '@preview/types';
+import type { InstagramPostVariant, MediaResource } from '@postrun/js';
+import type { PreviewConnection } from '@preview/types';
+
+import { conn, processingAsset, readyImage, readyVideoAsset } from './samples-media';
 
 /** Instagram preview fixtures — shaped exactly like our Post object. */
 
-export const author: InstagramPreviewAuthor = {
-  username: 'acmestudio',
-  avatar_url:
-    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop',
-  verified: true,
-};
-
-const SQUARE = (id: string) =>
-  `https://images.unsplash.com/${id}?w=1080&h=1080&fit=crop`;
-const VIDEO =
-  'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4';
+export const connection: PreviewConnection = conn({ platform: 'instagram' });
 
 const CONN = 'conn_ig000000000000000000';
 
@@ -33,7 +25,7 @@ export interface IgSample {
   id: string;
   label: string;
   variant: InstagramPostVariant;
-  media: PreviewMedia[];
+  media: MediaResource[];
 }
 
 export const IG_SAMPLES: IgSample[] = [
@@ -45,7 +37,7 @@ export const IG_SAMPLES: IgSample[] = [
       media: [{ media_id: 'med_i1' }],
       settings: { media_type: 'IMAGE', collaborators: ['janedev'] },
     }),
-    media: [{ kind: 'image', url: SQUARE('photo-1469474968028-56623f02e42e'), alt: 'Mountain vista' }],
+    media: [readyImage('med_i1', 'photo-1469474968028-56623f02e42e', 'Mountain vista')],
   },
   {
     id: 'carousel',
@@ -57,9 +49,9 @@ export const IG_SAMPLES: IgSample[] = [
       settings: { media_type: 'CAROUSEL' },
     }),
     media: [
-      { kind: 'image', url: SQUARE('photo-1469474968028-56623f02e42e') },
-      { kind: 'image', url: SQUARE('photo-1501785888041-af3ef285b470') },
-      { kind: 'image', url: SQUARE('photo-1470071459604-3b5ec3a7fe05') },
+      readyImage('med_i1', 'photo-1469474968028-56623f02e42e'),
+      readyImage('med_i2', 'photo-1501785888041-af3ef285b470'),
+      readyImage('med_i3', 'photo-1470071459604-3b5ec3a7fe05'),
     ],
   },
   {
@@ -69,22 +61,29 @@ export const IG_SAMPLES: IgSample[] = [
       post_type: 'reel',
       body: 'Behind the scenes of our spring shoot 🌸 #bts #reels',
       media: [{ media_id: 'med_v1' }],
-      settings: { media_type: 'REELS', audio_name: 'Original audio · acmestudio', share_to_feed: true },
+      settings: {
+        media_type: 'REELS',
+        audio_name: 'Original audio · acmestudio',
+        share_to_feed: true,
+      },
     }),
-    media: [{ kind: 'video', url: VIDEO }],
+    media: [readyVideoAsset('med_v1')],
+  },
+  {
+    id: 'processing',
+    label: 'Processing',
+    variant: v({
+      body: 'Fresh from the shoot — processing now.',
+      media: [{ media_id: 'med_i1' }],
+      settings: { media_type: 'IMAGE' },
+    }),
+    media: [processingAsset('med_i1')],
   },
   {
     id: 'empty',
     label: 'Empty',
     variant: v({ media: [], settings: { media_type: 'IMAGE' } }),
     media: [],
-  },
-  {
-    id: 'processing',
-    label: 'Processing',
-    variant: v({ media: [{ media_id: 'med_i1' }], settings: { media_type: 'IMAGE' } }),
-    // Referenced but not yet resolved to pixels (no url/file) → processing.
-    media: [{ kind: 'image' }],
   },
   {
     id: 'reel-empty',

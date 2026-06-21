@@ -1,5 +1,32 @@
 # @postrun/js
 
+## 2.14.0
+
+### Minor Changes
+
+- Simpler preview API — render from the SDK `MediaResource`, never a local `File`.
+
+  Each `*PostPreview` now takes the post `variant` + the SDK `Connection` (the author
+  derives from it) + optional uploaded `media: MediaResource[]` for compose. A fetched
+  (read) variant carries its assets inline, so previewing a post from `usePost` needs
+  no media plumbing at all.
+
+  - **Pixels resolve from `MediaResource` only** via the new pure `resolveVariantMedia`
+    (exported) — it reads the per-platform rendition URL and returns an honest
+    `ResolvedMedia` with `state: 'ready' | 'processing'`. A still-processing asset shows
+    the shared "Processing media…" tile (no fake spinner, no broken `<img>`).
+  - **Author derives from the `Connection`** (`avatar_url`/`username`/
+    `external_account_name`); only `verified` and LinkedIn `headline` stay caller-supplied
+    (the fields the API doesn't store).
+  - **Removed**: the local-`File`/object-URL path (`useResolvedMedia`, the `File`-based
+    `toPreviewMedia`), and the hand-built author types (`PreviewMedia`, `XPreviewAuthor`,
+    `LinkedInPreviewAuthor`, `InstagramPreviewAuthor`, `ConnectionIdentity`). Net code
+    reduction; the preview surface is smaller.
+
+  **Breaking** (no consumers yet): preview props are now `{ variant, connection, media? }`
+  instead of `{ variant, author, media }`, and `media` is `MediaResource[]`, not
+  `PreviewMedia[]`.
+
 ## 2.13.0
 
 ### Minor Changes

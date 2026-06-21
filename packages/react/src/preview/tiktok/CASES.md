@@ -30,10 +30,11 @@
 `creator{nickname, username, avatar_url|null}` · `privacy_options[]` (typed subset) ·
 `interaction{comment,duet,stitch}` (positive = ALLOWED) · `max_video_duration_sec`.
 
-**Media pixels** — `PreviewMedia[]` (the existing shared shape):
-`kind('image'|'video'|'gif')` · `url?`|`file?` · `width?`/`height?` · `alt?` · `posterUrl?`.
-(A variant references media by `media_id`; the host resolves pixels — `per_platform.tiktok.url`
-once processed, or a compose-time `File`.)
+**Media pixels** — resolved from the SDK `MediaResource`, never a local `File`:
+a read variant carries each asset inline (`media[].media`); a compose draft passes
+uploaded assets via `media: MediaResource[]`, matched by `media_id`.
+`resolveVariantMedia(refs, 'tiktok', media)` picks `per_platform.tiktok.url` and
+returns `ResolvedMedia` with an honest `state: 'ready' | 'processing'`.
 
 **Verbatim strings already authored** (reuse, don't re-string): see
 `apps/web/.../_lib/tiktok-options.ts` — `TIKTOK_PROCESSING_NOTICE`,
@@ -50,7 +51,7 @@ once processed, or a compose-time `File`.)
 3. **Carousel** (`carousel`, 2–35 images) → full image carousel (slider + dots), like the real photo post.
 4. **GIF** media `kind:'gif'` on a photo post → render as image (TikTok photo = images).
 5. **Pixels not yet resolved** (`url` null + only a `media_id`, asset still `uploading`/`processing`) → skeleton/placeholder tile, never a broken `<img>`.
-6. **Compose-time `File`** (no `url` yet) → object-URL via `useResolvedMedia` (already handled).
+6. **Compose-time upload** (asset still processing) → `resolveVariantMedia` returns `state:'processing'` → "Processing media…" tile (no local `File` path).
 7. **No media** (draft, `media:[]`) → empty media placeholder; Post disabled (TikTok requires media).
 8. **Count mismatch** (carousel w/ 1, video w/ 0/2) → render what exists, mark invalid, Post disabled.
 9. **#3 no watermark / unaltered**: media rendered clean — NO burnt-in logo, NO Postrun mark, NO fake-engagement overlay baked onto the pixels (Postiz burns icons over the frame; we must not — the audit checks "no watermark added"). Chrome (handle, rail) is preview-only overlay, never composited into media.

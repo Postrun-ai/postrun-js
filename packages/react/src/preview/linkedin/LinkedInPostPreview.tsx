@@ -3,13 +3,17 @@
 import { memo, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
-import type {
-  LinkedInPreviewAuthor,
-  LinkedInPreviewVariant,
-  PreviewMedia,
-  ResolvedMedia,
+import type { MediaResource } from '@postrun/js';
+
+import { MediaPlaceholder } from '../MediaPlaceholder';
+import { resolveVariantMedia } from '../media-resolver';
+import {
+  isReadyMedia,
+  type LinkedInPreviewVariant,
+  type PreviewConnection,
+  type ReadyMedia,
 } from '../types';
-import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
+import { authorName } from '../author';
 import { ArticleCard } from './ArticleCard';
 import { DocumentCard } from './DocumentCard';
 import { EngagementBar } from './EngagementBar';
@@ -28,26 +32,31 @@ import {
 
 /**
  * A faithful, schema-driven preview of how a LinkedIn post will look in-feed,
- * rendered straight from a Postrun LinkedIn variant. Clean-room components (no
- * dependency to "buy" exists for LinkedIn), mirroring the real feed card: header
- * with headline + audience icon, an entity-highlighted body with the "…more"
- * fold, the 1/2/3/4/+N image mosaic (or a video), and a static action bar.
+ * rendered straight from a Postrun LinkedIn variant + the posting `Connection`.
+ * Clean-room components mirroring the real feed card: header with headline +
+ * audience icon, an entity-highlighted body with the "…more" fold, the
+ * 1/2/3/4/+N image mosaic (or a video), and a static action bar.
  *
  * Renders every `content_kind`: text, single/multi image, video, plus the rich
  * units — article share card, poll, and document — each driven from
- * `settings.{article,poll,document}` (see `renderContent`).
- *
- * Customize via `theme` (light/dark/auto), `className`/`style`, or by overriding
- * the `--pr-li-*` CSS variables the card reads.
+ * `settings.{article,poll,document}`. Media pixels come from the resolved
+ * per-platform renditions; a still-processing asset shows the shared
+ * "Processing media…" tile.
  */
 export interface LinkedInPostPreviewProps {
-  /** The LinkedIn variant — either a compose-time write variant or a fetched read
-   * variant (both carry the typed settings/body the card renders). */
+  /** The LinkedIn variant — compose-time write OR fetched read (carries assets
+   * inline). */
   variant: LinkedInPreviewVariant;
-  /** Author identity (LinkedIn stores no avatar/headline on our connection). */
-  author: LinkedInPreviewAuthor;
-  /** Resolved media pixels (URLs or compose-time File blobs). */
-  media?: PreviewMedia[];
+  /** The posting account — the SDK `Connection`. Name/avatar derive from it. */
+  connection: PreviewConnection;
+  /** Uploaded assets to resolve a compose variant's media ids against (e.g.
+   * `useMediaUpload().ready`); a read variant carries its own inline. */
+  media?: readonly MediaResource[];
+  /** One-line headline under the name — our API doesn't store it, so you supply
+   * it. */
+  headline?: string;
+  /** Show the verified badge — our API doesn't store it, so you supply it. */
+  verified?: boolean;
   /** Color scheme. `auto` (default) follows the OS preference. */
   theme?: LinkedInTheme;
   /** Relative time label shown in the header. Default "Now". */
@@ -63,8 +72,6 @@ export interface LinkedInPostPreviewProps {
 const FONT_STACK =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
 
-// The body entity colors are CSS `var()` refs — constant, so hoist out of render
-// to keep a stable identity for the memoized PostBody.
 const BODY_COLORS = {
   accent: varRef(LI_VAR.accent),
   muted: varRef(LI_VAR.muted),
@@ -72,18 +79,32 @@ const BODY_COLORS = {
 
 function LinkedInPostPreviewImpl({
   variant,
-  author,
+  connection,
   media,
+  headline,
+  verified,
   theme = 'auto',
   time,
   showActions = true,
   className,
   style,
 }: LinkedInPostPreviewProps) {
-  const resolvedMedia = useResolvedMedia(
-    media,
-    variant.media,
-    altSignatureOf(variant.media),
+  const resolved = useMemo(
+    () => resolveVariantMedia(variant.media, 'linkedin', media),
+    [variant.media, media],
+  );
+  const readyMedia = useMemo(() => resolved.filter(isReadyMedia), [resolved]);
+  // Media referenced, but no pixels resolved yet → still processing.
+  const mediaPending = resolved.length > 0 && readyMedia.length === 0;
+
+  const author = useMemo(
+    () => ({
+      name: authorName(connection),
+      avatar_url: connection.avatar_url,
+      headline,
+      verified,
+    }),
+    [connection, headline, verified],
   );
 
   const visibility: LinkedInVisibility =
@@ -100,8 +121,6 @@ function LinkedInPostPreviewImpl({
     color: varRef(LI_VAR.text),
     border: `1px solid ${varRef(LI_VAR.border)}`,
     borderRadius: 10,
-    // Pin the width (see InstagramPostPreview): without it the card shrinks to its
-    // content, so an empty post collapses to a fraction of a populated card's width.
     width: '100%',
     maxWidth: 552,
     boxSizing: 'border-box',
@@ -110,17 +129,23 @@ function LinkedInPostPreviewImpl({
     ...style,
   };
 
-  // A post with no commentary, media, or rich unit (article/poll/document) would
-  // render as just a header + action bar — a hollow card. Show LinkedIn's own
-  // "Start a post" prompt (muted) so the empty state reads as intentional.
+  // A post with no commentary, media, or rich unit would render as just a header
+  // + action bar — a hollow card. Show LinkedIn's "Start a post" prompt instead.
   const hasContent =
     Boolean(variant.body) ||
-    resolvedMedia.length > 0 ||
-    Boolean(variant.settings?.content_kind && variant.settings.content_kind !== 'text');
+    resolved.length > 0 ||
+    Boolean(
+      variant.settings?.content_kind &&
+        variant.settings.content_kind !== 'text',
+    );
 
   return (
     <div className={className} style={cardStyle}>
-      <Header author={author} visibility={visibility} time={time} />
+      <Header
+        author={author}
+        visibility={visibility}
+        time={time}
+      />
       {variant.body ? (
         <div style={{ padding: '8px 16px 0' }}>
           <PostBody
@@ -130,7 +155,7 @@ function LinkedInPostPreviewImpl({
           />
         </div>
       ) : null}
-      {renderContent(variant, resolvedMedia)}
+      {renderContent(variant, readyMedia, mediaPending)}
       {hasContent ? null : (
         <p style={{ ...emptyBodyStyle, color: BODY_COLORS.muted }}>
           What do you want to talk about?
@@ -149,15 +174,15 @@ const emptyBodyStyle: CSSProperties = {
 };
 
 /**
- * The content unit below the commentary, by `content_kind`: an article share
- * card, a poll, or a document card — else the image mosaic / video. Article and
- * document thumbnails come from the first resolved media item (the host resolves
- * `article.thumbnail_media_id` / the document asset to pixels). The inset
- * cards (article/poll/document) sit in the text column; media is edge-to-edge.
+ * The content unit below the commentary, by `content_kind`. Article and document
+ * thumbnails come from the first ready media item. Rich cards (article/poll/
+ * document) sit in the text column; media is edge-to-edge. When media is attached
+ * but not yet resolved, a processing tile holds the slot.
  */
 function renderContent(
   variant: LinkedInPreviewVariant,
-  media: readonly ResolvedMedia[],
+  media: readonly ReadyMedia[],
+  pending: boolean,
 ) {
   const settings = variant.settings;
   const kind = settings?.content_kind;
@@ -184,15 +209,36 @@ function renderContent(
       </div>
     );
   }
-  return media.length > 0 ? (
-    <div style={{ marginTop: 12 }}>
-      <Media media={media} />
-    </div>
-  ) : null;
+  if (media.length > 0) {
+    return (
+      <div style={{ marginTop: 12 }}>
+        <Media media={media} />
+      </div>
+    );
+  }
+  if (pending) {
+    return (
+      <div style={processingFrameStyle}>
+        <MediaPlaceholder
+          label="Processing media…"
+          color={varRef(LI_VAR.muted)}
+          background={varRef(LI_VAR.border)}
+          shimmer
+        />
+      </div>
+    );
+  }
+  return null;
 }
 
 const INSET: CSSProperties = { padding: '12px 16px 0' };
 
-/** Memoized: re-renders only when its props change (the resolved-media hook
- * absorbs unstable media arrays). */
+const processingFrameStyle: CSSProperties = {
+  position: 'relative',
+  width: '100%',
+  height: 272,
+  marginTop: 12,
+};
+
+/** Memoized: re-renders only when its props change. */
 export const LinkedInPostPreview = memo(LinkedInPostPreviewImpl);

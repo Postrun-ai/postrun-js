@@ -2,7 +2,7 @@ import type { LinkedInPostVariant } from '@postrun/js';
 import type { CSSProperties } from 'react';
 import { FiFileText } from 'react-icons/fi';
 
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 import { LI_VAR, varRef } from './theme';
 
 /**
@@ -21,7 +21,7 @@ type LinkedInDocument = NonNullable<
 export interface DocumentCardProps {
   document: LinkedInDocument;
   /** Resolved first-page pixels (from the document asset on media[]), if any. */
-  cover?: ResolvedMedia;
+  cover?: ReadyMedia;
 }
 
 export function DocumentCard({ document, cover }: DocumentCardProps) {

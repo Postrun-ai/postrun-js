@@ -1,17 +1,16 @@
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 import { ImageMosaic } from './ImageMosaic';
 
 /**
  * The media area of a LinkedIn post (v1: images + video). A post carries either
- * a video or images; a video wins if present and renders as a playable element
- * with its poster, otherwise the image mosaic. Edge-to-edge, like the feed.
+ * a video or images; a video wins if present and renders as a playable element,
+ * otherwise the image mosaic. Edge-to-edge, like the feed.
  */
 
-function VideoTile({ item }: { item: ResolvedMedia }) {
+function VideoTile({ item }: { item: ReadyMedia }) {
   return (
     <video
       src={item.src}
-      poster={item.posterSrc}
       controls
       style={{ width: '100%', display: 'block', background: '#000' }}
     />
@@ -19,7 +18,7 @@ function VideoTile({ item }: { item: ResolvedMedia }) {
 }
 
 export interface MediaProps {
-  media: readonly ResolvedMedia[];
+  media: readonly ReadyMedia[];
 }
 
 export function Media({ media }: MediaProps) {

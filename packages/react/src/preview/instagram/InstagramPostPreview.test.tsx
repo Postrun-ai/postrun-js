@@ -2,7 +2,12 @@ import type { InstagramPostVariant, PostVariant } from '@postrun/js';
 import { render, screen } from '@testing-library/react';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import type { InstagramPreviewAuthor, PreviewMedia } from '../types';
+import {
+  connection,
+  readyMedia,
+  readyVideo,
+  processingMedia,
+} from '../test-helpers';
 import { InstagramPostPreview } from './InstagramPostPreview';
 
 // Embla reads matchMedia + IntersectionObserver + ResizeObserver (absent in jsdom).
@@ -50,11 +55,8 @@ afterAll(() => {
   delete window.ResizeObserver;
 });
 
-const author: InstagramPreviewAuthor = {
-  username: 'acmestudio',
-  avatar_url: 'https://cdn.test/a.png',
-  verified: true,
-};
+const conn = connection({ platform: 'instagram' });
+const image = [readyMedia('m1', 'instagram', { alt_text: 'a cat' })];
 
 function igVariant(
   overrides: Partial<InstagramPostVariant> = {},
@@ -64,23 +66,20 @@ function igVariant(
     post_type: 'single_image',
     connection_id: 'conn_1',
     body: '',
-    media: [],
+    media: [{ media_id: 'm1' }],
     settings: { media_type: 'IMAGE' },
     ...overrides,
   };
 }
 
-const image: PreviewMedia[] = [
-  { kind: 'image', url: 'https://cdn.test/1.jpg', alt: 'a cat' },
-];
-
 describe('<InstagramPostPreview>', () => {
-  it('renders the username, verified badge, image, and caption', () => {
+  it('derives the username/avatar from the connection and renders image + caption', () => {
     render(
       <InstagramPostPreview
         variant={igVariant({ body: 'spring shoot' })}
-        author={author}
+        connection={conn}
         media={image}
+        verified
       />,
     );
     expect(screen.getAllByText('acmestudio').length).toBeGreaterThan(0);
@@ -91,21 +90,22 @@ describe('<InstagramPostPreview>', () => {
 
   it('renders the like/comment/share/save actions (no fabricated counts)', () => {
     const { container } = render(
-      <InstagramPostPreview variant={igVariant()} author={author} media={image} />,
+      <InstagramPostPreview variant={igVariant()} connection={conn} media={image} />,
     );
     expect(screen.getByLabelText('Like')).toBeDefined();
     expect(screen.getByLabelText('Comment')).toBeDefined();
     expect(screen.getByLabelText('Share')).toBeDefined();
     expect(screen.getByLabelText('Save')).toBeDefined();
-    // no numeric like/comment counts in a draft preview
     expect(container.textContent).not.toMatch(/\d+ likes/i);
   });
 
   it('shows collaborators in the header when present', () => {
     render(
       <InstagramPostPreview
-        variant={igVariant({ settings: { media_type: 'IMAGE', collaborators: ['janedev'] } })}
-        author={author}
+        variant={igVariant({
+          settings: { media_type: 'IMAGE', collaborators: ['janedev'] },
+        })}
+        connection={conn}
         media={image}
       />,
     );
@@ -115,12 +115,13 @@ describe('<InstagramPostPreview>', () => {
   it('renders a carousel for multiple images', () => {
     const { container } = render(
       <InstagramPostPreview
-        variant={igVariant({ post_type: 'carousel', settings: { media_type: 'CAROUSEL' } })}
-        author={author}
-        media={[
-          { kind: 'image', url: 'https://cdn.test/1.jpg' },
-          { kind: 'image', url: 'https://cdn.test/2.jpg' },
-        ]}
+        variant={igVariant({
+          post_type: 'carousel',
+          media: [{ media_id: 'm1' }, { media_id: 'm2' }],
+          settings: { media_type: 'CAROUSEL' },
+        })}
+        connection={conn}
+        media={[readyMedia('m1', 'instagram'), readyMedia('m2', 'instagram')]}
       />,
     );
     expect(container.querySelectorAll('img').length).toBeGreaterThan(1);
@@ -129,12 +130,14 @@ describe('<InstagramPostPreview>', () => {
   it('renders a FEED card (not a reel) when post_type is single_image even if media_type is REELS', () => {
     const { container } = render(
       <InstagramPostPreview
-        variant={igVariant({ post_type: 'single_image', settings: { media_type: 'REELS' } })}
-        author={author}
+        variant={igVariant({
+          post_type: 'single_image',
+          settings: { media_type: 'REELS' },
+        })}
+        connection={conn}
         media={image}
       />,
     );
-    // a reel autoplays a <video>; a feed card renders an <img>
     expect(container.querySelector('video')).toBeNull();
     expect(container.querySelector('img')).not.toBeNull();
   });
@@ -145,17 +148,18 @@ describe('<InstagramPostPreview>', () => {
         variant={igVariant({
           post_type: 'reel',
           body: 'behind the scenes',
+          media: [{ media_id: 'v1' }],
           settings: { media_type: 'REELS', audio_name: 'Original audio' },
         })}
-        author={author}
-        media={[{ kind: 'video', url: 'https://cdn.test/v.mp4' }]}
+        connection={conn}
+        media={[readyVideo('v1', 'instagram')]}
       />,
     );
     expect(container.querySelector('video')).not.toBeNull();
     expect(screen.getByText(/Original audio/)).toBeDefined();
   });
 
-  it('accepts a FETCHED (read-shape) variant straight from the API', () => {
+  it('accepts a FETCHED (read-shape) variant with enriched media inline', () => {
     const fetched: Extract<PostVariant, { platform: 'instagram' }> = {
       platform: 'instagram',
       post_type: 'single_image',
@@ -167,27 +171,45 @@ describe('<InstagramPostPreview>', () => {
       schedule_at: null,
       result: null,
       error: null,
-      media: [],
+      media: [
+        {
+          media_id: 'm1',
+          position: 0,
+          crop_box: null,
+          alt_text_override: null,
+          media: readyMedia('m1', 'instagram'),
+        },
+      ],
       settings: { media_type: 'IMAGE' },
     };
-    render(<InstagramPostPreview variant={fetched} author={author} media={image} />);
+    // No `media` prop — the read variant carries its asset inline.
+    const { container } = render(
+      <InstagramPostPreview variant={fetched} connection={conn} />,
+    );
     expect(screen.getByText(/fetched instagram post/)).toBeDefined();
+    // The inline asset's instagram rendition renders (no "processing" tile).
+    expect(
+      container.querySelector('img[src="https://cdn.test/m1.jpg"]'),
+    ).not.toBeNull();
   });
 
   it('shows a media placeholder (not a black void) when a feed post has no media', () => {
-    render(<InstagramPostPreview variant={igVariant()} author={author} media={[]} />);
-    // The 1:1 frame is reserved (zero layout shift) and shows a tasteful empty
-    // state instead of a solid black square.
+    render(
+      <InstagramPostPreview
+        variant={igVariant({ media: [] })}
+        connection={conn}
+        media={[]}
+      />,
+    );
     expect(screen.getByText('No media yet')).toBeDefined();
   });
 
-  it('shows a processing skeleton when media is referenced but not yet resolved', () => {
+  it('shows a processing skeleton when the asset is still processing', () => {
     render(
       <InstagramPostPreview
         variant={igVariant({ media: [{ media_id: 'm1' }] })}
-        author={author}
-        // A PreviewMedia with neither url nor file is unresolvable → pending.
-        media={[{ kind: 'image' }]}
+        connection={conn}
+        media={[processingMedia('m1')]}
       />,
     );
     expect(screen.getByText('Processing media…')).toBeDefined();
@@ -195,11 +217,13 @@ describe('<InstagramPostPreview>', () => {
 
   it('pins the card to a stable width so empty and populated cards match (zero shift)', () => {
     const { container } = render(
-      <InstagramPostPreview variant={igVariant()} author={author} media={[]} />,
+      <InstagramPostPreview
+        variant={igVariant({ media: [] })}
+        connection={conn}
+        media={[]}
+      />,
     );
     const card = container.firstElementChild as HTMLElement;
-    // Without an explicit width the card shrinks to its content, so an empty post
-    // would collapse to a fraction of a populated card's width.
     expect(card.style.width).toBe('100%');
     expect(card.style.maxWidth).toBe('470px');
   });
@@ -207,8 +231,12 @@ describe('<InstagramPostPreview>', () => {
   it('shows a media placeholder on an empty reel', () => {
     render(
       <InstagramPostPreview
-        variant={igVariant({ post_type: 'reel', settings: { media_type: 'REELS' } })}
-        author={author}
+        variant={igVariant({
+          post_type: 'reel',
+          media: [],
+          settings: { media_type: 'REELS' },
+        })}
+        connection={conn}
         media={[]}
       />,
     );

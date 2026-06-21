@@ -60,7 +60,10 @@ body {
 }
 
 .seg {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  max-width: 100%;
   background: #18181b;
   border: 1px solid #2a2a2f;
   border-radius: 10px;

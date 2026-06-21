@@ -36,7 +36,7 @@ describe('<ArticleCard>', () => {
     const { container } = render(
       <ArticleCard
         article={{ source: 'https://acme.com', title: 'T' }}
-        thumbnail={{ kind: 'image', src: 'https://cdn/x.jpg' }}
+        thumbnail={{ kind: 'image', state: 'ready', src: 'https://cdn/x.jpg' }}
       />,
     );
     expect(container.querySelector('img')).not.toBeNull();

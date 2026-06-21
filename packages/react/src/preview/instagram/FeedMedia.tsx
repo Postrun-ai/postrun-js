@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 
 import { MediaPlaceholder } from '../MediaPlaceholder';
-import type { ResolvedMedia } from '../types';
+import type { ReadyMedia } from '../types';
 import { IG_VAR, varRef } from './theme';
 
 /**
@@ -18,7 +18,7 @@ export function FeedMedia({
   media,
   pending = false,
 }: {
-  media: readonly ResolvedMedia[];
+  media: readonly ReadyMedia[];
   /** Media is referenced but its pixels aren't resolved yet (still processing). */
   pending?: boolean;
 }) {
@@ -42,16 +42,16 @@ export function FeedMedia({
   return <Carousel media={media} />;
 }
 
-function Tile({ item }: { item: ResolvedMedia }) {
+function Tile({ item }: { item: ReadyMedia }) {
   if (item.kind === 'video') {
     return (
-      <video src={item.src} poster={item.posterSrc} controls style={mediaStyle} />
+      <video src={item.src} controls style={mediaStyle} />
     );
   }
   return <img src={item.src} alt={item.alt ?? ''} style={mediaStyle} />;
 }
 
-function Carousel({ media }: { media: readonly ResolvedMedia[] }) {
+function Carousel({ media }: { media: readonly ReadyMedia[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'start' });
   const [selected, setSelected] = useState(0);
 

@@ -4,8 +4,15 @@ import type { CSSProperties } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { MdVerified } from 'react-icons/md';
 
-import type { InstagramPreviewAuthor } from '../types';
 import { IG_VAR, varRef } from './theme';
+
+/** The Instagram header's identity view-model — `username`/`avatar_url` derive
+ * from the connection; `verified` is caller-supplied (not stored on ours). */
+export interface InstagramAuthor {
+  username?: string | null;
+  avatar_url?: string | null;
+  verified?: boolean;
+}
 
 /**
  * The Instagram post header: avatar, username (+ optional verified seal), an
@@ -25,7 +32,7 @@ export function Header({
   author,
   collaborators,
 }: {
-  author: InstagramPreviewAuthor;
+  author: InstagramAuthor;
   collaborators: readonly string[];
 }) {
   return (

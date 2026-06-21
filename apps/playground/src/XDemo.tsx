@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { XPostPreview } from '@preview/x';
 
-import { X_SAMPLES, author } from './samples-x';
+import { X_SAMPLES, connection } from './samples-x';
 
 type XTheme = 'light' | 'dark' | 'auto';
 
@@ -50,8 +50,9 @@ export function XDemo() {
       <div className={stageLight ? 'stage stage-light' : 'stage'}>
         <XPostPreview
           variant={sample.variant}
-          author={author}
+          connection={connection}
           media={sample.media}
+          verified
           quotedTweet={sample.quotedTweet}
           replyToHandle={sample.replyToHandle}
           theme={theme}

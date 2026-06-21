@@ -1,22 +1,16 @@
-import type { LinkedInPostVariant } from '@postrun/js';
-import type { LinkedInPreviewAuthor, PreviewMedia } from '@preview/types';
+import type { LinkedInPostVariant, MediaResource } from '@postrun/js';
+import type { PreviewConnection } from '@preview/types';
+
+import { conn, processingAsset, readyImage } from './samples-media';
 
 /** LinkedIn preview fixtures — one per content_kind, shaped exactly like our Post
  * object (LinkedInPostVariant). */
 
-export const author: LinkedInPreviewAuthor = {
-  name: 'Acme Studio',
-  headline: 'Design & engineering for ambitious teams',
-  username: 'acmestudio',
-  avatar_url:
-    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop',
-  verified: true,
-};
-
-const LANDSCAPE = (id: string) =>
-  `https://images.unsplash.com/${id}?w=1200&h=630&fit=crop`;
-const SQUARE = (id: string) =>
-  `https://images.unsplash.com/${id}?w=800&h=800&fit=crop`;
+export const connection: PreviewConnection = conn({
+  platform: 'linkedin',
+  external_account_name: 'Acme Studio',
+});
+export const HEADLINE = 'Design & engineering for ambitious teams';
 
 const CONN = 'conn_li000000000000000000';
 
@@ -36,7 +30,7 @@ export interface LiSample {
   id: string;
   label: string;
   variant: LinkedInPostVariant;
-  media: PreviewMedia[];
+  media: MediaResource[];
 }
 
 export const LI_SAMPLES: LiSample[] = [
@@ -46,17 +40,19 @@ export const LI_SAMPLES: LiSample[] = [
     variant: v({
       post_type: 'text',
       body: 'Wrote up everything we learned shipping our preview SDK. The "match the real platform" rule changed how we build. 👇',
+      media: [{ media_id: 'med_li_thumb' }],
       settings: {
         visibility: 'PUBLIC',
         content_kind: 'article',
         article: {
           source: 'https://www.acme.com/blog/social-preview-playbook',
           title: 'The social preview playbook: match the platform, not the mock',
-          description: 'Lessons from building pixel-faithful, compliant post previews.',
+          description:
+            'Lessons from building pixel-faithful, compliant post previews.',
         },
       },
     }),
-    media: [{ kind: 'image', url: LANDSCAPE('photo-1467232004584-a241de8bcf5d') }],
+    media: [readyImage('med_li_thumb', 'photo-1467232004584-a241de8bcf5d')],
   },
   {
     id: 'poll',
@@ -77,21 +73,6 @@ export const LI_SAMPLES: LiSample[] = [
     media: [],
   },
   {
-    id: 'document',
-    label: 'Document',
-    variant: v({
-      post_type: 'single_image',
-      body: 'Our Q3 investor update — the full deck is attached. 📊',
-      media: [{ media_id: 'med_doc0000000000000000000' }],
-      settings: {
-        visibility: 'PUBLIC',
-        content_kind: 'document',
-        document: { title: 'Acme — Q3 Investor Update.pdf' },
-      },
-    }),
-    media: [],
-  },
-  {
     id: 'multi_image',
     label: 'Multi-image',
     variant: v({
@@ -106,16 +87,30 @@ export const LI_SAMPLES: LiSample[] = [
       settings: { visibility: 'PUBLIC', content_kind: 'multi_image' },
     }),
     media: [
-      { kind: 'image', url: SQUARE('photo-1469474968028-56623f02e42e') },
-      { kind: 'image', url: SQUARE('photo-1501785888041-af3ef285b470') },
-      { kind: 'image', url: SQUARE('photo-1470071459604-3b5ec3a7fe05') },
-      { kind: 'image', url: SQUARE('photo-1444703686981-a3abbc4d4fe3') },
+      readyImage('med_i1', 'photo-1469474968028-56623f02e42e'),
+      readyImage('med_i2', 'photo-1501785888041-af3ef285b470'),
+      readyImage('med_i3', 'photo-1470071459604-3b5ec3a7fe05'),
+      readyImage('med_i4', 'photo-1444703686981-a3abbc4d4fe3'),
     ],
+  },
+  {
+    id: 'processing',
+    label: 'Processing',
+    variant: v({
+      post_type: 'single_image',
+      body: 'New case study — the hero shot is still rendering.',
+      media: [{ media_id: 'med_i1' }],
+      settings: { visibility: 'PUBLIC', content_kind: 'single_image' },
+    }),
+    media: [processingAsset('med_i1')],
   },
   {
     id: 'empty',
     label: 'Empty',
-    variant: v({ body: '', settings: { visibility: 'PUBLIC', content_kind: 'text' } }),
+    variant: v({
+      body: '',
+      settings: { visibility: 'PUBLIC', content_kind: 'text' },
+    }),
     media: [],
   },
 ];

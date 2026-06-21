@@ -1,5 +1,26 @@
 # @postrun/js
 
+## 2.11.0
+
+### Minor Changes
+
+- Typed read variant — previews now accept a fetched post with no transform.
+
+  The API's read variant is now a typed discriminated union (its `settings` are typed
+  per platform on read, matching the write contract), so the SDK regenerates with a
+  fully-typed `PostVariant` instead of an opaque settings blob.
+
+  - **Previews accept the read shape.** Every `*PostPreview`'s `variant` prop is
+    widened from the compose-time write variant to **write | read** — so you can pass
+    a post straight from `usePost`/`usePosts`/the calendar with no glue:
+    `<XPostPreview variant={post.variants[0]} … />` now type-checks and renders.
+  - New exported types: `ReadPostVariant<P>`, `XPreviewVariant`,
+    `LinkedInPreviewVariant`, `TikTokPreviewVariant`, `InstagramPreviewVariant`.
+  - Regenerated `@postrun/js` client (`types.gen.ts`/`zod.gen.ts`) from the refreshed
+    OpenAPI spec.
+
+  No transform/adapter needed — the typed contract made read↔preview symmetry free.
+
 ## 2.10.0
 
 ## 2.9.0

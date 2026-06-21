@@ -1,7 +1,7 @@
-import type { TikTokCreatorInfo, TikTokPostVariant } from '@postrun/js';
+import type { TikTokCreatorInfo } from '@postrun/js';
 import type { CSSProperties } from 'react';
 
-import type { PreviewMedia } from '../types';
+import type { PreviewMedia, TikTokPreviewVariant } from '../types';
 
 /**
  * Public props for the TikTok post preview — a faithful render of how a post will
@@ -13,8 +13,9 @@ import type { PreviewMedia } from '../types';
  * chunks add the editable caption + the consent-gated Post button.
  */
 export interface TikTokPostPreviewProps {
-  /** The TikTok variant from our schema — the content source, untouched. */
-  variant: TikTokPostVariant;
+  /** The TikTok variant — either a compose-time write variant or a fetched read
+   * variant (both carry the typed settings/body the card renders). */
+  variant: TikTokPreviewVariant;
   /** Live creator info (nickname/avatar, audience options, interaction flags). */
   creatorInfo: TikTokCreatorInfo;
   /** Resolved media pixels (processed URLs or compose-time File blobs). */

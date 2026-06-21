@@ -1,4 +1,40 @@
-import type { Connection, MediaKind } from '@postrun/js';
+import type {
+  Connection,
+  InstagramPostVariant,
+  LinkedInPostVariant,
+  MediaKind,
+  PostVariant,
+  TikTokPostVariant,
+  XPostVariant,
+} from '@postrun/js';
+
+/**
+ * A platform's FETCHED (read) variant — one member of a stored `Post`'s
+ * `variants`, as returned by `usePost`/`usePosts`/the calendar. Since the API's
+ * read variant is now a typed discriminated union, it carries the SAME typed
+ * `settings`/`body`/`post_type`/`media` the write variant does, plus the
+ * read-only `id`/`status`/`result`/`error`.
+ */
+export type ReadPostVariant<P extends PostVariant['platform']> = Extract<
+  PostVariant,
+  { platform: P }
+>;
+
+/**
+ * What a preview's `variant` prop accepts: EITHER the compose-time **write**
+ * variant (`XPostVariant`, …) OR the fetched **read** variant. Both expose the
+ * typed `settings`, `body`, `post_type`, and `media[].alt_text_override` the cards
+ * read — so you can hand a preview a post you just built OR one you fetched from
+ * the API, with no transform.
+ */
+export type XPreviewVariant = XPostVariant | ReadPostVariant<'x'>;
+export type LinkedInPreviewVariant =
+  | LinkedInPostVariant
+  | ReadPostVariant<'linkedin'>;
+export type TikTokPreviewVariant = TikTokPostVariant | ReadPostVariant<'tiktok'>;
+export type InstagramPreviewVariant =
+  | InstagramPostVariant
+  | ReadPostVariant<'instagram'>;
 
 /**
  * Public input types for the post-preview components.

@@ -1,10 +1,14 @@
 'use client';
 
-import type { LinkedInPostVariant } from '@postrun/js';
 import { memo, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
-import type { LinkedInPreviewAuthor, PreviewMedia, ResolvedMedia } from '../types';
+import type {
+  LinkedInPreviewAuthor,
+  LinkedInPreviewVariant,
+  PreviewMedia,
+  ResolvedMedia,
+} from '../types';
 import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
 import { ArticleCard } from './ArticleCard';
 import { DocumentCard } from './DocumentCard';
@@ -37,8 +41,9 @@ import {
  * the `--pr-li-*` CSS variables the card reads.
  */
 export interface LinkedInPostPreviewProps {
-  /** The LinkedIn variant from our schema — the content source, untouched. */
-  variant: LinkedInPostVariant;
+  /** The LinkedIn variant — either a compose-time write variant or a fetched read
+   * variant (both carry the typed settings/body the card renders). */
+  variant: LinkedInPreviewVariant;
   /** Author identity (LinkedIn stores no avatar/headline on our connection). */
   author: LinkedInPreviewAuthor;
   /** Resolved media pixels (URLs or compose-time File blobs). */
@@ -151,7 +156,7 @@ const emptyBodyStyle: CSSProperties = {
  * cards (article/poll/document) sit in the text column; media is edge-to-edge.
  */
 function renderContent(
-  variant: LinkedInPostVariant,
+  variant: LinkedInPreviewVariant,
   media: readonly ResolvedMedia[],
 ) {
   const settings = variant.settings;

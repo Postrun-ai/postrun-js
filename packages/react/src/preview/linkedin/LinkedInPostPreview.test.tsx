@@ -1,4 +1,4 @@
-import type { LinkedInPostVariant } from '@postrun/js';
+import type { LinkedInPostVariant, PostVariant } from '@postrun/js';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -134,6 +134,25 @@ describe('<LinkedInPostPreview>', () => {
     );
     expect(screen.getByText('Best day?')).toBeDefined();
     expect(screen.getByText('Mon')).toBeDefined();
+  });
+
+  it('accepts a FETCHED (read-shape) variant straight from the API', () => {
+    const fetched: Extract<PostVariant, { platform: 'linkedin' }> = {
+      platform: 'linkedin',
+      post_type: 'text',
+      id: 'pv_li1',
+      object: 'post_variant',
+      connection_id: 'conn_1',
+      body: 'fetched linkedin post',
+      status: 'draft',
+      schedule_at: null,
+      result: null,
+      error: null,
+      media: [],
+      settings: { visibility: 'PUBLIC', content_kind: 'text' },
+    };
+    render(<LinkedInPostPreview variant={fetched} author={author} />);
+    expect(screen.getByText(/fetched linkedin post/)).toBeDefined();
   });
 
   it('shows a muted placeholder body when the post is empty', () => {

@@ -1,4 +1,8 @@
-import type { TikTokCreatorInfo, TikTokPostVariant } from '@postrun/js';
+import type {
+  PostVariant,
+  TikTokCreatorInfo,
+  TikTokPostVariant,
+} from '@postrun/js';
 import { render, screen } from '@testing-library/react';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -168,5 +172,26 @@ describe('<TikTokPostPreview>', () => {
       />,
     );
     expect(screen.getByText('No media yet')).toBeDefined();
+  });
+
+  it('accepts a FETCHED (read-shape) variant straight from the API', () => {
+    const fetched: Extract<PostVariant, { platform: 'tiktok' }> = {
+      platform: 'tiktok',
+      post_type: 'video',
+      id: 'pv_tt1',
+      object: 'post_variant',
+      connection_id: 'conn_1',
+      body: 'fetched tiktok post',
+      status: 'draft',
+      schedule_at: null,
+      result: null,
+      error: null,
+      media: [],
+      settings: {},
+    };
+    render(
+      <TikTokPostPreview variant={fetched} creatorInfo={creatorInfo} media={videoMedia} />,
+    );
+    expect(screen.getByText(/fetched tiktok post/)).toBeDefined();
   });
 });

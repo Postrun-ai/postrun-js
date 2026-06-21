@@ -1,4 +1,4 @@
-import type { InstagramPostVariant } from '@postrun/js';
+import type { InstagramPostVariant, PostVariant } from '@postrun/js';
 import { render, screen } from '@testing-library/react';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -153,6 +153,25 @@ describe('<InstagramPostPreview>', () => {
     );
     expect(container.querySelector('video')).not.toBeNull();
     expect(screen.getByText(/Original audio/)).toBeDefined();
+  });
+
+  it('accepts a FETCHED (read-shape) variant straight from the API', () => {
+    const fetched: Extract<PostVariant, { platform: 'instagram' }> = {
+      platform: 'instagram',
+      post_type: 'single_image',
+      id: 'pv_ig1',
+      object: 'post_variant',
+      connection_id: 'conn_1',
+      body: 'fetched instagram post',
+      status: 'draft',
+      schedule_at: null,
+      result: null,
+      error: null,
+      media: [],
+      settings: { media_type: 'IMAGE' },
+    };
+    render(<InstagramPostPreview variant={fetched} author={author} media={image} />);
+    expect(screen.getByText(/fetched instagram post/)).toBeDefined();
   });
 
   it('shows a media placeholder (not a black void) when a feed post has no media', () => {

@@ -1,4 +1,4 @@
-import type { XPostVariant } from '@postrun/js';
+import type { PostVariant, XPostVariant } from '@postrun/js';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -136,6 +136,27 @@ describe('<XPostPreview>', () => {
       />,
     );
     expect(screen.getByText(/Replying to/i)).toBeDefined();
+  });
+
+  it('accepts a FETCHED (read-shape) variant straight from the API', () => {
+    // The read variant carries the read-only id/status/result/error on top of the
+    // same typed settings/body — the preview must take it without a transform.
+    const fetched: Extract<PostVariant, { platform: 'x' }> = {
+      platform: 'x',
+      post_type: 'text',
+      id: 'pv_x1',
+      object: 'post_variant',
+      connection_id: 'conn_1',
+      body: 'shipped from a fetched post',
+      status: 'draft',
+      schedule_at: null,
+      result: null,
+      error: null,
+      media: [],
+      settings: {},
+    };
+    render(<XPostPreview variant={fetched} author={author} />);
+    expect(screen.getByText(/shipped from a fetched post/)).toBeDefined();
   });
 
   it("shows X's muted placeholder body when there's no body or media", () => {

@@ -52,4 +52,9 @@ export type {
   XPreviewMedia,
   XPreviewQuotedTweet,
   PreviewMediaKind,
+  ReadPostVariant,
+  XPreviewVariant,
+  LinkedInPreviewVariant,
+  TikTokPreviewVariant,
+  InstagramPreviewVariant,
 } from './types';

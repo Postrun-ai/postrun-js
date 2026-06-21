@@ -1,10 +1,13 @@
 'use client';
 
-import type { InstagramPostVariant } from '@postrun/js';
 import { memo } from 'react';
 import type { CSSProperties } from 'react';
 
-import type { InstagramPreviewAuthor, PreviewMedia } from '../types';
+import type {
+  InstagramPreviewAuthor,
+  InstagramPreviewVariant,
+  PreviewMedia,
+} from '../types';
 import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
 import { Actions } from './Actions';
 import { Caption } from './Caption';
@@ -31,8 +34,9 @@ import {
  * already-published posts), referencing the real IG feed + Postiz.
  */
 export interface InstagramPostPreviewProps {
-  /** The Instagram variant from our schema — the content source, untouched. */
-  variant: InstagramPostVariant;
+  /** The Instagram variant — either a compose-time write variant or a fetched
+   * read variant (both carry the typed settings/body the card renders). */
+  variant: InstagramPreviewVariant;
   /** Author identity (SDK-driven; `verified` is a presentation extra). */
   author: InstagramPreviewAuthor;
   /** Resolved media pixels (processed URLs or compose-time File blobs). */

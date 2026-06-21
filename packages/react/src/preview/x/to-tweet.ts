@@ -1,4 +1,3 @@
-import type { XPostVariant } from '@postrun/js';
 import type {
   MediaAnimatedGif,
   MediaDetails,
@@ -10,7 +9,11 @@ import type {
   VideoInfo,
 } from 'react-tweet/api';
 
-import type { ResolvedMedia, XPreviewAuthor } from '../types';
+import type {
+  ResolvedMedia,
+  XPreviewAuthor,
+  XPreviewVariant,
+} from '../types';
 import { extractEntities } from './entities';
 
 /**
@@ -30,7 +33,7 @@ export interface ResolvedQuotedTweet {
 }
 
 export interface ToTweetInput {
-  variant: XPostVariant;
+  variant: XPreviewVariant;
   author: XPreviewAuthor;
   media?: ResolvedMedia[];
   quotedTweet?: ResolvedQuotedTweet;

@@ -1258,52 +1258,298 @@ export const zPostsListResponse = z.object({
             z.number(),
             z.boolean()
         ])),
-        variants: z.array(z.object({
-            id: z.string(),
-            object: z.literal('post_variant'),
-            connection_id: z.string().nullable(),
-            platform: z.enum([
-                'x',
-                'linkedin',
-                'facebook_page',
-                'instagram',
-                'tiktok'
-            ]),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'video',
-                'reel',
-                'carousel'
-            ]),
-            body: z.string().nullable(),
-            status: z.enum([
-                'draft',
-                'scheduled',
-                'publishing',
-                'published',
-                'failed'
-            ]),
-            settings: z.record(z.string(), z.unknown()),
-            schedule_at: z.string().nullable(),
-            result: z.object({
-                platform_post_id: z.string(),
-                permalink: z.string().nullable(),
-                published_at: z.string()
-            }).nullable(),
-            error: z.object({
-                code: z.string(),
-                message: z.string(),
-                display_error: z.string()
-            }).nullable(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                position: z.int().gte(-9007199254740991).lte(9007199254740991),
-                crop_box: z.record(z.string(), z.unknown()).nullable(),
-                alt_text_override: z.string().nullable()
-            }))
-        })),
+        variants: z.array(z.union([
+            z.object({
+                platform: z.literal('x'),
+                post_type: z.enum([
+                    'text',
+                    'single_image',
+                    'multi_image',
+                    'video'
+                ]),
+                settings: z.object({
+                    reply_settings: z.enum([
+                        'everyone',
+                        'following',
+                        'mentionedUsers',
+                        'subscribers',
+                        'verified'
+                    ]).optional(),
+                    quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                    poll: z.object({
+                        options: z.array(z.string().min(1).max(25)).min(2).max(4),
+                        duration_minutes: z.int().gte(5).lte(10080),
+                        reply_settings: z.enum([
+                            'following',
+                            'mentionedUsers',
+                            'subscribers',
+                            'verified'
+                        ]).optional()
+                    }).optional(),
+                    reply: z.object({
+                        in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
+                        exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
+                        auto_populate_reply_metadata: z.boolean().optional()
+                    }).optional(),
+                    community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                    for_super_followers_only: z.boolean().optional(),
+                    geo: z.object({
+                        place_id: z.string()
+                    }).optional(),
+                    card_uri: z.string().optional(),
+                    media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+                }),
+                id: z.string(),
+                object: z.literal('post_variant'),
+                connection_id: z.string().nullable(),
+                body: z.string().nullable(),
+                status: z.enum([
+                    'draft',
+                    'scheduled',
+                    'publishing',
+                    'published',
+                    'failed'
+                ]),
+                schedule_at: z.string().nullable(),
+                result: z.object({
+                    platform_post_id: z.string(),
+                    permalink: z.string().nullable(),
+                    published_at: z.string()
+                }).nullable(),
+                error: z.object({
+                    code: z.string(),
+                    message: z.string(),
+                    display_error: z.string()
+                }).nullable(),
+                media: z.array(z.object({
+                    media_id: z.string(),
+                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                    crop_box: z.record(z.string(), z.unknown()).nullable(),
+                    alt_text_override: z.string().nullable()
+                }))
+            }),
+            z.object({
+                platform: z.literal('linkedin'),
+                post_type: z.enum([
+                    'text',
+                    'single_image',
+                    'multi_image',
+                    'video'
+                ]),
+                settings: z.object({
+                    visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
+                    content_kind: z.enum([
+                        'text',
+                        'single_image',
+                        'video',
+                        'multi_image',
+                        'document',
+                        'article',
+                        'poll'
+                    ]),
+                    article: z.object({
+                        source: z.url(),
+                        title: z.string().max(400).optional(),
+                        description: z.string().max(4086).optional(),
+                        thumbnail_media_id: z.string().optional()
+                    }).optional(),
+                    poll: z.object({
+                        question: z.string().min(1).max(140),
+                        options: z.array(z.string().min(1).max(30)).min(2).max(4),
+                        duration: z.enum([
+                            'ONE_DAY',
+                            'THREE_DAYS',
+                            'SEVEN_DAYS',
+                            'FOURTEEN_DAYS'
+                        ])
+                    }).optional(),
+                    document: z.object({
+                        title: z.string().min(1).max(400)
+                    }).optional(),
+                    disable_reshare: z.boolean().optional(),
+                    mentions: z.array(z.object({
+                        type: z.enum(['person', 'organization']),
+                        name: z.string().min(1),
+                        urn: z.string().regex(/^urn:li:(person|organization):/)
+                    })).optional()
+                }),
+                id: z.string(),
+                object: z.literal('post_variant'),
+                connection_id: z.string().nullable(),
+                body: z.string().nullable(),
+                status: z.enum([
+                    'draft',
+                    'scheduled',
+                    'publishing',
+                    'published',
+                    'failed'
+                ]),
+                schedule_at: z.string().nullable(),
+                result: z.object({
+                    platform_post_id: z.string(),
+                    permalink: z.string().nullable(),
+                    published_at: z.string()
+                }).nullable(),
+                error: z.object({
+                    code: z.string(),
+                    message: z.string(),
+                    display_error: z.string()
+                }).nullable(),
+                media: z.array(z.object({
+                    media_id: z.string(),
+                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                    crop_box: z.record(z.string(), z.unknown()).nullable(),
+                    alt_text_override: z.string().nullable()
+                }))
+            }),
+            z.object({
+                platform: z.literal('facebook_page'),
+                post_type: z.enum([
+                    'text',
+                    'single_image',
+                    'multi_image',
+                    'reel'
+                ]),
+                settings: z.object({
+                    link: z.url().optional()
+                }),
+                id: z.string(),
+                object: z.literal('post_variant'),
+                connection_id: z.string().nullable(),
+                body: z.string().nullable(),
+                status: z.enum([
+                    'draft',
+                    'scheduled',
+                    'publishing',
+                    'published',
+                    'failed'
+                ]),
+                schedule_at: z.string().nullable(),
+                result: z.object({
+                    platform_post_id: z.string(),
+                    permalink: z.string().nullable(),
+                    published_at: z.string()
+                }).nullable(),
+                error: z.object({
+                    code: z.string(),
+                    message: z.string(),
+                    display_error: z.string()
+                }).nullable(),
+                media: z.array(z.object({
+                    media_id: z.string(),
+                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                    crop_box: z.record(z.string(), z.unknown()).nullable(),
+                    alt_text_override: z.string().nullable()
+                }))
+            }),
+            z.object({
+                platform: z.literal('instagram'),
+                post_type: z.enum([
+                    'single_image',
+                    'carousel',
+                    'reel'
+                ]),
+                settings: z.object({
+                    media_type: z.enum([
+                        'IMAGE',
+                        'CAROUSEL',
+                        'REELS'
+                    ]).optional(),
+                    location_id: z.string().optional(),
+                    user_tags: z.array(z.object({
+                        username: z.string().min(1),
+                        x: z.number().gte(0).lte(1),
+                        y: z.number().gte(0).lte(1)
+                    })).optional(),
+                    collaborators: z.array(z.string().min(1)).max(3).optional(),
+                    share_to_feed: z.boolean().optional(),
+                    thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
+                    cover_url: z.url().optional(),
+                    audio_name: z.string().optional()
+                }),
+                id: z.string(),
+                object: z.literal('post_variant'),
+                connection_id: z.string().nullable(),
+                body: z.string().nullable(),
+                status: z.enum([
+                    'draft',
+                    'scheduled',
+                    'publishing',
+                    'published',
+                    'failed'
+                ]),
+                schedule_at: z.string().nullable(),
+                result: z.object({
+                    platform_post_id: z.string(),
+                    permalink: z.string().nullable(),
+                    published_at: z.string()
+                }).nullable(),
+                error: z.object({
+                    code: z.string(),
+                    message: z.string(),
+                    display_error: z.string()
+                }).nullable(),
+                media: z.array(z.object({
+                    media_id: z.string(),
+                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                    crop_box: z.record(z.string(), z.unknown()).nullable(),
+                    alt_text_override: z.string().nullable()
+                }))
+            }),
+            z.object({
+                platform: z.literal('tiktok'),
+                post_type: z.enum([
+                    'video',
+                    'single_image',
+                    'carousel'
+                ]),
+                settings: z.object({
+                    privacy_level: z.enum([
+                        'PUBLIC_TO_EVERYONE',
+                        'MUTUAL_FOLLOW_FRIENDS',
+                        'FOLLOWER_OF_CREATOR',
+                        'SELF_ONLY'
+                    ]).optional(),
+                    disable_comment: z.boolean().optional(),
+                    disable_duet: z.boolean().optional(),
+                    disable_stitch: z.boolean().optional(),
+                    video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+                    photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+                    auto_add_music: z.boolean().optional(),
+                    brand_content_toggle: z.boolean().optional(),
+                    brand_organic_toggle: z.boolean().optional(),
+                    is_aigc: z.boolean().optional()
+                }),
+                id: z.string(),
+                object: z.literal('post_variant'),
+                connection_id: z.string().nullable(),
+                body: z.string().nullable(),
+                status: z.enum([
+                    'draft',
+                    'scheduled',
+                    'publishing',
+                    'published',
+                    'failed'
+                ]),
+                schedule_at: z.string().nullable(),
+                result: z.object({
+                    platform_post_id: z.string(),
+                    permalink: z.string().nullable(),
+                    published_at: z.string()
+                }).nullable(),
+                error: z.object({
+                    code: z.string(),
+                    message: z.string(),
+                    display_error: z.string()
+                }).nullable(),
+                media: z.array(z.object({
+                    media_id: z.string(),
+                    position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                    crop_box: z.record(z.string(), z.unknown()).nullable(),
+                    alt_text_override: z.string().nullable()
+                }))
+            })
+        ])),
         created_at: z.string(),
         updated_at: z.string()
     })),
@@ -1339,13 +1585,6 @@ export const zPostsCreateBody = z.object({
                 'multi_image',
                 'video'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 reply_settings: z.enum([
                     'everyone',
@@ -1377,7 +1616,14 @@ export const zPostsCreateBody = z.object({
                 }).optional(),
                 card_uri: z.string().optional(),
                 media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }).optional().default({})
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
         }),
         z.object({
             platform: z.literal('linkedin'),
@@ -1387,13 +1633,6 @@ export const zPostsCreateBody = z.object({
                 'multi_image',
                 'video'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
                 content_kind: z.enum([
@@ -1430,7 +1669,14 @@ export const zPostsCreateBody = z.object({
                     name: z.string().min(1),
                     urn: z.string().regex(/^urn:li:(person|organization):/)
                 })).optional()
-            })
+            }),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
         }),
         z.object({
             platform: z.literal('instagram'),
@@ -1439,13 +1685,6 @@ export const zPostsCreateBody = z.object({
                 'carousel',
                 'reel'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 media_type: z.enum([
                     'IMAGE',
@@ -1463,7 +1702,14 @@ export const zPostsCreateBody = z.object({
                 thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
                 cover_url: z.url().optional(),
                 audio_name: z.string().optional()
-            })
+            }),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
         }),
         z.object({
             platform: z.literal('facebook_page'),
@@ -1473,16 +1719,16 @@ export const zPostsCreateBody = z.object({
                 'multi_image',
                 'reel'
             ]),
+            settings: z.object({
+                link: z.url().optional()
+            }).optional().default({}),
             connection_id: z.string(),
             body: z.string().optional(),
             media: z.array(z.object({
                 media_id: z.string(),
                 crop_box: z.record(z.string(), z.unknown()).nullish(),
                 alt_text_override: z.string().nullish()
-            })).optional().default([]),
-            settings: z.object({
-                link: z.url().optional()
-            }).optional().default({})
+            })).optional().default([])
         }),
         z.object({
             platform: z.literal('tiktok'),
@@ -1491,13 +1737,6 @@ export const zPostsCreateBody = z.object({
                 'single_image',
                 'carousel'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 privacy_level: z.enum([
                     'PUBLIC_TO_EVERYONE',
@@ -1514,7 +1753,14 @@ export const zPostsCreateBody = z.object({
                 brand_content_toggle: z.boolean().optional(),
                 brand_organic_toggle: z.boolean().optional(),
                 is_aigc: z.boolean().optional()
-            }).optional().default({})
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
         })
     ])).min(1)
 });
@@ -1543,52 +1789,298 @@ export const zPostsCreateResponse = z.object({
         z.number(),
         z.boolean()
     ])),
-    variants: z.array(z.object({
-        id: z.string(),
-        object: z.literal('post_variant'),
-        connection_id: z.string().nullable(),
-        platform: z.enum([
-            'x',
-            'linkedin',
-            'facebook_page',
-            'instagram',
-            'tiktok'
-        ]),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'video',
-            'reel',
-            'carousel'
-        ]),
-        body: z.string().nullable(),
-        status: z.enum([
-            'draft',
-            'scheduled',
-            'publishing',
-            'published',
-            'failed'
-        ]),
-        settings: z.record(z.string(), z.unknown()),
-        schedule_at: z.string().nullable(),
-        result: z.object({
-            platform_post_id: z.string(),
-            permalink: z.string().nullable(),
-            published_at: z.string()
-        }).nullable(),
-        error: z.object({
-            code: z.string(),
-            message: z.string(),
-            display_error: z.string()
-        }).nullable(),
-        media: z.array(z.object({
-            media_id: z.string(),
-            position: z.int().gte(-9007199254740991).lte(9007199254740991),
-            crop_box: z.record(z.string(), z.unknown()).nullable(),
-            alt_text_override: z.string().nullable()
-        }))
-    })),
+    variants: z.array(z.union([
+        z.object({
+            platform: z.literal('x'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            settings: z.object({
+                reply_settings: z.enum([
+                    'everyone',
+                    'following',
+                    'mentionedUsers',
+                    'subscribers',
+                    'verified'
+                ]).optional(),
+                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                poll: z.object({
+                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
+                    duration_minutes: z.int().gte(5).lte(10080),
+                    reply_settings: z.enum([
+                        'following',
+                        'mentionedUsers',
+                        'subscribers',
+                        'verified'
+                    ]).optional()
+                }).optional(),
+                reply: z.object({
+                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
+                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
+                    auto_populate_reply_metadata: z.boolean().optional()
+                }).optional(),
+                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                for_super_followers_only: z.boolean().optional(),
+                geo: z.object({
+                    place_id: z.string()
+                }).optional(),
+                card_uri: z.string().optional(),
+                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        }),
+        z.object({
+            platform: z.literal('linkedin'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            settings: z.object({
+                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
+                content_kind: z.enum([
+                    'text',
+                    'single_image',
+                    'video',
+                    'multi_image',
+                    'document',
+                    'article',
+                    'poll'
+                ]),
+                article: z.object({
+                    source: z.url(),
+                    title: z.string().max(400).optional(),
+                    description: z.string().max(4086).optional(),
+                    thumbnail_media_id: z.string().optional()
+                }).optional(),
+                poll: z.object({
+                    question: z.string().min(1).max(140),
+                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
+                    duration: z.enum([
+                        'ONE_DAY',
+                        'THREE_DAYS',
+                        'SEVEN_DAYS',
+                        'FOURTEEN_DAYS'
+                    ])
+                }).optional(),
+                document: z.object({
+                    title: z.string().min(1).max(400)
+                }).optional(),
+                disable_reshare: z.boolean().optional(),
+                mentions: z.array(z.object({
+                    type: z.enum(['person', 'organization']),
+                    name: z.string().min(1),
+                    urn: z.string().regex(/^urn:li:(person|organization):/)
+                })).optional()
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        }),
+        z.object({
+            platform: z.literal('facebook_page'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'reel'
+            ]),
+            settings: z.object({
+                link: z.url().optional()
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        }),
+        z.object({
+            platform: z.literal('instagram'),
+            post_type: z.enum([
+                'single_image',
+                'carousel',
+                'reel'
+            ]),
+            settings: z.object({
+                media_type: z.enum([
+                    'IMAGE',
+                    'CAROUSEL',
+                    'REELS'
+                ]).optional(),
+                location_id: z.string().optional(),
+                user_tags: z.array(z.object({
+                    username: z.string().min(1),
+                    x: z.number().gte(0).lte(1),
+                    y: z.number().gte(0).lte(1)
+                })).optional(),
+                collaborators: z.array(z.string().min(1)).max(3).optional(),
+                share_to_feed: z.boolean().optional(),
+                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
+                cover_url: z.url().optional(),
+                audio_name: z.string().optional()
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        }),
+        z.object({
+            platform: z.literal('tiktok'),
+            post_type: z.enum([
+                'video',
+                'single_image',
+                'carousel'
+            ]),
+            settings: z.object({
+                privacy_level: z.enum([
+                    'PUBLIC_TO_EVERYONE',
+                    'MUTUAL_FOLLOW_FRIENDS',
+                    'FOLLOWER_OF_CREATOR',
+                    'SELF_ONLY'
+                ]).optional(),
+                disable_comment: z.boolean().optional(),
+                disable_duet: z.boolean().optional(),
+                disable_stitch: z.boolean().optional(),
+                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+                auto_add_music: z.boolean().optional(),
+                brand_content_toggle: z.boolean().optional(),
+                brand_organic_toggle: z.boolean().optional(),
+                is_aigc: z.boolean().optional()
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        })
+    ])),
     created_at: z.string(),
     updated_at: z.string(),
     dry_run: z.boolean(),
@@ -1636,72 +2128,6 @@ export const zPostsGetResponse = z.object({
         z.number(),
         z.boolean()
     ])),
-    variants: z.array(z.object({
-        id: z.string(),
-        object: z.literal('post_variant'),
-        connection_id: z.string().nullable(),
-        platform: z.enum([
-            'x',
-            'linkedin',
-            'facebook_page',
-            'instagram',
-            'tiktok'
-        ]),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'video',
-            'reel',
-            'carousel'
-        ]),
-        body: z.string().nullable(),
-        status: z.enum([
-            'draft',
-            'scheduled',
-            'publishing',
-            'published',
-            'failed'
-        ]),
-        settings: z.record(z.string(), z.unknown()),
-        schedule_at: z.string().nullable(),
-        result: z.object({
-            platform_post_id: z.string(),
-            permalink: z.string().nullable(),
-            published_at: z.string()
-        }).nullable(),
-        error: z.object({
-            code: z.string(),
-            message: z.string(),
-            display_error: z.string()
-        }).nullable(),
-        media: z.array(z.object({
-            media_id: z.string(),
-            position: z.int().gte(-9007199254740991).lte(9007199254740991),
-            crop_box: z.record(z.string(), z.unknown()).nullable(),
-            alt_text_override: z.string().nullable()
-        }))
-    })),
-    created_at: z.string(),
-    updated_at: z.string()
-});
-
-export const zPostsUpdateBody = z.object({
-    publish: z.enum([
-        'now',
-        'schedule',
-        'draft'
-    ]).optional(),
-    schedule_at: z.iso.datetime().nullish(),
-    external_id: z.string().min(1).max(255).nullish(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])).optional(),
-    tags: z.array(z.string()).optional(),
-    notes: z.string().nullish(),
-    dry_run: z.boolean().optional().default(false),
     variants: z.array(z.union([
         z.object({
             platform: z.literal('x'),
@@ -1711,13 +2137,6 @@ export const zPostsUpdateBody = z.object({
                 'multi_image',
                 'video'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 reply_settings: z.enum([
                     'everyone',
@@ -1749,7 +2168,35 @@ export const zPostsUpdateBody = z.object({
                 }).optional(),
                 card_uri: z.string().optional(),
                 media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }).optional().default({})
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
         }),
         z.object({
             platform: z.literal('linkedin'),
@@ -1759,13 +2206,6 @@ export const zPostsUpdateBody = z.object({
                 'multi_image',
                 'video'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
                 content_kind: z.enum([
@@ -1802,7 +2242,75 @@ export const zPostsUpdateBody = z.object({
                     name: z.string().min(1),
                     urn: z.string().regex(/^urn:li:(person|organization):/)
                 })).optional()
-            })
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        }),
+        z.object({
+            platform: z.literal('facebook_page'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'reel'
+            ]),
+            settings: z.object({
+                link: z.url().optional()
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
         }),
         z.object({
             platform: z.literal('instagram'),
@@ -1811,13 +2319,6 @@ export const zPostsUpdateBody = z.object({
                 'carousel',
                 'reel'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 media_type: z.enum([
                     'IMAGE',
@@ -1835,26 +2336,35 @@ export const zPostsUpdateBody = z.object({
                 thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
                 cover_url: z.url().optional(),
                 audio_name: z.string().optional()
-            })
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
             media: z.array(z.object({
                 media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
-            settings: z.object({
-                link: z.url().optional()
-            }).optional().default({})
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
         }),
         z.object({
             platform: z.literal('tiktok'),
@@ -1863,13 +2373,6 @@ export const zPostsUpdateBody = z.object({
                 'single_image',
                 'carousel'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 privacy_level: z.enum([
                     'PUBLIC_TO_EVERYONE',
@@ -1886,7 +2389,242 @@ export const zPostsUpdateBody = z.object({
                 brand_content_toggle: z.boolean().optional(),
                 brand_organic_toggle: z.boolean().optional(),
                 is_aigc: z.boolean().optional()
-            }).optional().default({})
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        })
+    ])),
+    created_at: z.string(),
+    updated_at: z.string()
+});
+
+export const zPostsUpdateBody = z.object({
+    publish: z.enum([
+        'now',
+        'schedule',
+        'draft'
+    ]).optional(),
+    schedule_at: z.iso.datetime().nullish(),
+    external_id: z.string().min(1).max(255).nullish(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])).optional(),
+    tags: z.array(z.string()).optional(),
+    notes: z.string().nullish(),
+    dry_run: z.boolean().optional().default(false),
+    variants: z.array(z.union([
+        z.object({
+            platform: z.literal('x'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            settings: z.object({
+                reply_settings: z.enum([
+                    'everyone',
+                    'following',
+                    'mentionedUsers',
+                    'subscribers',
+                    'verified'
+                ]).optional(),
+                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                poll: z.object({
+                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
+                    duration_minutes: z.int().gte(5).lte(10080),
+                    reply_settings: z.enum([
+                        'following',
+                        'mentionedUsers',
+                        'subscribers',
+                        'verified'
+                    ]).optional()
+                }).optional(),
+                reply: z.object({
+                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
+                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
+                    auto_populate_reply_metadata: z.boolean().optional()
+                }).optional(),
+                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                for_super_followers_only: z.boolean().optional(),
+                geo: z.object({
+                    place_id: z.string()
+                }).optional(),
+                card_uri: z.string().optional(),
+                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('linkedin'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            settings: z.object({
+                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
+                content_kind: z.enum([
+                    'text',
+                    'single_image',
+                    'video',
+                    'multi_image',
+                    'document',
+                    'article',
+                    'poll'
+                ]),
+                article: z.object({
+                    source: z.url(),
+                    title: z.string().max(400).optional(),
+                    description: z.string().max(4086).optional(),
+                    thumbnail_media_id: z.string().optional()
+                }).optional(),
+                poll: z.object({
+                    question: z.string().min(1).max(140),
+                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
+                    duration: z.enum([
+                        'ONE_DAY',
+                        'THREE_DAYS',
+                        'SEVEN_DAYS',
+                        'FOURTEEN_DAYS'
+                    ])
+                }).optional(),
+                document: z.object({
+                    title: z.string().min(1).max(400)
+                }).optional(),
+                disable_reshare: z.boolean().optional(),
+                mentions: z.array(z.object({
+                    type: z.enum(['person', 'organization']),
+                    name: z.string().min(1),
+                    urn: z.string().regex(/^urn:li:(person|organization):/)
+                })).optional()
+            }),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('instagram'),
+            post_type: z.enum([
+                'single_image',
+                'carousel',
+                'reel'
+            ]),
+            settings: z.object({
+                media_type: z.enum([
+                    'IMAGE',
+                    'CAROUSEL',
+                    'REELS'
+                ]).optional(),
+                location_id: z.string().optional(),
+                user_tags: z.array(z.object({
+                    username: z.string().min(1),
+                    x: z.number().gte(0).lte(1),
+                    y: z.number().gte(0).lte(1)
+                })).optional(),
+                collaborators: z.array(z.string().min(1)).max(3).optional(),
+                share_to_feed: z.boolean().optional(),
+                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
+                cover_url: z.url().optional(),
+                audio_name: z.string().optional()
+            }),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('facebook_page'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'reel'
+            ]),
+            settings: z.object({
+                link: z.url().optional()
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('tiktok'),
+            post_type: z.enum([
+                'video',
+                'single_image',
+                'carousel'
+            ]),
+            settings: z.object({
+                privacy_level: z.enum([
+                    'PUBLIC_TO_EVERYONE',
+                    'MUTUAL_FOLLOW_FRIENDS',
+                    'FOLLOWER_OF_CREATOR',
+                    'SELF_ONLY'
+                ]).optional(),
+                disable_comment: z.boolean().optional(),
+                disable_duet: z.boolean().optional(),
+                disable_stitch: z.boolean().optional(),
+                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+                auto_add_music: z.boolean().optional(),
+                brand_content_toggle: z.boolean().optional(),
+                brand_organic_toggle: z.boolean().optional(),
+                is_aigc: z.boolean().optional()
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
         })
     ])).min(1).optional()
 });
@@ -1919,60 +2657,6 @@ export const zPostsUpdateResponse = z.object({
         z.number(),
         z.boolean()
     ])),
-    variants: z.array(z.object({
-        id: z.string(),
-        object: z.literal('post_variant'),
-        connection_id: z.string().nullable(),
-        platform: z.enum([
-            'x',
-            'linkedin',
-            'facebook_page',
-            'instagram',
-            'tiktok'
-        ]),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'video',
-            'reel',
-            'carousel'
-        ]),
-        body: z.string().nullable(),
-        status: z.enum([
-            'draft',
-            'scheduled',
-            'publishing',
-            'published',
-            'failed'
-        ]),
-        settings: z.record(z.string(), z.unknown()),
-        schedule_at: z.string().nullable(),
-        result: z.object({
-            platform_post_id: z.string(),
-            permalink: z.string().nullable(),
-            published_at: z.string()
-        }).nullable(),
-        error: z.object({
-            code: z.string(),
-            message: z.string(),
-            display_error: z.string()
-        }).nullable(),
-        media: z.array(z.object({
-            media_id: z.string(),
-            position: z.int().gte(-9007199254740991).lte(9007199254740991),
-            crop_box: z.record(z.string(), z.unknown()).nullable(),
-            alt_text_override: z.string().nullable()
-        }))
-    })),
-    created_at: z.string(),
-    updated_at: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zPostsValidateBody = z.object({
-    profile_id: z.string(),
     variants: z.array(z.union([
         z.object({
             platform: z.literal('x'),
@@ -1982,13 +2666,6 @@ export const zPostsValidateBody = z.object({
                 'multi_image',
                 'video'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 reply_settings: z.enum([
                     'everyone',
@@ -2020,7 +2697,35 @@ export const zPostsValidateBody = z.object({
                 }).optional(),
                 card_uri: z.string().optional(),
                 media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
-            }).optional().default({})
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
         }),
         z.object({
             platform: z.literal('linkedin'),
@@ -2030,13 +2735,6 @@ export const zPostsValidateBody = z.object({
                 'multi_image',
                 'video'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
                 content_kind: z.enum([
@@ -2073,7 +2771,75 @@ export const zPostsValidateBody = z.object({
                     name: z.string().min(1),
                     urn: z.string().regex(/^urn:li:(person|organization):/)
                 })).optional()
-            })
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        }),
+        z.object({
+            platform: z.literal('facebook_page'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'reel'
+            ]),
+            settings: z.object({
+                link: z.url().optional()
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
         }),
         z.object({
             platform: z.literal('instagram'),
@@ -2082,13 +2848,6 @@ export const zPostsValidateBody = z.object({
                 'carousel',
                 'reel'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 media_type: z.enum([
                     'IMAGE',
@@ -2106,26 +2865,35 @@ export const zPostsValidateBody = z.object({
                 thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
                 cover_url: z.url().optional(),
                 audio_name: z.string().optional()
-            })
-        }),
-        z.object({
-            platform: z.literal('facebook_page'),
-            post_type: z.enum([
-                'text',
-                'single_image',
-                'multi_image',
-                'reel'
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
             media: z.array(z.object({
                 media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
-            settings: z.object({
-                link: z.url().optional()
-            }).optional().default({})
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
         }),
         z.object({
             platform: z.literal('tiktok'),
@@ -2134,13 +2902,6 @@ export const zPostsValidateBody = z.object({
                 'single_image',
                 'carousel'
             ]),
-            connection_id: z.string(),
-            body: z.string().optional(),
-            media: z.array(z.object({
-                media_id: z.string(),
-                crop_box: z.record(z.string(), z.unknown()).nullish(),
-                alt_text_override: z.string().nullish()
-            })).optional().default([]),
             settings: z.object({
                 privacy_level: z.enum([
                     'PUBLIC_TO_EVERYONE',
@@ -2157,7 +2918,230 @@ export const zPostsValidateBody = z.object({
                 brand_content_toggle: z.boolean().optional(),
                 brand_organic_toggle: z.boolean().optional(),
                 is_aigc: z.boolean().optional()
-            }).optional().default({})
+            }),
+            id: z.string(),
+            object: z.literal('post_variant'),
+            connection_id: z.string().nullable(),
+            body: z.string().nullable(),
+            status: z.enum([
+                'draft',
+                'scheduled',
+                'publishing',
+                'published',
+                'failed'
+            ]),
+            schedule_at: z.string().nullable(),
+            result: z.object({
+                platform_post_id: z.string(),
+                permalink: z.string().nullable(),
+                published_at: z.string()
+            }).nullable(),
+            error: z.object({
+                code: z.string(),
+                message: z.string(),
+                display_error: z.string()
+            }).nullable(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                position: z.int().gte(-9007199254740991).lte(9007199254740991),
+                crop_box: z.record(z.string(), z.unknown()).nullable(),
+                alt_text_override: z.string().nullable()
+            }))
+        })
+    ])),
+    created_at: z.string(),
+    updated_at: z.string(),
+    dry_run: z.boolean(),
+    executed: z.boolean()
+});
+
+export const zPostsValidateBody = z.object({
+    profile_id: z.string(),
+    variants: z.array(z.union([
+        z.object({
+            platform: z.literal('x'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            settings: z.object({
+                reply_settings: z.enum([
+                    'everyone',
+                    'following',
+                    'mentionedUsers',
+                    'subscribers',
+                    'verified'
+                ]).optional(),
+                quote_tweet_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                poll: z.object({
+                    options: z.array(z.string().min(1).max(25)).min(2).max(4),
+                    duration_minutes: z.int().gte(5).lte(10080),
+                    reply_settings: z.enum([
+                        'following',
+                        'mentionedUsers',
+                        'subscribers',
+                        'verified'
+                    ]).optional()
+                }).optional(),
+                reply: z.object({
+                    in_reply_to_tweet_id: z.string().regex(/^[0-9]{1,19}$/),
+                    exclude_reply_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).optional(),
+                    auto_populate_reply_metadata: z.boolean().optional()
+                }).optional(),
+                community_id: z.string().regex(/^[0-9]{1,19}$/).optional(),
+                for_super_followers_only: z.boolean().optional(),
+                geo: z.object({
+                    place_id: z.string()
+                }).optional(),
+                card_uri: z.string().optional(),
+                media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('linkedin'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'video'
+            ]),
+            settings: z.object({
+                visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
+                content_kind: z.enum([
+                    'text',
+                    'single_image',
+                    'video',
+                    'multi_image',
+                    'document',
+                    'article',
+                    'poll'
+                ]),
+                article: z.object({
+                    source: z.url(),
+                    title: z.string().max(400).optional(),
+                    description: z.string().max(4086).optional(),
+                    thumbnail_media_id: z.string().optional()
+                }).optional(),
+                poll: z.object({
+                    question: z.string().min(1).max(140),
+                    options: z.array(z.string().min(1).max(30)).min(2).max(4),
+                    duration: z.enum([
+                        'ONE_DAY',
+                        'THREE_DAYS',
+                        'SEVEN_DAYS',
+                        'FOURTEEN_DAYS'
+                    ])
+                }).optional(),
+                document: z.object({
+                    title: z.string().min(1).max(400)
+                }).optional(),
+                disable_reshare: z.boolean().optional(),
+                mentions: z.array(z.object({
+                    type: z.enum(['person', 'organization']),
+                    name: z.string().min(1),
+                    urn: z.string().regex(/^urn:li:(person|organization):/)
+                })).optional()
+            }),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('instagram'),
+            post_type: z.enum([
+                'single_image',
+                'carousel',
+                'reel'
+            ]),
+            settings: z.object({
+                media_type: z.enum([
+                    'IMAGE',
+                    'CAROUSEL',
+                    'REELS'
+                ]).optional(),
+                location_id: z.string().optional(),
+                user_tags: z.array(z.object({
+                    username: z.string().min(1),
+                    x: z.number().gte(0).lte(1),
+                    y: z.number().gte(0).lte(1)
+                })).optional(),
+                collaborators: z.array(z.string().min(1)).max(3).optional(),
+                share_to_feed: z.boolean().optional(),
+                thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
+                cover_url: z.url().optional(),
+                audio_name: z.string().optional()
+            }),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('facebook_page'),
+            post_type: z.enum([
+                'text',
+                'single_image',
+                'multi_image',
+                'reel'
+            ]),
+            settings: z.object({
+                link: z.url().optional()
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
+        }),
+        z.object({
+            platform: z.literal('tiktok'),
+            post_type: z.enum([
+                'video',
+                'single_image',
+                'carousel'
+            ]),
+            settings: z.object({
+                privacy_level: z.enum([
+                    'PUBLIC_TO_EVERYONE',
+                    'MUTUAL_FOLLOW_FRIENDS',
+                    'FOLLOWER_OF_CREATOR',
+                    'SELF_ONLY'
+                ]).optional(),
+                disable_comment: z.boolean().optional(),
+                disable_duet: z.boolean().optional(),
+                disable_stitch: z.boolean().optional(),
+                video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+                photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
+                auto_add_music: z.boolean().optional(),
+                brand_content_toggle: z.boolean().optional(),
+                brand_organic_toggle: z.boolean().optional(),
+                is_aigc: z.boolean().optional()
+            }).optional().default({}),
+            connection_id: z.string(),
+            body: z.string().optional(),
+            media: z.array(z.object({
+                media_id: z.string(),
+                crop_box: z.record(z.string(), z.unknown()).nullish(),
+                alt_text_override: z.string().nullish()
+            })).optional().default([])
         })
     ])).min(1)
 });

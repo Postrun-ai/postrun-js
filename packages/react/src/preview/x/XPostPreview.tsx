@@ -1,6 +1,5 @@
 'use client';
 
-import type { XPostVariant } from '@postrun/js';
 import { memo, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 import {
@@ -18,6 +17,7 @@ import type {
   PreviewMedia,
   XPreviewAuthor,
   XPreviewQuotedTweet,
+  XPreviewVariant,
 } from '../types';
 import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
 import { XPoll } from './XPoll';
@@ -26,8 +26,9 @@ import { makeRawMediaImg, rawSrcLookup } from './raw-media';
 import { toTweet } from './to-tweet';
 
 export interface XPostPreviewProps {
-  /** The X variant from our schema — the content source, untouched. */
-  variant: XPostVariant;
+  /** The X variant — either a compose-time write variant or a fetched read
+   * variant (both carry the typed settings/body the card renders). */
+  variant: XPreviewVariant;
   /** Author identity (not stored on our connection — supplied by you). */
   author: XPreviewAuthor;
   /** Resolved media pixels (URLs or compose-time File blobs). */

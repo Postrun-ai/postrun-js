@@ -7,8 +7,8 @@ import { XPostPreview } from './XPostPreview';
 
 const author: XPreviewAuthor = {
   name: 'Acme Studio',
-  handle: 'acmestudio',
-  avatarUrl: 'https://cdn.test/acme.png',
+  username: 'acmestudio',
+  avatar_url: 'https://cdn.test/acme.png',
   verified: true,
 };
 
@@ -84,6 +84,21 @@ describe('<XPostPreview>', () => {
     expect(screen.getByAltText('a cat')).toBeDefined();
   });
 
+  it("renders media with the ORIGINAL src, not react-tweet's Twitter-CDN transform", () => {
+    // react-tweet's getMediaUrl rewrites the path + appends ?format=&name= for
+    // pbs.twimg.com; for a customer CDN url that 404s (path stripped). We must
+    // render the raw url instead.
+    render(
+      <XPostPreview
+        variant={xVariant({ post_type: 'single_image' })}
+        author={author}
+        media={[{ kind: 'image', url: 'https://cdn.customer.com/photo.jpg' }]}
+      />,
+    );
+    const img = screen.getByAltText('Image');
+    expect(img.getAttribute('src')).toBe('https://cdn.customer.com/photo.jpg');
+  });
+
   it("falls back to the variant media's alt_text_override when no alt is given", () => {
     render(
       <XPostPreview
@@ -104,7 +119,7 @@ describe('<XPostPreview>', () => {
         variant={xVariant({ settings: { quote_tweet_id: '123' } })}
         author={author}
         quotedTweet={{
-          author: { name: 'Quoted Co', handle: 'quotedco' },
+          author: { name: 'Quoted Co', username: 'quotedco', avatar_url: null },
           body: 'original take',
         }}
       />,

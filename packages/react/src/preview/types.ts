@@ -16,30 +16,32 @@ import type { Connection, MediaKind } from '@postrun/js';
  * preview author derives from (so the field names + nullability match the API). */
 export type ConnectionIdentity = Pick<Connection, 'username' | 'avatar_url'>;
 
-/** The author identity rendered in an X preview header. */
-export interface XPreviewAuthor {
-  /** Display name, e.g. "Acme Studio". */
+/**
+ * The author identity rendered in an X preview header. `username` (the `@handle`)
+ * and `avatar_url` are DERIVED from the SDK `Connection`; `name` (the display
+ * name) and `verified` are presentation extras our API doesn't store.
+ */
+export type XPreviewAuthor = ConnectionIdentity & {
+  /** Display name, e.g. "Acme Studio". NOT on Connection — caller-supplied. */
   name: string;
-  /** Handle WITHOUT the leading `@`, e.g. "acmestudio". */
-  handle: string;
-  /** Avatar image URL. Omit for a neutral placeholder. */
-  avatarUrl?: string;
-  /** Show the verified badge. Default false. */
+  /** Show the verified badge. NOT on Connection — caller-supplied. */
   verified?: boolean;
-}
+};
 
-/** The author identity rendered in a LinkedIn preview header. LinkedIn shows a
- * name + a one-line headline (role/tagline), not an `@handle`. */
-export interface LinkedInPreviewAuthor {
-  /** Display name, e.g. "Acme Studio". */
+/**
+ * The author identity rendered in a LinkedIn preview header. LinkedIn shows a
+ * display `name` + a one-line `headline`. `username`/`avatar_url` are DERIVED
+ * from the SDK `Connection`; `name`/`headline`/`verified` are presentation extras
+ * our API doesn't store (LinkedIn's `username` is also documented as NULL today).
+ */
+export type LinkedInPreviewAuthor = ConnectionIdentity & {
+  /** Display name, e.g. "Acme Studio". NOT on Connection — caller-supplied. */
   name: string;
-  /** One-line headline under the name, e.g. "Founder & CEO at Acme". */
+  /** One-line headline under the name. NOT on Connection — caller-supplied. */
   headline?: string;
-  /** Avatar image URL. Omit for a neutral placeholder. */
-  avatarUrl?: string;
-  /** Show the verified badge. Default false. */
+  /** Show the verified badge. NOT on Connection — caller-supplied. */
   verified?: boolean;
-}
+};
 
 /**
  * The author identity rendered in an Instagram preview header. Instagram shows

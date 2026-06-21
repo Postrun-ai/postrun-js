@@ -37,7 +37,16 @@ export function ExpandableText({
     if (!el || expanded) {
       return;
     }
-    setOverflowing(el.scrollHeight > el.clientHeight + 1);
+    const measure = () => setOverflowing(el.scrollHeight > el.clientHeight + 1);
+    measure();
+    // Re-measure on reflow (e.g. a web font swapping in after first paint would
+    // otherwise leave `overflowing` computed against the wrong metrics).
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, [expanded, children]);
 
   const textStyle: CSSProperties = expanded

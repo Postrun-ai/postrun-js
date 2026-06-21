@@ -54,8 +54,8 @@ function Carousel({ media }: { media: readonly ResolvedMedia[] }) {
     <div style={frameStyle}>
       <div ref={emblaRef} style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
         <div style={{ display: 'flex', height: '100%' }}>
-          {media.map((item, i) => (
-            <div key={`${item.src}-${i}`} style={slideStyle}>
+          {media.map((item) => (
+            <div key={item.src} style={slideStyle}>
               <Tile item={item} />
             </div>
           ))}
@@ -67,7 +67,7 @@ function Carousel({ media }: { media: readonly ResolvedMedia[] }) {
       <div style={dotsStyle}>
         {media.map((item, i) => (
           <span
-            key={`dot-${item.src}-${i}`}
+            key={`dot-${item.src}`}
             style={{ ...dotStyle, opacity: i === selected ? 1 : 0.5 }}
           />
         ))}

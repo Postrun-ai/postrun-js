@@ -23,16 +23,19 @@ export function varRef(name: string): string {
   return `var(${name})`;
 }
 
-/** The palette, expressed as `light-dark(light, dark)` so it tracks the resolved
- * `color-scheme`. Spread onto the card alongside `colorSchemeFor(theme)`. */
+/** The palette as `light-dark(light, dark)` so it tracks the resolved
+ * `color-scheme`. A stable module const (no per-render allocation); spread onto
+ * the card alongside `colorSchemeFor(theme)`. */
+const PALETTE_VARS: Record<string, string> = {
+  [IG_VAR.bg]: 'light-dark(#ffffff, #000000)',
+  [IG_VAR.text]: 'light-dark(#000000, #f5f5f5)',
+  [IG_VAR.muted]: 'light-dark(#737373, #a8a8a8)',
+  [IG_VAR.border]: 'light-dark(#dbdbdb, #262626)',
+  [IG_VAR.accent]: 'light-dark(#00376b, #e0f1ff)',
+};
+
 export function paletteVars(): Record<string, string> {
-  return {
-    [IG_VAR.bg]: 'light-dark(#ffffff, #000000)',
-    [IG_VAR.text]: 'light-dark(#000000, #f5f5f5)',
-    [IG_VAR.muted]: 'light-dark(#737373, #a8a8a8)',
-    [IG_VAR.border]: 'light-dark(#dbdbdb, #262626)',
-    [IG_VAR.accent]: 'light-dark(#00376b, #e0f1ff)',
-  };
+  return PALETTE_VARS;
 }
 
 /** The `color-scheme` for a theme: the explicit scheme, or `light dark` for

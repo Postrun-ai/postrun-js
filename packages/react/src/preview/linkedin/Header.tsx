@@ -1,3 +1,4 @@
+import type { LinkedInPostVariant } from '@postrun/js';
 import { FiGlobe, FiUsers } from 'react-icons/fi';
 import { LuBadgeCheck } from 'react-icons/lu';
 
@@ -11,7 +12,10 @@ import { LI_VAR, varRef } from './theme';
  * react-icons — no hand-drawn paths.
  */
 
-export type LinkedInVisibility = 'PUBLIC' | 'CONNECTIONS';
+/** Audience for a member post — DERIVED from the contract, never hand-listed. */
+export type LinkedInVisibility = NonNullable<
+  LinkedInPostVariant['settings']
+>['visibility'];
 
 const PLACEHOLDER_AVATAR =
   'data:image/svg+xml;utf8,' +
@@ -31,7 +35,7 @@ export function Header({ author, visibility, time = 'Now' }: HeaderProps) {
   return (
     <div style={{ display: 'flex', gap: 8, padding: '12px 16px 0' }}>
       <img
-        src={author.avatarUrl ?? PLACEHOLDER_AVATAR}
+        src={author.avatar_url ?? PLACEHOLDER_AVATAR}
         alt=""
         width={48}
         height={48}

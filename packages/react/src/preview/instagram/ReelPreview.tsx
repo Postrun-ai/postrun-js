@@ -1,3 +1,5 @@
+'use client';
+
 import type { CSSProperties } from 'react';
 import {
   FiBookmark,
@@ -8,13 +10,25 @@ import {
 } from 'react-icons/fi';
 import { MdMusicNote, MdVerified } from 'react-icons/md';
 
+import { ExpandableText } from '../ExpandableText';
 import type { InstagramPreviewAuthor, ResolvedMedia } from '../types';
+
+export interface ReelPreviewProps {
+  author: InstagramPreviewAuthor;
+  body: string;
+  media: readonly ResolvedMedia[];
+  /** The reel's audio label (`settings.audio_name`); defaults to "Original audio". */
+  audioName?: string;
+  className?: string;
+  style?: CSSProperties;
+}
 
 /**
  * An Instagram Reel preview — the 9:16 vertical card: full-bleed video, the
  * username/verified + caption overlaid bottom-left, an audio row ("♪ <audio>"),
  * and the right action rail (like/comment/share/save/more — no fabricated
- * counts). Always dark, like the real Reels surface.
+ * counts). Always dark, like the real Reels surface. The caption uses the shared
+ * `ExpandableText` fold so the full text is readable (no silent truncation).
  */
 export function ReelPreview({
   author,
@@ -23,16 +37,9 @@ export function ReelPreview({
   audioName,
   className,
   style,
-}: {
-  author: InstagramPreviewAuthor;
-  body: string;
-  media: readonly ResolvedMedia[];
-  audioName?: string;
-  className?: string;
-  style?: CSSProperties;
-}) {
+}: ReelPreviewProps) {
   const first = media[0];
-  const username = author.username ?? '';
+  const username = author.username;
 
   return (
     <div className={className} style={{ ...cardStyle, ...style }}>
@@ -55,12 +62,22 @@ export function ReelPreview({
 
       <div style={infoStyle}>
         <div style={authorRowStyle}>
-          <span style={{ fontWeight: 600, fontSize: 14 }}>{username}</span>
+          {username ? (
+            <span style={{ fontWeight: 600, fontSize: 14 }}>{username}</span>
+          ) : null}
           {author.verified ? (
             <MdVerified size={13} aria-label="Verified" role="img" style={{ color: '#fff' }} />
           ) : null}
         </div>
-        {body ? <div style={captionStyle}>{body}</div> : null}
+        {body ? (
+          <ExpandableText
+            lines={2}
+            toggleColor="rgba(255,255,255,0.7)"
+            style={captionStyle}
+          >
+            {body}
+          </ExpandableText>
+        ) : null}
         <div style={audioStyle}>
           <MdMusicNote size={14} aria-hidden />
           <span>{audioName ?? 'Original audio'}</span>
@@ -127,10 +144,6 @@ const authorRowStyle: CSSProperties = {
 const captionStyle: CSSProperties = {
   fontSize: 13,
   lineHeight: 1.35,
-  display: '-webkit-box',
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
 };
 
 const audioStyle: CSSProperties = {

@@ -9,8 +9,8 @@ import type {
 
 export const author: XPreviewAuthor = {
   name: 'Acme Studio',
-  handle: 'acmestudio',
-  avatarUrl:
+  username: 'acmestudio',
+  avatar_url:
     'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop',
   verified: true,
 };
@@ -83,7 +83,7 @@ export const X_SAMPLES: XSample[] = [
     }),
     media: [],
     quotedTweet: {
-      author: { name: 'Jane Dev', handle: 'janedev', verified: true },
+      author: { name: 'Jane Dev', username: 'janedev', avatar_url: null, verified: true },
       body: 'The best preview is the one that looks identical to the real thing.',
     },
   },

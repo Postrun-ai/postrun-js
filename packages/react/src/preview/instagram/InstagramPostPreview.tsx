@@ -58,8 +58,9 @@ function InstagramPostPreviewImpl({
   );
 
   const settings = variant.settings;
-  const isReel =
-    variant.post_type === 'reel' || settings?.media_type === 'REELS';
+  // `post_type` is the authoritative discriminator (the contract). `media_type`
+  // is an optional hint, so we never let it override post_type.
+  const isReel = variant.post_type === 'reel';
 
   if (isReel) {
     return (
@@ -97,7 +98,7 @@ function InstagramPostPreviewImpl({
       <Actions />
       {variant.body ? (
         <div style={{ paddingBottom: 12 }}>
-          <Caption username={author.username ?? ''} body={variant.body} />
+          <Caption username={author.username} body={variant.body} />
         </div>
       ) : null}
     </div>

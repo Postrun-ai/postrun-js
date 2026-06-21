@@ -6,8 +6,8 @@ import { toTweet } from './to-tweet';
 
 const author: XPreviewAuthor = {
   name: 'Acme Studio',
-  handle: 'acmestudio',
-  avatarUrl: 'https://cdn.test/acme.png',
+  username: 'acmestudio',
+  avatar_url: 'https://cdn.test/acme.png',
   verified: true,
 };
 
@@ -49,7 +49,7 @@ describe('toTweet — author → user', () => {
   it('omits the verified badge by default', () => {
     const tweet = toTweet({
       variant: xVariant(),
-      author: { name: 'No Badge', handle: 'nobadge' },
+      author: { name: 'No Badge', username: 'nobadge', avatar_url: null },
     });
     expect(tweet.user.is_blue_verified).toBe(false);
   });
@@ -57,7 +57,7 @@ describe('toTweet — author → user', () => {
   it('falls back to a non-empty placeholder avatar when none is given', () => {
     const tweet = toTweet({
       variant: xVariant(),
-      author: { name: 'No Avatar', handle: 'noavatar' },
+      author: { name: 'No Avatar', username: 'noavatar', avatar_url: null },
     });
     expect(tweet.user.profile_image_url_https.length).toBeGreaterThan(0);
   });
@@ -163,7 +163,7 @@ describe('toTweet — quote tweet', () => {
       variant: xVariant({ settings: { quote_tweet_id: '123' } }),
       author,
       quotedTweet: {
-        author: { name: 'Quoted Co', handle: 'quotedco' },
+        author: { name: 'Quoted Co', username: 'quotedco', avatar_url: null },
         body: 'original take',
       },
     });

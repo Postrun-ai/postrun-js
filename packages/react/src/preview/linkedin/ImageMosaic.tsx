@@ -62,7 +62,6 @@ function Tile({
       <img src={item.src} alt={item.alt ?? ''} style={IMG_STYLE} />
       {overlay ? (
         <div
-          aria-hidden={false}
           style={{
             position: 'absolute',
             inset: 0,

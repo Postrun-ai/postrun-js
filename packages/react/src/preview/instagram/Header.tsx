@@ -1,3 +1,5 @@
+'use client';
+
 import type { CSSProperties } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { MdVerified } from 'react-icons/md';

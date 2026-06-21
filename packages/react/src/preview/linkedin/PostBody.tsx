@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 
 /**
@@ -98,7 +98,14 @@ function linkify(
       );
     } else if (token.startsWith('#')) {
       nodes.push(
-        <a key={key++} href="#" style={linkStyle(colors.accent)}>
+        // Preview-only hashtag: no real destination, so prevent the host SPA from
+        // navigating / scrolling to top on click.
+        <a
+          key={key++}
+          href="#"
+          style={linkStyle(colors.accent)}
+          onClick={(e) => e.preventDefault()}
+        >
           {token}
         </a>,
       );
@@ -123,26 +130,36 @@ export function PostBody({ text, mentionNames = [], colors }: PostBodyProps) {
   const isLong = text.length > FOLD_CHARS;
   const shown = isLong && !expanded ? truncateAtWord(text, FOLD_CHARS) : text;
 
+  // Recompute the entity-highlighted nodes only when the rendered text/colors/
+  // mentions change — not on every parent re-render.
+  const nodes = useMemo(
+    () => linkify(shown, colors, mentionNames),
+    [shown, colors, mentionNames],
+  );
+
+  const toggleStyle: CSSProperties = {
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    color: colors.muted,
+    fontWeight: 600,
+    fontSize: 14,
+  };
+
   return (
     <div style={BODY_STYLE}>
-      {linkify(shown, colors, mentionNames)}
-      {isLong && !expanded ? (
+      {nodes}
+      {isLong ? (
         <>
-          {'…'}{' '}
+          {!expanded ? '… ' : ' '}
           <button
             type="button"
-            onClick={() => setExpanded(true)}
-            style={{
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              cursor: 'pointer',
-              color: colors.muted,
-              fontWeight: 600,
-              fontSize: 14,
-            }}
+            aria-expanded={expanded}
+            onClick={() => setExpanded((v) => !v)}
+            style={toggleStyle}
           >
-            more
+            {expanded ? 'see less' : 'more'}
           </button>
         </>
       ) : null}

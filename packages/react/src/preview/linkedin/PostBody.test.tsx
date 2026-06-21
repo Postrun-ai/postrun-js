@@ -28,6 +28,18 @@ describe('<PostBody>', () => {
     expect(screen.getByText(new RegExp(tail))).toBeDefined();
   });
 
+  it('collapses again when "see less" is clicked after expanding', () => {
+    const tail = 'THE_HIDDEN_TAIL_SENTENCE';
+    const text = `${'word '.repeat(60)}${tail}`;
+    render(<PostBody text={text} colors={colors} />);
+
+    fireEvent.click(screen.getByRole('button', { name: /more/i }));
+    expect(screen.getByText(new RegExp(tail))).toBeDefined();
+
+    fireEvent.click(screen.getByRole('button', { name: /see less/i }));
+    expect(screen.queryByText(new RegExp(tail))).toBeNull();
+  });
+
   it('highlights a hashtag as a styled link', () => {
     render(<PostBody text="big news #launch today" colors={colors} />);
     const tag = screen.getByText('#launch');

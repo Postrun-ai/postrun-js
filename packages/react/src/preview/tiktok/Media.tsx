@@ -96,15 +96,20 @@ function EmptyMedia() {
   return <div style={emptyStyle}>No media yet</div>;
 }
 
-/** Shimmer placeholder while the asset's pixels are still being processed. */
+/** Shimmer placeholder while the asset's pixels are still being processed. The
+ * keyframe is injected here (not only in the parent) so `<Media>` animates even
+ * when used standalone. */
 function ProcessingMedia() {
   return (
     <div style={emptyStyle}>
+      <style>{SHIMMER_KEYFRAME}</style>
       <div style={shimmerStyle} />
       <span style={{ position: 'relative', zIndex: 1 }}>Processing media…</span>
     </div>
   );
 }
+
+const SHIMMER_KEYFRAME = `@keyframes pr-tt-shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}`;
 
 const coverStyle: CSSProperties = {
   position: 'absolute',

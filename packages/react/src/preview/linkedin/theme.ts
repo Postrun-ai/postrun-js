@@ -24,15 +24,18 @@ export function varRef(name: string): string {
 }
 
 /** The palette as `light-dark(light, dark)` so it tracks the resolved
- * `color-scheme`. Spread onto the card alongside `colorSchemeFor(theme)`. */
+ * `color-scheme`. A stable module const (no per-render allocation); spread onto
+ * the card alongside `colorSchemeFor(theme)`. */
+const PALETTE_VARS: Record<string, string> = {
+  [LI_VAR.bg]: 'light-dark(#ffffff, #1b1f23)',
+  [LI_VAR.text]: 'light-dark(rgba(0,0,0,0.9), rgba(255,255,255,0.9))',
+  [LI_VAR.muted]: 'light-dark(rgba(0,0,0,0.6), rgba(255,255,255,0.6))',
+  [LI_VAR.border]: 'light-dark(rgba(0,0,0,0.08), rgba(255,255,255,0.15))',
+  [LI_VAR.accent]: 'light-dark(rgb(10,102,194), rgb(112,181,249))',
+};
+
 export function paletteVars(): Record<string, string> {
-  return {
-    [LI_VAR.bg]: 'light-dark(#ffffff, #1b1f23)',
-    [LI_VAR.text]: 'light-dark(rgba(0,0,0,0.9), rgba(255,255,255,0.9))',
-    [LI_VAR.muted]: 'light-dark(rgba(0,0,0,0.6), rgba(255,255,255,0.6))',
-    [LI_VAR.border]: 'light-dark(rgba(0,0,0,0.08), rgba(255,255,255,0.15))',
-    [LI_VAR.accent]: 'light-dark(rgb(10,102,194), rgb(112,181,249))',
-  };
+  return PALETTE_VARS;
 }
 
 /** The `color-scheme` for a theme: explicit, or `light dark` for `auto`. */

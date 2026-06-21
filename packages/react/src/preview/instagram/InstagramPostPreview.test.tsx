@@ -126,6 +126,19 @@ describe('<InstagramPostPreview>', () => {
     expect(container.querySelectorAll('img').length).toBeGreaterThan(1);
   });
 
+  it('renders a FEED card (not a reel) when post_type is single_image even if media_type is REELS', () => {
+    const { container } = render(
+      <InstagramPostPreview
+        variant={igVariant({ post_type: 'single_image', settings: { media_type: 'REELS' } })}
+        author={author}
+        media={image}
+      />,
+    );
+    // a reel autoplays a <video>; a feed card renders an <img>
+    expect(container.querySelector('video')).toBeNull();
+    expect(container.querySelector('img')).not.toBeNull();
+  });
+
   it('renders a reel (vertical video + audio label)', () => {
     const { container } = render(
       <InstagramPostPreview

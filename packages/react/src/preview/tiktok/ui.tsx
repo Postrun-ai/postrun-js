@@ -31,12 +31,28 @@ export function Row({
   control: ReactNode;
   htmlFor?: string;
 }) {
+  const text = (
+    <>
+      <span style={{ fontSize: 14 }}>{label}</span>
+      {sublabel ? <span style={{ fontSize: 12, color: MUTED }}>{sublabel}</span> : null}
+    </>
+  );
+  const textStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+  };
   return (
     <div style={rowStyle}>
-      <label htmlFor={htmlFor} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <span style={{ fontSize: 14 }}>{label}</span>
-        {sublabel ? <span style={{ fontSize: 12, color: MUTED }}>{sublabel}</span> : null}
-      </label>
+      {/* Only a <label> when it targets a control; our Switch is a <button> (no
+          htmlFor), so a label there would point at nothing. */}
+      {htmlFor ? (
+        <label htmlFor={htmlFor} style={textStyle}>
+          {text}
+        </label>
+      ) : (
+        <span style={textStyle}>{text}</span>
+      )}
       {control}
     </div>
   );

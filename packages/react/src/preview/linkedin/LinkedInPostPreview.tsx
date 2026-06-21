@@ -1,7 +1,7 @@
 'use client';
 
 import type { LinkedInPostVariant } from '@postrun/js';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
 import type { LinkedInPreviewAuthor, PreviewMedia, ResolvedMedia } from '../types';
@@ -58,6 +58,13 @@ export interface LinkedInPostPreviewProps {
 const FONT_STACK =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
 
+// The body entity colors are CSS `var()` refs — constant, so hoist out of render
+// to keep a stable identity for the memoized PostBody.
+const BODY_COLORS = {
+  accent: varRef(LI_VAR.accent),
+  muted: varRef(LI_VAR.muted),
+};
+
 function LinkedInPostPreviewImpl({
   variant,
   author,
@@ -76,11 +83,10 @@ function LinkedInPostPreviewImpl({
 
   const visibility: LinkedInVisibility =
     variant.settings?.visibility ?? 'PUBLIC';
-  const mentionNames = (variant.settings?.mentions ?? []).map((m) => m.name);
-  const bodyColors = {
-    accent: varRef(LI_VAR.accent),
-    muted: varRef(LI_VAR.muted),
-  };
+  const mentionNames = useMemo(
+    () => (variant.settings?.mentions ?? []).map((m) => m.name),
+    [variant.settings?.mentions],
+  );
 
   const cardStyle: CSSProperties = {
     ...paletteVars(),
@@ -103,7 +109,7 @@ function LinkedInPostPreviewImpl({
           <PostBody
             text={variant.body}
             mentionNames={mentionNames}
-            colors={bodyColors}
+            colors={BODY_COLORS}
           />
         </div>
       ) : null}

@@ -7,7 +7,8 @@ import type { LinkedInPreviewAuthor, PreviewMedia } from '@preview/types';
 export const author: LinkedInPreviewAuthor = {
   name: 'Acme Studio',
   headline: 'Design & engineering for ambitious teams',
-  avatarUrl:
+  username: 'acmestudio',
+  avatar_url:
     'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop',
   verified: true,
 };

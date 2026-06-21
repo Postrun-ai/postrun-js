@@ -1,5 +1,37 @@
 # @postrun/react
 
+## 2.9.0
+
+### Minor Changes
+
+- Code-review fixes across all four previews (quality, SDK-driven types, robustness, perf).
+
+  - **X media now renders the original src.** `react-tweet`'s `getMediaUrl` rewrites
+    the path + appends `?format=&name=` (only valid for `pbs.twimg.com`), which 404'd
+    customer-CDN images and broke compose-time `blob:` URLs. A `MediaImg` that maps
+    react-tweet's transform back to our raw url fixes it (tested).
+  - **Author types are now SDK-driven.** `XPreviewAuthor` and `LinkedInPreviewAuthor`
+    derive `username`/`avatar_url` from the SDK `Connection` (like `InstagramPreviewAuthor`);
+    `name`/`headline`/`verified` remain caller-supplied (the fields our API doesn't
+    store). **Breaking:** `handle`→`username`, `avatarUrl`→`avatar_url`.
+  - **`LinkedInVisibility`** now derives from the contract instead of a hand-listed union.
+  - **Consumability:** `ResolvedMedia`, `ConnectionIdentity`, and `ReelPreviewProps`
+    are now exported from the package root.
+  - **`ReelPreview`:** added `'use client'`, uses the shared `ExpandableText` fold
+    (no silent truncation), handles a null `username`, and exports its props.
+  - **Robustness:** Instagram `Caption` handles a null username; `isReel` keys off the
+    authoritative `post_type` only; `FeedMedia` carousel keys are stable across reorder.
+  - **Perf:** hoisted the theme `paletteVars` + LinkedIn body colors to module consts;
+    memoized LinkedIn `linkify`/`mentionNames`.
+  - **a11y:** TikTok audience `<select>` is labelled; the options `Row` only renders a
+    `<label>` when it targets a control; LinkedIn hashtags no longer scroll-to-top.
+  - **Tests:** `ExpandableText` (fold), LinkedIn PostBody collapse + content-kind
+    dispatch, Instagram `isReel` negative case, X raw-media src.
+
+### Patch Changes
+
+- @postrun/js@2.9.0
+
 ## 2.8.0
 
 ### Minor Changes

@@ -23,15 +23,18 @@ export function varRef(name: string): string {
 }
 
 /** The palette as `light-dark(light, dark)` so it tracks the resolved
- * `color-scheme`. Spread onto the panel root alongside `colorSchemeFor(theme)`. */
+ * `color-scheme`. A stable module const (no per-render allocation); spread onto
+ * the panel root alongside `colorSchemeFor(theme)`. */
+const PALETTE_VARS: Record<string, string> = {
+  [TT_VAR.text]: 'light-dark(rgba(0,0,0,0.9), rgba(255,255,255,0.92))',
+  [TT_VAR.muted]: 'light-dark(rgba(0,0,0,0.55), #8a8a92)',
+  [TT_VAR.border]: 'light-dark(rgba(0,0,0,0.12), rgba(255,255,255,0.14))',
+  [TT_VAR.accent]: '#fe2c55',
+  [TT_VAR.switchOff]: 'light-dark(rgba(0,0,0,0.18), rgba(255,255,255,0.22))',
+};
+
 export function paletteVars(): Record<string, string> {
-  return {
-    [TT_VAR.text]: 'light-dark(rgba(0,0,0,0.9), rgba(255,255,255,0.92))',
-    [TT_VAR.muted]: 'light-dark(rgba(0,0,0,0.55), #8a8a92)',
-    [TT_VAR.border]: 'light-dark(rgba(0,0,0,0.12), rgba(255,255,255,0.14))',
-    [TT_VAR.accent]: '#fe2c55',
-    [TT_VAR.switchOff]: 'light-dark(rgba(0,0,0,0.18), rgba(255,255,255,0.22))',
-  };
+  return PALETTE_VARS;
 }
 
 /** The `color-scheme` for a theme: explicit, or `light dark` for `auto` (which

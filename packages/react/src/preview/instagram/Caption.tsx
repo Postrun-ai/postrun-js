@@ -18,7 +18,8 @@ export function Caption({
   username,
   body,
 }: {
-  username: string;
+  /** Author handle (`Connection.username`, nullable). Omitted when absent. */
+  username: string | null;
   body: string;
 }) {
   const parts = body.split(TOKEN);
@@ -29,7 +30,7 @@ export function Caption({
       toggleColor={varRef(IG_VAR.muted)}
       style={wrapStyle}
     >
-      <span style={{ fontWeight: 600 }}>{username} </span>
+      {username ? <span style={{ fontWeight: 600 }}>{username} </span> : null}
       {parts.map((part, i) =>
         IS_TOKEN.test(part) ? (
           <span key={i} style={{ color: varRef(IG_VAR.accent) }}>

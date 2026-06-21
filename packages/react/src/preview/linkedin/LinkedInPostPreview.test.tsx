@@ -8,7 +8,8 @@ import { LinkedInPostPreview } from './LinkedInPostPreview';
 const author: LinkedInPreviewAuthor = {
   name: 'Acme Studio',
   headline: 'Founder & CEO at Acme',
-  avatarUrl: 'https://cdn.test/acme.png',
+  username: 'acmestudio',
+  avatar_url: 'https://cdn.test/acme.png',
   verified: true,
 };
 
@@ -99,5 +100,55 @@ describe('<LinkedInPostPreview>', () => {
       />,
     );
     expect(container.firstElementChild?.className).toContain('my-li');
+  });
+
+  it('dispatches to the article card for content_kind: article', () => {
+    render(
+      <LinkedInPostPreview
+        variant={liVariant({
+          settings: {
+            visibility: 'PUBLIC',
+            content_kind: 'article',
+            article: { source: 'https://acme.com/x', title: 'We launched' },
+          },
+        })}
+        author={author}
+      />,
+    );
+    expect(screen.getByText('We launched')).toBeDefined();
+    expect(screen.getByText('acme.com')).toBeDefined();
+  });
+
+  it('dispatches to the poll for content_kind: poll', () => {
+    render(
+      <LinkedInPostPreview
+        variant={liVariant({
+          settings: {
+            visibility: 'PUBLIC',
+            content_kind: 'poll',
+            poll: { question: 'Best day?', options: ['Mon', 'Fri'], duration: 'ONE_DAY' },
+          },
+        })}
+        author={author}
+      />,
+    );
+    expect(screen.getByText('Best day?')).toBeDefined();
+    expect(screen.getByText('Mon')).toBeDefined();
+  });
+
+  it('dispatches to the document card for content_kind: document', () => {
+    render(
+      <LinkedInPostPreview
+        variant={liVariant({
+          settings: {
+            visibility: 'PUBLIC',
+            content_kind: 'document',
+            document: { title: 'Q3 Deck.pdf' },
+          },
+        })}
+        author={author}
+      />,
+    );
+    expect(screen.getByText('Q3 Deck.pdf')).toBeDefined();
   });
 });

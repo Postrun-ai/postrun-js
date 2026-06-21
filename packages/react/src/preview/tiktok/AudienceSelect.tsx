@@ -8,7 +8,6 @@ import {
   parsePrivacyLevel,
   tiktokPrivacyLabel,
 } from '@postrun/js';
-import { useId } from 'react';
 import type { CSSProperties } from 'react';
 
 import { Hint, SectionLabel, TOKENS } from './ui';
@@ -28,7 +27,6 @@ export function AudienceSelect({
   value: TikTokOptionsValue;
   onChange: (value: TikTokOptionsValue) => void;
 }) {
-  const id = useId();
   const options = audiencePrivacyOptions(creatorInfo.privacy_options, value);
   const unselected = audienceUnselected(value);
 
@@ -36,7 +34,7 @@ export function AudienceSelect({
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <SectionLabel>Who can view this post</SectionLabel>
       <select
-        id={id}
+        aria-label="Who can view this post"
         value={value.privacy_level ?? ''}
         onChange={(e) =>
           onChange({

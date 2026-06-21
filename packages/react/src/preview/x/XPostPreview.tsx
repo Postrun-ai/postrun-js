@@ -22,6 +22,7 @@ import type {
 import { altSignatureOf, useResolvedMedia } from '../use-resolved-media';
 import { XPoll } from './XPoll';
 import { XPreviewActions } from './XPreviewActions';
+import { makeRawMediaImg, rawSrcLookup } from './raw-media';
 import { toTweet } from './to-tweet';
 
 export interface XPostPreviewProps {
@@ -66,7 +67,7 @@ function XPostPreviewImpl({
   showActions = true,
   className,
   style,
-  components,
+  components: componentsProp,
 }: XPostPreviewProps) {
   const resolvedMedia = useResolvedMedia(
     media,
@@ -74,6 +75,19 @@ function XPostPreviewImpl({
     altSignatureOf(variant.media),
   );
   const resolvedQuotedMedia = useResolvedMedia(quotedTweet?.media, undefined, '');
+
+  // react-tweet transforms media src for Twitter's CDN; map that transform back
+  // to our raw url so customer/compose-time media renders. Customer `components`
+  // override still wins (spread last).
+  const components = useMemo<TwitterComponents>(
+    () => ({
+      MediaImg: makeRawMediaImg(
+        rawSrcLookup(resolvedMedia, resolvedQuotedMedia),
+      ),
+      ...componentsProp,
+    }),
+    [resolvedMedia, resolvedQuotedMedia, componentsProp],
+  );
 
   const tweet = useMemo(() => {
     const resolvedQuoted = quotedTweet

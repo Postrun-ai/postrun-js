@@ -63,9 +63,12 @@ function buildUser(author: XPreviewAuthor): TweetUser {
   return {
     id_str: '',
     name: author.name,
-    profile_image_url_https: author.avatarUrl ?? PLACEHOLDER_AVATAR,
+    profile_image_url_https: author.avatar_url ?? PLACEHOLDER_AVATAR,
     profile_image_shape: 'Circle',
-    screen_name: author.handle,
+    // `username`/`avatar_url` derive from the SDK Connection and are nullable.
+    screen_name: author.username ?? '',
+    // Legacy (pre-X-era) verification flag — always false for organic posts; the
+    // X Blue checkmark rides on `is_blue_verified`.
     verified: false,
     is_blue_verified: verified,
   };
@@ -157,7 +160,11 @@ function buildQuoted(
     return undefined;
   }
 
-  const author = quote?.author ?? { name: 'Quoted post', handle: '' };
+  const author = quote?.author ?? {
+    name: 'Quoted post',
+    username: '',
+    avatar_url: null,
+  };
   const body = quote?.body ?? '';
   const media = quote?.media ?? [];
 

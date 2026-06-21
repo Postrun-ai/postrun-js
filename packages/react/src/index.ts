@@ -61,7 +61,7 @@ export type {
   UseMediaUploadResult,
   UseMediaUploadOptions,
 } from './media';
-export { UploadError } from './upload-bytes';
+export { UploadError } from '@postrun/js';
 export {
   usePosts,
   usePostsInfinite,

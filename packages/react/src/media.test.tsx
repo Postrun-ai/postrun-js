@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, expect, test, vi } from 'vitest';
 
-import { PostrunError, createPostrunClient } from '@postrun/js';
+import { PostrunError, createPostrunClient, uploadToTarget } from '@postrun/js';
 
 import {
   MEDIA_POLL_TIMEOUT_MS,
@@ -13,22 +13,26 @@ import {
   useUpdateMedia,
 } from './media';
 import { recordFetch, testWrapper } from './test-utils';
-import { uploadBytes } from './upload-bytes';
 
-// Mock the upload seam so tests never touch real axios/XHR.
-vi.mock('./upload-bytes', () => ({
-  uploadBytes: vi.fn(async (_target, _file, opts) => opts?.onProgress?.(1)),
-  UploadError: class UploadError extends Error {
-    status = 0;
-  },
-}));
+// Mock the upload seam so tests never touch real axios/XHR — preserving the rest
+// of @postrun/js (createPostrunClient, PostrunError, …).
+vi.mock('@postrun/js', async (importActual) => {
+  const actual = await importActual<typeof import('@postrun/js')>();
+  return {
+    ...actual,
+    uploadToTarget: vi.fn(async (_file, _target, opts) =>
+      opts?.onProgress?.(1),
+    ),
+  };
+});
 
-const mockedUpload = vi.mocked(uploadBytes);
+const mockedUpload = vi.mocked(uploadToTarget);
 
-/** The default upload behaviour: report 100% and resolve. */
+/** The default upload behaviour: report 100% and resolve. The util signature is
+ *  `(file, target, opts)`. */
 const defaultUpload = async (
-  _target: unknown,
   _file: unknown,
+  _target: unknown,
   opts?: { onProgress?: (fraction: number) => void },
 ) => opts?.onProgress?.(1);
 

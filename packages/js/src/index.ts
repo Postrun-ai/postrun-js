@@ -82,6 +82,9 @@ export type {
 
 export { isPublished, failedVariants } from './resources';
 
+export { UploadError, uploadToTarget } from './upload';
+export type { UploadToTargetOptions } from './upload';
+
 export { tiktokPrivacyLabel } from './tiktok';
 
 export { linkedinPollDurationLabel } from './linkedin';

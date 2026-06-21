@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import pLimit from 'p-limit';
-import pRetry, { AbortError } from 'p-retry';
 import pWaitFor from 'p-wait-for';
 import { useCallback, useRef, useState } from 'react';
 
@@ -10,6 +9,7 @@ import {
   mediaGet,
   mediaList,
   mediaUpdate,
+  uploadToTarget,
 } from '@postrun/js';
 import type {
   ListMediaQuery,
@@ -23,7 +23,6 @@ import type {
 import { usePostrun } from './context';
 import { useInfiniteList } from './infinite-list';
 import { mediaKeys } from './keys';
-import { UploadError, uploadBytes } from './upload-bytes';
 
 /** Interval between media status polls. */
 export const MEDIA_POLL_INTERVAL_MS = 1_500;
@@ -123,28 +122,12 @@ async function runUpload(
   ).data;
 
   if (created.upload) {
-    const target = created.upload;
-    await pRetry(
-      async () => {
-        try {
-          await uploadBytes(target, file, {
-            onProgress: callbacks.onProgress,
-            signal,
-          });
-        } catch (uploadError) {
-          // A client error (e.g. an expired signed URL) won't fix on retry.
-          if (
-            uploadError instanceof UploadError &&
-            uploadError.status >= 400 &&
-            uploadError.status < 500
-          ) {
-            throw new AbortError(uploadError);
-          }
-          throw uploadError;
-        }
-      },
-      { retries: 3, signal },
-    );
+    // PUT-with-retry: the SDK util owns progress, retry (network/5xx/429), and
+    // the terminal-4xx/abort classification — one home, no duplication here.
+    await uploadToTarget(file, created.upload, {
+      onProgress: callbacks.onProgress,
+      signal,
+    });
   }
 
   callbacks.onProcessing();

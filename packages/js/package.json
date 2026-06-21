@@ -1,6 +1,6 @@
 {
   "name": "@postrun/js",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "description": "Typed JavaScript client + client-side validation for the Postrun API",
   "license": "Apache-2.0",
   "homepage": "https://postrun.ai",
@@ -43,6 +43,8 @@
     "generate": "openapi-ts"
   },
   "dependencies": {
+    "axios": "^1.18.0",
+    "p-retry": "^8.0.0",
     "zod": "^4.0.0"
   },
   "devDependencies": {

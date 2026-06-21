@@ -1,5 +1,25 @@
 # @postrun/js
 
+## 2.12.0
+
+### Minor Changes
+
+- Add a framework-agnostic `uploadToTarget()` to `@postrun/js`.
+
+  Upload a file's bytes straight to a signed upload target from any frontend (an
+  agent, a non-React app) without a backend — the PUT-with-progress logic no longer
+  lives only inside the React hook.
+
+  - `uploadToTarget(file, target, { onProgress?, signal?, retries? })` — `target` is
+    the SDK-derived `UploadTarget`; progress via XHR (axios); cancellation via
+    `AbortSignal`. Retries are composed with `p-retry`: network errors, 5xx, and 429
+    retry; any other 4xx (e.g. an expired signed URL) is terminal; an aborted signal
+    stops immediately. Throws `UploadError` (with the HTTP status) on a hard failure.
+  - `UploadError` now lives in `@postrun/js` (still re-exported from `@postrun/react`
+    — public surface unchanged).
+  - `@postrun/react`'s `useMediaUpload` now reuses `uploadToTarget` (the duplicated
+    PUT/progress/retry code is gone); `axios`/`p-retry` moved to `@postrun/js`.
+
 ## 2.11.0
 
 ### Minor Changes

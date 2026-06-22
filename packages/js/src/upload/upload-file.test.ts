@@ -32,6 +32,12 @@ type AwsS3Options = {
 let captured: AwsS3Options | undefined;
 // When set, the fake Uppy's `upload()` reports this file as failed.
 let failWith: Error | undefined;
+// Event handlers the SUT registers (so a test can drive `progress`).
+let handlers: Record<string, (arg: number) => void>;
+// Set true when the SUT cancels the upload (the abort path).
+let cancelled: boolean;
+// Test hook fired INSIDE `upload()` — e.g. to abort mid-flight.
+let onUploadStart: (() => void) | undefined;
 
 vi.mock('@uppy/core', () => {
   class FakeUppy {
@@ -39,18 +45,23 @@ vi.mock('@uppy/core', () => {
       captured = options;
       return this;
     }
-    on() {
+    on(event: string, handler: (arg: number) => void) {
+      handlers[event] = handler;
       return this;
     }
     addFile() {
       return 'file-id';
     }
     async upload() {
+      onUploadStart?.();
+      handlers.progress?.(50); // emit a mid-upload progress tick (0–100)
       return failWith
         ? { successful: [], failed: [{ error: failWith }] }
         : { successful: [], failed: [] };
     }
-    cancelAll() {}
+    cancelAll() {
+      cancelled = true;
+    }
     destroy() {}
   }
   return { default: FakeUppy };
@@ -110,6 +121,9 @@ function stubFetch(): void {
 beforeEach(() => {
   captured = undefined;
   failWith = undefined;
+  handlers = {};
+  cancelled = false;
+  onUploadStart = undefined;
   stubFetch();
 });
 
@@ -210,6 +224,37 @@ test('uploadFile rejects immediately if the signal is already aborted', async ()
       signal: controller.signal,
     }),
   ).rejects.toThrow(/aborted/i);
+});
+
+test('forwards Uppy progress as a 0..1 fraction, and 1 on success', async () => {
+  const onProgress = vi.fn();
+  await uploadFile(new File(['x'], 'a.mp4', { type: 'video/mp4' }), {
+    mediaId: 'med_1',
+    session: SESSION,
+    client: client(),
+    onProgress,
+  });
+  expect(onProgress).toHaveBeenCalledWith(0.5); // the 50/100 tick
+  expect(onProgress).toHaveBeenCalledWith(1); // settled
+});
+
+test('a mid-flight abort cancels the Uppy upload and rejects with AbortError', async () => {
+  const controller = new AbortController();
+  onUploadStart = () => controller.abort(); // abort fires while the upload runs
+  const onProgress = vi.fn();
+
+  await expect(
+    uploadFile(new File(['x'], 'a.mp4', { type: 'video/mp4' }), {
+      mediaId: 'med_1',
+      session: SESSION,
+      client: client(),
+      signal: controller.signal,
+      onProgress,
+    }),
+  ).rejects.toThrow(/abort/i);
+
+  expect(cancelled).toBe(true); // the signal listener called uppy.cancelAll()
+  expect(onProgress).not.toHaveBeenCalledWith(1); // never reports success on abort
 });
 
 test('uploadFile throws UploadError when a part fails', async () => {

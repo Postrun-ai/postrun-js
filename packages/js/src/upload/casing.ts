@@ -23,8 +23,9 @@ type ApiCompletePart = NonNullable<MediaCompleteData['body']>['parts'][number];
 
 /**
  * Map our snake_case listed parts → Uppy's S3 `AwsS3Part[]` so a resume after a
- * dropped connection skips the parts R2 already holds. Drops any part missing a
- * `part_number` or `etag` (an incomplete record can't be resumed against).
+ * dropped connection skips the parts R2 already holds. A 1:1 field map — the
+ * endpoint's `parts` contract guarantees `part_number`/`etag`/`size` on every
+ * entry, so there's nothing to drop.
  */
 export function listedPartsToS3(
   parts: readonly ApiListedPart[],

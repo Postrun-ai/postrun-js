@@ -9,7 +9,7 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
 
 export type Media = {
     id: string;
@@ -4581,6 +4581,35 @@ export type MediaCreateErrors = {
          */
         request_id?: string;
     };
+    /**
+     * An RFC 9457 problem response.
+     */
+    503: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'media_upload_init_failed';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
 };
 
 export type MediaCreateError = MediaCreateErrors[keyof MediaCreateErrors];
@@ -4685,11 +4714,21 @@ export type MediaCreateResponses = {
          */
         updated_at: string;
         upload: {
-            url: string;
-            method: 'PUT';
-            headers: {
-                [key: string]: string;
-            };
+            /**
+             * The R2 multipart upload id. Echoed for your reference; the sub-endpoints read it from the asset, so you never pass it back.
+             */
+            upload_id: string;
+            /**
+             * The R2 object key the parts assemble into (for your logs).
+             */
+            key: string;
+            /**
+             * Chunk the file at exactly this many bytes. Every part except the last MUST be this size (an R2 requirement); the last part is whatever remains.
+             */
+            part_size: number;
+            /**
+             * ISO-8601 expiry of the signed part URLs.
+             */
             expires_at: string;
         } | null;
     };
@@ -5400,6 +5439,946 @@ export type MediaUpdateResponses = {
 };
 
 export type MediaUpdateResponse = MediaUpdateResponses[keyof MediaUpdateResponses];
+
+export type MediaSignPartData = {
+    body: {
+        /**
+         * The 1-indexed part to sign (1–10000). PUT the part bytes to the returned `url`.
+         */
+        part_number: number;
+    };
+    path: {
+        /**
+         * The media id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/media/{id}/multipart/sign';
+};
+
+export type MediaSignPartErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+};
+
+export type MediaSignPartError = MediaSignPartErrors[keyof MediaSignPartErrors];
+
+export type MediaSignPartResponses = {
+    /**
+     * A presigned URL for one multipart part.
+     */
+    200: {
+        /**
+         * Presigned URL to PUT this part’s bytes to (read its `ETag`).
+         */
+        url: string;
+    };
+};
+
+export type MediaSignPartResponse = MediaSignPartResponses[keyof MediaSignPartResponses];
+
+export type MediaListPartsData = {
+    body?: never;
+    path: {
+        /**
+         * The media id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/media/{id}/multipart/parts';
+};
+
+export type MediaListPartsErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+};
+
+export type MediaListPartsError = MediaListPartsErrors[keyof MediaListPartsErrors];
+
+export type MediaListPartsResponses = {
+    /**
+     * The parts R2 already holds for this upload (ascending). Skip re-uploading these to resume after a dropped connection.
+     */
+    200: {
+        parts: Array<{
+            part_number: number;
+            etag: string;
+            size: number;
+        }>;
+    };
+};
+
+export type MediaListPartsResponse = MediaListPartsResponses[keyof MediaListPartsResponses];
+
+export type MediaCompleteData = {
+    body: {
+        /**
+         * Every part you uploaded, as `{ part_number, etag }`. The ETag is what R2 returned on each part PUT.
+         */
+        parts: Array<{
+            part_number: number;
+            etag: string;
+        }>;
+    };
+    path: {
+        /**
+         * The media id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/media/{id}/multipart/complete';
+};
+
+export type MediaCompleteErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress' | 'media_upload_incomplete';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+};
+
+export type MediaCompleteError = MediaCompleteErrors[keyof MediaCompleteErrors];
+
+export type MediaCompleteResponses = {
+    /**
+     * OK
+     */
+    200: Media;
+};
+
+export type MediaCompleteResponse = MediaCompleteResponses[keyof MediaCompleteResponses];
+
+export type MediaAbortData = {
+    body?: never;
+    path: {
+        /**
+         * The media id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/media/{id}/multipart/abort';
+};
+
+export type MediaAbortErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        /**
+         * A URL to this code's documentation page.
+         */
+        type: string;
+        /**
+         * A stable, human-readable summary of the error code.
+         */
+        title: string;
+        /**
+         * The HTTP status code.
+         */
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        /**
+         * An occurrence-specific, human-readable explanation.
+         */
+        detail?: string;
+        /**
+         * The request id, for support and log correlation.
+         */
+        request_id?: string;
+    };
+};
+
+export type MediaAbortError = MediaAbortErrors[keyof MediaAbortErrors];
+
+export type MediaAbortResponses = {
+    /**
+     * OK
+     */
+    200: Media;
+};
+
+export type MediaAbortResponse = MediaAbortResponses[keyof MediaAbortResponses];
 
 export type PostsListData = {
     body?: never;
@@ -6984,7 +7963,7 @@ export type PostsValidateResponses = {
         object: 'validation';
         publishable: boolean;
         issues: Array<{
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_publish_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
             message: string;
             hint?: string;
             allowed?: Array<string>;

@@ -256,11 +256,8 @@ export type MediaTarget = NonNullable<
   NonNullable<MediaCreateData['body']>['targets']
 >[number];
 
-/** The create-media response: the resource plus a signed upload target. */
+/** The create-media response: the resource plus a multipart upload session. */
 export type CreateMediaResult = MediaCreateResponse;
-
-/** The signed direct-to-storage upload target returned on create. */
-export type UploadTarget = NonNullable<CreateMediaResult['upload']>;
 
 /** Request body to create a media asset. */
 export type CreateMediaInput = NonNullable<MediaCreateData['body']>;

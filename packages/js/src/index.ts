@@ -68,7 +68,6 @@ export type {
   MediaResource,
   MediaTarget,
   CreateMediaResult,
-  UploadTarget,
   CreateMediaInput,
   UpdateMediaInput,
   MediaList,
@@ -82,8 +81,8 @@ export type {
 
 export { isPublished, failedVariants } from './resources';
 
-export { UploadError, uploadToTarget } from './upload';
-export type { UploadToTargetOptions } from './upload';
+export { UploadError, uploadFile } from './upload';
+export type { UploadFileOptions, MultipartSession } from './upload';
 
 export { tiktokPrivacyLabel } from './tiktok';
 

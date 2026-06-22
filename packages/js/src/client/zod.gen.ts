@@ -25,6 +25,8 @@ export const zErrorCode = z.enum([
     'connection_discovery_failed',
     'tiktok_creator_info_unavailable',
     'media_processing',
+    'media_upload_init_failed',
+    'media_upload_incomplete',
     'not_publishable',
     'invalid_connection',
     'invalid_media',
@@ -89,11 +91,16 @@ export const zErrorCode = z.enum([
     'instagram_container_expired',
     'instagram_container_failed',
     'instagram_rate_limited',
+    'instagram_daily_limit_reached',
+    'instagram_aspect_ratio_unsupported',
+    'instagram_media_unsupported',
     'instagram_not_authorized',
     'instagram_publish_failed',
     'facebook_reel_processing',
     'facebook_reel_failed',
     'facebook_rate_limited',
+    'facebook_duplicate_content',
+    'facebook_temporarily_blocked',
     'facebook_not_authorized',
     'facebook_publish_failed',
     'tiktok_privacy_not_allowed',
@@ -1291,9 +1298,9 @@ export const zMediaCreateResponse = z.object({
     created_at: z.string(),
     updated_at: z.string(),
     upload: z.object({
-        url: z.url(),
-        method: z.literal('PUT'),
-        headers: z.record(z.string(), z.string()),
+        upload_id: z.string(),
+        key: z.string(),
+        part_size: z.int().gt(0).lte(9007199254740991),
         expires_at: z.string()
     }).nullable()
 });
@@ -1346,6 +1353,61 @@ export const zMediaUpdatePath = z.object({
  * OK
  */
 export const zMediaUpdateResponse = zMedia;
+
+export const zMediaSignPartBody = z.object({
+    part_number: z.int().gte(1).lte(10000)
+});
+
+export const zMediaSignPartPath = z.object({
+    id: z.string()
+});
+
+/**
+ * A presigned URL for one multipart part.
+ */
+export const zMediaSignPartResponse = z.object({
+    url: z.url()
+});
+
+export const zMediaListPartsPath = z.object({
+    id: z.string()
+});
+
+/**
+ * The parts R2 already holds for this upload (ascending). Skip re-uploading these to resume after a dropped connection.
+ */
+export const zMediaListPartsResponse = z.object({
+    parts: z.array(z.object({
+        part_number: z.int().gte(1).lte(9007199254740991),
+        etag: z.string(),
+        size: z.int().gte(0).lte(9007199254740991)
+    }))
+});
+
+export const zMediaCompleteBody = z.object({
+    parts: z.array(z.object({
+        part_number: z.int().gte(1).lte(10000),
+        etag: z.string().min(1)
+    })).min(1)
+});
+
+export const zMediaCompletePath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zMediaCompleteResponse = zMedia;
+
+export const zMediaAbortPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zMediaAbortResponse = zMedia;
 
 export const zPostsListQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),
@@ -1514,6 +1576,8 @@ export const zPostsValidateResponse = z.object({
             'connection_discovery_failed',
             'tiktok_creator_info_unavailable',
             'media_processing',
+            'media_upload_init_failed',
+            'media_upload_incomplete',
             'not_publishable',
             'invalid_connection',
             'invalid_media',
@@ -1578,11 +1642,16 @@ export const zPostsValidateResponse = z.object({
             'instagram_container_expired',
             'instagram_container_failed',
             'instagram_rate_limited',
+            'instagram_daily_limit_reached',
+            'instagram_aspect_ratio_unsupported',
+            'instagram_media_unsupported',
             'instagram_not_authorized',
             'instagram_publish_failed',
             'facebook_reel_processing',
             'facebook_reel_failed',
             'facebook_rate_limited',
+            'facebook_duplicate_content',
+            'facebook_temporarily_blocked',
             'facebook_not_authorized',
             'facebook_publish_failed',
             'tiktok_privacy_not_allowed',

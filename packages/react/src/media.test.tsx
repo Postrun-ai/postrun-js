@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, expect, test, vi } from 'vitest';
 
-import { PostrunError, createPostrunClient, uploadToTarget } from '@postrun/js';
+import { PostrunError, createPostrunClient, uploadFile } from '@postrun/js';
 
 import {
   MEDIA_POLL_TIMEOUT_MS,
@@ -14,25 +14,22 @@ import {
 } from './media';
 import { recordFetch, testWrapper } from './test-utils';
 
-// Mock the upload seam so tests never touch real axios/XHR — preserving the rest
-// of @postrun/js (createPostrunClient, PostrunError, …).
+// Mock the upload seam so tests never touch the real Uppy multipart engine —
+// preserving the rest of @postrun/js (createPostrunClient, PostrunError, …).
 vi.mock('@postrun/js', async (importActual) => {
   const actual = await importActual<typeof import('@postrun/js')>();
   return {
     ...actual,
-    uploadToTarget: vi.fn(async (_file, _target, opts) =>
-      opts?.onProgress?.(1),
-    ),
+    uploadFile: vi.fn(async (_file, opts) => opts?.onProgress?.(1)),
   };
 });
 
-const mockedUpload = vi.mocked(uploadToTarget);
+const mockedUpload = vi.mocked(uploadFile);
 
 /** The default upload behaviour: report 100% and resolve. The util signature is
- *  `(file, target, opts)`. */
+ *  `(file, { mediaId, session, client, onProgress?, signal? })`. */
 const defaultUpload = async (
   _file: unknown,
-  _target: unknown,
   opts?: { onProgress?: (fraction: number) => void },
 ) => opts?.onProgress?.(1);
 
@@ -65,10 +62,10 @@ const MEDIA = {
   updated_at: '2026-01-01T00:00:00Z',
 };
 
-const UPLOAD_TARGET = {
-  url: 'https://r2.example/upload',
-  method: 'PUT',
-  headers: { 'content-type': 'video/mp4' },
+const UPLOAD_SESSION = {
+  upload_id: 'upl_1',
+  key: 'media/med_1/source',
+  part_size: 8_388_608,
   expires_at: '2026-01-01T00:10:00Z',
 };
 
@@ -97,7 +94,7 @@ function mockMedia(getStatuses: string[] = ['ready']) {
         });
 
       if (request.method === 'POST' && url.pathname.endsWith('/media')) {
-        return json({ ...MEDIA, status: 'uploading', upload: UPLOAD_TARGET }, 201);
+        return json({ ...MEDIA, status: 'uploading', upload: UPLOAD_SESSION }, 201);
       }
       if (request.method === 'GET' && url.pathname.endsWith('/media')) {
         return json(MEDIA_LIST);
@@ -319,7 +316,7 @@ test('useMediaUpload caps in-flight uploads at the concurrency limit', async () 
   let active = 0;
   let maxActive = 0;
   const releases: Array<() => void> = [];
-  mockedUpload.mockImplementation(async (_t, _f, opts) => {
+  mockedUpload.mockImplementation(async (_f, opts) => {
     active += 1;
     maxActive = Math.max(maxActive, active);
     await new Promise<void>((resolve) => {

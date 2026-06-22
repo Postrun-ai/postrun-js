@@ -9,7 +9,7 @@ import {
   mediaGet,
   mediaList,
   mediaUpdate,
-  uploadToTarget,
+  uploadFile,
 } from '@postrun/js';
 import type {
   ListMediaQuery,
@@ -87,7 +87,7 @@ export interface MediaUploadOptions {
 
 /**
  * The core single-file upload pipeline used by `useMediaUpload` for every file
- * (single or batched) so the create → PUT-with-retry → poll-until-settled
+ * (single or batched) so the create → multipart-upload → poll-until-settled
  * sequence lives in exactly one place. Pure orchestration — no React state; the
  * caller passes an `AbortSignal` and callbacks so it can drive its own UI. Throws
  * on a hard failure / abort; returns the settled `MediaResource` (which may itself
@@ -122,9 +122,13 @@ async function runUpload(
   ).data;
 
   if (created.upload) {
-    // PUT-with-retry: the SDK util owns progress, retry (network/5xx/429), and
-    // the terminal-4xx/abort classification — one home, no duplication here.
-    await uploadToTarget(file, created.upload, {
+    // Resilient multipart upload: the SDK util drives `@uppy/aws-s3` headless —
+    // it owns chunking, parallel parts, per-part retry, resume, progress, and
+    // cancellation against our signing endpoints. One home, no duplication here.
+    await uploadFile(file, {
+      mediaId: created.id,
+      session: created.upload,
+      client,
       onProgress: callbacks.onProgress,
       signal,
     });
@@ -189,8 +193,9 @@ function toFileArray(files: File | FileList | readonly File[]): File[] {
 /**
  * Upload one OR many files and get back platform-validated assets. The hook owns
  * the whole journey per file: create the asset (the API auto-detects
- * kind/content_type from the bytes), PUT the bytes with live `progress` + retry,
- * poll until processing settles, and expose `media.per_platform` (per-target
+ * kind/content_type from the bytes), upload the bytes with a resumable multipart
+ * upload (live `progress`), poll until processing settles, and expose
+ * `media.per_platform` (per-target
  * status, url, warnings,
  * errors). Every file gets its own `MediaUploadItem` slot in `items`; `ready` is
  * the settled assets to attach to a post; `remove`/`reset` abort in-flight work.

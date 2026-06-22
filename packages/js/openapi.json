@@ -36,6 +36,8 @@
           "connection_discovery_failed",
           "tiktok_creator_info_unavailable",
           "media_processing",
+          "media_upload_init_failed",
+          "media_upload_incomplete",
           "not_publishable",
           "invalid_connection",
           "invalid_media",
@@ -100,11 +102,16 @@
           "instagram_container_expired",
           "instagram_container_failed",
           "instagram_rate_limited",
+          "instagram_daily_limit_reached",
+          "instagram_aspect_ratio_unsupported",
+          "instagram_media_unsupported",
           "instagram_not_authorized",
           "instagram_publish_failed",
           "facebook_reel_processing",
           "facebook_reel_failed",
           "facebook_rate_limited",
+          "facebook_duplicate_content",
+          "facebook_temporarily_blocked",
           "facebook_not_authorized",
           "facebook_publish_failed",
           "tiktok_privacy_not_allowed",
@@ -10564,7 +10571,7 @@
       "post": {
         "operationId": "media.create",
         "summary": "Upload media",
-        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the target profile.\n\nCreates a media asset. Two ways to supply the bytes: (1) omit `source_url` and PUT the bytes to the returned signed upload target (the direct-upload path; `upload` is non-null), or (2) supply a public `https` `source_url` and we fetch the bytes server-side, validate, transform, and store them (the import path; `upload` is null). Either way the asset settles through the same probe/transform flow.",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the target profile.\n\nCreates a media asset. Two ways to supply the bytes: (1) omit `source_url` and upload the bytes with the returned multipart `upload` session — chunk the file at `part_size`, sign each part via `POST /media/{id}/multipart/sign`, PUT the bytes, then `POST /media/{id}/multipart/complete` (the direct-upload path; `upload` is non-null and resumable), or (2) supply a public `https` `source_url` and we fetch the bytes server-side, validate, transform, and store them (the import path; `upload` is null). Either way the asset settles through the same probe/transform flow.",
         "tags": [
           "Media"
         ],
@@ -11113,33 +11120,33 @@
                         {
                           "type": "object",
                           "properties": {
-                            "url": {
+                            "upload_id": {
                               "type": "string",
-                              "format": "uri"
+                              "description": "The R2 multipart upload id. Echoed for your reference; the sub-endpoints read it from the asset, so you never pass it back."
                             },
-                            "method": {
-                              "const": "PUT"
+                            "key": {
+                              "type": "string",
+                              "description": "The R2 object key the parts assemble into (for your logs)."
                             },
-                            "headers": {
-                              "type": "object",
-                              "propertyNames": {
-                                "type": "string"
-                              },
-                              "additionalProperties": {
-                                "type": "string"
-                              }
+                            "part_size": {
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991,
+                              "exclusiveMinimum": 0,
+                              "description": "Chunk the file at exactly this many bytes. Every part except the last MUST be this size (an R2 requirement); the last part is whatever remains."
                             },
                             "expires_at": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "ISO-8601 expiry of the signed part URLs."
                             }
                           },
                           "required": [
-                            "url",
-                            "method",
-                            "headers",
+                            "upload_id",
+                            "key",
+                            "part_size",
                             "expires_at"
                           ],
-                          "description": "PUT the bytes here straight from the browser (never through our API). Send the bytes with the headers in `headers` set on the request. `headers` is empty — you may send any Content-Type (or none); we detect the real type from the stored bytes, so a declared Content-Type is never trusted or required."
+                          "description": "A resilient multipart upload session. Upload the file in `part_size` chunks to presigned part URLs (from `/multipart/sign`), then `/multipart/complete`. Resume after a drop via `/multipart/parts`. No Content-Type is required — we detect the type from the bytes."
                         },
                         {
                           "type": "null"
@@ -11230,11 +11237,9 @@
                       "created_at": "2026-06-16T14:32:08Z",
                       "updated_at": "2026-06-16T14:32:08Z",
                       "upload": {
-                        "url": "https://example.com/u/jane",
-                        "method": "PUT",
-                        "headers": {
-                          "Content-Type": "image/jpeg"
-                        },
+                        "upload_id": "Example upload id",
+                        "key": "Example key",
+                        "part_size": 42,
                         "expires_at": "2026-06-16T14:32:08Z"
                       }
                     }
@@ -11745,6 +11750,77 @@
                       "status": 429,
                       "code": "rate_limited",
                       "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "503",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/media_upload_init_failed"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "We could not start the upload. Please try again."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        503
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "media_upload_init_failed"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "media_upload_init_failed"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "media_upload_init_failed": {
+                    "summary": "We could not start the upload session for this asset.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/media_upload_init_failed",
+                      "title": "We could not start the upload session for this asset.",
+                      "status": 503,
+                      "code": "media_upload_init_failed",
+                      "detail": "We could not start the upload session for this asset.",
                       "request_id": "req_8x2k4m9q1z"
                     }
                   }
@@ -14436,6 +14512,2498 @@
             "lang": "javascript",
             "label": "@postrun/js",
             "source": "import { createPostrunClient, mediaDelete } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await mediaDelete({\n  client,\n  path: { id: '…' },\n});"
+          }
+        ]
+      }
+    },
+    "/media/{id}/multipart/sign": {
+      "post": {
+        "operationId": "media.signPart",
+        "summary": "Sign an upload part",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.\n\nReturns a presigned URL to PUT one part of a multipart upload. Chunk the file at the session’s `part_size` and sign each 1-indexed part; read each part PUT’s `ETag` for `complete`.",
+        "tags": [
+          "Media"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The media id."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "part_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000,
+                    "description": "The 1-indexed part to sign (1–10000). PUT the part bytes to the returned `url`."
+                  }
+                },
+                "required": [
+                  "part_number"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "Presigned URL to PUT this part’s bytes to (read its `ETag`)."
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ],
+                  "description": "A presigned URL for one multipart part."
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "url": "https://example.com/u/jane"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_invalid"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_invalid"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_invalid"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/unauthorized"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Authentication is required."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "unauthorized"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/forbidden"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "You do not have permission to perform this action."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        403
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "forbidden"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "forbidden"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/not_found"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The requested resource was not found."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "not_found"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "not_found"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/conflict"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request conflicts with the current state of the resource."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        409
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "conflict",
+                        "idempotency_request_in_progress"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "conflict"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_reused"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        422
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_reused"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_reused"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/rate_limited"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Rate limit exceeded for this account."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        429
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "rate_limited"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "rate_limited"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, mediaSignPart } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await mediaSignPart({\n  client,\n  path: { id: '…' },\n  body: { /* … */ },\n});"
+          }
+        ]
+      }
+    },
+    "/media/{id}/multipart/parts": {
+      "get": {
+        "operationId": "media.listParts",
+        "summary": "List uploaded parts",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.\n\nLists the parts already uploaded for this asset’s multipart upload (ascending). Skip re-uploading these to resume after a dropped connection.",
+        "tags": [
+          "Media"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The media id."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "parts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "part_number": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "etag": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "part_number",
+                          "etag",
+                          "size"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "parts"
+                  ],
+                  "description": "The parts R2 already holds for this upload (ascending). Skip re-uploading these to resume after a dropped connection."
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "parts": [
+                        {
+                          "part_number": 42,
+                          "etag": "Example etag",
+                          "size": 42
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_invalid"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_invalid"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_invalid"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/unauthorized"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Authentication is required."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "unauthorized"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/forbidden"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "You do not have permission to perform this action."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        403
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "forbidden"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "forbidden"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/not_found"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The requested resource was not found."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "not_found"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "not_found"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/conflict"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request conflicts with the current state of the resource."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        409
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "conflict",
+                        "idempotency_request_in_progress"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "conflict"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_reused"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        422
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_reused"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_reused"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/rate_limited"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Rate limit exceeded for this account."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        429
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "rate_limited"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "rate_limited"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, mediaListParts } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await mediaListParts({\n  client,\n  path: { id: '…' },\n});"
+          }
+        ]
+      }
+    },
+    "/media/{id}/multipart/complete": {
+      "post": {
+        "operationId": "media.complete",
+        "summary": "Complete an upload",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.\n\nFinishes a multipart upload by assembling the uploaded parts. Send every part as `{ part_number, etag }`. Idempotent: completing an already-finished upload returns the asset.",
+        "tags": [
+          "Media"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The media id."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parts": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "part_number": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 10000
+                        },
+                        "etag": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "part_number",
+                        "etag"
+                      ]
+                    },
+                    "description": "Every part you uploaded, as `{ part_number, etag }`. The ETag is what R2 returned on each part PUT."
+                  }
+                },
+                "required": [
+                  "parts"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Media"
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "id": "med_01h455vb4pex5vsknk084sn02q",
+                      "object": "media",
+                      "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
+                      "kind": "image",
+                      "content_type": "Example content type",
+                      "status": "uploading",
+                      "progress": {
+                        "stage": "queued",
+                        "percent": 42
+                      },
+                      "raw": false,
+                      "error": null,
+                      "source": {
+                        "format": "image/jpeg",
+                        "bytes": 248173,
+                        "width": 42,
+                        "height": 42,
+                        "duration_ms": 42
+                      },
+                      "alt_text": "Product photo on a desk.",
+                      "per_platform": {
+                        "x": {
+                          "status": "processing",
+                          "url": "https://example.com/u/jane",
+                          "width": 42,
+                          "height": 42,
+                          "bytes": 248173,
+                          "warnings": [
+                            {
+                              "code": "media_unprobeable",
+                              "message": "Looks good.",
+                              "hint": "Example hint",
+                              "allowed": [
+                                "Example allowed"
+                              ],
+                              "got": "Example got",
+                              "display_error": "Example display error"
+                            }
+                          ],
+                          "errors": [
+                            {
+                              "code": "media_unprobeable",
+                              "message": "Looks good.",
+                              "hint": "Example hint",
+                              "allowed": [
+                                "Example allowed"
+                              ],
+                              "got": "Example got",
+                              "display_error": "Example display error"
+                            }
+                          ]
+                        }
+                      },
+                      "external_id": "client_acme",
+                      "metadata": {
+                        "plan": "pro"
+                      },
+                      "created_at": "2026-06-16T14:32:08Z",
+                      "updated_at": "2026-06-16T14:32:08Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_invalid"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_invalid"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_invalid"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/unauthorized"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Authentication is required."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "unauthorized"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/forbidden"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "You do not have permission to perform this action."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        403
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "forbidden"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "forbidden"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/not_found"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The requested resource was not found."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "not_found"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "not_found"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/conflict"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request conflicts with the current state of the resource."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        409
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "conflict",
+                        "idempotency_request_in_progress",
+                        "media_upload_incomplete"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "conflict"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "media_upload_incomplete": {
+                    "summary": "The multipart upload could not be completed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/media_upload_incomplete",
+                      "title": "The multipart upload could not be completed.",
+                      "status": 409,
+                      "code": "media_upload_incomplete",
+                      "detail": "The multipart upload could not be completed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_reused"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        422
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_reused"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_reused"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/rate_limited"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Rate limit exceeded for this account."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        429
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "rate_limited"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "rate_limited"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, mediaComplete } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await mediaComplete({\n  client,\n  path: { id: '…' },\n  body: { /* … */ },\n});"
+          }
+        ]
+      }
+    },
+    "/media/{id}/multipart/abort": {
+      "post": {
+        "operationId": "media.abort",
+        "summary": "Abort an upload",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.\n\nAborts an in-flight multipart upload and discards its parts. Idempotent: aborting an already-finished or unknown upload still returns the asset.",
+        "tags": [
+          "Media"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The media id."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Media"
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "id": "med_01h455vb4pex5vsknk084sn02q",
+                      "object": "media",
+                      "profile_id": "prof_01h455vb4pex5vsknk084sn02q",
+                      "kind": "image",
+                      "content_type": "Example content type",
+                      "status": "uploading",
+                      "progress": {
+                        "stage": "queued",
+                        "percent": 42
+                      },
+                      "raw": false,
+                      "error": null,
+                      "source": {
+                        "format": "image/jpeg",
+                        "bytes": 248173,
+                        "width": 42,
+                        "height": 42,
+                        "duration_ms": 42
+                      },
+                      "alt_text": "Product photo on a desk.",
+                      "per_platform": {
+                        "x": {
+                          "status": "processing",
+                          "url": "https://example.com/u/jane",
+                          "width": 42,
+                          "height": 42,
+                          "bytes": 248173,
+                          "warnings": [
+                            {
+                              "code": "media_unprobeable",
+                              "message": "Looks good.",
+                              "hint": "Example hint",
+                              "allowed": [
+                                "Example allowed"
+                              ],
+                              "got": "Example got",
+                              "display_error": "Example display error"
+                            }
+                          ],
+                          "errors": [
+                            {
+                              "code": "media_unprobeable",
+                              "message": "Looks good.",
+                              "hint": "Example hint",
+                              "allowed": [
+                                "Example allowed"
+                              ],
+                              "got": "Example got",
+                              "display_error": "Example display error"
+                            }
+                          ]
+                        }
+                      },
+                      "external_id": "client_acme",
+                      "metadata": {
+                        "plan": "pro"
+                      },
+                      "created_at": "2026-06-16T14:32:08Z",
+                      "updated_at": "2026-06-16T14:32:08Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_invalid"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_invalid"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_invalid"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/unauthorized"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Authentication is required."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "unauthorized"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/forbidden"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "You do not have permission to perform this action."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        403
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "forbidden"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "forbidden"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/not_found"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The requested resource was not found."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "not_found"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "not_found"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/conflict"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request conflicts with the current state of the resource."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        409
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "conflict",
+                        "idempotency_request_in_progress"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "conflict"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/idempotency_key_reused"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "The request failed."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        422
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_reused"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "idempotency_key_reused"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code"
+                  ],
+                  "description": "An RFC 9457 problem response.",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "description": "A URL to this code's documentation page.",
+                      "examples": [
+                        "https://docs.postrun.ai/errors/rate_limited"
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "A stable, human-readable summary of the error code.",
+                      "examples": [
+                        "Rate limit exceeded for this account."
+                      ]
+                    },
+                    "status": {
+                      "type": "integer",
+                      "description": "The HTTP status code.",
+                      "examples": [
+                        429
+                      ]
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "rate_limited"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": [
+                        "rate_limited"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string",
+                      "description": "An occurrence-specific, human-readable explanation."
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "description": "The request id, for support and log correlation."
+                    }
+                  }
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, mediaAbort } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await mediaAbort({\n  client,\n  path: { id: '…' },\n});"
           }
         ]
       }
@@ -18561,6 +21129,8 @@
                               "connection_discovery_failed",
                               "tiktok_creator_info_unavailable",
                               "media_processing",
+                              "media_upload_init_failed",
+                              "media_upload_incomplete",
                               "not_publishable",
                               "invalid_connection",
                               "invalid_media",
@@ -18625,11 +21195,16 @@
                               "instagram_container_expired",
                               "instagram_container_failed",
                               "instagram_rate_limited",
+                              "instagram_daily_limit_reached",
+                              "instagram_aspect_ratio_unsupported",
+                              "instagram_media_unsupported",
                               "instagram_not_authorized",
                               "instagram_publish_failed",
                               "facebook_reel_processing",
                               "facebook_reel_failed",
                               "facebook_rate_limited",
+                              "facebook_duplicate_content",
+                              "facebook_temporarily_blocked",
                               "facebook_not_authorized",
                               "facebook_publish_failed",
                               "tiktok_privacy_not_allowed",

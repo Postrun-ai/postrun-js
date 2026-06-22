@@ -1,5 +1,26 @@
 # @postrun/js
 
+## 2.17.0
+
+### Minor Changes
+
+- Rewrite the media uploader as a resilient, resumable multipart upload.
+
+  The single-PUT `uploadToTarget` is replaced by a framework-agnostic `uploadFile`
+  built on `@uppy/core` + `@uppy/aws-s3` (headless). It drives a chunked S3
+  multipart upload against the API's signing endpoints — `createMultipartUpload`
+  returns the cached create-response session (no extra round-trip), `signPart`,
+  `listParts` (resume after a dropped connection), `completeMultipartUpload`, and
+  `abortMultipartUpload` — owning chunking, parallel parts, per-part retry, resume,
+  and progress. `useMediaUpload` consumes it transparently.
+
+  - New: `uploadFile(file, { mediaId, session, client, onProgress?, signal? })`,
+    `UploadFileOptions`, and the `MultipartSession` type.
+  - Removed: `uploadToTarget`, `UploadToTargetOptions`, and the `UploadTarget` type
+    (the create response now returns a multipart `upload` session); the `axios` and
+    `p-retry` dependencies are dropped from `@postrun/js`. `UploadError` stays but
+    now carries the underlying failure as `cause`.
+
 ## 2.16.0
 
 ### Minor Changes

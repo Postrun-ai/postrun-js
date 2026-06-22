@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { ConnectionsConnectData, ConnectionsConnectErrors, ConnectionsConnectResponses, ConnectionsDeleteData, ConnectionsDeleteErrors, ConnectionsDeleteResponses, ConnectionsGetData, ConnectionsGetErrors, ConnectionsGetResponses, ConnectionsListAccountsData, ConnectionsListAccountsErrors, ConnectionsListAccountsResponses, ConnectionsListByProfileData, ConnectionsListByProfileErrors, ConnectionsListByProfileResponses, ConnectionsSelectData, ConnectionsSelectErrors, ConnectionsSelectResponses, GoogleCreateAdData, GoogleCreateAdErrors, GoogleCreateAdGroupData, GoogleCreateAdGroupErrors, GoogleCreateAdGroupResponses, GoogleCreateAdResponses, GoogleCreateBudgetData, GoogleCreateBudgetErrors, GoogleCreateBudgetResponses, GoogleCreateCampaignData, GoogleCreateCampaignErrors, GoogleCreateCampaignResponses, GoogleCreateConversionActionData, GoogleCreateConversionActionErrors, GoogleCreateConversionActionResponses, GoogleCreateDisplayAdData, GoogleCreateDisplayAdErrors, GoogleCreateDisplayAdResponses, GoogleCreateKeywordData, GoogleCreateKeywordErrors, GoogleCreateKeywordResponses, GoogleDeleteAdData, GoogleDeleteAdErrors, GoogleDeleteAdGroupData, GoogleDeleteAdGroupErrors, GoogleDeleteAdGroupResponses, GoogleDeleteAdResponses, GoogleDeleteBudgetData, GoogleDeleteBudgetErrors, GoogleDeleteBudgetResponses, GoogleDeleteCampaignData, GoogleDeleteCampaignErrors, GoogleDeleteCampaignResponses, GoogleDeleteKeywordData, GoogleDeleteKeywordErrors, GoogleDeleteKeywordResponses, GoogleEditAdGroupData, GoogleEditAdGroupErrors, GoogleEditAdGroupResponses, GoogleEditBudgetData, GoogleEditBudgetErrors, GoogleEditBudgetResponses, GoogleEditCampaignData, GoogleEditCampaignErrors, GoogleEditCampaignResponses, GoogleEnableAdData, GoogleEnableAdErrors, GoogleEnableAdGroupData, GoogleEnableAdGroupErrors, GoogleEnableAdGroupResponses, GoogleEnableAdResponses, GoogleEnableCampaignData, GoogleEnableCampaignErrors, GoogleEnableCampaignResponses, GoogleEnableKeywordData, GoogleEnableKeywordErrors, GoogleEnableKeywordResponses, GoogleGetAccountData, GoogleGetAccountErrors, GoogleGetAccountResponses, GoogleGetAdData, GoogleGetAdErrors, GoogleGetAdGroupData, GoogleGetAdGroupErrors, GoogleGetAdGroupResponses, GoogleGetAdResponses, GoogleGetCampaignData, GoogleGetCampaignErrors, GoogleGetCampaignResponses, GoogleGetConversionActionData, GoogleGetConversionActionErrors, GoogleGetConversionActionResponses, GoogleGetInsightsData, GoogleGetInsightsErrors, GoogleGetInsightsResponses, GoogleGetKeywordData, GoogleGetKeywordErrors, GoogleGetKeywordResponses, GoogleListAdGroupsData, GoogleListAdGroupsErrors, GoogleListAdGroupsResponses, GoogleListAdsData, GoogleListAdsErrors, GoogleListAdsResponses, GoogleListCampaignsData, GoogleListCampaignsErrors, GoogleListCampaignsResponses, GoogleListConversionActionsData, GoogleListConversionActionsErrors, GoogleListConversionActionsResponses, GoogleListConversionGoalsData, GoogleListConversionGoalsErrors, GoogleListConversionGoalsResponses, GoogleListKeywordsData, GoogleListKeywordsErrors, GoogleListKeywordsResponses, GooglePauseAdData, GooglePauseAdErrors, GooglePauseAdGroupData, GooglePauseAdGroupErrors, GooglePauseAdGroupResponses, GooglePauseAdResponses, GooglePauseCampaignData, GooglePauseCampaignErrors, GooglePauseCampaignResponses, GooglePauseKeywordData, GooglePauseKeywordErrors, GooglePauseKeywordResponses, GoogleRunGaqlData, GoogleRunGaqlErrors, GoogleRunGaqlResponses, GoogleSetAdGroupBidsData, GoogleSetAdGroupBidsErrors, GoogleSetAdGroupBidsResponses, GoogleSetConversionGoalData, GoogleSetConversionGoalErrors, GoogleSetConversionGoalResponses, GoogleSetKeywordBidData, GoogleSetKeywordBidErrors, GoogleSetKeywordBidResponses, GoogleUploadConversionsData, GoogleUploadConversionsErrors, GoogleUploadConversionsResponses, GoogleUploadImageAssetData, GoogleUploadImageAssetErrors, GoogleUploadImageAssetResponses, LogsGetData, LogsGetErrors, LogsGetResponses, LogsListData, LogsListErrors, LogsListResponses, MediaCreateData, MediaCreateErrors, MediaCreateResponses, MediaDeleteData, MediaDeleteErrors, MediaDeleteResponses, MediaGetData, MediaGetErrors, MediaGetResponses, MediaListData, MediaListErrors, MediaListResponses, MediaUpdateData, MediaUpdateErrors, MediaUpdateResponses, MetaAccountData, MetaAccountErrors, MetaAccountResponses, MetaAdData, MetaAdErrors, MetaAdResponses, MetaAdsData, MetaAdsErrors, MetaAdsetData, MetaAdsetErrors, MetaAdsetResponses, MetaAdsetsData, MetaAdsetsErrors, MetaAdsetsResponses, MetaAdsResponses, MetaCampaignData, MetaCampaignErrors, MetaCampaignResponses, MetaCampaignsData, MetaCampaignsErrors, MetaCampaignsResponses, MetaInsightsData, MetaInsightsErrors, MetaInsightsResponses, PostsCreateData, PostsCreateErrors, PostsCreateResponses, PostsDeleteData, PostsDeleteErrors, PostsDeleteResponses, PostsGetData, PostsGetErrors, PostsGetResponses, PostsListData, PostsListErrors, PostsListResponses, PostsUpdateData, PostsUpdateErrors, PostsUpdateResponses, PostsValidateData, PostsValidateErrors, PostsValidateResponses, ProfilesCreateData, ProfilesCreateErrors, ProfilesCreateResponses, ProfilesDeleteData, ProfilesDeleteErrors, ProfilesDeleteResponses, ProfilesGetData, ProfilesGetErrors, ProfilesGetResponses, ProfilesListData, ProfilesListErrors, ProfilesListResponses, ProfilesUpdateData, ProfilesUpdateErrors, ProfilesUpdateResponses, TiktokCreatorInfoData, TiktokCreatorInfoErrors, TiktokCreatorInfoResponses, TokensMintData, TokensMintErrors, TokensMintResponses, WebhooksCreateEndpointData, WebhooksCreateEndpointErrors, WebhooksCreateEndpointResponses, WebhooksCreatePortalData, WebhooksCreatePortalErrors, WebhooksCreatePortalResponses, WebhooksDeleteEndpointData, WebhooksDeleteEndpointErrors, WebhooksDeleteEndpointResponses, WebhooksGetEndpointData, WebhooksGetEndpointErrors, WebhooksGetEndpointResponses, WebhooksListEndpointsData, WebhooksListEndpointsErrors, WebhooksListEndpointsResponses, WebhooksListEventTypesData, WebhooksListEventTypesErrors, WebhooksListEventTypesResponses, WebhooksPingData, WebhooksPingErrors, WebhooksPingResponses, WebhooksUpdateEndpointData, WebhooksUpdateEndpointErrors, WebhooksUpdateEndpointResponses } from './types.gen';
+import type { ConnectionsConnectData, ConnectionsConnectErrors, ConnectionsConnectResponses, ConnectionsDeleteData, ConnectionsDeleteErrors, ConnectionsDeleteResponses, ConnectionsGetData, ConnectionsGetErrors, ConnectionsGetResponses, ConnectionsListAccountsData, ConnectionsListAccountsErrors, ConnectionsListAccountsResponses, ConnectionsListByProfileData, ConnectionsListByProfileErrors, ConnectionsListByProfileResponses, ConnectionsSelectData, ConnectionsSelectErrors, ConnectionsSelectResponses, GoogleCreateAdData, GoogleCreateAdErrors, GoogleCreateAdGroupData, GoogleCreateAdGroupErrors, GoogleCreateAdGroupResponses, GoogleCreateAdResponses, GoogleCreateBudgetData, GoogleCreateBudgetErrors, GoogleCreateBudgetResponses, GoogleCreateCampaignData, GoogleCreateCampaignErrors, GoogleCreateCampaignResponses, GoogleCreateConversionActionData, GoogleCreateConversionActionErrors, GoogleCreateConversionActionResponses, GoogleCreateDisplayAdData, GoogleCreateDisplayAdErrors, GoogleCreateDisplayAdResponses, GoogleCreateKeywordData, GoogleCreateKeywordErrors, GoogleCreateKeywordResponses, GoogleDeleteAdData, GoogleDeleteAdErrors, GoogleDeleteAdGroupData, GoogleDeleteAdGroupErrors, GoogleDeleteAdGroupResponses, GoogleDeleteAdResponses, GoogleDeleteBudgetData, GoogleDeleteBudgetErrors, GoogleDeleteBudgetResponses, GoogleDeleteCampaignData, GoogleDeleteCampaignErrors, GoogleDeleteCampaignResponses, GoogleDeleteKeywordData, GoogleDeleteKeywordErrors, GoogleDeleteKeywordResponses, GoogleEditAdGroupData, GoogleEditAdGroupErrors, GoogleEditAdGroupResponses, GoogleEditBudgetData, GoogleEditBudgetErrors, GoogleEditBudgetResponses, GoogleEditCampaignData, GoogleEditCampaignErrors, GoogleEditCampaignResponses, GoogleEnableAdData, GoogleEnableAdErrors, GoogleEnableAdGroupData, GoogleEnableAdGroupErrors, GoogleEnableAdGroupResponses, GoogleEnableAdResponses, GoogleEnableCampaignData, GoogleEnableCampaignErrors, GoogleEnableCampaignResponses, GoogleEnableKeywordData, GoogleEnableKeywordErrors, GoogleEnableKeywordResponses, GoogleGetAccountData, GoogleGetAccountErrors, GoogleGetAccountResponses, GoogleGetAdData, GoogleGetAdErrors, GoogleGetAdGroupData, GoogleGetAdGroupErrors, GoogleGetAdGroupResponses, GoogleGetAdResponses, GoogleGetCampaignData, GoogleGetCampaignErrors, GoogleGetCampaignResponses, GoogleGetConversionActionData, GoogleGetConversionActionErrors, GoogleGetConversionActionResponses, GoogleGetInsightsData, GoogleGetInsightsErrors, GoogleGetInsightsResponses, GoogleGetKeywordData, GoogleGetKeywordErrors, GoogleGetKeywordResponses, GoogleListAdGroupsData, GoogleListAdGroupsErrors, GoogleListAdGroupsResponses, GoogleListAdsData, GoogleListAdsErrors, GoogleListAdsResponses, GoogleListCampaignsData, GoogleListCampaignsErrors, GoogleListCampaignsResponses, GoogleListConversionActionsData, GoogleListConversionActionsErrors, GoogleListConversionActionsResponses, GoogleListConversionGoalsData, GoogleListConversionGoalsErrors, GoogleListConversionGoalsResponses, GoogleListKeywordsData, GoogleListKeywordsErrors, GoogleListKeywordsResponses, GooglePauseAdData, GooglePauseAdErrors, GooglePauseAdGroupData, GooglePauseAdGroupErrors, GooglePauseAdGroupResponses, GooglePauseAdResponses, GooglePauseCampaignData, GooglePauseCampaignErrors, GooglePauseCampaignResponses, GooglePauseKeywordData, GooglePauseKeywordErrors, GooglePauseKeywordResponses, GoogleRunGaqlData, GoogleRunGaqlErrors, GoogleRunGaqlResponses, GoogleSetAdGroupBidsData, GoogleSetAdGroupBidsErrors, GoogleSetAdGroupBidsResponses, GoogleSetConversionGoalData, GoogleSetConversionGoalErrors, GoogleSetConversionGoalResponses, GoogleSetKeywordBidData, GoogleSetKeywordBidErrors, GoogleSetKeywordBidResponses, GoogleUploadConversionsData, GoogleUploadConversionsErrors, GoogleUploadConversionsResponses, GoogleUploadImageAssetData, GoogleUploadImageAssetErrors, GoogleUploadImageAssetResponses, LogsGetData, LogsGetErrors, LogsGetResponses, LogsListData, LogsListErrors, LogsListResponses, MediaAbortData, MediaAbortErrors, MediaAbortResponses, MediaCompleteData, MediaCompleteErrors, MediaCompleteResponses, MediaCreateData, MediaCreateErrors, MediaCreateResponses, MediaDeleteData, MediaDeleteErrors, MediaDeleteResponses, MediaGetData, MediaGetErrors, MediaGetResponses, MediaListData, MediaListErrors, MediaListPartsData, MediaListPartsErrors, MediaListPartsResponses, MediaListResponses, MediaSignPartData, MediaSignPartErrors, MediaSignPartResponses, MediaUpdateData, MediaUpdateErrors, MediaUpdateResponses, MetaAccountData, MetaAccountErrors, MetaAccountResponses, MetaAdData, MetaAdErrors, MetaAdResponses, MetaAdsData, MetaAdsErrors, MetaAdsetData, MetaAdsetErrors, MetaAdsetResponses, MetaAdsetsData, MetaAdsetsErrors, MetaAdsetsResponses, MetaAdsResponses, MetaCampaignData, MetaCampaignErrors, MetaCampaignResponses, MetaCampaignsData, MetaCampaignsErrors, MetaCampaignsResponses, MetaInsightsData, MetaInsightsErrors, MetaInsightsResponses, PostsCreateData, PostsCreateErrors, PostsCreateResponses, PostsDeleteData, PostsDeleteErrors, PostsDeleteResponses, PostsGetData, PostsGetErrors, PostsGetResponses, PostsListData, PostsListErrors, PostsListResponses, PostsUpdateData, PostsUpdateErrors, PostsUpdateResponses, PostsValidateData, PostsValidateErrors, PostsValidateResponses, ProfilesCreateData, ProfilesCreateErrors, ProfilesCreateResponses, ProfilesDeleteData, ProfilesDeleteErrors, ProfilesDeleteResponses, ProfilesGetData, ProfilesGetErrors, ProfilesGetResponses, ProfilesListData, ProfilesListErrors, ProfilesListResponses, ProfilesUpdateData, ProfilesUpdateErrors, ProfilesUpdateResponses, TiktokCreatorInfoData, TiktokCreatorInfoErrors, TiktokCreatorInfoResponses, TokensMintData, TokensMintErrors, TokensMintResponses, WebhooksCreateEndpointData, WebhooksCreateEndpointErrors, WebhooksCreateEndpointResponses, WebhooksCreatePortalData, WebhooksCreatePortalErrors, WebhooksCreatePortalResponses, WebhooksDeleteEndpointData, WebhooksDeleteEndpointErrors, WebhooksDeleteEndpointResponses, WebhooksGetEndpointData, WebhooksGetEndpointErrors, WebhooksGetEndpointResponses, WebhooksListEndpointsData, WebhooksListEndpointsErrors, WebhooksListEndpointsResponses, WebhooksListEventTypesData, WebhooksListEventTypesErrors, WebhooksListEventTypesResponses, WebhooksPingData, WebhooksPingErrors, WebhooksPingResponses, WebhooksUpdateEndpointData, WebhooksUpdateEndpointErrors, WebhooksUpdateEndpointResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -291,7 +291,7 @@ export const mediaList = <ThrowOnError extends boolean = true>(options?: Options
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the target profile.
  *
- * Creates a media asset. Two ways to supply the bytes: (1) omit `source_url` and PUT the bytes to the returned signed upload target (the direct-upload path; `upload` is non-null), or (2) supply a public `https` `source_url` and we fetch the bytes server-side, validate, transform, and store them (the import path; `upload` is null). Either way the asset settles through the same probe/transform flow.
+ * Creates a media asset. Two ways to supply the bytes: (1) omit `source_url` and upload the bytes with the returned multipart `upload` session — chunk the file at `part_size`, sign each part via `POST /media/{id}/multipart/sign`, PUT the bytes, then `POST /media/{id}/multipart/complete` (the direct-upload path; `upload` is non-null and resumable), or (2) supply a public `https` `source_url` and we fetch the bytes server-side, validate, transform, and store them (the import path; `upload` is null). Either way the asset settles through the same probe/transform flow.
  */
 export const mediaCreate = <ThrowOnError extends boolean = true>(options: Options<MediaCreateData, ThrowOnError>): RequestResult<MediaCreateResponses, MediaCreateErrors, ThrowOnError> => (options.client ?? client).post<MediaCreateResponses, MediaCreateErrors, ThrowOnError>({
     security: [{
@@ -376,6 +376,98 @@ export const mediaUpdate = <ThrowOnError extends boolean = true>(options: Option
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * Sign an upload part
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.
+ *
+ * Returns a presigned URL to PUT one part of a multipart upload. Chunk the file at the session’s `part_size` and sign each 1-indexed part; read each part PUT’s `ETag` for `complete`.
+ */
+export const mediaSignPart = <ThrowOnError extends boolean = true>(options: Options<MediaSignPartData, ThrowOnError>): RequestResult<MediaSignPartResponses, MediaSignPartErrors, ThrowOnError> => (options.client ?? client).post<MediaSignPartResponses, MediaSignPartErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/media/{id}/multipart/sign',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * List uploaded parts
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.
+ *
+ * Lists the parts already uploaded for this asset’s multipart upload (ascending). Skip re-uploading these to resume after a dropped connection.
+ */
+export const mediaListParts = <ThrowOnError extends boolean = true>(options: Options<MediaListPartsData, ThrowOnError>): RequestResult<MediaListPartsResponses, MediaListPartsErrors, ThrowOnError> => (options.client ?? client).get<MediaListPartsResponses, MediaListPartsErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/media/{id}/multipart/parts',
+    ...options
+});
+
+/**
+ * Complete an upload
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.
+ *
+ * Finishes a multipart upload by assembling the uploaded parts. Send every part as `{ part_number, etag }`. Idempotent: completing an already-finished upload returns the asset.
+ */
+export const mediaComplete = <ThrowOnError extends boolean = true>(options: Options<MediaCompleteData, ThrowOnError>): RequestResult<MediaCompleteResponses, MediaCompleteErrors, ThrowOnError> => (options.client ?? client).post<MediaCompleteResponses, MediaCompleteErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/media/{id}/multipart/complete',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Abort an upload
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `media:write` scoped to the profile that owns the media asset.
+ *
+ * Aborts an in-flight multipart upload and discards its parts. Idempotent: aborting an already-finished or unknown upload still returns the asset.
+ */
+export const mediaAbort = <ThrowOnError extends boolean = true>(options: Options<MediaAbortData, ThrowOnError>): RequestResult<MediaAbortResponses, MediaAbortErrors, ThrowOnError> => (options.client ?? client).post<MediaAbortResponses, MediaAbortErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/media/{id}/multipart/abort',
+    ...options
 });
 
 /**

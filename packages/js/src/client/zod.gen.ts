@@ -1110,6 +1110,15 @@ export const zGoogleAdsAudience = z.union([
 ]);
 
 /**
+ * Filter by serving status (ENABLED / PAUSED / REMOVED). Omit to return everything except REMOVED.
+ */
+export const zGoogleAdsReadStatusFilter = z.array(z.enum([
+    'ENABLED',
+    'PAUSED',
+    'REMOVED'
+])).min(1);
+
+/**
  * A Google Ads campaign targeting criterion. LOCATION and LANGUAGE are fully modelled (with their geo_target_constant / language_constant, status, and negative flag); any other criterion type is returned as { type, criterion_id }.
  */
 export const zGoogleAdsCampaignCriterion = z.union([
@@ -1508,8 +1517,20 @@ export const zGoogleAdsInsightsRow = z.object({
     id: z.string().min(1),
     name: z.string().nullable(),
     parent_id: z.string().min(1).nullable(),
-    metrics: z.record(z.string(), z.number().nullable()),
-    segments: z.record(z.string(), z.string()).optional()
+    metrics: z.object({
+        impressions: z.number().nullish(),
+        clicks: z.number().nullish(),
+        ctr: z.number().nullish(),
+        average_cpc: z.number().nullish(),
+        cost_micros: z.number().nullish(),
+        conversions: z.number().nullish(),
+        conversions_value: z.number().nullish(),
+        cost_per_conversion: z.number().nullish()
+    }),
+    segments: z.object({
+        date: z.string().optional(),
+        device: z.string().optional()
+    }).optional()
 });
 
 /**
@@ -1590,7 +1611,17 @@ export const zGoogleAdTreeNode = z.object({
         'none'
     ]),
     expandable: z.boolean(),
-    metrics: z.record(z.string(), z.number().nullable()),
+    budget_micros: z.number().nullable(),
+    metrics: z.object({
+        impressions: z.number().nullish(),
+        clicks: z.number().nullish(),
+        ctr: z.number().nullish(),
+        average_cpc: z.number().nullish(),
+        cost_micros: z.number().nullish(),
+        conversions: z.number().nullish(),
+        conversions_value: z.number().nullish(),
+        cost_per_conversion: z.number().nullish()
+    }),
     cost_micros: z.number(),
     cost: z.number()
 });
@@ -2714,6 +2745,7 @@ export const zGoogleGetAdTreePath = z.object({
 
 export const zGoogleGetAdTreeQuery = z.object({
     campaign_id: z.string().regex(/^\d+$/).optional(),
+    status: zGoogleAdsReadStatusFilter.optional(),
     metrics: z.array(zGoogleAdsInsightMetric).min(1).optional().default([
         'impressions',
         'clicks',
@@ -3138,7 +3170,8 @@ export const zGoogleListAdGroupsPath = z.object({
 });
 
 export const zGoogleListAdGroupsQuery = z.object({
-    campaign_id: z.string().regex(/^\d+$/).optional()
+    campaign_id: z.string().regex(/^\d+$/).optional(),
+    status: zGoogleAdsReadStatusFilter.optional()
 });
 
 /**
@@ -3431,7 +3464,8 @@ export const zGoogleListAdsPath = z.object({
 });
 
 export const zGoogleListAdsQuery = z.object({
-    ad_group_id: z.string().regex(/^\d+$/).optional()
+    ad_group_id: z.string().regex(/^\d+$/).optional(),
+    status: zGoogleAdsReadStatusFilter.optional()
 });
 
 /**
@@ -3599,7 +3633,8 @@ export const zGoogleListKeywordsPath = z.object({
 });
 
 export const zGoogleListKeywordsQuery = z.object({
-    ad_group_id: z.string().regex(/^\d+$/).optional()
+    ad_group_id: z.string().regex(/^\d+$/).optional(),
+    status: zGoogleAdsReadStatusFilter.optional()
 });
 
 /**

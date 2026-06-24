@@ -1330,6 +1330,11 @@ export type GoogleAdsAudience = {
 };
 
 /**
+ * Filter by serving status (ENABLED / PAUSED / REMOVED). Omit to return everything except REMOVED.
+ */
+export type GoogleAdsReadStatusFilter = Array<'ENABLED' | 'PAUSED' | 'REMOVED'>;
+
+/**
  * A Google Ads campaign targeting criterion. LOCATION and LANGUAGE are fully modelled (with their geo_target_constant / language_constant, status, and negative flag); any other criterion type is returned as { type, criterion_id }.
  */
 export type GoogleAdsCampaignCriterion = {
@@ -1625,13 +1630,21 @@ export type GoogleAdsInsightsRow = {
      * The requested metrics keyed by name; only the metrics you asked for are present.
      */
     metrics: {
-        [key: string]: number | null;
+        impressions?: number | null;
+        clicks?: number | null;
+        ctr?: number | null;
+        average_cpc?: number | null;
+        cost_micros?: number | null;
+        conversions?: number | null;
+        conversions_value?: number | null;
+        cost_per_conversion?: number | null;
     };
     /**
      * The requested breakdowns keyed by segment name; present only when segments were requested.
      */
     segments?: {
-        [key: string]: string;
+        date?: string;
+        device?: string;
     };
 };
 
@@ -1686,10 +1699,21 @@ export type GoogleAdTreeNode = {
      */
     expandable: boolean;
     /**
+     * The campaign’s average daily budget in micros (1/1,000,000 of the account currency). Present on campaign nodes only — null at ad_group / ad / keyword (and null when a campaign has no budget).
+     */
+    budget_micros: number | null;
+    /**
      * The requested metrics keyed by name; only the metrics you asked for are present. Google’s authoritative per-level numbers (no client roll-up).
      */
     metrics: {
-        [key: string]: number | null;
+        impressions?: number | null;
+        clicks?: number | null;
+        ctr?: number | null;
+        average_cpc?: number | null;
+        cost_micros?: number | null;
+        conversions?: number | null;
+        conversions_value?: number | null;
+        cost_per_conversion?: number | null;
     };
     /**
      * Spend for this node in micros (1/1,000,000 of the account currency), as Google reports it.
@@ -12560,6 +12584,7 @@ export type GoogleGetAdTreeData = {
          * Restrict to one campaign — returns that campaign’s subtree (ad groups + leaf). Omit for the campaign level.
          */
         campaign_id?: string;
+        status?: GoogleAdsReadStatusFilter;
         /**
          * The metric columns to report. At least one.
          */
@@ -17937,6 +17962,7 @@ export type GoogleListAdGroupsData = {
          * Only return ad groups under this campaign (its numeric id).
          */
         campaign_id?: string;
+        status?: GoogleAdsReadStatusFilter;
     };
     url: '/google/{connection_id}/ad-groups';
 };
@@ -22064,6 +22090,7 @@ export type GoogleListAdsData = {
          * Only return ads under this ad group (its numeric id).
          */
         ad_group_id?: string;
+        status?: GoogleAdsReadStatusFilter;
     };
     url: '/google/{connection_id}/ads';
 };
@@ -24372,6 +24399,7 @@ export type GoogleListKeywordsData = {
          * Only return keywords under this ad group (its numeric id).
          */
         ad_group_id?: string;
+        status?: GoogleAdsReadStatusFilter;
     };
     url: '/google/{connection_id}/keywords';
 };

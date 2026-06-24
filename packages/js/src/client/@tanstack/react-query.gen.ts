@@ -974,7 +974,7 @@ export const googleGetAdTreeQueryKey = (options: Options<GoogleGetAdTreeData>) =
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * The campaign → ad_group → ad/keyword tree as flat, native, typed nodes — group them by `parent_id` to assemble the tree. Without `campaign_id`, returns every campaign (all channel types) with a per-type `child_kind`/`expandable` hint. With `campaign_id`, returns that campaign’s whole supported subtree (ad groups + the type’s leaf — keywords for Search, ads for Display/Video/Demand Gen) in one batched fetch at a single window. Each node carries Google’s authoritative per-level metrics (no client roll-up), `cost_micros`, and `cost` (account currency).
+ * The campaign → ad_group → ad/keyword tree as flat, native, typed nodes — group them by `parent_id` to assemble the tree. Without `campaign_id`, returns every campaign (all channel types) with a per-type `child_kind`/`expandable` hint. With `campaign_id`, returns that campaign’s whole supported subtree (ad groups + the type’s leaf — keywords for Search, ads for Display/Video/Demand Gen) in one batched fetch at a single window. By default REMOVED nodes are hidden at every level; pass `status` to filter to specific serving states (ENABLED / PAUSED / REMOVED). Each node carries `budget_micros` (campaign nodes only), Google’s authoritative per-level metrics (no client roll-up), `cost_micros`, and `cost` (account currency).
  */
 export const googleGetAdTreeOptions = (options: Options<GoogleGetAdTreeData>) => queryOptions<GoogleGetAdTreeResponse, GoogleGetAdTreeError, GoogleGetAdTreeResponse, ReturnType<typeof googleGetAdTreeQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1336,7 +1336,7 @@ export const googleListAdGroupsQueryKey = (options: Options<GoogleListAdGroupsDa
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Lists the ad groups (Google’s equivalent of an ad set) in the Google Ads account backing this connection — id, name, status, type, and parent campaign. Pass `campaign_id` to return only the ad groups under one campaign.
+ * Lists the ad groups (Google’s equivalent of an ad set) in the Google Ads account backing this connection — id, name, status, type, and parent campaign. Pass `campaign_id` to return only the ad groups under one campaign. By default REMOVED ad groups are hidden; pass `status` to filter to specific serving states (ENABLED / PAUSED / REMOVED).
  */
 export const googleListAdGroupsOptions = (options: Options<GoogleListAdGroupsData>) => queryOptions<GoogleListAdGroupsResponse, GoogleListAdGroupsError, GoogleListAdGroupsResponse, ReturnType<typeof googleListAdGroupsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1613,7 +1613,7 @@ export const googleListAdsQueryKey = (options: Options<GoogleListAdsData>) => cr
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Returns the ads (the `ad_group_ad` resource) on the connection’s account — id, name, creative type, serving status, and the owning ad group. Pass `ad_group_id` to return only the ads under one ad group.
+ * Returns the ads (the `ad_group_ad` resource) on the connection’s account — id, name, creative type, serving status, and the owning ad group. Pass `ad_group_id` to return only the ads under one ad group. By default REMOVED ads are hidden; pass `status` to filter to specific serving states (ENABLED / PAUSED / REMOVED).
  */
 export const googleListAdsOptions = (options: Options<GoogleListAdsData>) => queryOptions<GoogleListAdsResponse, GoogleListAdsError, GoogleListAdsResponse, ReturnType<typeof googleListAdsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1762,7 +1762,7 @@ export const googleListKeywordsQueryKey = (options: Options<GoogleListKeywordsDa
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Lists the keywords (`ad_group_criterion` of type KEYWORD) in the connection’s account — each with its criterion id, text, match type, status, negative flag, and owning ad group. Pass `ad_group_id` to return only the keywords under one ad group.
+ * Lists the keywords (`ad_group_criterion` of type KEYWORD) in the connection’s account — each with its criterion id, text, match type, status, negative flag, and owning ad group. Pass `ad_group_id` to return only the keywords under one ad group. By default REMOVED keywords are hidden; pass `status` to filter to specific serving states (ENABLED / PAUSED / REMOVED).
  */
 export const googleListKeywordsOptions = (options: Options<GoogleListKeywordsData>) => queryOptions<GoogleListKeywordsResponse, GoogleListKeywordsError, GoogleListKeywordsResponse, ReturnType<typeof googleListKeywordsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {

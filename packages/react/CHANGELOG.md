@@ -1,5 +1,20 @@
 # @postrun/react
 
+## 2.21.0
+
+### Minor Changes
+
+- Google Ads reads: status filter, campaign budget, and keyed metric/segment maps.
+
+  - **`status` filter** on `GET /v1/google/{conn}/ads/tree` and the `ad-groups`/`ads`/`keywords` lists — a typed `GoogleAdsReadStatusFilter` (`Array<'ENABLED' | 'PAUSED' | 'REMOVED'>`). **Omit it to get the default view (everything except `REMOVED`)**, matching Google Ads' own default; pass it to narrow to specific serving states.
+  - **`budget_micros`** on the ad-tree **campaign** node (the campaign's average daily budget in micros; `null` at ad_group/ad/keyword levels).
+  - **Keyed metric/segment maps** — `GoogleAdTreeNode.metrics`, `GoogleAdsInsightsRow.metrics`, and `GoogleAdsInsightsRow.segments` are now **keyed objects** (`{ clicks?: number | null; … }`) instead of a loose `{ [key: string]: number | null }`, so each metric/segment is individually typed and autocompletes.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.21.0
+
 ## 2.20.0
 
 ### Minor Changes

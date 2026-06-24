@@ -26,6 +26,7 @@ function node(
     metrics: { clicks: 2 },
     cost_micros: 2_000_000,
     cost: 2,
+    budget_micros: partial.level === 'campaign' ? 2_000_000 : null,
     ...partial,
   };
 }

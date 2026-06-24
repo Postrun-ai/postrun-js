@@ -21,6 +21,7 @@ function node(partial: Partial<GoogleAdTreeNode> & Pick<GoogleAdTreeNode, 'id' |
     metrics: { clicks: 1 },
     cost_micros: 1_000_000,
     cost: 1,
+    budget_micros: partial.level === 'campaign' ? 1_000_000 : null,
     ...partial,
   };
 }

@@ -111,7 +111,18 @@ export const zErrorCode = z.enum([
     'tiktok_url_ownership_unverified',
     'tiktok_unaudited_private_only',
     'tiktok_spam_risk',
+    'tiktok_file_format_invalid',
+    'tiktok_duration_invalid',
+    'tiktok_frame_rate_invalid',
+    'tiktok_resolution_invalid',
+    'tiktok_media_pull_failed',
+    'tiktok_server_error',
     'tiktok_publish_failed',
+    'google_rate_limited',
+    'google_server_error',
+    'google_auth_expired',
+    'google_permission_denied',
+    'google_request_failed',
     'post_publish_failed',
     'post_partially_published',
     'connection_platform_mismatch',
@@ -924,6 +935,679 @@ export const zCreatePostBody = z.object({
     variants: z.array(zPostVariantInput).min(1)
 });
 
+/**
+ * A Google Ads ad group (the `ad_group` resource): id, name, status, type, and the resource name of the parent campaign.
+ */
+export const zGoogleAdsAdGroup = z.object({
+    id: z.string(),
+    name: z.string().nullable(),
+    status: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'ENABLED',
+        'PAUSED',
+        'REMOVED'
+    ]),
+    type: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'SEARCH_STANDARD',
+        'DISPLAY_STANDARD',
+        'SHOPPING_PRODUCT_ADS',
+        'HOTEL_ADS',
+        'SHOPPING_SMART_ADS',
+        'VIDEO_BUMPER',
+        'VIDEO_TRUE_VIEW_IN_STREAM',
+        'VIDEO_TRUE_VIEW_IN_DISPLAY',
+        'VIDEO_NON_SKIPPABLE_IN_STREAM',
+        'SEARCH_DYNAMIC_ADS',
+        'SHOPPING_COMPARISON_LISTING_ADS',
+        'PROMOTED_HOTEL_ADS',
+        'VIDEO_RESPONSIVE',
+        'VIDEO_EFFICIENT_REACH',
+        'SMART_CAMPAIGN_ADS',
+        'TRAVEL_ADS',
+        'YOUTUBE_AUDIO'
+    ]),
+    campaign: z.string().nullable()
+});
+
+/**
+ * A Google Ads ad (the `ad_group_ad` resource): id, name, creative type, serving status, and the ad group resource name it belongs to.
+ */
+export const zGoogleAdsAd = z.object({
+    id: z.string().regex(/^\d+~\d+$/),
+    name: z.string().nullable(),
+    type: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'TEXT_AD',
+        'EXPANDED_TEXT_AD',
+        'EXPANDED_DYNAMIC_SEARCH_AD',
+        'HOTEL_AD',
+        'SHOPPING_SMART_AD',
+        'SHOPPING_PRODUCT_AD',
+        'VIDEO_AD',
+        'IMAGE_AD',
+        'RESPONSIVE_SEARCH_AD',
+        'LEGACY_RESPONSIVE_DISPLAY_AD',
+        'APP_AD',
+        'LEGACY_APP_INSTALL_AD',
+        'RESPONSIVE_DISPLAY_AD',
+        'LOCAL_AD',
+        'HTML5_UPLOAD_AD',
+        'DYNAMIC_HTML5_AD',
+        'APP_ENGAGEMENT_AD',
+        'SHOPPING_COMPARISON_LISTING_AD',
+        'VIDEO_BUMPER_AD',
+        'VIDEO_NON_SKIPPABLE_IN_STREAM_AD',
+        'VIDEO_TRUEVIEW_IN_STREAM_AD',
+        'VIDEO_RESPONSIVE_AD',
+        'SMART_CAMPAIGN_AD',
+        'CALL_AD',
+        'APP_PRE_REGISTRATION_AD',
+        'IN_FEED_VIDEO_AD',
+        'DEMAND_GEN_MULTI_ASSET_AD',
+        'DEMAND_GEN_CAROUSEL_AD',
+        'TRAVEL_AD',
+        'DEMAND_GEN_VIDEO_RESPONSIVE_AD',
+        'DEMAND_GEN_PRODUCT_AD',
+        'YOUTUBE_AUDIO_AD'
+    ]),
+    status: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'ENABLED',
+        'PAUSED',
+        'REMOVED'
+    ]),
+    ad_group: z.string().nullable()
+});
+
+/**
+ * A Google Ads keyword (an `ad_group_criterion` of type KEYWORD): criterion id, text, match type, status, whether it is a negative keyword, and the owning ad group resource name.
+ */
+export const zGoogleAdsKeyword = z.object({
+    id: z.string().regex(/^\d+~\d+$/),
+    text: z.string().nullable(),
+    match_type: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'EXACT',
+        'PHRASE',
+        'BROAD'
+    ]),
+    status: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'ENABLED',
+        'PAUSED',
+        'REMOVED'
+    ]),
+    negative: z.boolean(),
+    ad_group: z.string().nullable()
+});
+
+/**
+ * A Google Ads audience available to target: a user_list (remarketing / CRM list, with its type + membership status), an audience (audience asset, with its status), or a custom_audience (interest / intent custom audience, with its status + type). Pass its `resource_name` as the user_list / audience / custom_audience of an ad-group audience criterion.
+ */
+export const zGoogleAdsAudience = z.union([
+    z.object({
+        kind: z.literal('user_list'),
+        id: z.string(),
+        resource_name: z.string(),
+        name: z.string().nullable(),
+        type: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'REMARKETING',
+            'LOGICAL',
+            'EXTERNAL_REMARKETING',
+            'RULE_BASED',
+            'SIMILAR',
+            'CRM_BASED',
+            'LOOKALIKE'
+        ]),
+        membership_status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'OPEN',
+            'CLOSED'
+        ])
+    }),
+    z.object({
+        kind: z.literal('audience'),
+        id: z.string(),
+        resource_name: z.string(),
+        name: z.string().nullable(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'REMOVED'
+        ])
+    }),
+    z.object({
+        kind: z.literal('custom_audience'),
+        id: z.string(),
+        resource_name: z.string(),
+        name: z.string().nullable(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'REMOVED'
+        ]),
+        type: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'AUTO',
+            'INTEREST',
+            'PURCHASE_INTENT',
+            'SEARCH'
+        ])
+    })
+]);
+
+/**
+ * A Google Ads campaign targeting criterion. LOCATION and LANGUAGE are fully modelled (with their geo_target_constant / language_constant, status, and negative flag); any other criterion type is returned as { type, criterion_id }.
+ */
+export const zGoogleAdsCampaignCriterion = z.union([
+    z.object({
+        type: z.literal('LOCATION'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        geo_target_constant: z.string().nullable()
+    }),
+    z.object({
+        type: z.literal('LANGUAGE'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        language_constant: z.string().nullable()
+    }),
+    z.object({
+        type: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'KEYWORD',
+            'PLACEMENT',
+            'MOBILE_APP_CATEGORY',
+            'MOBILE_APPLICATION',
+            'DEVICE',
+            'LISTING_GROUP',
+            'AD_SCHEDULE',
+            'AGE_RANGE',
+            'GENDER',
+            'INCOME_RANGE',
+            'PARENTAL_STATUS',
+            'YOUTUBE_VIDEO',
+            'YOUTUBE_CHANNEL',
+            'USER_LIST',
+            'PROXIMITY',
+            'TOPIC',
+            'LISTING_SCOPE',
+            'IP_BLOCK',
+            'CONTENT_LABEL',
+            'CARRIER',
+            'USER_INTEREST',
+            'WEBPAGE',
+            'OPERATING_SYSTEM_VERSION',
+            'APP_PAYMENT_MODEL',
+            'MOBILE_DEVICE',
+            'CUSTOM_AFFINITY',
+            'CUSTOM_INTENT',
+            'LOCATION_GROUP',
+            'CUSTOM_AUDIENCE',
+            'COMBINED_AUDIENCE',
+            'KEYWORD_THEME',
+            'AUDIENCE',
+            'NEGATIVE_KEYWORD_LIST',
+            'LOCAL_SERVICE_ID',
+            'SEARCH_THEME',
+            'BRAND',
+            'BRAND_LIST',
+            'LIFE_EVENT',
+            'WEBPAGE_LIST',
+            'VIDEO_LINEUP',
+            'PLACEMENT_LIST',
+            'VERTICAL_ADS_ITEM_GROUP_RULE_LIST',
+            'VERTICAL_ADS_ITEM_GROUP_RULE'
+        ]),
+        criterion_id: z.string()
+    })
+]);
+
+/**
+ * A Google Ads ad-group targeting criterion. The four demographics (AGE_RANGE, GENDER, INCOME_RANGE, PARENTAL_STATUS) and the three audience kinds (USER_LIST, AUDIENCE, CUSTOM_AUDIENCE) are fully modelled with their value, status, and negative (exclusion) flag; any other criterion type (e.g. KEYWORD) is returned as { type, criterion_id }.
+ */
+export const zGoogleAdsAdGroupCriterion = z.union([
+    z.object({
+        type: z.literal('AGE_RANGE'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        age_range: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'AGE_RANGE_18_24',
+            'AGE_RANGE_25_34',
+            'AGE_RANGE_35_44',
+            'AGE_RANGE_45_54',
+            'AGE_RANGE_55_64',
+            'AGE_RANGE_65_UP',
+            'AGE_RANGE_UNDETERMINED'
+        ])
+    }),
+    z.object({
+        type: z.literal('GENDER'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        gender: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'MALE',
+            'FEMALE',
+            'UNDETERMINED'
+        ])
+    }),
+    z.object({
+        type: z.literal('INCOME_RANGE'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        income_range: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'INCOME_RANGE_0_50',
+            'INCOME_RANGE_50_60',
+            'INCOME_RANGE_60_70',
+            'INCOME_RANGE_70_80',
+            'INCOME_RANGE_80_90',
+            'INCOME_RANGE_90_UP',
+            'INCOME_RANGE_UNDETERMINED'
+        ])
+    }),
+    z.object({
+        type: z.literal('PARENTAL_STATUS'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        parental_status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'PARENT',
+            'NOT_A_PARENT',
+            'UNDETERMINED'
+        ])
+    }),
+    z.object({
+        type: z.literal('USER_LIST'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        user_list: z.string().nullable()
+    }),
+    z.object({
+        type: z.literal('AUDIENCE'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        audience: z.string().nullable()
+    }),
+    z.object({
+        type: z.literal('CUSTOM_AUDIENCE'),
+        criterion_id: z.string(),
+        status: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'ENABLED',
+            'PAUSED',
+            'REMOVED'
+        ]),
+        negative: z.boolean(),
+        custom_audience: z.string().nullable()
+    }),
+    z.object({
+        type: z.enum([
+            'UNSPECIFIED',
+            'UNKNOWN',
+            'KEYWORD',
+            'PLACEMENT',
+            'MOBILE_APP_CATEGORY',
+            'MOBILE_APPLICATION',
+            'DEVICE',
+            'LOCATION',
+            'LISTING_GROUP',
+            'AD_SCHEDULE',
+            'YOUTUBE_VIDEO',
+            'YOUTUBE_CHANNEL',
+            'PROXIMITY',
+            'TOPIC',
+            'LISTING_SCOPE',
+            'LANGUAGE',
+            'IP_BLOCK',
+            'CONTENT_LABEL',
+            'CARRIER',
+            'USER_INTEREST',
+            'WEBPAGE',
+            'OPERATING_SYSTEM_VERSION',
+            'APP_PAYMENT_MODEL',
+            'MOBILE_DEVICE',
+            'CUSTOM_AFFINITY',
+            'CUSTOM_INTENT',
+            'LOCATION_GROUP',
+            'COMBINED_AUDIENCE',
+            'KEYWORD_THEME',
+            'NEGATIVE_KEYWORD_LIST',
+            'LOCAL_SERVICE_ID',
+            'SEARCH_THEME',
+            'BRAND',
+            'BRAND_LIST',
+            'LIFE_EVENT',
+            'WEBPAGE_LIST',
+            'VIDEO_LINEUP',
+            'PLACEMENT_LIST',
+            'VERTICAL_ADS_ITEM_GROUP_RULE_LIST',
+            'VERTICAL_ADS_ITEM_GROUP_RULE'
+        ]),
+        criterion_id: z.string()
+    })
+]);
+
+/**
+ * A Google Ads geo target constant (a targetable location): its id, resource name, name, canonical name, country code, target type (Country/Region/City/…), and status. Pass the `resource_name` (`geoTargetConstants/{id}`) — NOT the bare id — as the `geo_target_constant` of a location criterion: Google’s `LocationInfo.geo_target_constant` is a resource name.
+ */
+export const zGoogleAdsGeoTargetConstant = z.object({
+    id: z.string(),
+    resource_name: z.string().nullable(),
+    name: z.string().nullable(),
+    canonical_name: z.string().nullable(),
+    country_code: z.string().nullable(),
+    target_type: z.string().nullable(),
+    status: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'ENABLED',
+        'REMOVAL_PLANNED'
+    ])
+});
+
+export const zGoogleAdsCreateResult = z.object({
+    id: z.string().nullable(),
+    resource_name: z.string().nullable(),
+    dry_run: z.boolean(),
+    executed: z.boolean()
+});
+
+export const zGoogleAdsEditResult = z.object({
+    id: z.string(),
+    resource_name: z.string(),
+    dry_run: z.boolean(),
+    executed: z.boolean()
+});
+
+export const zGoogleAdsDeleteResult = z.object({
+    id: z.string(),
+    removed: z.boolean(),
+    dry_run: z.boolean(),
+    executed: z.boolean()
+});
+
+/**
+ * Add a geo (location) or language targeting criterion to a campaign.
+ */
+export const zGoogleAdsCreateCampaignCriterionRequest = z.union([
+    z.object({
+        type: z.literal('location'),
+        geo_target_constant: z.string().regex(/^geoTargetConstants\/\d+$/),
+        negative: z.boolean().optional().default(false)
+    }),
+    z.object({
+        type: z.literal('language'),
+        language_constant: z.string().min(1)
+    })
+]);
+
+/**
+ * Add a demographic (age range, gender, income range, or parental status) or audience (user list, audience, custom audience) targeting criterion to an ad group. Set negative: true to exclude instead of target.
+ */
+export const zGoogleAdsCreateAdGroupCriterionRequest = z.union([
+    z.object({
+        type: z.literal('age_range'),
+        age_range: z.enum([
+            'AGE_RANGE_18_24',
+            'AGE_RANGE_25_34',
+            'AGE_RANGE_35_44',
+            'AGE_RANGE_45_54',
+            'AGE_RANGE_55_64',
+            'AGE_RANGE_65_UP',
+            'AGE_RANGE_UNDETERMINED'
+        ]),
+        negative: z.boolean().optional().default(false)
+    }),
+    z.object({
+        type: z.literal('gender'),
+        gender: z.enum([
+            'MALE',
+            'FEMALE',
+            'UNDETERMINED'
+        ]),
+        negative: z.boolean().optional().default(false)
+    }),
+    z.object({
+        type: z.literal('income_range'),
+        income_range: z.enum([
+            'INCOME_RANGE_0_50',
+            'INCOME_RANGE_50_60',
+            'INCOME_RANGE_60_70',
+            'INCOME_RANGE_70_80',
+            'INCOME_RANGE_80_90',
+            'INCOME_RANGE_90_UP',
+            'INCOME_RANGE_UNDETERMINED'
+        ]),
+        negative: z.boolean().optional().default(false)
+    }),
+    z.object({
+        type: z.literal('parental_status'),
+        parental_status: z.enum([
+            'PARENT',
+            'NOT_A_PARENT',
+            'UNDETERMINED'
+        ]),
+        negative: z.boolean().optional().default(false)
+    }),
+    z.object({
+        type: z.literal('user_list'),
+        user_list: z.string().regex(/^customers\/\d+\/userLists\/\d+$/),
+        negative: z.boolean().optional().default(false)
+    }),
+    z.object({
+        type: z.literal('audience'),
+        audience: z.string().regex(/^customers\/\d+\/audiences\/\d+$/),
+        negative: z.boolean().optional().default(false)
+    }),
+    z.object({
+        type: z.literal('custom_audience'),
+        custom_audience: z.string().regex(/^customers\/\d+\/customAudiences\/\d+$/),
+        negative: z.boolean().optional().default(false)
+    })
+]);
+
+/**
+ * Set a campaign’s geo target type (presence vs presence-or-interest).
+ */
+export const zGoogleAdsGeoSettingsRequest = z.object({
+    positive_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional(),
+    negative_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional()
+});
+
+/**
+ * Aggregation level: the connected account, a campaign, an ad group, a single ad, or a single keyword.
+ */
+export const zGoogleAdsInsightLevel = z.enum([
+    'account',
+    'campaign',
+    'ad_group',
+    'ad',
+    'keyword'
+]);
+
+export const zGoogleAdsInsightsRow = z.object({
+    level: zGoogleAdsInsightLevel,
+    id: z.string().min(1),
+    name: z.string().nullable(),
+    parent_id: z.string().min(1).nullable(),
+    metrics: z.record(z.string(), z.number().nullable()),
+    segments: z.record(z.string(), z.string()).optional()
+});
+
+/**
+ * Performance rows for the requested level, metrics, and window.
+ */
+export const zGoogleAdsInsights = z.object({
+    object: z.literal('list'),
+    data: z.array(zGoogleAdsInsightsRow)
+});
+
+export const zGoogleAdsInsightMetric = z.enum([
+    'impressions',
+    'clicks',
+    'ctr',
+    'average_cpc',
+    'cost_micros',
+    'conversions',
+    'conversions_value',
+    'cost_per_conversion'
+]);
+
+export const zGoogleAdsInsightSegment = z.enum(['date', 'device']);
+
+export const zGoogleAdsInsightsQuery = z.object({
+    level: zGoogleAdsInsightLevel.optional().default('campaign'),
+    metrics: z.array(zGoogleAdsInsightMetric).min(1).optional().default([
+        'impressions',
+        'clicks',
+        'cost_micros',
+        'conversions'
+    ]),
+    segments: z.array(zGoogleAdsInsightSegment).optional(),
+    campaign_id: z.string().regex(/^\d+$/).optional(),
+    ad_group_id: z.string().regex(/^\d+$/).optional(),
+    since: z.iso.date(),
+    until: z.iso.date()
+});
+
+/**
+ * One flat node in a Google Ads campaign → ad_group → ad/keyword tree, with native structure (status, type, child_kind, expandable) and Google’s authoritative per-level metrics. Group nodes by parent_id to assemble the tree.
+ */
+export const zGoogleAdTreeNode = z.object({
+    level: z.enum([
+        'campaign',
+        'ad_group',
+        'ad',
+        'keyword'
+    ]),
+    id: z.string().min(1),
+    name: z.string().nullable(),
+    parent_id: z.string().min(1).nullable(),
+    status: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'ENABLED',
+        'PAUSED',
+        'REMOVED'
+    ]),
+    type: z.enum([
+        'UNSPECIFIED',
+        'UNKNOWN',
+        'SEARCH',
+        'DISPLAY',
+        'SHOPPING',
+        'HOTEL',
+        'VIDEO',
+        'MULTI_CHANNEL',
+        'LOCAL',
+        'SMART',
+        'PERFORMANCE_MAX',
+        'LOCAL_SERVICES',
+        'TRAVEL',
+        'DEMAND_GEN'
+    ]).nullable(),
+    child_kind: z.enum([
+        'ad_group',
+        'asset_group',
+        'none'
+    ]),
+    expandable: z.boolean(),
+    metrics: z.record(z.string(), z.number().nullable()),
+    cost_micros: z.number(),
+    cost: z.number()
+});
+
+/**
+ * Flat tree nodes for the requested level or subtree and window. Group by parent_id to assemble the tree.
+ */
+export const zGoogleAdTree = z.object({
+    object: z.literal('list'),
+    data: z.array(zGoogleAdTreeNode)
+});
+
+/**
+ * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+ */
+export const zIdempotencyKey = z.string().min(1).max(255);
+
 export const zProfilesListQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),
     offset: z.int().gte(0).lte(9007199254740991).optional().default(0),
@@ -956,6 +1640,10 @@ export const zProfilesCreateBody = z.object({
         z.number(),
         z.boolean()
     ])).optional()
+});
+
+export const zProfilesCreateHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 /**
@@ -1029,6 +1717,10 @@ export const zConnectionsListByProfileResponse = z.object({
     has_more: z.boolean()
 });
 
+export const zConnectionsDeleteHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zConnectionsDeletePath = z.object({
     id: z.string()
 });
@@ -1053,6 +1745,10 @@ export const zConnectionsGetResponse = zConnection;
 
 export const zConnectionsSelectBody = z.object({
     external_account_id: z.string().min(1)
+});
+
+export const zConnectionsSelectHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zConnectionsSelectPath = z.object({
@@ -1086,6 +1782,10 @@ export const zConnectionsConnectBody = z.object({
         'instagram',
         'tiktok'
     ])
+});
+
+export const zConnectionsConnectHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zConnectionsConnectPath = z.object({
@@ -1145,6 +1845,10 @@ export const zMediaCreateBody = z.object({
         z.number(),
         z.boolean()
     ])).optional()
+});
+
+export const zMediaCreateHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 /**
@@ -1305,6 +2009,10 @@ export const zMediaCreateResponse = z.object({
     }).nullable()
 });
 
+export const zMediaDeleteHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zMediaDeletePath = z.object({
     id: z.string()
 });
@@ -1343,6 +2051,10 @@ export const zMediaUpdateBody = z.object({
         'tiktok',
         'google_ads'
     ])).min(1).optional()
+});
+
+export const zMediaUpdateHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zMediaUpdatePath = z.object({
@@ -1439,6 +2151,10 @@ export const zPostsListResponse = z.object({
 
 export const zPostsCreateBody = zCreatePostBody;
 
+export const zPostsCreateHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 /**
  * OK
  */
@@ -1509,6 +2225,10 @@ export const zPostsUpdateBody = z.object({
     notes: z.string().nullish(),
     dry_run: z.boolean().optional().default(false),
     variants: z.array(zPostVariantInput).min(1).optional()
+});
+
+export const zPostsUpdateHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zPostsUpdatePath = z.object({
@@ -1662,7 +2382,18 @@ export const zPostsValidateResponse = z.object({
             'tiktok_url_ownership_unverified',
             'tiktok_unaudited_private_only',
             'tiktok_spam_risk',
+            'tiktok_file_format_invalid',
+            'tiktok_duration_invalid',
+            'tiktok_frame_rate_invalid',
+            'tiktok_resolution_invalid',
+            'tiktok_media_pull_failed',
+            'tiktok_server_error',
             'tiktok_publish_failed',
+            'google_rate_limited',
+            'google_server_error',
+            'google_auth_expired',
+            'google_permission_denied',
+            'google_request_failed',
             'post_publish_failed',
             'post_partially_published',
             'connection_platform_mismatch',
@@ -1672,6 +2403,22 @@ export const zPostsValidateResponse = z.object({
         hint: z.string().optional(),
         allowed: z.array(z.string()).optional(),
         got: z.string().optional(),
+        source: z.object({
+            platform: z.enum([
+                'google',
+                'meta',
+                'x',
+                'linkedin',
+                'instagram',
+                'facebook',
+                'tiktok',
+                'youtube'
+            ]),
+            platform_code: z.string().optional(),
+            field: z.string().optional(),
+            value: z.string().optional(),
+            platform_request_id: z.string().optional()
+        }).optional(),
         variant_index: z.int().gte(-9007199254740991).lte(9007199254740991),
         path: z.array(z.union([z.string(), z.number()])),
         platform: zPostPlatform.optional(),
@@ -1938,29 +2685,18 @@ export const zGoogleGetAccountResponse = z.object({
 });
 
 export const zGoogleGetInsightsBody = z.object({
-    level: z.enum([
-        'account',
-        'campaign',
-        'ad_group'
-    ]).optional().default('campaign'),
-    metrics: z.array(z.enum([
-        'impressions',
-        'clicks',
-        'ctr',
-        'average_cpc',
-        'cost_micros',
-        'conversions',
-        'conversions_value',
-        'cost_per_conversion'
-    ])).min(1).optional().default([
+    level: zGoogleAdsInsightLevel.optional().default('campaign'),
+    metrics: z.array(zGoogleAdsInsightMetric).min(1).optional().default([
         'impressions',
         'clicks',
         'cost_micros',
         'conversions'
     ]),
-    segments: z.array(z.enum(['date', 'device'])).optional(),
-    since: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    until: z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
+    segments: z.array(zGoogleAdsInsightSegment).optional(),
+    campaign_id: z.string().regex(/^\d+$/).optional(),
+    ad_group_id: z.string().regex(/^\d+$/).optional(),
+    since: z.iso.date(),
+    until: z.iso.date()
 });
 
 export const zGoogleGetInsightsPath = z.object({
@@ -1968,22 +2704,30 @@ export const zGoogleGetInsightsPath = z.object({
 });
 
 /**
- * Performance rows for the requested level, metrics, and window.
+ * OK
  */
-export const zGoogleGetInsightsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        level: z.enum([
-            'account',
-            'campaign',
-            'ad_group'
-        ]),
-        id: z.string(),
-        name: z.string().nullable(),
-        metrics: z.record(z.string(), z.number().nullable()),
-        segments: z.record(z.string(), z.string()).optional()
-    }))
+export const zGoogleGetInsightsResponse = zGoogleAdsInsights;
+
+export const zGoogleGetAdTreePath = z.object({
+    connection_id: z.string()
 });
+
+export const zGoogleGetAdTreeQuery = z.object({
+    campaign_id: z.string().regex(/^\d+$/).optional(),
+    metrics: z.array(zGoogleAdsInsightMetric).min(1).optional().default([
+        'impressions',
+        'clicks',
+        'cost_micros',
+        'conversions'
+    ]),
+    since: z.iso.date(),
+    until: z.iso.date()
+});
+
+/**
+ * OK
+ */
+export const zGoogleGetAdTreeResponse = zGoogleAdTree;
 
 export const zGoogleRunGaqlBody = z.object({
     query: z.string().min(1).max(10000)
@@ -2007,6 +2751,10 @@ export const zGoogleCreateBudgetBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleCreateBudgetHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleCreateBudgetPath = z.object({
     connection_id: z.string()
 });
@@ -2014,35 +2762,15 @@ export const zGoogleCreateBudgetPath = z.object({
 /**
  * OK
  */
-export const zGoogleCreateBudgetResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleDeleteBudgetBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleDeleteBudgetPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleDeleteBudgetResponse = z.object({
-    id: z.string(),
-    removed: z.boolean(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleCreateBudgetResponse = zGoogleAdsCreateResult;
 
 export const zGoogleEditBudgetBody = z.object({
     amount_micros: z.int().gt(0).lte(9007199254740991),
     dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleEditBudgetHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zGoogleEditBudgetPath = z.object({
@@ -2053,12 +2781,25 @@ export const zGoogleEditBudgetPath = z.object({
 /**
  * OK
  */
-export const zGoogleEditBudgetResponse = z.object({
-    id: z.string(),
-    resource_name: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
+export const zGoogleEditBudgetResponse = zGoogleAdsEditResult;
+
+export const zGoogleRemoveBudgetBody = z.object({
+    dry_run: z.boolean().optional().default(false)
 });
+
+export const zGoogleRemoveBudgetHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveBudgetPath = z.object({
+    connection_id: z.string(),
+    id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveBudgetResponse = zGoogleAdsDeleteResult;
 
 export const zGoogleListCampaignsPath = z.object({
     connection_id: z.string()
@@ -2119,7 +2860,9 @@ export const zGoogleListCampaignsResponse = z.object({
             'TARGET_OUTRANK_SHARE',
             'TARGET_ROAS',
             'TARGET_SPEND'
-        ])
+        ]),
+        start_date_time: z.string().nullable(),
+        end_date_time: z.string().nullable()
     }))
 });
 
@@ -2133,7 +2876,12 @@ export const zGoogleCreateCampaignBody = z.object({
         'target_spend'
     ]),
     status: z.enum(['ENABLED', 'PAUSED']).optional().default('PAUSED'),
+    contains_eu_political_advertising: z.enum(['DOES_NOT_CONTAIN_EU_POLITICAL_ADVERTISING', 'CONTAINS_EU_POLITICAL_ADVERTISING']).optional().default('DOES_NOT_CONTAIN_EU_POLITICAL_ADVERTISING'),
     dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleCreateCampaignHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zGoogleCreateCampaignPath = z.object({
@@ -2143,31 +2891,7 @@ export const zGoogleCreateCampaignPath = z.object({
 /**
  * OK
  */
-export const zGoogleCreateCampaignResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleDeleteCampaignBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleDeleteCampaignPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleDeleteCampaignResponse = z.object({
-    id: z.string(),
-    removed: z.boolean(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleCreateCampaignResponse = zGoogleAdsCreateResult;
 
 export const zGoogleGetCampaignPath = z.object({
     connection_id: z.string(),
@@ -2175,7 +2899,7 @@ export const zGoogleGetCampaignPath = z.object({
 });
 
 /**
- * A Google Ads campaign (the `campaign` resource): id, name, status, advertising channel type, and bidding strategy type. (start/end dates are a fast-follow — the Opteo v23 campaign type does not yet expose them as typed fields, and we never cast.)
+ * A Google Ads campaign (the `campaign` resource): id, name, status, advertising channel type, bidding strategy type, and serving start/end date-times.
  */
 export const zGoogleGetCampaignResponse = z.object({
     id: z.string(),
@@ -2227,12 +2951,18 @@ export const zGoogleGetCampaignResponse = z.object({
         'TARGET_OUTRANK_SHARE',
         'TARGET_ROAS',
         'TARGET_SPEND'
-    ])
+    ]),
+    start_date_time: z.string().nullable(),
+    end_date_time: z.string().nullable()
 });
 
 export const zGoogleEditCampaignBody = z.object({
     name: z.string().min(1).max(255),
     dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleEditCampaignHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zGoogleEditCampaignPath = z.object({
@@ -2243,15 +2973,32 @@ export const zGoogleEditCampaignPath = z.object({
 /**
  * OK
  */
-export const zGoogleEditCampaignResponse = z.object({
-    id: z.string(),
-    resource_name: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
+export const zGoogleEditCampaignResponse = zGoogleAdsEditResult;
+
+export const zGoogleRemoveCampaignBody = z.object({
+    dry_run: z.boolean().optional().default(false)
 });
+
+export const zGoogleRemoveCampaignHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveCampaignPath = z.object({
+    connection_id: z.string(),
+    id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveCampaignResponse = zGoogleAdsDeleteResult;
 
 export const zGooglePauseCampaignBody = z.object({
     dry_run: z.boolean().optional().default(false)
+});
+
+export const zGooglePauseCampaignHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zGooglePauseCampaignPath = z.object({
@@ -2273,6 +3020,10 @@ export const zGoogleEnableCampaignBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleEnableCampaignHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleEnableCampaignPath = z.object({
     connection_id: z.string(),
     id: z.string().regex(/^\d+$/)
@@ -2288,8 +3039,106 @@ export const zGoogleEnableCampaignResponse = z.object({
     executed: z.boolean()
 });
 
+export const zGoogleSearchGeoTargetsPath = z.object({
+    connection_id: z.string()
+});
+
+export const zGoogleSearchGeoTargetsQuery = z.object({
+    q: z.string().min(1),
+    country_code: z.string().length(2).optional()
+});
+
+/**
+ * OK
+ */
+export const zGoogleSearchGeoTargetsResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zGoogleAdsGeoTargetConstant)
+});
+
+export const zGoogleListCampaignCriteriaPath = z.object({
+    connection_id: z.string(),
+    campaign_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleListCampaignCriteriaResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zGoogleAdsCampaignCriterion)
+});
+
+export const zGoogleCreateCampaignCriterionBody = z.object({
+    dry_run: z.boolean().optional().default(false),
+    type: z.union([
+        z.literal('location'),
+        z.literal('language')
+    ]),
+    geo_target_constant: z.string().regex(/^geoTargetConstants\/\d+$/).optional(),
+    negative: z.boolean().optional().default(false),
+    language_constant: z.string().min(1).optional()
+});
+
+export const zGoogleCreateCampaignCriterionHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleCreateCampaignCriterionPath = z.object({
+    connection_id: z.string(),
+    campaign_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleCreateCampaignCriterionResponse = zGoogleAdsCreateResult;
+
+export const zGoogleRemoveCampaignCriterionBody = z.object({
+    dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleRemoveCampaignCriterionHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveCampaignCriterionPath = z.object({
+    connection_id: z.string(),
+    campaign_id: z.string().regex(/^\d+$/),
+    criterion_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveCampaignCriterionResponse = zGoogleAdsDeleteResult;
+
+export const zGoogleSetCampaignGeoSettingsBody = z.object({
+    dry_run: z.boolean().optional().default(false),
+    positive_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional(),
+    negative_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional()
+});
+
+export const zGoogleSetCampaignGeoSettingsHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleSetCampaignGeoSettingsPath = z.object({
+    connection_id: z.string(),
+    campaign_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleSetCampaignGeoSettingsResponse = zGoogleAdsEditResult;
+
 export const zGoogleListAdGroupsPath = z.object({
     connection_id: z.string()
+});
+
+export const zGoogleListAdGroupsQuery = z.object({
+    campaign_id: z.string().regex(/^\d+$/).optional()
 });
 
 /**
@@ -2297,39 +3146,7 @@ export const zGoogleListAdGroupsPath = z.object({
  */
 export const zGoogleListAdGroupsResponse = z.object({
     object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        name: z.string().nullable(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'SEARCH_STANDARD',
-            'DISPLAY_STANDARD',
-            'SHOPPING_PRODUCT_ADS',
-            'HOTEL_ADS',
-            'SHOPPING_SMART_ADS',
-            'VIDEO_BUMPER',
-            'VIDEO_TRUE_VIEW_IN_STREAM',
-            'VIDEO_TRUE_VIEW_IN_DISPLAY',
-            'VIDEO_NON_SKIPPABLE_IN_STREAM',
-            'SEARCH_DYNAMIC_ADS',
-            'SHOPPING_COMPARISON_LISTING_ADS',
-            'PROMOTED_HOTEL_ADS',
-            'VIDEO_RESPONSIVE',
-            'VIDEO_EFFICIENT_REACH',
-            'SMART_CAMPAIGN_ADS',
-            'TRAVEL_ADS',
-            'YOUTUBE_AUDIO'
-        ]),
-        campaign: z.string().nullable()
-    }))
+    data: z.array(zGoogleAdsAdGroup)
 });
 
 export const zGoogleCreateAdGroupBody = z.object({
@@ -2340,6 +3157,10 @@ export const zGoogleCreateAdGroupBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleCreateAdGroupHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleCreateAdGroupPath = z.object({
     connection_id: z.string()
 });
@@ -2347,31 +3168,7 @@ export const zGoogleCreateAdGroupPath = z.object({
 /**
  * OK
  */
-export const zGoogleCreateAdGroupResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleDeleteAdGroupBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleDeleteAdGroupPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleDeleteAdGroupResponse = z.object({
-    id: z.string(),
-    removed: z.boolean(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleCreateAdGroupResponse = zGoogleAdsCreateResult;
 
 export const zGoogleGetAdGroupPath = z.object({
     connection_id: z.string(),
@@ -2379,45 +3176,17 @@ export const zGoogleGetAdGroupPath = z.object({
 });
 
 /**
- * A Google Ads ad group (the `ad_group` resource): id, name, status, type, and the resource name of the parent campaign.
+ * OK
  */
-export const zGoogleGetAdGroupResponse = z.object({
-    id: z.string(),
-    name: z.string().nullable(),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'SEARCH_STANDARD',
-        'DISPLAY_STANDARD',
-        'SHOPPING_PRODUCT_ADS',
-        'HOTEL_ADS',
-        'SHOPPING_SMART_ADS',
-        'VIDEO_BUMPER',
-        'VIDEO_TRUE_VIEW_IN_STREAM',
-        'VIDEO_TRUE_VIEW_IN_DISPLAY',
-        'VIDEO_NON_SKIPPABLE_IN_STREAM',
-        'SEARCH_DYNAMIC_ADS',
-        'SHOPPING_COMPARISON_LISTING_ADS',
-        'PROMOTED_HOTEL_ADS',
-        'VIDEO_RESPONSIVE',
-        'VIDEO_EFFICIENT_REACH',
-        'SMART_CAMPAIGN_ADS',
-        'TRAVEL_ADS',
-        'YOUTUBE_AUDIO'
-    ]),
-    campaign: z.string().nullable()
-});
+export const zGoogleGetAdGroupResponse = zGoogleAdsAdGroup;
 
 export const zGoogleEditAdGroupBody = z.object({
     name: z.string().min(1).max(255),
     dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleEditAdGroupHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zGoogleEditAdGroupPath = z.object({
@@ -2428,12 +3197,7 @@ export const zGoogleEditAdGroupPath = z.object({
 /**
  * OK
  */
-export const zGoogleEditAdGroupResponse = z.object({
-    id: z.string(),
-    resource_name: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleEditAdGroupResponse = zGoogleAdsEditResult;
 
 export const zGoogleSetAdGroupBidsBody = z.object({
     cpc_bid_micros: z.int().gt(0).lte(9007199254740991).optional(),
@@ -2441,6 +3205,10 @@ export const zGoogleSetAdGroupBidsBody = z.object({
     target_cpa_micros: z.int().gt(0).lte(9007199254740991).optional(),
     target_roas: z.number().gt(0).optional(),
     dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleSetAdGroupBidsHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zGoogleSetAdGroupBidsPath = z.object({
@@ -2451,15 +3219,32 @@ export const zGoogleSetAdGroupBidsPath = z.object({
 /**
  * OK
  */
-export const zGoogleSetAdGroupBidsResponse = z.object({
-    id: z.string(),
-    resource_name: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
+export const zGoogleSetAdGroupBidsResponse = zGoogleAdsEditResult;
+
+export const zGoogleRemoveAdGroupBody = z.object({
+    dry_run: z.boolean().optional().default(false)
 });
+
+export const zGoogleRemoveAdGroupHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveAdGroupPath = z.object({
+    connection_id: z.string(),
+    id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveAdGroupResponse = zGoogleAdsDeleteResult;
 
 export const zGooglePauseAdGroupBody = z.object({
     dry_run: z.boolean().optional().default(false)
+});
+
+export const zGooglePauseAdGroupHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 export const zGooglePauseAdGroupPath = z.object({
@@ -2481,6 +3266,10 @@ export const zGoogleEnableAdGroupBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleEnableAdGroupHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleEnableAdGroupPath = z.object({
     connection_id: z.string(),
     id: z.string().regex(/^\d+$/)
@@ -2496,8 +3285,153 @@ export const zGoogleEnableAdGroupResponse = z.object({
     executed: z.boolean()
 });
 
+export const zGoogleListAdGroupCriteriaPath = z.object({
+    connection_id: z.string(),
+    ad_group_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleListAdGroupCriteriaResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zGoogleAdsAdGroupCriterion)
+});
+
+export const zGoogleCreateAdGroupCriterionBody = z.object({
+    dry_run: z.boolean().optional().default(false),
+    type: z.union([
+        z.literal('age_range'),
+        z.literal('gender'),
+        z.literal('income_range'),
+        z.literal('parental_status'),
+        z.literal('user_list'),
+        z.literal('audience'),
+        z.literal('custom_audience')
+    ]),
+    age_range: z.enum([
+        'AGE_RANGE_18_24',
+        'AGE_RANGE_25_34',
+        'AGE_RANGE_35_44',
+        'AGE_RANGE_45_54',
+        'AGE_RANGE_55_64',
+        'AGE_RANGE_65_UP',
+        'AGE_RANGE_UNDETERMINED'
+    ]).optional(),
+    negative: z.boolean().optional().default(false),
+    gender: z.enum([
+        'MALE',
+        'FEMALE',
+        'UNDETERMINED'
+    ]).optional(),
+    income_range: z.enum([
+        'INCOME_RANGE_0_50',
+        'INCOME_RANGE_50_60',
+        'INCOME_RANGE_60_70',
+        'INCOME_RANGE_70_80',
+        'INCOME_RANGE_80_90',
+        'INCOME_RANGE_90_UP',
+        'INCOME_RANGE_UNDETERMINED'
+    ]).optional(),
+    parental_status: z.enum([
+        'PARENT',
+        'NOT_A_PARENT',
+        'UNDETERMINED'
+    ]).optional(),
+    user_list: z.string().regex(/^customers\/\d+\/userLists\/\d+$/).optional(),
+    audience: z.string().regex(/^customers\/\d+\/audiences\/\d+$/).optional(),
+    custom_audience: z.string().regex(/^customers\/\d+\/customAudiences\/\d+$/).optional()
+});
+
+export const zGoogleCreateAdGroupCriterionHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleCreateAdGroupCriterionPath = z.object({
+    connection_id: z.string(),
+    ad_group_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleCreateAdGroupCriterionResponse = zGoogleAdsCreateResult;
+
+export const zGoogleRemoveAdGroupCriterionBody = z.object({
+    dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleRemoveAdGroupCriterionHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveAdGroupCriterionPath = z.object({
+    connection_id: z.string(),
+    ad_group_id: z.string().regex(/^\d+$/),
+    criterion_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveAdGroupCriterionResponse = zGoogleAdsDeleteResult;
+
+export const zGoogleListAudiencesPath = z.object({
+    connection_id: z.string()
+});
+
+export const zGoogleListAudiencesQuery = z.object({
+    q: z.string().min(1).optional(),
+    kind: z.enum([
+        'user_list',
+        'audience',
+        'custom_audience'
+    ]).optional()
+});
+
+/**
+ * OK
+ */
+export const zGoogleListAudiencesResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zGoogleAdsAudience)
+});
+
+export const zGoogleSetCampaignTargetingSettingBody = z.object({
+    dry_run: z.boolean().optional().default(false),
+    targeting_dimension: z.enum([
+        'KEYWORD',
+        'AUDIENCE',
+        'TOPIC',
+        'GENDER',
+        'AGE_RANGE',
+        'PLACEMENT',
+        'PARENTAL_STATUS',
+        'INCOME_RANGE'
+    ]),
+    bid_only: z.boolean()
+});
+
+export const zGoogleSetCampaignTargetingSettingHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleSetCampaignTargetingSettingPath = z.object({
+    connection_id: z.string(),
+    campaign_id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleSetCampaignTargetingSettingResponse = zGoogleAdsEditResult;
+
 export const zGoogleListAdsPath = z.object({
     connection_id: z.string()
+});
+
+export const zGoogleListAdsQuery = z.object({
+    ad_group_id: z.string().regex(/^\d+$/).optional()
 });
 
 /**
@@ -2505,54 +3439,7 @@ export const zGoogleListAdsPath = z.object({
  */
 export const zGoogleListAdsResponse = z.object({
     object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        name: z.string().nullable(),
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'TEXT_AD',
-            'EXPANDED_TEXT_AD',
-            'EXPANDED_DYNAMIC_SEARCH_AD',
-            'HOTEL_AD',
-            'SHOPPING_SMART_AD',
-            'SHOPPING_PRODUCT_AD',
-            'VIDEO_AD',
-            'IMAGE_AD',
-            'RESPONSIVE_SEARCH_AD',
-            'LEGACY_RESPONSIVE_DISPLAY_AD',
-            'APP_AD',
-            'LEGACY_APP_INSTALL_AD',
-            'RESPONSIVE_DISPLAY_AD',
-            'LOCAL_AD',
-            'HTML5_UPLOAD_AD',
-            'DYNAMIC_HTML5_AD',
-            'APP_ENGAGEMENT_AD',
-            'SHOPPING_COMPARISON_LISTING_AD',
-            'VIDEO_BUMPER_AD',
-            'VIDEO_NON_SKIPPABLE_IN_STREAM_AD',
-            'VIDEO_TRUEVIEW_IN_STREAM_AD',
-            'VIDEO_RESPONSIVE_AD',
-            'SMART_CAMPAIGN_AD',
-            'CALL_AD',
-            'APP_PRE_REGISTRATION_AD',
-            'IN_FEED_VIDEO_AD',
-            'DEMAND_GEN_MULTI_ASSET_AD',
-            'DEMAND_GEN_CAROUSEL_AD',
-            'TRAVEL_AD',
-            'DEMAND_GEN_VIDEO_RESPONSIVE_AD',
-            'DEMAND_GEN_PRODUCT_AD',
-            'YOUTUBE_AUDIO_AD'
-        ]),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        ad_group: z.string().nullable()
-    }))
+    data: z.array(zGoogleAdsAd)
 });
 
 export const zGoogleCreateAdBody = z.object({
@@ -2575,6 +3462,10 @@ export const zGoogleCreateAdBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleCreateAdHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleCreateAdPath = z.object({
     connection_id: z.string()
 });
@@ -2582,88 +3473,17 @@ export const zGoogleCreateAdPath = z.object({
 /**
  * OK
  */
-export const zGoogleCreateAdResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleCreateAdResponse = zGoogleAdsCreateResult;
 
-export const zGoogleDeleteAdBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleDeleteAdPath = z.object({
+export const zGoogleGetAdPath = z.object({
     connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
+    id: z.string().regex(/^\d+~\d+$/)
 });
 
 /**
  * OK
  */
-export const zGoogleDeleteAdResponse = z.object({
-    id: z.string(),
-    removed: z.boolean(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleGetAdPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * A Google Ads ad (the `ad_group_ad` resource): id, name, creative type, serving status, and the ad group resource name it belongs to.
- */
-export const zGoogleGetAdResponse = z.object({
-    id: z.string(),
-    name: z.string().nullable(),
-    type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'TEXT_AD',
-        'EXPANDED_TEXT_AD',
-        'EXPANDED_DYNAMIC_SEARCH_AD',
-        'HOTEL_AD',
-        'SHOPPING_SMART_AD',
-        'SHOPPING_PRODUCT_AD',
-        'VIDEO_AD',
-        'IMAGE_AD',
-        'RESPONSIVE_SEARCH_AD',
-        'LEGACY_RESPONSIVE_DISPLAY_AD',
-        'APP_AD',
-        'LEGACY_APP_INSTALL_AD',
-        'RESPONSIVE_DISPLAY_AD',
-        'LOCAL_AD',
-        'HTML5_UPLOAD_AD',
-        'DYNAMIC_HTML5_AD',
-        'APP_ENGAGEMENT_AD',
-        'SHOPPING_COMPARISON_LISTING_AD',
-        'VIDEO_BUMPER_AD',
-        'VIDEO_NON_SKIPPABLE_IN_STREAM_AD',
-        'VIDEO_TRUEVIEW_IN_STREAM_AD',
-        'VIDEO_RESPONSIVE_AD',
-        'SMART_CAMPAIGN_AD',
-        'CALL_AD',
-        'APP_PRE_REGISTRATION_AD',
-        'IN_FEED_VIDEO_AD',
-        'DEMAND_GEN_MULTI_ASSET_AD',
-        'DEMAND_GEN_CAROUSEL_AD',
-        'TRAVEL_AD',
-        'DEMAND_GEN_VIDEO_RESPONSIVE_AD',
-        'DEMAND_GEN_PRODUCT_AD',
-        'YOUTUBE_AUDIO_AD'
-    ]),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    ad_group: z.string().nullable()
-});
+export const zGoogleGetAdResponse = zGoogleAdsAd;
 
 export const zGoogleCreateDisplayAdBody = z.object({
     ad_group: z.string().min(1),
@@ -2697,6 +3517,10 @@ export const zGoogleCreateDisplayAdBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleCreateDisplayAdHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleCreateDisplayAdPath = z.object({
     connection_id: z.string()
 });
@@ -2704,20 +3528,37 @@ export const zGoogleCreateDisplayAdPath = z.object({
 /**
  * OK
  */
-export const zGoogleCreateDisplayAdResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
+export const zGoogleCreateDisplayAdResponse = zGoogleAdsCreateResult;
+
+export const zGoogleRemoveAdBody = z.object({
+    dry_run: z.boolean().optional().default(false)
 });
+
+export const zGoogleRemoveAdHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveAdPath = z.object({
+    connection_id: z.string(),
+    id: z.string().regex(/^\d+~\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveAdResponse = zGoogleAdsDeleteResult;
 
 export const zGooglePauseAdBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGooglePauseAdHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGooglePauseAdPath = z.object({
     connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
+    id: z.string().regex(/^\d+~\d+$/)
 });
 
 /**
@@ -2734,9 +3575,13 @@ export const zGoogleEnableAdBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleEnableAdHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleEnableAdPath = z.object({
     connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
+    id: z.string().regex(/^\d+~\d+$/)
 });
 
 /**
@@ -2753,31 +3598,16 @@ export const zGoogleListKeywordsPath = z.object({
     connection_id: z.string()
 });
 
+export const zGoogleListKeywordsQuery = z.object({
+    ad_group_id: z.string().regex(/^\d+$/).optional()
+});
+
 /**
  * OK
  */
 export const zGoogleListKeywordsResponse = z.object({
     object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        text: z.string().nullable(),
-        match_type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'EXACT',
-            'PHRASE',
-            'BROAD'
-        ]),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        ad_group: z.string().nullable()
-    }))
+    data: z.array(zGoogleAdsKeyword)
 });
 
 export const zGoogleCreateKeywordBody = z.object({
@@ -2793,6 +3623,10 @@ export const zGoogleCreateKeywordBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleCreateKeywordHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleCreateKeywordPath = z.object({
     connection_id: z.string()
 });
@@ -2800,88 +3634,66 @@ export const zGoogleCreateKeywordPath = z.object({
 /**
  * OK
  */
-export const zGoogleCreateKeywordResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleCreateKeywordResponse = zGoogleAdsCreateResult;
 
-export const zGoogleDeleteKeywordBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleDeleteKeywordPath = z.object({
+export const zGoogleGetKeywordPath = z.object({
     connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
+    id: z.string().regex(/^\d+~\d+$/)
 });
 
 /**
  * OK
  */
-export const zGoogleDeleteKeywordResponse = z.object({
-    id: z.string(),
-    removed: z.boolean(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleGetKeywordPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * A Google Ads keyword (an `ad_group_criterion` of type KEYWORD): criterion id, text, match type, status, whether it is a negative keyword, and the owning ad group resource name.
- */
-export const zGoogleGetKeywordResponse = z.object({
-    id: z.string(),
-    text: z.string().nullable(),
-    match_type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'EXACT',
-        'PHRASE',
-        'BROAD'
-    ]),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    negative: z.boolean(),
-    ad_group: z.string().nullable()
-});
+export const zGoogleGetKeywordResponse = zGoogleAdsKeyword;
 
 export const zGoogleSetKeywordBidBody = z.object({
     cpc_bid_micros: z.int().gt(0).lte(9007199254740991),
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleSetKeywordBidHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleSetKeywordBidPath = z.object({
     connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
+    id: z.string().regex(/^\d+~\d+$/)
 });
 
 /**
  * OK
  */
-export const zGoogleSetKeywordBidResponse = z.object({
-    id: z.string(),
-    resource_name: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
+export const zGoogleSetKeywordBidResponse = zGoogleAdsEditResult;
+
+export const zGoogleRemoveKeywordBody = z.object({
+    dry_run: z.boolean().optional().default(false)
 });
+
+export const zGoogleRemoveKeywordHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveKeywordPath = z.object({
+    connection_id: z.string(),
+    id: z.string().regex(/^\d+~\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveKeywordResponse = zGoogleAdsDeleteResult;
 
 export const zGooglePauseKeywordBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGooglePauseKeywordHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGooglePauseKeywordPath = z.object({
     connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
+    id: z.string().regex(/^\d+~\d+$/)
 });
 
 /**
@@ -2898,9 +3710,13 @@ export const zGoogleEnableKeywordBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleEnableKeywordHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleEnableKeywordPath = z.object({
     connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
+    id: z.string().regex(/^\d+~\d+$/)
 });
 
 /**
@@ -3082,6 +3898,10 @@ export const zGoogleCreateConversionActionBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleCreateConversionActionHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleCreateConversionActionPath = z.object({
     connection_id: z.string()
 });
@@ -3089,12 +3909,7 @@ export const zGoogleCreateConversionActionPath = z.object({
 /**
  * OK
  */
-export const zGoogleCreateConversionActionResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleCreateConversionActionResponse = zGoogleAdsCreateResult;
 
 export const zGoogleGetConversionActionPath = z.object({
     connection_id: z.string(),
@@ -3310,6 +4125,10 @@ export const zGoogleSetConversionGoalBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleSetConversionGoalHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleSetConversionGoalPath = z.object({
     connection_id: z.string()
 });
@@ -3381,6 +4200,10 @@ export const zGoogleUploadConversionsBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleUploadConversionsHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleUploadConversionsPath = z.object({
     connection_id: z.string()
 });
@@ -3405,6 +4228,10 @@ export const zGoogleUploadImageAssetBody = z.object({
     dry_run: z.boolean().optional().default(false)
 });
 
+export const zGoogleUploadImageAssetHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
 export const zGoogleUploadImageAssetPath = z.object({
     connection_id: z.string()
 });
@@ -3412,12 +4239,7 @@ export const zGoogleUploadImageAssetPath = z.object({
 /**
  * OK
  */
-export const zGoogleUploadImageAssetResponse = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zGoogleUploadImageAssetResponse = zGoogleAdsCreateResult;
 
 export const zTiktokCreatorInfoPath = z.object({
     id: z.string()
@@ -3664,6 +4486,10 @@ export const zWebhooksCreateEndpointBody = z.object({
         'post.failed',
         'post.completed'
     ]))
+});
+
+export const zWebhooksCreateEndpointHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
 });
 
 /**

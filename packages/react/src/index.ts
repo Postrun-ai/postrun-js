@@ -75,6 +75,8 @@ export {
 export type { CalendarFilters, LiveOptions } from './posts';
 export { useTikTokCreatorInfo } from './tiktok';
 export type { TikTokCreatorInfo } from './tiktok';
+export { useAdTree } from './ads';
+export type { UseAdTreeParams, UseAdTreeResult } from './ads';
 export type {
   PostValidation,
   ValidationIssue,
@@ -83,6 +85,11 @@ export type {
 } from '@postrun/js';
 export { useInfiniteList } from './infinite-list';
 export type { InfiniteList } from './infinite-list';
+
+// The generated TanStack Query layer (`*Options`/`*Mutation`/`*QueryKey` for every
+// operation — Google Ads included) + the `usePostrunQuery`/`usePostrunMutation`
+// sugar that injects the provider's client (Bearer via getToken) + QueryClient.
+export * from './query';
 export {
   profileKeys,
   connectionKeys,

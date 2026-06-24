@@ -1,5 +1,54 @@
 # @postrun/js
 
+## 2.20.0
+
+### Minor Changes
+
+- Google Ads tree hook + first-class idempotency.
+
+  - **`useAdTree` (`@postrun/react`)** — renders the Google Ads campaign → ad_group → ad/keyword tree from `GET /v1/google/{conn}/ads/tree`. Fetches the campaign level plus one query per expanded campaign (controlled `expanded`) and groups the flat nodes; changing `since`/`until`/`metrics` refetches. Stable references (memoized).
+  - **`groupAdTree` + `AdTreeNode` (`@postrun/js`)** — pure helper that groups the flat `GoogleAdTreeNode[]` into a nested tree by `parent_id` (a node whose parent is absent is a root, so campaign-level and per-campaign subtree pages group + merge correctly).
+  - **Typed `Idempotency-Key` header** — every idempotent write now exposes an optional, typed `Idempotency-Key` parameter (with the `IdempotencyKey` type + `zIdempotencyKey` validator), regenerated from the spec.
+
+## 2.19.0
+
+### Minor Changes
+
+- Google Ads tree-ready reads + targeting completeness.
+
+  - **Insights leaf levels** — `POST /v1/google/{conn}/insights` now supports `ad` and
+    `keyword` levels (alongside account/campaign/ad_group), each row carrying `parent_id`
+    so a campaign→ad-group→ad/keyword tree is assemblable, plus a level↔filter matrix
+    (leaf levels require `ad_group_id`). New named types `GoogleAdsInsightLevel/Metric/Segment`.
+  - **List parent filters** — `ad-groups?campaign_id=`, `ads?ad_group_id=`, `keywords?ad_group_id=`
+    for lazy per-branch loading.
+  - **Named entity components** — `GoogleAdsAdGroup`, `GoogleAdsAd`, `GoogleAdsKeyword`,
+    `GoogleAdsAudience` (and the criteria/insights shapes) are now single named SDK types.
+  - **Audience discovery** includes `custom_audience`; campaign targeting-setting is
+    read-merge-write (no longer wipes other dimensions).
+
+  All exposed as typed TanStack Query options (`googleListAdGroupsOptions`,
+  `googleGetInsightsOptions`, `googleListAudiencesOptions`, …) via `@postrun/react`.
+
+## 2.18.0
+
+### Minor Changes
+
+- Add a generated TanStack Query layer for every API operation.
+
+  - `@postrun/js/query` exposes `*Options` (query) and `*Mutation` factories generated
+    by Hey API's `@tanstack/react-query` plugin — one per operation, fully typed from
+    the OpenAPI spec (Google Ads campaigns/ad-groups/ads/keywords/insights, the new
+    targeting criteria + audiences, plus posts/media/profiles/connections/webhooks).
+    `@tanstack/react-query` is an optional peer of `@postrun/js`, so non-react
+    consumers never pull it.
+  - `@postrun/react` re-exports those options and adds `usePostrunQuery` /
+    `usePostrunMutation` — sugar that injects the provider's configured client
+    (Bearer via `getToken`) and its isolated `QueryClient`, so a customer composes
+    any endpoint with no per-endpoint wrapper and no global client.
+  - Spec synced with the new Google Ads targeting endpoints (geo/language + demographics
+    - audiences + targeting-setting).
+
 ## 2.17.0
 
 ### Minor Changes

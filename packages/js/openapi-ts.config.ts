@@ -32,5 +32,12 @@ export default defineConfig({
     // Runtime validators generated from the same schemas, exported via
     // `@postrun/js/schemas` for client-side validation before a request.
     'zod',
+    // TanStack Query options/mutations for EVERY operation (queryKey + queryFn,
+    // mutationOptions). The paved FE path: a customer composes them with their own
+    // `useQuery`/`useMutation` however they like — no hand-written per-endpoint
+    // wrapper. They generate next to the SDK fns they call, so they share the one
+    // configured client (the `auth: () => getToken()` Bearer). `@postrun/react`
+    // re-exports them + adds the `usePostrunQuery` sugar that injects the client.
+    '@tanstack/react-query',
   ],
 });

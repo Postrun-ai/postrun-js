@@ -70,6 +70,9 @@ importers:
       '@hey-api/openapi-ts':
         specifier: ^0.98.2
         version: 0.98.2(typescript@5.9.3)
+      '@tanstack/react-query':
+        specifier: ^5.101.0
+        version: 5.101.0(react@19.2.7)
       prettier:
         specifier: ^3.4.2
         version: 3.8.4

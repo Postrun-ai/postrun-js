@@ -1,6 +1,6 @@
 {
   "name": "@postrun/js",
-  "version": "2.17.0",
+  "version": "2.20.0",
   "description": "Typed JavaScript client + client-side validation for the Postrun API",
   "license": "Apache-2.0",
   "homepage": "https://postrun.ai",
@@ -29,6 +29,11 @@
       "types": "./dist/schemas/index.d.ts",
       "import": "./dist/schemas/index.js",
       "require": "./dist/schemas/index.cjs"
+    },
+    "./query": {
+      "types": "./dist/query.d.ts",
+      "import": "./dist/query.js",
+      "require": "./dist/query.cjs"
     }
   },
   "main": "./dist/index.cjs",
@@ -47,8 +52,17 @@
     "@uppy/core": "^5.2.0",
     "zod": "^4.0.0"
   },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/react-query": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.98.2",
+    "@tanstack/react-query": "^5.101.0",
     "prettier": "^3.4.2",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3",

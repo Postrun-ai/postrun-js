@@ -92,6 +92,11 @@ export type { LinkedInPollDuration } from './linkedin';
 export { xPollDurationLabel } from './x';
 export type { XPoll } from './x';
 
+// Google Ads tree: group the flat `GET /google/{conn}/ads/tree` nodes into a
+// nested campaign → ad_group → ad/keyword tree (generic, so it lives here).
+export { groupAdTree } from './ads-tree';
+export type { AdTreeNode } from './ads-tree';
+
 export {
   defaultTikTokOptions,
   privacyChoices,

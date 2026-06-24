@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { ConnectionsConnectData, ConnectionsConnectErrors, ConnectionsConnectResponses, ConnectionsDeleteData, ConnectionsDeleteErrors, ConnectionsDeleteResponses, ConnectionsGetData, ConnectionsGetErrors, ConnectionsGetResponses, ConnectionsListAccountsData, ConnectionsListAccountsErrors, ConnectionsListAccountsResponses, ConnectionsListByProfileData, ConnectionsListByProfileErrors, ConnectionsListByProfileResponses, ConnectionsSelectData, ConnectionsSelectErrors, ConnectionsSelectResponses, GoogleCreateAdData, GoogleCreateAdErrors, GoogleCreateAdGroupData, GoogleCreateAdGroupErrors, GoogleCreateAdGroupResponses, GoogleCreateAdResponses, GoogleCreateBudgetData, GoogleCreateBudgetErrors, GoogleCreateBudgetResponses, GoogleCreateCampaignData, GoogleCreateCampaignErrors, GoogleCreateCampaignResponses, GoogleCreateConversionActionData, GoogleCreateConversionActionErrors, GoogleCreateConversionActionResponses, GoogleCreateDisplayAdData, GoogleCreateDisplayAdErrors, GoogleCreateDisplayAdResponses, GoogleCreateKeywordData, GoogleCreateKeywordErrors, GoogleCreateKeywordResponses, GoogleDeleteAdData, GoogleDeleteAdErrors, GoogleDeleteAdGroupData, GoogleDeleteAdGroupErrors, GoogleDeleteAdGroupResponses, GoogleDeleteAdResponses, GoogleDeleteBudgetData, GoogleDeleteBudgetErrors, GoogleDeleteBudgetResponses, GoogleDeleteCampaignData, GoogleDeleteCampaignErrors, GoogleDeleteCampaignResponses, GoogleDeleteKeywordData, GoogleDeleteKeywordErrors, GoogleDeleteKeywordResponses, GoogleEditAdGroupData, GoogleEditAdGroupErrors, GoogleEditAdGroupResponses, GoogleEditBudgetData, GoogleEditBudgetErrors, GoogleEditBudgetResponses, GoogleEditCampaignData, GoogleEditCampaignErrors, GoogleEditCampaignResponses, GoogleEnableAdData, GoogleEnableAdErrors, GoogleEnableAdGroupData, GoogleEnableAdGroupErrors, GoogleEnableAdGroupResponses, GoogleEnableAdResponses, GoogleEnableCampaignData, GoogleEnableCampaignErrors, GoogleEnableCampaignResponses, GoogleEnableKeywordData, GoogleEnableKeywordErrors, GoogleEnableKeywordResponses, GoogleGetAccountData, GoogleGetAccountErrors, GoogleGetAccountResponses, GoogleGetAdData, GoogleGetAdErrors, GoogleGetAdGroupData, GoogleGetAdGroupErrors, GoogleGetAdGroupResponses, GoogleGetAdResponses, GoogleGetCampaignData, GoogleGetCampaignErrors, GoogleGetCampaignResponses, GoogleGetConversionActionData, GoogleGetConversionActionErrors, GoogleGetConversionActionResponses, GoogleGetInsightsData, GoogleGetInsightsErrors, GoogleGetInsightsResponses, GoogleGetKeywordData, GoogleGetKeywordErrors, GoogleGetKeywordResponses, GoogleListAdGroupsData, GoogleListAdGroupsErrors, GoogleListAdGroupsResponses, GoogleListAdsData, GoogleListAdsErrors, GoogleListAdsResponses, GoogleListCampaignsData, GoogleListCampaignsErrors, GoogleListCampaignsResponses, GoogleListConversionActionsData, GoogleListConversionActionsErrors, GoogleListConversionActionsResponses, GoogleListConversionGoalsData, GoogleListConversionGoalsErrors, GoogleListConversionGoalsResponses, GoogleListKeywordsData, GoogleListKeywordsErrors, GoogleListKeywordsResponses, GooglePauseAdData, GooglePauseAdErrors, GooglePauseAdGroupData, GooglePauseAdGroupErrors, GooglePauseAdGroupResponses, GooglePauseAdResponses, GooglePauseCampaignData, GooglePauseCampaignErrors, GooglePauseCampaignResponses, GooglePauseKeywordData, GooglePauseKeywordErrors, GooglePauseKeywordResponses, GoogleRunGaqlData, GoogleRunGaqlErrors, GoogleRunGaqlResponses, GoogleSetAdGroupBidsData, GoogleSetAdGroupBidsErrors, GoogleSetAdGroupBidsResponses, GoogleSetConversionGoalData, GoogleSetConversionGoalErrors, GoogleSetConversionGoalResponses, GoogleSetKeywordBidData, GoogleSetKeywordBidErrors, GoogleSetKeywordBidResponses, GoogleUploadConversionsData, GoogleUploadConversionsErrors, GoogleUploadConversionsResponses, GoogleUploadImageAssetData, GoogleUploadImageAssetErrors, GoogleUploadImageAssetResponses, LogsGetData, LogsGetErrors, LogsGetResponses, LogsListData, LogsListErrors, LogsListResponses, MediaAbortData, MediaAbortErrors, MediaAbortResponses, MediaCompleteData, MediaCompleteErrors, MediaCompleteResponses, MediaCreateData, MediaCreateErrors, MediaCreateResponses, MediaDeleteData, MediaDeleteErrors, MediaDeleteResponses, MediaGetData, MediaGetErrors, MediaGetResponses, MediaListData, MediaListErrors, MediaListPartsData, MediaListPartsErrors, MediaListPartsResponses, MediaListResponses, MediaSignPartData, MediaSignPartErrors, MediaSignPartResponses, MediaUpdateData, MediaUpdateErrors, MediaUpdateResponses, MetaAccountData, MetaAccountErrors, MetaAccountResponses, MetaAdData, MetaAdErrors, MetaAdResponses, MetaAdsData, MetaAdsErrors, MetaAdsetData, MetaAdsetErrors, MetaAdsetResponses, MetaAdsetsData, MetaAdsetsErrors, MetaAdsetsResponses, MetaAdsResponses, MetaCampaignData, MetaCampaignErrors, MetaCampaignResponses, MetaCampaignsData, MetaCampaignsErrors, MetaCampaignsResponses, MetaInsightsData, MetaInsightsErrors, MetaInsightsResponses, PostsCreateData, PostsCreateErrors, PostsCreateResponses, PostsDeleteData, PostsDeleteErrors, PostsDeleteResponses, PostsGetData, PostsGetErrors, PostsGetResponses, PostsListData, PostsListErrors, PostsListResponses, PostsUpdateData, PostsUpdateErrors, PostsUpdateResponses, PostsValidateData, PostsValidateErrors, PostsValidateResponses, ProfilesCreateData, ProfilesCreateErrors, ProfilesCreateResponses, ProfilesDeleteData, ProfilesDeleteErrors, ProfilesDeleteResponses, ProfilesGetData, ProfilesGetErrors, ProfilesGetResponses, ProfilesListData, ProfilesListErrors, ProfilesListResponses, ProfilesUpdateData, ProfilesUpdateErrors, ProfilesUpdateResponses, TiktokCreatorInfoData, TiktokCreatorInfoErrors, TiktokCreatorInfoResponses, TokensMintData, TokensMintErrors, TokensMintResponses, WebhooksCreateEndpointData, WebhooksCreateEndpointErrors, WebhooksCreateEndpointResponses, WebhooksCreatePortalData, WebhooksCreatePortalErrors, WebhooksCreatePortalResponses, WebhooksDeleteEndpointData, WebhooksDeleteEndpointErrors, WebhooksDeleteEndpointResponses, WebhooksGetEndpointData, WebhooksGetEndpointErrors, WebhooksGetEndpointResponses, WebhooksListEndpointsData, WebhooksListEndpointsErrors, WebhooksListEndpointsResponses, WebhooksListEventTypesData, WebhooksListEventTypesErrors, WebhooksListEventTypesResponses, WebhooksPingData, WebhooksPingErrors, WebhooksPingResponses, WebhooksUpdateEndpointData, WebhooksUpdateEndpointErrors, WebhooksUpdateEndpointResponses } from './types.gen';
+import type { ConnectionsConnectData, ConnectionsConnectErrors, ConnectionsConnectResponses, ConnectionsDeleteData, ConnectionsDeleteErrors, ConnectionsDeleteResponses, ConnectionsGetData, ConnectionsGetErrors, ConnectionsGetResponses, ConnectionsListAccountsData, ConnectionsListAccountsErrors, ConnectionsListAccountsResponses, ConnectionsListByProfileData, ConnectionsListByProfileErrors, ConnectionsListByProfileResponses, ConnectionsSelectData, ConnectionsSelectErrors, ConnectionsSelectResponses, GoogleCreateAdData, GoogleCreateAdErrors, GoogleCreateAdGroupCriterionData, GoogleCreateAdGroupCriterionErrors, GoogleCreateAdGroupCriterionResponses, GoogleCreateAdGroupData, GoogleCreateAdGroupErrors, GoogleCreateAdGroupResponses, GoogleCreateAdResponses, GoogleCreateBudgetData, GoogleCreateBudgetErrors, GoogleCreateBudgetResponses, GoogleCreateCampaignCriterionData, GoogleCreateCampaignCriterionErrors, GoogleCreateCampaignCriterionResponses, GoogleCreateCampaignData, GoogleCreateCampaignErrors, GoogleCreateCampaignResponses, GoogleCreateConversionActionData, GoogleCreateConversionActionErrors, GoogleCreateConversionActionResponses, GoogleCreateDisplayAdData, GoogleCreateDisplayAdErrors, GoogleCreateDisplayAdResponses, GoogleCreateKeywordData, GoogleCreateKeywordErrors, GoogleCreateKeywordResponses, GoogleEditAdGroupData, GoogleEditAdGroupErrors, GoogleEditAdGroupResponses, GoogleEditBudgetData, GoogleEditBudgetErrors, GoogleEditBudgetResponses, GoogleEditCampaignData, GoogleEditCampaignErrors, GoogleEditCampaignResponses, GoogleEnableAdData, GoogleEnableAdErrors, GoogleEnableAdGroupData, GoogleEnableAdGroupErrors, GoogleEnableAdGroupResponses, GoogleEnableAdResponses, GoogleEnableCampaignData, GoogleEnableCampaignErrors, GoogleEnableCampaignResponses, GoogleEnableKeywordData, GoogleEnableKeywordErrors, GoogleEnableKeywordResponses, GoogleGetAccountData, GoogleGetAccountErrors, GoogleGetAccountResponses, GoogleGetAdData, GoogleGetAdErrors, GoogleGetAdGroupData, GoogleGetAdGroupErrors, GoogleGetAdGroupResponses, GoogleGetAdResponses, GoogleGetAdTreeData, GoogleGetAdTreeErrors, GoogleGetAdTreeResponses, GoogleGetCampaignData, GoogleGetCampaignErrors, GoogleGetCampaignResponses, GoogleGetConversionActionData, GoogleGetConversionActionErrors, GoogleGetConversionActionResponses, GoogleGetInsightsData, GoogleGetInsightsErrors, GoogleGetInsightsResponses, GoogleGetKeywordData, GoogleGetKeywordErrors, GoogleGetKeywordResponses, GoogleListAdGroupCriteriaData, GoogleListAdGroupCriteriaErrors, GoogleListAdGroupCriteriaResponses, GoogleListAdGroupsData, GoogleListAdGroupsErrors, GoogleListAdGroupsResponses, GoogleListAdsData, GoogleListAdsErrors, GoogleListAdsResponses, GoogleListAudiencesData, GoogleListAudiencesErrors, GoogleListAudiencesResponses, GoogleListCampaignCriteriaData, GoogleListCampaignCriteriaErrors, GoogleListCampaignCriteriaResponses, GoogleListCampaignsData, GoogleListCampaignsErrors, GoogleListCampaignsResponses, GoogleListConversionActionsData, GoogleListConversionActionsErrors, GoogleListConversionActionsResponses, GoogleListConversionGoalsData, GoogleListConversionGoalsErrors, GoogleListConversionGoalsResponses, GoogleListKeywordsData, GoogleListKeywordsErrors, GoogleListKeywordsResponses, GooglePauseAdData, GooglePauseAdErrors, GooglePauseAdGroupData, GooglePauseAdGroupErrors, GooglePauseAdGroupResponses, GooglePauseAdResponses, GooglePauseCampaignData, GooglePauseCampaignErrors, GooglePauseCampaignResponses, GooglePauseKeywordData, GooglePauseKeywordErrors, GooglePauseKeywordResponses, GoogleRemoveAdData, GoogleRemoveAdErrors, GoogleRemoveAdGroupCriterionData, GoogleRemoveAdGroupCriterionErrors, GoogleRemoveAdGroupCriterionResponses, GoogleRemoveAdGroupData, GoogleRemoveAdGroupErrors, GoogleRemoveAdGroupResponses, GoogleRemoveAdResponses, GoogleRemoveBudgetData, GoogleRemoveBudgetErrors, GoogleRemoveBudgetResponses, GoogleRemoveCampaignCriterionData, GoogleRemoveCampaignCriterionErrors, GoogleRemoveCampaignCriterionResponses, GoogleRemoveCampaignData, GoogleRemoveCampaignErrors, GoogleRemoveCampaignResponses, GoogleRemoveKeywordData, GoogleRemoveKeywordErrors, GoogleRemoveKeywordResponses, GoogleRunGaqlData, GoogleRunGaqlErrors, GoogleRunGaqlResponses, GoogleSearchGeoTargetsData, GoogleSearchGeoTargetsErrors, GoogleSearchGeoTargetsResponses, GoogleSetAdGroupBidsData, GoogleSetAdGroupBidsErrors, GoogleSetAdGroupBidsResponses, GoogleSetCampaignGeoSettingsData, GoogleSetCampaignGeoSettingsErrors, GoogleSetCampaignGeoSettingsResponses, GoogleSetCampaignTargetingSettingData, GoogleSetCampaignTargetingSettingErrors, GoogleSetCampaignTargetingSettingResponses, GoogleSetConversionGoalData, GoogleSetConversionGoalErrors, GoogleSetConversionGoalResponses, GoogleSetKeywordBidData, GoogleSetKeywordBidErrors, GoogleSetKeywordBidResponses, GoogleUploadConversionsData, GoogleUploadConversionsErrors, GoogleUploadConversionsResponses, GoogleUploadImageAssetData, GoogleUploadImageAssetErrors, GoogleUploadImageAssetResponses, LogsGetData, LogsGetErrors, LogsGetResponses, LogsListData, LogsListErrors, LogsListResponses, MediaAbortData, MediaAbortErrors, MediaAbortResponses, MediaCompleteData, MediaCompleteErrors, MediaCompleteResponses, MediaCreateData, MediaCreateErrors, MediaCreateResponses, MediaDeleteData, MediaDeleteErrors, MediaDeleteResponses, MediaGetData, MediaGetErrors, MediaGetResponses, MediaListData, MediaListErrors, MediaListPartsData, MediaListPartsErrors, MediaListPartsResponses, MediaListResponses, MediaSignPartData, MediaSignPartErrors, MediaSignPartResponses, MediaUpdateData, MediaUpdateErrors, MediaUpdateResponses, MetaAccountData, MetaAccountErrors, MetaAccountResponses, MetaAdData, MetaAdErrors, MetaAdResponses, MetaAdsData, MetaAdsErrors, MetaAdsetData, MetaAdsetErrors, MetaAdsetResponses, MetaAdsetsData, MetaAdsetsErrors, MetaAdsetsResponses, MetaAdsResponses, MetaCampaignData, MetaCampaignErrors, MetaCampaignResponses, MetaCampaignsData, MetaCampaignsErrors, MetaCampaignsResponses, MetaInsightsData, MetaInsightsErrors, MetaInsightsResponses, PostsCreateData, PostsCreateErrors, PostsCreateResponses, PostsDeleteData, PostsDeleteErrors, PostsDeleteResponses, PostsGetData, PostsGetErrors, PostsGetResponses, PostsListData, PostsListErrors, PostsListResponses, PostsUpdateData, PostsUpdateErrors, PostsUpdateResponses, PostsValidateData, PostsValidateErrors, PostsValidateResponses, ProfilesCreateData, ProfilesCreateErrors, ProfilesCreateResponses, ProfilesDeleteData, ProfilesDeleteErrors, ProfilesDeleteResponses, ProfilesGetData, ProfilesGetErrors, ProfilesGetResponses, ProfilesListData, ProfilesListErrors, ProfilesListResponses, ProfilesUpdateData, ProfilesUpdateErrors, ProfilesUpdateResponses, TiktokCreatorInfoData, TiktokCreatorInfoErrors, TiktokCreatorInfoResponses, TokensMintData, TokensMintErrors, TokensMintResponses, WebhooksCreateEndpointData, WebhooksCreateEndpointErrors, WebhooksCreateEndpointResponses, WebhooksCreatePortalData, WebhooksCreatePortalErrors, WebhooksCreatePortalResponses, WebhooksDeleteEndpointData, WebhooksDeleteEndpointErrors, WebhooksDeleteEndpointResponses, WebhooksGetEndpointData, WebhooksGetEndpointErrors, WebhooksGetEndpointResponses, WebhooksListEndpointsData, WebhooksListEndpointsErrors, WebhooksListEndpointsResponses, WebhooksListEventTypesData, WebhooksListEventTypesErrors, WebhooksListEventTypesResponses, WebhooksPingData, WebhooksPingErrors, WebhooksPingResponses, WebhooksUpdateEndpointData, WebhooksUpdateEndpointErrors, WebhooksUpdateEndpointResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -802,7 +802,7 @@ export const googleGetAccount = <ThrowOnError extends boolean = true>(options: O
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Performance metrics for the connection’s account, at a chosen level (account / campaign / ad group), for a date range, with optional breakdowns. The flagship cross-checked read; use `/gaql` for anything outside this shape.
+ * Performance metrics for the connection’s account, at a chosen level (account / campaign / ad group / ad / keyword), for a date range, with optional breakdowns. Leaf levels (ad / keyword) require an `ad_group_id`; campaign / ad group accept an optional `campaign_id`. Each row carries its `parent_id`, so the tree is assemblable. The flagship cross-checked read; use `/gaql` for anything outside this shape.
  */
 export const googleGetInsights = <ThrowOnError extends boolean = true>(options: Options<GoogleGetInsightsData, ThrowOnError>): RequestResult<GoogleGetInsightsResponses, GoogleGetInsightsErrors, ThrowOnError> => (options.client ?? client).post<GoogleGetInsightsResponses, GoogleGetInsightsErrors, ThrowOnError>({
     security: [{
@@ -820,6 +820,27 @@ export const googleGetInsights = <ThrowOnError extends boolean = true>(options: 
         'Content-Type': 'application/json',
         ...options.headers
     }
+});
+
+/**
+ * Google Ads campaign tree
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
+ *
+ * The campaign → ad_group → ad/keyword tree as flat, native, typed nodes — group them by `parent_id` to assemble the tree. Without `campaign_id`, returns every campaign (all channel types) with a per-type `child_kind`/`expandable` hint. With `campaign_id`, returns that campaign’s whole supported subtree (ad groups + the type’s leaf — keywords for Search, ads for Display/Video/Demand Gen) in one batched fetch at a single window. Each node carries Google’s authoritative per-level metrics (no client roll-up), `cost_micros`, and `cost` (account currency).
+ */
+export const googleGetAdTree = <ThrowOnError extends boolean = true>(options: Options<GoogleGetAdTreeData, ThrowOnError>): RequestResult<GoogleGetAdTreeResponses, GoogleGetAdTreeErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAdTreeResponses, GoogleGetAdTreeErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/ads/tree',
+    ...options
 });
 
 /**
@@ -869,31 +890,6 @@ export const googleCreateBudget = <ThrowOnError extends boolean = true>(options:
 });
 
 /**
- * Delete a Google Ads campaign budget
- *
- * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
- *
- * Removes a campaign budget by numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
- */
-export const googleDeleteBudget = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteBudgetData, ThrowOnError>): RequestResult<GoogleDeleteBudgetResponses, GoogleDeleteBudgetErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteBudgetResponses, GoogleDeleteBudgetErrors, ThrowOnError>({
-    security: [{
-            key: 'secretKey',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'frontendToken',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/google/{connection_id}/budgets/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
  * Edit a Google Ads campaign budget
  *
  * **Authentication.** Secret `pr_` API key only — this endpoint cannot be called with a browser token.
@@ -907,6 +903,31 @@ export const googleEditBudget = <ThrowOnError extends boolean = true>(options: O
             type: 'http'
         }],
     url: '/google/{connection_id}/budgets/{id}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Remove a Google Ads campaign budget
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Removes a campaign budget by numeric id (Google’s native remove). Set `dry_run: true` in the body to validate the removal against Google without applying it.
+ */
+export const googleRemoveBudget = <ThrowOnError extends boolean = true>(options: Options<GoogleRemoveBudgetData, ThrowOnError>): RequestResult<GoogleRemoveBudgetResponses, GoogleRemoveBudgetErrors, ThrowOnError> => (options.client ?? client).post<GoogleRemoveBudgetResponses, GoogleRemoveBudgetErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/budgets/{id}/remove',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -961,31 +982,6 @@ export const googleCreateCampaign = <ThrowOnError extends boolean = true>(option
 });
 
 /**
- * Delete a Google Ads campaign
- *
- * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
- *
- * Removes a campaign by numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
- */
-export const googleDeleteCampaign = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteCampaignData, ThrowOnError>): RequestResult<GoogleDeleteCampaignResponses, GoogleDeleteCampaignErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteCampaignResponses, GoogleDeleteCampaignErrors, ThrowOnError>({
-    security: [{
-            key: 'secretKey',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'frontendToken',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/google/{connection_id}/campaigns/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
  * Retrieve a Google Ads campaign
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
@@ -1024,6 +1020,31 @@ export const googleEditCampaign = <ThrowOnError extends boolean = true>(options:
             type: 'http'
         }],
     url: '/google/{connection_id}/campaigns/{id}',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Remove a Google Ads campaign
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Removes a campaign by numeric id (Google’s native remove). Set `dry_run: true` in the body to validate the removal against Google without applying it.
+ */
+export const googleRemoveCampaign = <ThrowOnError extends boolean = true>(options: Options<GoogleRemoveCampaignData, ThrowOnError>): RequestResult<GoogleRemoveCampaignResponses, GoogleRemoveCampaignErrors, ThrowOnError> => (options.client ?? client).post<GoogleRemoveCampaignResponses, GoogleRemoveCampaignErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/campaigns/{id}/remove',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -1082,11 +1103,128 @@ export const googleEnableCampaign = <ThrowOnError extends boolean = true>(option
 });
 
 /**
+ * Search Google Ads geo targets
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
+ *
+ * Resolves a free-text location name (e.g. "New York") to matching geo target constants — each with id, name, canonical name, country code, target type, and status. Use a result’s `resource_name` (e.g. `geoTargetConstants/2840`), NOT the bare `id`, as the `geo_target_constant` of a location criterion.
+ */
+export const googleSearchGeoTargets = <ThrowOnError extends boolean = true>(options: Options<GoogleSearchGeoTargetsData, ThrowOnError>): RequestResult<GoogleSearchGeoTargetsResponses, GoogleSearchGeoTargetsErrors, ThrowOnError> => (options.client ?? client).get<GoogleSearchGeoTargetsResponses, GoogleSearchGeoTargetsErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/geo-targets/search',
+    ...options
+});
+
+/**
+ * List Google Ads campaign targeting criteria
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
+ *
+ * Lists a campaign’s targeting criteria. LOCATION and LANGUAGE are fully modelled (geo_target_constant / language_constant, status, negative flag); any other criterion type is returned as { type, criterion_id }.
+ */
+export const googleListCampaignCriteria = <ThrowOnError extends boolean = true>(options: Options<GoogleListCampaignCriteriaData, ThrowOnError>): RequestResult<GoogleListCampaignCriteriaResponses, GoogleListCampaignCriteriaErrors, ThrowOnError> => (options.client ?? client).get<GoogleListCampaignCriteriaResponses, GoogleListCampaignCriteriaErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/campaigns/{campaign_id}/criteria',
+    ...options
+});
+
+/**
+ * Add a Google Ads campaign targeting criterion
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Adds a geo (location) or language targeting criterion to a campaign. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name.
+ */
+export const googleCreateCampaignCriterion = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateCampaignCriterionData, ThrowOnError>): RequestResult<GoogleCreateCampaignCriterionResponses, GoogleCreateCampaignCriterionErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateCampaignCriterionResponses, GoogleCreateCampaignCriterionErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/campaigns/{campaign_id}/criteria',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Remove a Google Ads campaign targeting criterion
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Removes a campaign targeting criterion by its criterion id (Google’s native remove). Set `dry_run: true` in the body to validate the removal against Google without applying it.
+ */
+export const googleRemoveCampaignCriterion = <ThrowOnError extends boolean = true>(options: Options<GoogleRemoveCampaignCriterionData, ThrowOnError>): RequestResult<GoogleRemoveCampaignCriterionResponses, GoogleRemoveCampaignCriterionErrors, ThrowOnError> => (options.client ?? client).post<GoogleRemoveCampaignCriterionResponses, GoogleRemoveCampaignCriterionErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/campaigns/{campaign_id}/criteria/{criterion_id}/remove',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Set a Google Ads campaign’s geo target type
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Sets a campaign’s geo target type — presence (people in the location) vs presence-or-interest (also people interested in it) — for positive and/or excluded locations. Pass `dry_run: true` to validate without applying.
+ */
+export const googleSetCampaignGeoSettings = <ThrowOnError extends boolean = true>(options: Options<GoogleSetCampaignGeoSettingsData, ThrowOnError>): RequestResult<GoogleSetCampaignGeoSettingsResponses, GoogleSetCampaignGeoSettingsErrors, ThrowOnError> => (options.client ?? client).patch<GoogleSetCampaignGeoSettingsResponses, GoogleSetCampaignGeoSettingsErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/campaigns/{campaign_id}/geo-settings',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
  * List Google Ads ad groups
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Lists the ad groups (Google’s equivalent of an ad set) in the Google Ads account backing this connection — id, name, status, type, and parent campaign.
+ * Lists the ad groups (Google’s equivalent of an ad set) in the Google Ads account backing this connection — id, name, status, type, and parent campaign. Pass `campaign_id` to return only the ad groups under one campaign.
  */
 export const googleListAdGroups = <ThrowOnError extends boolean = true>(options: Options<GoogleListAdGroupsData, ThrowOnError>): RequestResult<GoogleListAdGroupsResponses, GoogleListAdGroupsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAdGroupsResponses, GoogleListAdGroupsErrors, ThrowOnError>({
     security: [{
@@ -1120,31 +1258,6 @@ export const googleCreateAdGroup = <ThrowOnError extends boolean = true>(options
             type: 'http'
         }],
     url: '/google/{connection_id}/ad-groups',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
- * Delete a Google Ads ad group
- *
- * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
- *
- * Removes an ad group by numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
- */
-export const googleDeleteAdGroup = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteAdGroupData, ThrowOnError>): RequestResult<GoogleDeleteAdGroupResponses, GoogleDeleteAdGroupErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteAdGroupResponses, GoogleDeleteAdGroupErrors, ThrowOnError>({
-    security: [{
-            key: 'secretKey',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'frontendToken',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/google/{connection_id}/ad-groups/{id}',
     ...options,
     headers: {
         'Content-Type': 'application/json',
@@ -1220,6 +1333,31 @@ export const googleSetAdGroupBids = <ThrowOnError extends boolean = true>(option
 });
 
 /**
+ * Remove a Google Ads ad group
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Removes an ad group by numeric id (Google’s native remove). Set `dry_run: true` in the body to validate the removal against Google without applying it.
+ */
+export const googleRemoveAdGroup = <ThrowOnError extends boolean = true>(options: Options<GoogleRemoveAdGroupData, ThrowOnError>): RequestResult<GoogleRemoveAdGroupResponses, GoogleRemoveAdGroupErrors, ThrowOnError> => (options.client ?? client).post<GoogleRemoveAdGroupResponses, GoogleRemoveAdGroupErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/ad-groups/{id}/remove',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
  * Pause a Google Ads ad group
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
@@ -1270,11 +1408,128 @@ export const googleEnableAdGroup = <ThrowOnError extends boolean = true>(options
 });
 
 /**
+ * List Google Ads ad-group targeting criteria
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
+ *
+ * Lists an ad group’s targeting criteria. The four demographics (AGE_RANGE, GENDER, INCOME_RANGE, PARENTAL_STATUS) are fully modelled (with their value, status, and negative flag); any other criterion type (e.g. KEYWORD) is returned as { type, criterion_id }.
+ */
+export const googleListAdGroupCriteria = <ThrowOnError extends boolean = true>(options: Options<GoogleListAdGroupCriteriaData, ThrowOnError>): RequestResult<GoogleListAdGroupCriteriaResponses, GoogleListAdGroupCriteriaErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAdGroupCriteriaResponses, GoogleListAdGroupCriteriaErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/ad-groups/{ad_group_id}/criteria',
+    ...options
+});
+
+/**
+ * Add a Google Ads ad-group targeting criterion
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Adds a demographic (age range, gender, income range, or parental status) or audience (user list, audience, or custom audience) targeting criterion to an ad group. Audience criteria reference the `resource_name` returned by the audiences discovery read (`GET .../audiences`). Set `negative: true` to exclude instead of target. Pass `dry_run: true` to validate against Google without creating. Returns the new resource id + resource_name.
+ */
+export const googleCreateAdGroupCriterion = <ThrowOnError extends boolean = true>(options: Options<GoogleCreateAdGroupCriterionData, ThrowOnError>): RequestResult<GoogleCreateAdGroupCriterionResponses, GoogleCreateAdGroupCriterionErrors, ThrowOnError> => (options.client ?? client).post<GoogleCreateAdGroupCriterionResponses, GoogleCreateAdGroupCriterionErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/ad-groups/{ad_group_id}/criteria',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Remove a Google Ads ad-group targeting criterion
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Removes an ad-group targeting criterion by its criterion id (Google’s native remove). Set `dry_run: true` in the body to validate the removal against Google without applying it.
+ */
+export const googleRemoveAdGroupCriterion = <ThrowOnError extends boolean = true>(options: Options<GoogleRemoveAdGroupCriterionData, ThrowOnError>): RequestResult<GoogleRemoveAdGroupCriterionResponses, GoogleRemoveAdGroupCriterionErrors, ThrowOnError> => (options.client ?? client).post<GoogleRemoveAdGroupCriterionResponses, GoogleRemoveAdGroupCriterionErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/ad-groups/{ad_group_id}/criteria/{criterion_id}/remove',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * List Google Ads audiences available to target
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
+ *
+ * Lists the user lists and audiences available to attach to an ad group, each with the `resource_name` you pass as the user_list / audience of an ad-group audience criterion. Optional `q` filters by name; `kind` narrows to one audience kind.
+ */
+export const googleListAudiences = <ThrowOnError extends boolean = true>(options: Options<GoogleListAudiencesData, ThrowOnError>): RequestResult<GoogleListAudiencesResponses, GoogleListAudiencesErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAudiencesResponses, GoogleListAudiencesErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/audiences',
+    ...options
+});
+
+/**
+ * Set a Google Ads campaign’s targeting setting
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Sets a campaign’s targeting setting for one dimension (e.g. AUDIENCE): Observation (`bid_only: true` — does NOT narrow reach) vs Targeting (`bid_only: false` — narrows reach to the targeted criteria). Campaign + dimension scoped: shared by every audience criterion in the campaign. Pass `dry_run: true` to validate without applying. Note: Google rejects setting this on a campaign whose ad group already has a targeting setting (and vice versa).
+ */
+export const googleSetCampaignTargetingSetting = <ThrowOnError extends boolean = true>(options: Options<GoogleSetCampaignTargetingSettingData, ThrowOnError>): RequestResult<GoogleSetCampaignTargetingSettingResponses, GoogleSetCampaignTargetingSettingErrors, ThrowOnError> => (options.client ?? client).patch<GoogleSetCampaignTargetingSettingResponses, GoogleSetCampaignTargetingSettingErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/campaigns/{campaign_id}/targeting-setting',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
  * List Google Ads ads
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Returns the ads (the `ad_group_ad` resource) on the connection’s account — id, name, creative type, serving status, and the owning ad group.
+ * Returns the ads (the `ad_group_ad` resource) on the connection’s account — id, name, creative type, serving status, and the owning ad group. Pass `ad_group_id` to return only the ads under one ad group.
  */
 export const googleListAds = <ThrowOnError extends boolean = true>(options: Options<GoogleListAdsData, ThrowOnError>): RequestResult<GoogleListAdsResponses, GoogleListAdsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListAdsResponses, GoogleListAdsErrors, ThrowOnError>({
     security: [{
@@ -1316,36 +1571,11 @@ export const googleCreateAd = <ThrowOnError extends boolean = true>(options: Opt
 });
 
 /**
- * Delete a Google Ads ad
- *
- * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
- *
- * Removes an ad (an `ad_group_ad`) by its numeric id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
- */
-export const googleDeleteAd = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteAdData, ThrowOnError>): RequestResult<GoogleDeleteAdResponses, GoogleDeleteAdErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteAdResponses, GoogleDeleteAdErrors, ThrowOnError>({
-    security: [{
-            key: 'secretKey',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'frontendToken',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/google/{connection_id}/ads/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
  * Retrieve a Google Ads ad
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Returns a single ad (the `ad_group_ad` resource) by its numeric id on the connection’s account — id, name, creative type, serving status, and the owning ad group.
+ * Returns a single ad (the `ad_group_ad` resource) by its composite id ({ad_group_id}~{ad_id}) on the connection’s account — id, name, creative type, serving status, and the owning ad group.
  */
 export const googleGetAd = <ThrowOnError extends boolean = true>(options: Options<GoogleGetAdData, ThrowOnError>): RequestResult<GoogleGetAdResponses, GoogleGetAdErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetAdResponses, GoogleGetAdErrors, ThrowOnError>({
     security: [{
@@ -1387,11 +1617,36 @@ export const googleCreateDisplayAd = <ThrowOnError extends boolean = true>(optio
 });
 
 /**
+ * Remove a Google Ads ad
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Removes an ad (an `ad_group_ad`) by its composite id ({ad_group_id}~{ad_id}) (Google’s native remove). Set `dry_run: true` in the body to validate the removal against Google without applying it.
+ */
+export const googleRemoveAd = <ThrowOnError extends boolean = true>(options: Options<GoogleRemoveAdData, ThrowOnError>): RequestResult<GoogleRemoveAdResponses, GoogleRemoveAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleRemoveAdResponses, GoogleRemoveAdErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/ads/{id}/remove',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
  * Pause a Google Ads ad
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
  *
- * Pauses an ad by its numeric id (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
+ * Pauses an ad by its composite id ({ad_group_id}~{ad_id}) (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
 export const googlePauseAd = <ThrowOnError extends boolean = true>(options: Options<GooglePauseAdData, ThrowOnError>): RequestResult<GooglePauseAdResponses, GooglePauseAdErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseAdResponses, GooglePauseAdErrors, ThrowOnError>({
     security: [{
@@ -1416,7 +1671,7 @@ export const googlePauseAd = <ThrowOnError extends boolean = true>(options: Opti
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
  *
- * Enables (resumes) an ad by its numeric id. Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
+ * Enables (resumes) an ad by its composite id ({ad_group_id}~{ad_id}). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
 export const googleEnableAd = <ThrowOnError extends boolean = true>(options: Options<GoogleEnableAdData, ThrowOnError>): RequestResult<GoogleEnableAdResponses, GoogleEnableAdErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableAdResponses, GoogleEnableAdErrors, ThrowOnError>({
     security: [{
@@ -1441,7 +1696,7 @@ export const googleEnableAd = <ThrowOnError extends boolean = true>(options: Opt
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Lists the keywords (`ad_group_criterion` of type KEYWORD) in the connection’s account — each with its criterion id, text, match type, status, negative flag, and owning ad group.
+ * Lists the keywords (`ad_group_criterion` of type KEYWORD) in the connection’s account — each with its criterion id, text, match type, status, negative flag, and owning ad group. Pass `ad_group_id` to return only the keywords under one ad group.
  */
 export const googleListKeywords = <ThrowOnError extends boolean = true>(options: Options<GoogleListKeywordsData, ThrowOnError>): RequestResult<GoogleListKeywordsResponses, GoogleListKeywordsErrors, ThrowOnError> => (options.client ?? client).get<GoogleListKeywordsResponses, GoogleListKeywordsErrors, ThrowOnError>({
     security: [{
@@ -1483,36 +1738,11 @@ export const googleCreateKeyword = <ThrowOnError extends boolean = true>(options
 });
 
 /**
- * Delete a Google Ads keyword
- *
- * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
- *
- * Removes a keyword (an `ad_group_criterion`) by its criterion id (Google’s native remove). Pass `dry_run: true` to validate the removal against Google without applying it.
- */
-export const googleDeleteKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleDeleteKeywordData, ThrowOnError>): RequestResult<GoogleDeleteKeywordResponses, GoogleDeleteKeywordErrors, ThrowOnError> => (options.client ?? client).delete<GoogleDeleteKeywordResponses, GoogleDeleteKeywordErrors, ThrowOnError>({
-    security: [{
-            key: 'secretKey',
-            scheme: 'bearer',
-            type: 'http'
-        }, {
-            key: 'frontendToken',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/google/{connection_id}/keywords/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
-
-/**
  * Retrieve a Google Ads keyword
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:read` scoped to the profile that owns the connection.
  *
- * Returns one keyword (`ad_group_criterion` of type KEYWORD) by its criterion id, from the connection’s account — text, match type, status, negative flag, and owning ad group.
+ * Returns one keyword (`ad_group_criterion` of type KEYWORD) by its composite id ({ad_group_id}~{criterion_id}), from the connection’s account — text, match type, status, negative flag, and owning ad group.
  */
 export const googleGetKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleGetKeywordData, ThrowOnError>): RequestResult<GoogleGetKeywordResponses, GoogleGetKeywordErrors, ThrowOnError> => (options.client ?? client).get<GoogleGetKeywordResponses, GoogleGetKeywordErrors, ThrowOnError>({
     security: [{
@@ -1533,7 +1763,7 @@ export const googleGetKeyword = <ThrowOnError extends boolean = true>(options: O
  *
  * **Authentication.** Secret `pr_` API key only — this endpoint cannot be called with a browser token.
  *
- * Sets a keyword’s manual CPC bid (in micros) by criterion id. Money write — secret-key-only. Pass `dry_run: true` to validate without applying.
+ * Sets a keyword’s manual CPC bid (in micros) by its composite id ({ad_group_id}~{criterion_id}). Money write — secret-key-only. Pass `dry_run: true` to validate without applying.
  */
 export const googleSetKeywordBid = <ThrowOnError extends boolean = true>(options: Options<GoogleSetKeywordBidData, ThrowOnError>): RequestResult<GoogleSetKeywordBidResponses, GoogleSetKeywordBidErrors, ThrowOnError> => (options.client ?? client).patch<GoogleSetKeywordBidResponses, GoogleSetKeywordBidErrors, ThrowOnError>({
     security: [{
@@ -1550,11 +1780,36 @@ export const googleSetKeywordBid = <ThrowOnError extends boolean = true>(options
 });
 
 /**
+ * Remove a Google Ads keyword
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
+ *
+ * Removes a keyword (an `ad_group_criterion`) by its composite id ({ad_group_id}~{criterion_id}) (Google’s native remove). Set `dry_run: true` in the body to validate the removal against Google without applying it.
+ */
+export const googleRemoveKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleRemoveKeywordData, ThrowOnError>): RequestResult<GoogleRemoveKeywordResponses, GoogleRemoveKeywordErrors, ThrowOnError> => (options.client ?? client).post<GoogleRemoveKeywordResponses, GoogleRemoveKeywordErrors, ThrowOnError>({
+    security: [{
+            key: 'secretKey',
+            scheme: 'bearer',
+            type: 'http'
+        }, {
+            key: 'frontendToken',
+            scheme: 'bearer',
+            type: 'http'
+        }],
+    url: '/google/{connection_id}/keywords/{id}/remove',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
  * Pause a Google Ads keyword
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
  *
- * Pauses a keyword (`ad_group_criterion`) by its criterion id (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
+ * Pauses a keyword (`ad_group_criterion`) by its composite id ({ad_group_id}~{criterion_id}) (reversible). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
 export const googlePauseKeyword = <ThrowOnError extends boolean = true>(options: Options<GooglePauseKeywordData, ThrowOnError>): RequestResult<GooglePauseKeywordResponses, GooglePauseKeywordErrors, ThrowOnError> => (options.client ?? client).post<GooglePauseKeywordResponses, GooglePauseKeywordErrors, ThrowOnError>({
     security: [{
@@ -1579,7 +1834,7 @@ export const googlePauseKeyword = <ThrowOnError extends boolean = true>(options:
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.
  *
- * Enables (resumes) a keyword (`ad_group_criterion`) by its criterion id. Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
+ * Enables (resumes) a keyword (`ad_group_criterion`) by its composite id ({ad_group_id}~{criterion_id}). Pass `dry_run: true` to preview without applying. Returns the new status and whether it executed.
  */
 export const googleEnableKeyword = <ThrowOnError extends boolean = true>(options: Options<GoogleEnableKeywordData, ThrowOnError>): RequestResult<GoogleEnableKeywordResponses, GoogleEnableKeywordErrors, ThrowOnError> => (options.client ?? client).post<GoogleEnableKeywordResponses, GoogleEnableKeywordErrors, ThrowOnError>({
     security: [{

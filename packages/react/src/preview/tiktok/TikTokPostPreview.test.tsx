@@ -191,7 +191,6 @@ describe('<TikTokPostPreview>', () => {
         {
           media_id: 'med_1',
           position: 0,
-          crop_box: null,
           alt_text_override: null,
           media: readyVideo('med_1', 'tiktok'),
         },

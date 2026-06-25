@@ -9,7 +9,7 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
 
 export type Media = {
     id: string;
@@ -316,7 +316,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: string;
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -329,12 +329,6 @@ export type PostVariant = {
          * Ordering of this media within the variant (e.g. carousel order).
          */
         position: number;
-        /**
-         * Per-variant crop, applied at publish; null = none.
-         */
-        crop_box: {
-            [key: string]: unknown;
-        } | null;
         /**
          * Per-variant alt text; falls back to the asset’s alt_text.
          */
@@ -443,7 +437,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: string;
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -456,12 +450,6 @@ export type PostVariant = {
          * Ordering of this media within the variant (e.g. carousel order).
          */
         position: number;
-        /**
-         * Per-variant crop, applied at publish; null = none.
-         */
-        crop_box: {
-            [key: string]: unknown;
-        } | null;
         /**
          * Per-variant alt text; falls back to the asset’s alt_text.
          */
@@ -498,7 +486,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: string;
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -511,12 +499,6 @@ export type PostVariant = {
          * Ordering of this media within the variant (e.g. carousel order).
          */
         position: number;
-        /**
-         * Per-variant crop, applied at publish; null = none.
-         */
-        crop_box: {
-            [key: string]: unknown;
-        } | null;
         /**
          * Per-variant alt text; falls back to the asset’s alt_text.
          */
@@ -594,7 +576,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: string;
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -607,12 +589,6 @@ export type PostVariant = {
          * Ordering of this media within the variant (e.g. carousel order).
          */
         position: number;
-        /**
-         * Per-variant crop, applied at publish; null = none.
-         */
-        crop_box: {
-            [key: string]: unknown;
-        } | null;
         /**
          * Per-variant alt text; falls back to the asset’s alt_text.
          */
@@ -685,7 +661,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: string;
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -698,12 +674,6 @@ export type PostVariant = {
          * Ordering of this media within the variant (e.g. carousel order).
          */
         position: number;
-        /**
-         * Per-variant crop, applied at publish; null = none.
-         */
-        crop_box: {
-            [key: string]: unknown;
-        } | null;
         /**
          * Per-variant alt text; falls back to the asset’s alt_text.
          */
@@ -927,12 +897,6 @@ export type PostVariantInput = {
     media?: Array<{
         media_id: string;
         /**
-         * Per-variant crop applied at publish; omit for none.
-         */
-        crop_box?: {
-            [key: string]: unknown;
-        } | null;
-        /**
          * Per-variant alt text; falls back to the asset's.
          */
         alt_text_override?: string | null;
@@ -1035,12 +999,6 @@ export type PostVariantInput = {
     media?: Array<{
         media_id: string;
         /**
-         * Per-variant crop applied at publish; omit for none.
-         */
-        crop_box?: {
-            [key: string]: unknown;
-        } | null;
-        /**
          * Per-variant alt text; falls back to the asset's.
          */
         alt_text_override?: string | null;
@@ -1112,12 +1070,6 @@ export type PostVariantInput = {
     media?: Array<{
         media_id: string;
         /**
-         * Per-variant crop applied at publish; omit for none.
-         */
-        crop_box?: {
-            [key: string]: unknown;
-        } | null;
-        /**
          * Per-variant alt text; falls back to the asset's.
          */
         alt_text_override?: string | null;
@@ -1147,12 +1099,6 @@ export type PostVariantInput = {
      */
     media?: Array<{
         media_id: string;
-        /**
-         * Per-variant crop applied at publish; omit for none.
-         */
-        crop_box?: {
-            [key: string]: unknown;
-        } | null;
         /**
          * Per-variant alt text; falls back to the asset's.
          */
@@ -1219,12 +1165,6 @@ export type PostVariantInput = {
      */
     media?: Array<{
         media_id: string;
-        /**
-         * Per-variant crop applied at publish; omit for none.
-         */
-        crop_box?: {
-            [key: string]: unknown;
-        } | null;
         /**
          * Per-variant alt text; falls back to the asset's.
          */
@@ -1350,7 +1290,7 @@ export type GoogleAdsCampaignCriterion = {
     negative: boolean;
     language_constant: string | null;
 } | {
-    type: 'UNSPECIFIED' | 'UNKNOWN' | 'KEYWORD' | 'PLACEMENT' | 'MOBILE_APP_CATEGORY' | 'MOBILE_APPLICATION' | 'DEVICE' | 'LISTING_GROUP' | 'AD_SCHEDULE' | 'AGE_RANGE' | 'GENDER' | 'INCOME_RANGE' | 'PARENTAL_STATUS' | 'YOUTUBE_VIDEO' | 'YOUTUBE_CHANNEL' | 'USER_LIST' | 'PROXIMITY' | 'TOPIC' | 'LISTING_SCOPE' | 'IP_BLOCK' | 'CONTENT_LABEL' | 'CARRIER' | 'USER_INTEREST' | 'WEBPAGE' | 'OPERATING_SYSTEM_VERSION' | 'APP_PAYMENT_MODEL' | 'MOBILE_DEVICE' | 'CUSTOM_AFFINITY' | 'CUSTOM_INTENT' | 'LOCATION_GROUP' | 'CUSTOM_AUDIENCE' | 'COMBINED_AUDIENCE' | 'KEYWORD_THEME' | 'AUDIENCE' | 'NEGATIVE_KEYWORD_LIST' | 'LOCAL_SERVICE_ID' | 'SEARCH_THEME' | 'BRAND' | 'BRAND_LIST' | 'LIFE_EVENT' | 'WEBPAGE_LIST' | 'VIDEO_LINEUP' | 'PLACEMENT_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE';
+    type: 'UNSPECIFIED' | 'UNKNOWN' | 'KEYWORD' | 'PLACEMENT' | 'MOBILE_APP_CATEGORY' | 'MOBILE_APPLICATION' | 'DEVICE' | 'LISTING_GROUP' | 'AD_SCHEDULE' | 'AGE_RANGE' | 'GENDER' | 'INCOME_RANGE' | 'PARENTAL_STATUS' | 'YOUTUBE_VIDEO' | 'YOUTUBE_CHANNEL' | 'USER_LIST' | 'PROXIMITY' | 'TOPIC' | 'LISTING_SCOPE' | 'IP_BLOCK' | 'CONTENT_LABEL' | 'CARRIER' | 'USER_INTEREST' | 'WEBPAGE' | 'OPERATING_SYSTEM_VERSION' | 'APP_PAYMENT_MODEL' | 'MOBILE_DEVICE' | 'CUSTOM_AFFINITY' | 'CUSTOM_INTENT' | 'LOCATION_GROUP' | 'CUSTOM_AUDIENCE' | 'COMBINED_AUDIENCE' | 'KEYWORD_THEME' | 'AUDIENCE' | 'NEGATIVE_KEYWORD_LIST' | 'LOCAL_SERVICE_ID' | 'SEARCH_THEME' | 'BRAND' | 'BRAND_LIST' | 'LIFE_EVENT' | 'WEBPAGE_LIST' | 'VIDEO_LINEUP' | 'PLACEMENT_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE' | 'RETAIL_FILTER_BUNDLE' | 'RETAIL_FILTER';
     criterion_id: string;
 };
 
@@ -1400,7 +1340,7 @@ export type GoogleAdsAdGroupCriterion = {
     negative: boolean;
     custom_audience: string | null;
 } | {
-    type: 'UNSPECIFIED' | 'UNKNOWN' | 'KEYWORD' | 'PLACEMENT' | 'MOBILE_APP_CATEGORY' | 'MOBILE_APPLICATION' | 'DEVICE' | 'LOCATION' | 'LISTING_GROUP' | 'AD_SCHEDULE' | 'YOUTUBE_VIDEO' | 'YOUTUBE_CHANNEL' | 'PROXIMITY' | 'TOPIC' | 'LISTING_SCOPE' | 'LANGUAGE' | 'IP_BLOCK' | 'CONTENT_LABEL' | 'CARRIER' | 'USER_INTEREST' | 'WEBPAGE' | 'OPERATING_SYSTEM_VERSION' | 'APP_PAYMENT_MODEL' | 'MOBILE_DEVICE' | 'CUSTOM_AFFINITY' | 'CUSTOM_INTENT' | 'LOCATION_GROUP' | 'COMBINED_AUDIENCE' | 'KEYWORD_THEME' | 'NEGATIVE_KEYWORD_LIST' | 'LOCAL_SERVICE_ID' | 'SEARCH_THEME' | 'BRAND' | 'BRAND_LIST' | 'LIFE_EVENT' | 'WEBPAGE_LIST' | 'VIDEO_LINEUP' | 'PLACEMENT_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE';
+    type: 'UNSPECIFIED' | 'UNKNOWN' | 'KEYWORD' | 'PLACEMENT' | 'MOBILE_APP_CATEGORY' | 'MOBILE_APPLICATION' | 'DEVICE' | 'LOCATION' | 'LISTING_GROUP' | 'AD_SCHEDULE' | 'YOUTUBE_VIDEO' | 'YOUTUBE_CHANNEL' | 'PROXIMITY' | 'TOPIC' | 'LISTING_SCOPE' | 'LANGUAGE' | 'IP_BLOCK' | 'CONTENT_LABEL' | 'CARRIER' | 'USER_INTEREST' | 'WEBPAGE' | 'OPERATING_SYSTEM_VERSION' | 'APP_PAYMENT_MODEL' | 'MOBILE_DEVICE' | 'CUSTOM_AFFINITY' | 'CUSTOM_INTENT' | 'LOCATION_GROUP' | 'COMBINED_AUDIENCE' | 'KEYWORD_THEME' | 'NEGATIVE_KEYWORD_LIST' | 'LOCAL_SERVICE_ID' | 'SEARCH_THEME' | 'BRAND' | 'BRAND_LIST' | 'LIFE_EVENT' | 'WEBPAGE_LIST' | 'VIDEO_LINEUP' | 'PLACEMENT_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE_LIST' | 'VERTICAL_ADS_ITEM_GROUP_RULE' | 'RETAIL_FILTER_BUNDLE' | 'RETAIL_FILTER';
     criterion_id: string;
 };
 
@@ -1415,6 +1355,20 @@ export type GoogleAdsGeoTargetConstant = {
     country_code: string | null;
     target_type: string | null;
     status: 'UNSPECIFIED' | 'UNKNOWN' | 'ENABLED' | 'REMOVAL_PLANNED';
+};
+
+/**
+ * A Google Ads URL custom parameter ({_key} → value).
+ */
+export type GoogleAdsUrlCustomParameter = {
+    /**
+     * The {_key} name referenced in a tracking template / suffix. Alphanumeric, ≤ 16 bytes, unique (case-insensitive).
+     */
+    key: string;
+    /**
+     * The value substituted for {_key}. ≤ 200 bytes.
+     */
+    value: string;
 };
 
 export type GoogleAdsCreateResult = {
@@ -9368,7 +9322,7 @@ export type PostsValidateResponses = {
         object: 'validation';
         publishable: boolean;
         issues: Array<{
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
             message: string;
             hint?: string;
             allowed?: Array<string>;
@@ -12232,7 +12186,7 @@ export type GoogleGetAccountError = GoogleGetAccountErrors[keyof GoogleGetAccoun
 
 export type GoogleGetAccountResponses = {
     /**
-     * A connected Google Ads account (the `customer` resource): id, descriptive name, currency, time zone, status, and whether it is a manager (MCC) or test account.
+     * A connected Google Ads account (the `customer` resource): id, descriptive name, currency, time zone, status, whether it is a manager (MCC) or test account, and the account-level URL tracking settings.
      */
     200: {
         id: string;
@@ -12242,10 +12196,335 @@ export type GoogleGetAccountResponses = {
         status: 'UNSPECIFIED' | 'UNKNOWN' | 'ENABLED' | 'CANCELED' | 'SUSPENDED' | 'CLOSED';
         manager: boolean;
         test_account: boolean;
+        /**
+         * The account-level tracking URL template ({lpurl}/{unescapedlpurl}…), or null if unset. A campaign-level template OVERRIDES this (lowest level wins).
+         */
+        tracking_url_template: string | null;
+        /**
+         * The account-level final-URL suffix (UTMs live here), e.g. "utm_source={_src}", or null if unset.
+         */
+        final_url_suffix: string | null;
     };
 };
 
 export type GoogleGetAccountResponse = GoogleGetAccountResponses[keyof GoogleGetAccountResponses];
+
+export type GoogleEditAccountData = {
+    body?: {
+        /**
+         * Set the account-level tracking URL template ({lpurl}/{unescapedlpurl}…). Omit to leave unchanged; clearing is not yet supported.
+         */
+        tracking_url_template?: string;
+        /**
+         * Set the account-level final-URL suffix (UTMs live here), e.g. "utm_source={_src}". Omit to leave unchanged; clearing is not yet supported.
+         */
+        final_url_suffix?: string;
+        /**
+         * When true, validate the request against Google without creating anything (Google’s native validate_only).
+         */
+        dry_run?: boolean;
+    };
+    headers?: {
+        /**
+         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+         */
+        'Idempotency-Key'?: string;
+    };
+    path: {
+        /**
+         * The id of a Google Ads connection in your account.
+         */
+        connection_id: string;
+    };
+    query?: never;
+    url: '/google/{connection_id}/url-settings';
+};
+
+export type GoogleEditAccountErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid' | 'google_request_failed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized' | 'google_auth_expired';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'google_permission_denied';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited' | 'google_rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'google_server_error';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        /**
+         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+         */
+        source?: {
+            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+            platform_code?: string;
+            field?: string;
+            value?: string;
+            platform_request_id?: string;
+        };
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type GoogleEditAccountError = GoogleEditAccountErrors[keyof GoogleEditAccountErrors];
+
+export type GoogleEditAccountResponses = {
+    /**
+     * OK
+     */
+    200: GoogleAdsEditResult;
+};
+
+export type GoogleEditAccountResponse = GoogleEditAccountResponses[keyof GoogleEditAccountResponses];
 
 export type GoogleGetInsightsData = {
     body: {
@@ -14449,6 +14728,18 @@ export type GoogleListCampaignsResponses = {
              * When the campaign stops serving — `yyyy-MM-dd HH:mm:ss` in the account time zone, or null if it runs indefinitely.
              */
             end_date_time: string | null;
+            /**
+             * The tracking URL template ({lpurl}/{unescapedlpurl}…), or null if unset. A template set at this level OVERRIDES the account-level template (lowest level in the hierarchy wins — it is not concatenated).
+             */
+            tracking_url_template: string | null;
+            /**
+             * Parameters appended to the final URL (UTMs live here), e.g. "utm_source={_src}", or null if unset. Overrides the account-level suffix.
+             */
+            final_url_suffix: string | null;
+            /**
+             * Up to 8 {_key} → value substitutions. A value set here OVERRIDES the account level (not merged).
+             */
+            url_custom_parameters?: Array<GoogleAdsUrlCustomParameter>;
         }>;
     };
 };
@@ -15099,17 +15390,41 @@ export type GoogleGetCampaignResponses = {
          * When the campaign stops serving — `yyyy-MM-dd HH:mm:ss` in the account time zone, or null if it runs indefinitely.
          */
         end_date_time: string | null;
+        /**
+         * The tracking URL template ({lpurl}/{unescapedlpurl}…), or null if unset. A template set at this level OVERRIDES the account-level template (lowest level in the hierarchy wins — it is not concatenated).
+         */
+        tracking_url_template: string | null;
+        /**
+         * Parameters appended to the final URL (UTMs live here), e.g. "utm_source={_src}", or null if unset. Overrides the account-level suffix.
+         */
+        final_url_suffix: string | null;
+        /**
+         * Up to 8 {_key} → value substitutions. A value set here OVERRIDES the account level (not merged).
+         */
+        url_custom_parameters?: Array<GoogleAdsUrlCustomParameter>;
     };
 };
 
 export type GoogleGetCampaignResponse = GoogleGetCampaignResponses[keyof GoogleGetCampaignResponses];
 
 export type GoogleEditCampaignData = {
-    body: {
+    body?: {
         /**
          * A new name for the campaign, unique within the Google Ads account.
          */
-        name: string;
+        name?: string;
+        /**
+         * Set the tracking URL template ({lpurl}/{unescapedlpurl}…). A campaign-level template OVERRIDES the account-level one. Omit to leave unchanged; clearing is not yet supported.
+         */
+        tracking_url_template?: string;
+        /**
+         * Set the final-URL suffix (UTMs live here), e.g. "utm_source={_src}". Omit to leave unchanged; clearing is not yet supported.
+         */
+        final_url_suffix?: string;
+        /**
+         * Replace the campaign’s URL custom parameters (the whole list, up to 8 {_key} → value substitutions). Omit to leave unchanged; clearing is not yet supported.
+         */
+        url_custom_parameters?: Array<GoogleAdsUrlCustomParameter>;
         /**
          * When true, validate the request against Google without creating anything (Google’s native validate_only).
          */
@@ -26889,8 +27204,8 @@ export type GoogleListConversionActionsResponses = {
             id: string;
             name: string | null;
             status: 'UNSPECIFIED' | 'UNKNOWN' | 'ENABLED' | 'REMOVED' | 'HIDDEN';
-            type: 'UNSPECIFIED' | 'UNKNOWN' | 'AD_CALL' | 'CLICK_TO_CALL' | 'GOOGLE_PLAY_DOWNLOAD' | 'GOOGLE_PLAY_IN_APP_PURCHASE' | 'UPLOAD_CALLS' | 'UPLOAD_CLICKS' | 'WEBPAGE' | 'WEBSITE_CALL' | 'STORE_SALES_DIRECT_UPLOAD' | 'STORE_SALES' | 'FIREBASE_ANDROID_FIRST_OPEN' | 'FIREBASE_ANDROID_IN_APP_PURCHASE' | 'FIREBASE_ANDROID_CUSTOM' | 'FIREBASE_IOS_FIRST_OPEN' | 'FIREBASE_IOS_IN_APP_PURCHASE' | 'FIREBASE_IOS_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_IOS_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_IOS_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_IOS_CUSTOM' | 'ANDROID_APP_PRE_REGISTRATION' | 'ANDROID_INSTALLS_ALL_OTHER_APPS' | 'FLOODLIGHT_ACTION' | 'FLOODLIGHT_TRANSACTION' | 'GOOGLE_HOSTED' | 'LEAD_FORM_SUBMIT' | 'SALESFORCE' | 'SEARCH_ADS_360' | 'SMART_CAMPAIGN_AD_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_DIRECTIONS' | 'SMART_CAMPAIGN_TRACKED_CALLS' | 'STORE_VISITS' | 'WEBPAGE_CODELESS' | 'UNIVERSAL_ANALYTICS_GOAL' | 'UNIVERSAL_ANALYTICS_TRANSACTION' | 'GOOGLE_ANALYTICS_4_CUSTOM' | 'GOOGLE_ANALYTICS_4_PURCHASE';
-            category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD';
+            type: 'UNSPECIFIED' | 'UNKNOWN' | 'AD_CALL' | 'CLICK_TO_CALL' | 'GOOGLE_PLAY_DOWNLOAD' | 'GOOGLE_PLAY_IN_APP_PURCHASE' | 'UPLOAD_CALLS' | 'UPLOAD_CLICKS' | 'WEBPAGE' | 'WEBSITE_CALL' | 'STORE_SALES_DIRECT_UPLOAD' | 'STORE_SALES' | 'FIREBASE_ANDROID_FIRST_OPEN' | 'FIREBASE_ANDROID_IN_APP_PURCHASE' | 'FIREBASE_ANDROID_CUSTOM' | 'FIREBASE_IOS_FIRST_OPEN' | 'FIREBASE_IOS_IN_APP_PURCHASE' | 'FIREBASE_IOS_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_IOS_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_IOS_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_IOS_CUSTOM' | 'ANDROID_APP_PRE_REGISTRATION' | 'ANDROID_INSTALLS_ALL_OTHER_APPS' | 'FLOODLIGHT_ACTION' | 'FLOODLIGHT_TRANSACTION' | 'GOOGLE_HOSTED' | 'LEAD_FORM_SUBMIT' | 'SALESFORCE' | 'SEARCH_ADS_360' | 'SMART_CAMPAIGN_AD_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_DIRECTIONS' | 'SMART_CAMPAIGN_TRACKED_CALLS' | 'STORE_VISITS' | 'WEBPAGE_CODELESS' | 'UNIVERSAL_ANALYTICS_GOAL' | 'UNIVERSAL_ANALYTICS_TRANSACTION' | 'GOOGLE_ANALYTICS_4_CUSTOM' | 'GOOGLE_ANALYTICS_4_PURCHASE' | 'GOOGLE_ANALYTICS_4_GENERATE_LEAD' | 'GOOGLE_ANALYTICS_4_QUALIFY_LEAD' | 'GOOGLE_ANALYTICS_4_CLOSE_CONVERT_LEAD' | 'FIREBASE_ANDROID_GENERATE_LEAD' | 'FIREBASE_ANDROID_QUALIFY_LEAD' | 'FIREBASE_ANDROID_CLOSE_CONVERT_LEAD' | 'FIREBASE_IOS_GENERATE_LEAD' | 'FIREBASE_IOS_QUALIFY_LEAD' | 'FIREBASE_IOS_CLOSE_CONVERT_LEAD';
+            category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD' | 'YOUTUBE_FOLLOW_ON_VIEWS';
             origin: 'UNSPECIFIED' | 'UNKNOWN' | 'WEBSITE' | 'GOOGLE_HOSTED' | 'APP' | 'CALL_FROM_ADS' | 'STORE' | 'YOUTUBE_HOSTED';
             primary_for_goal: boolean;
             counting_type: 'UNSPECIFIED' | 'UNKNOWN' | 'ONE_PER_CLICK' | 'MANY_PER_CLICK';
@@ -26924,7 +27239,7 @@ export type GoogleCreateConversionActionData = {
         /**
          * The conversion category (e.g. PURCHASE, SIGNUP, SUBMIT_LEAD_FORM) — any member of Google’s ConversionActionCategory.
          */
-        category: 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD';
+        category: 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD' | 'YOUTUBE_FOLLOW_ON_VIEWS';
         /**
          * The conversion action status. Only ENABLED is a valid create state (the proto has no PAUSED); defaults to ENABLED.
          */
@@ -27566,8 +27881,8 @@ export type GoogleGetConversionActionResponses = {
         id: string;
         name: string | null;
         status: 'UNSPECIFIED' | 'UNKNOWN' | 'ENABLED' | 'REMOVED' | 'HIDDEN';
-        type: 'UNSPECIFIED' | 'UNKNOWN' | 'AD_CALL' | 'CLICK_TO_CALL' | 'GOOGLE_PLAY_DOWNLOAD' | 'GOOGLE_PLAY_IN_APP_PURCHASE' | 'UPLOAD_CALLS' | 'UPLOAD_CLICKS' | 'WEBPAGE' | 'WEBSITE_CALL' | 'STORE_SALES_DIRECT_UPLOAD' | 'STORE_SALES' | 'FIREBASE_ANDROID_FIRST_OPEN' | 'FIREBASE_ANDROID_IN_APP_PURCHASE' | 'FIREBASE_ANDROID_CUSTOM' | 'FIREBASE_IOS_FIRST_OPEN' | 'FIREBASE_IOS_IN_APP_PURCHASE' | 'FIREBASE_IOS_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_IOS_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_IOS_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_IOS_CUSTOM' | 'ANDROID_APP_PRE_REGISTRATION' | 'ANDROID_INSTALLS_ALL_OTHER_APPS' | 'FLOODLIGHT_ACTION' | 'FLOODLIGHT_TRANSACTION' | 'GOOGLE_HOSTED' | 'LEAD_FORM_SUBMIT' | 'SALESFORCE' | 'SEARCH_ADS_360' | 'SMART_CAMPAIGN_AD_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_DIRECTIONS' | 'SMART_CAMPAIGN_TRACKED_CALLS' | 'STORE_VISITS' | 'WEBPAGE_CODELESS' | 'UNIVERSAL_ANALYTICS_GOAL' | 'UNIVERSAL_ANALYTICS_TRANSACTION' | 'GOOGLE_ANALYTICS_4_CUSTOM' | 'GOOGLE_ANALYTICS_4_PURCHASE';
-        category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD';
+        type: 'UNSPECIFIED' | 'UNKNOWN' | 'AD_CALL' | 'CLICK_TO_CALL' | 'GOOGLE_PLAY_DOWNLOAD' | 'GOOGLE_PLAY_IN_APP_PURCHASE' | 'UPLOAD_CALLS' | 'UPLOAD_CLICKS' | 'WEBPAGE' | 'WEBSITE_CALL' | 'STORE_SALES_DIRECT_UPLOAD' | 'STORE_SALES' | 'FIREBASE_ANDROID_FIRST_OPEN' | 'FIREBASE_ANDROID_IN_APP_PURCHASE' | 'FIREBASE_ANDROID_CUSTOM' | 'FIREBASE_IOS_FIRST_OPEN' | 'FIREBASE_IOS_IN_APP_PURCHASE' | 'FIREBASE_IOS_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_ANDROID_CUSTOM' | 'THIRD_PARTY_APP_ANALYTICS_IOS_FIRST_OPEN' | 'THIRD_PARTY_APP_ANALYTICS_IOS_IN_APP_PURCHASE' | 'THIRD_PARTY_APP_ANALYTICS_IOS_CUSTOM' | 'ANDROID_APP_PRE_REGISTRATION' | 'ANDROID_INSTALLS_ALL_OTHER_APPS' | 'FLOODLIGHT_ACTION' | 'FLOODLIGHT_TRANSACTION' | 'GOOGLE_HOSTED' | 'LEAD_FORM_SUBMIT' | 'SALESFORCE' | 'SEARCH_ADS_360' | 'SMART_CAMPAIGN_AD_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_CLICKS_TO_CALL' | 'SMART_CAMPAIGN_MAP_DIRECTIONS' | 'SMART_CAMPAIGN_TRACKED_CALLS' | 'STORE_VISITS' | 'WEBPAGE_CODELESS' | 'UNIVERSAL_ANALYTICS_GOAL' | 'UNIVERSAL_ANALYTICS_TRANSACTION' | 'GOOGLE_ANALYTICS_4_CUSTOM' | 'GOOGLE_ANALYTICS_4_PURCHASE' | 'GOOGLE_ANALYTICS_4_GENERATE_LEAD' | 'GOOGLE_ANALYTICS_4_QUALIFY_LEAD' | 'GOOGLE_ANALYTICS_4_CLOSE_CONVERT_LEAD' | 'FIREBASE_ANDROID_GENERATE_LEAD' | 'FIREBASE_ANDROID_QUALIFY_LEAD' | 'FIREBASE_ANDROID_CLOSE_CONVERT_LEAD' | 'FIREBASE_IOS_GENERATE_LEAD' | 'FIREBASE_IOS_QUALIFY_LEAD' | 'FIREBASE_IOS_CLOSE_CONVERT_LEAD';
+        category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD' | 'YOUTUBE_FOLLOW_ON_VIEWS';
         origin: 'UNSPECIFIED' | 'UNKNOWN' | 'WEBSITE' | 'GOOGLE_HOSTED' | 'APP' | 'CALL_FROM_ADS' | 'STORE' | 'YOUTUBE_HOSTED';
         primary_for_goal: boolean;
         counting_type: 'UNSPECIFIED' | 'UNKNOWN' | 'ONE_PER_CLICK' | 'MANY_PER_CLICK';
@@ -27883,7 +28198,7 @@ export type GoogleListConversionGoalsResponses = {
     200: {
         object: 'list';
         data: Array<{
-            category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD';
+            category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD' | 'YOUTUBE_FOLLOW_ON_VIEWS';
             origin: 'UNSPECIFIED' | 'UNKNOWN' | 'WEBSITE' | 'GOOGLE_HOSTED' | 'APP' | 'CALL_FROM_ADS' | 'STORE' | 'YOUTUBE_HOSTED';
             biddable: boolean;
         }>;
@@ -27897,7 +28212,7 @@ export type GoogleSetConversionGoalData = {
         /**
          * The conversion category of the goal to update.
          */
-        category: 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD';
+        category: 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD' | 'YOUTUBE_FOLLOW_ON_VIEWS';
         /**
          * The origin of the goal to update.
          */
@@ -28209,7 +28524,7 @@ export type GoogleSetConversionGoalResponses = {
      * The outcome of a conversion-goal update: the goal’s category and origin, the new biddable value, whether it was a dry run, and whether it executed.
      */
     200: {
-        category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD';
+        category: 'UNSPECIFIED' | 'UNKNOWN' | 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD' | 'YOUTUBE_FOLLOW_ON_VIEWS';
         origin: 'UNSPECIFIED' | 'UNKNOWN' | 'WEBSITE' | 'GOOGLE_HOSTED' | 'APP' | 'CALL_FROM_ADS' | 'STORE' | 'YOUTUBE_HOSTED';
         biddable: boolean;
         dry_run: boolean;
@@ -28218,416 +28533,6 @@ export type GoogleSetConversionGoalResponses = {
 };
 
 export type GoogleSetConversionGoalResponse = GoogleSetConversionGoalResponses[keyof GoogleSetConversionGoalResponses];
-
-export type GoogleUploadConversionsData = {
-    body: {
-        /**
-         * The conversions to upload (1–2000 per request).
-         */
-        conversions: Array<{
-            /**
-             * The resource_name of an UPLOAD_CLICKS conversion action (create one via POST /v1/google/{connection_id}/conversion-actions). Google validates the action type.
-             */
-            conversion_action: string;
-            /**
-             * When the conversion happened, as `yyyy-mm-dd HH:mm:ss+|-HH:mm`. The timezone offset is REQUIRED.
-             */
-            conversion_date_time: string;
-            /**
-             * The value of the conversion (in `currency_code`).
-             */
-            conversion_value?: number;
-            /**
-             * The ISO 4217 currency code (3 letters) for the value.
-             */
-            currency_code?: string;
-            /**
-             * Your order/transaction id — Google’s dedup key; set it (and keep it stable) to avoid double-counting an upload you retry or also send via the tag.
-             */
-            order_id?: string;
-            /**
-             * The Google click id that drove the conversion.
-             */
-            gclid?: string;
-            /**
-             * The click id for iOS app-to-web (when gclid is unavailable).
-             */
-            gbraid?: string;
-            /**
-             * The click id for iOS web-to-app (when gclid is unavailable).
-             */
-            wbraid?: string;
-            /**
-             * Enhanced-conversion identifiers — already-hashed first-party data (up to 5). May be sent with or without a click id; Google uses any click id present as an additional match hint.
-             */
-            user_identifiers?: Array<{
-                /**
-                 * A normalised, SHA-256-hashed email (64 lowercase hex chars). We never hash — hash it yourself per Google’s spec.
-                 */
-                hashed_email?: string;
-                /**
-                 * A normalised (E.164), SHA-256-hashed phone number (64 lowercase hex chars). We never hash — hash it yourself per Google’s spec.
-                 */
-                hashed_phone_number?: string;
-                /**
-                 * Where the identifier came from: FIRST_PARTY (your own data) or THIRD_PARTY.
-                 */
-                user_identifier_source?: 'FIRST_PARTY' | 'THIRD_PARTY';
-            }>;
-            /**
-             * EEA consent signals for this conversion.
-             */
-            consent?: {
-                /**
-                 * Consent for using the data for ads (GRANTED/DENIED).
-                 */
-                ad_user_data?: 'GRANTED' | 'DENIED';
-                /**
-                 * Consent for ad personalization (GRANTED/DENIED).
-                 */
-                ad_personalization?: 'GRANTED' | 'DENIED';
-            };
-        }>;
-        /**
-         * When true, validate the batch against Google without recording anything (Google’s native validate_only).
-         */
-        dry_run?: boolean;
-    };
-    headers?: {
-        /**
-         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
-         */
-        'Idempotency-Key'?: string;
-    };
-    path: {
-        /**
-         * The id of a Google Ads connection in your account.
-         */
-        connection_id: string;
-    };
-    query?: never;
-    url: '/google/{connection_id}/conversion-uploads';
-};
-
-export type GoogleUploadConversionsErrors = {
-    /**
-     * An RFC 9457 problem response.
-     */
-    400: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'idempotency_key_invalid' | 'google_request_failed';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-    /**
-     * An RFC 9457 problem response.
-     */
-    401: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'unauthorized' | 'google_auth_expired';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-    /**
-     * An RFC 9457 problem response.
-     */
-    403: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'forbidden' | 'google_permission_denied';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-    /**
-     * An RFC 9457 problem response.
-     */
-    404: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'not_found';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-    /**
-     * An RFC 9457 problem response.
-     */
-    409: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'conflict' | 'idempotency_request_in_progress';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-    /**
-     * An RFC 9457 problem response.
-     */
-    422: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'idempotency_key_reused';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-    /**
-     * An RFC 9457 problem response.
-     */
-    429: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'rate_limited' | 'google_rate_limited';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-    /**
-     * An RFC 9457 problem response.
-     */
-    502: {
-        type: string;
-        title: string;
-        status: number;
-        /**
-         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
-         */
-        code: 'google_server_error';
-        display_error: string;
-        detail?: string;
-        request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
-        errors?: Array<{
-            field: string;
-            code: string;
-            detail: string;
-            display_error: string;
-            hint?: string;
-            allowed?: Array<string>;
-            got?: string;
-        }>;
-    };
-};
-
-export type GoogleUploadConversionsError = GoogleUploadConversionsErrors[keyof GoogleUploadConversionsErrors];
-
-export type GoogleUploadConversionsResponses = {
-    /**
-     * The outcome of an offline conversion upload: received / succeeded / failed counts and the per-row errors Google returned.
-     */
-    200: {
-        /**
-         * How many conversions were in the request.
-         */
-        received: number;
-        /**
-         * How many rows Google accepted.
-         */
-        succeeded: number;
-        /**
-         * How many rows Google rejected.
-         */
-        failed: number;
-        /**
-         * One entry per rejected row, with Google’s own error.
-         */
-        errors: Array<{
-            /**
-             * The 0-based index of the failed conversion in your request (-1 if Google did not address a specific row).
-             */
-            index: number;
-            /**
-             * Google’s error code as `<group>:<NAME>` (e.g. conversion_upload_error:UNPARSEABLE_GCLID).
-             */
-            error_code: string;
-            /**
-             * Google’s human-readable error message for the row.
-             */
-            message: string;
-        }>;
-        /**
-         * Whether this was a validate-only dry run.
-         */
-        dry_run: boolean;
-    };
-};
-
-export type GoogleUploadConversionsResponse = GoogleUploadConversionsResponses[keyof GoogleUploadConversionsResponses];
 
 export type GoogleUploadImageAssetData = {
     body: {
@@ -29135,7 +29040,7 @@ export type TiktokCreatorInfoErrors = {
         /**
          * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
          */
-        code: 'idempotency_key_reused';
+        code: 'idempotency_key_reused' | 'tiktok_cannot_post_now';
         display_error: string;
         detail?: string;
         request_id?: string;
@@ -29585,9 +29490,18 @@ export type LogsListResponses = {
              */
             response_body?: unknown | null;
             /**
-             * Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. INVARIANT: `status: "error"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb.
+             * Typed error `{ code, message }` for a failed action, or null on success. INVARIANT: `status: "error"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb.
              */
-            error?: unknown | null;
+            error: {
+                /**
+                 * Stable, machine-readable error code from the closed registry.
+                 */
+                code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+                /**
+                 * Human-readable, non-sensitive message.
+                 */
+                message: string;
+            } | null;
             /**
              * Per-target publish breakdown (see LogOutcome): the rollup status plus one entry per platform target. Present on a publish action (create/update/scheduled publish that ran), null otherwise.
              */
@@ -29614,7 +29528,7 @@ export type LogsListResponses = {
                         /**
                          * The typed error code the variant carries.
                          */
-                        code: string;
+                        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
                         message: string;
                         /**
                          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
@@ -29982,9 +29896,18 @@ export type LogsGetResponses = {
          */
         response_body?: unknown | null;
         /**
-         * Typed error `{ code, message }` (see RequestLogError) for a failed action, or null on success. INVARIANT: `status: "error"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb.
+         * Typed error `{ code, message }` for a failed action, or null on success. INVARIANT: `status: "error"` always carries a non-null `error`. For a publish that failed/partially-published it is the rollup summary (`post_publish_failed` / `post_partially_published`), distinct from any single target — the per-target reasons live in `outcome.targets[].error`. Stored as jsonb.
          */
-        error?: unknown | null;
+        error: {
+            /**
+             * Stable, machine-readable error code from the closed registry.
+             */
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+            /**
+             * Human-readable, non-sensitive message.
+             */
+            message: string;
+        } | null;
         /**
          * Per-target publish breakdown (see LogOutcome): the rollup status plus one entry per platform target. Present on a publish action (create/update/scheduled publish that ran), null otherwise.
          */
@@ -30011,7 +29934,7 @@ export type LogsGetResponses = {
                     /**
                      * The typed error code the variant carries.
                      */
-                    code: string;
+                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
                     message: string;
                     /**
                      * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
@@ -32384,7 +32307,7 @@ export type TokensMintData = {
          * Which profiles the minted token may act on. Resolved dynamically per request, so an `external_id` selector also covers profiles created after the token was minted.
          */
         profile_scope: {
-            type: 'ids';
+            type: 'profile_ids';
             values: Array<string>;
         } | {
             type: 'external_id';

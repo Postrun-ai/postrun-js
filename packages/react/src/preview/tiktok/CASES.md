@@ -14,7 +14,7 @@
 | `platform` | `'tiktok'` | discriminant |
 | `post_type` | `'video' \| 'single_image' \| 'carousel'` | drives media render + which settings are legal |
 | `body` | `string?` | **title** for video (≤2200), **description** for photo (≤4000). We have NO separate photo `title` field — body IS the description. |
-| `media` | `{ media_id, crop_box?, alt_text_override? }[]` | ordered; count rules: video=1, single_image=1, carousel=2–35 |
+| `media` | `{ media_id, alt_text_override? }[]` | ordered; count rules: video=1, single_image=1, carousel=2–35 |
 | `settings.privacy_level` | `PUBLIC_TO_EVERYONE \| MUTUAL_FOLLOW_FRIENDS \| FOLLOWER_OF_CREATOR \| SELF_ONLY` (optional) | NO default — absent = "must choose" |
 | `settings.disable_comment` | `boolean?` | `true` = disabled (we invert allow→disable) |
 | `settings.disable_duet` | `boolean?` | **video-only** |

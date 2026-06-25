@@ -175,7 +175,6 @@ describe('<InstagramPostPreview>', () => {
         {
           media_id: 'm1',
           position: 0,
-          crop_box: null,
           alt_text_override: null,
           media: readyMedia('m1', 'instagram'),
         },

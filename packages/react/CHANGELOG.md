@@ -1,5 +1,21 @@
 # @postrun/react
 
+## 2.22.0
+
+### Minor Changes
+
+- Sync the generated client to the current Postrun API spec:
+
+  - **Removed the Google Ads offline conversion-upload operation** (`googleUploadConversions`, `POST /google/{connection_id}/conversion-uploads`). Google blocked `UploadClickConversions` in the Google Ads API on 2026-06-15; offline conversion import moves to the Data Manager API. Conversion **actions** and **goals** are unchanged.
+  - **Removed the per-variant `crop_box` field** from post media inputs/resources. It was never applied at publish; use the media asset's own dimensions.
+  - **Narrowed a post variant's `error.code`** to the typed publish-error union (was a loose `string`), so it can be branched on directly.
+  - Error-type fidelity improvements on the request-log `error` shape.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.22.0
+
 ## 2.21.0
 
 ### Minor Changes

@@ -159,7 +159,6 @@ describe('<XPostPreview>', () => {
         {
           media_id: 'm1',
           position: 0,
-          crop_box: null,
           alt_text_override: 'inline cat',
           media: readyMedia('m1', 'x'),
         },

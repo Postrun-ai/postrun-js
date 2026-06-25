@@ -9,7 +9,18 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+
+/**
+ * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+ */
+export type ErrorSource = {
+    platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
+    platform_code?: string;
+    field?: string;
+    value?: string;
+    platform_request_id?: string;
+};
 
 export type Media = {
     id: string;
@@ -316,7 +327,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -437,7 +448,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -486,7 +497,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -576,7 +587,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -661,7 +672,7 @@ export type PostVariant = {
         published_at: string;
     } | null;
     error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
         message: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
@@ -1688,6 +1699,189 @@ export type GoogleAdTree = {
 };
 
 /**
+ * EEA/UK consent signals. Set at the request level as a default; a per-event value overrides it.
+ */
+export type GoogleAdsConversionConsent = {
+    /**
+     * Consent for Google to use the data for ad measurement (CONSENT_GRANTED / CONSENT_DENIED).
+     */
+    ad_user_data?: 'CONSENT_GRANTED' | 'CONSENT_DENIED';
+    /**
+     * Consent for Google to use the data for ad personalization (CONSENT_GRANTED / CONSENT_DENIED).
+     */
+    ad_personalization?: 'CONSENT_GRANTED' | 'CONSENT_DENIED';
+};
+
+/**
+ * A plaintext customer identifier (email, phone, or address) used to match the conversion. Hashed server-side.
+ */
+export type GoogleAdsConversionUserIdentifier = {
+    /**
+     * A plaintext email address. Normalized + hashed server-side.
+     */
+    email_address?: string;
+    /**
+     * A plaintext phone number (E.164 preferred). Normalized + hashed server-side.
+     */
+    phone_number?: string;
+    /**
+     * A plaintext postal address — all four parts are required. Name fields are hashed; region/postal code are sent in the clear.
+     */
+    address?: {
+        given_name: string;
+        family_name: string;
+        region_code: string;
+        postal_code: string;
+    };
+};
+
+/**
+ * A single conversion to send. Requires an event_timestamp and at least one match signal (gclid/gbraid/wbraid or user_data).
+ */
+export type GoogleAdsConversionEvent = {
+    /**
+     * When the conversion happened, as an RFC 3339 timestamp (required). A UTC `Z` or an explicit timezone offset (e.g. +05:30) is accepted.
+     */
+    event_timestamp: string;
+    /**
+     * Where the conversion happened (required by Google): WEB for a gclid web conversion, or APP / IN_STORE / PHONE / MESSAGE / OTHER.
+     */
+    event_source: 'WEB' | 'APP' | 'IN_STORE' | 'PHONE' | 'MESSAGE' | 'OTHER';
+    /**
+     * Your unique transaction id for this conversion (Google’s transaction_id). Used to de-duplicate.
+     */
+    order_id?: string;
+    /**
+     * The Google click id from the ad click (a match signal).
+     */
+    gclid?: string;
+    /**
+     * The click id for an iOS app-to-web journey (a match signal).
+     */
+    gbraid?: string;
+    /**
+     * The click id for an iOS web-to-app journey (a match signal).
+     */
+    wbraid?: string;
+    /**
+     * Plaintext customer identifiers (1–10) used to match the conversion. Hashed server-side.
+     */
+    user_data?: Array<GoogleAdsConversionUserIdentifier>;
+    /**
+     * The ISO 4217 currency code (3 letters) for conversion_value.
+     */
+    currency?: string;
+    /**
+     * The value of this conversion.
+     */
+    conversion_value?: number;
+    /**
+     * Per-event consent; overrides the request-level consent.
+     */
+    consent?: GoogleAdsConversionConsent;
+};
+
+export type GoogleAdsSendConversionsResult = {
+    /**
+     * Google’s request id for this batch (poll the status read with it), or null on a dry run.
+     */
+    request_id: string | null;
+    /**
+     * accepted = the batch was queued for async processing; validated = a dry run passed validation.
+     */
+    status: 'accepted' | 'validated';
+    /**
+     * Whether this was a validate-only dry run.
+     */
+    dry_run: boolean;
+    /**
+     * Whether the events were actually sent.
+     */
+    executed: boolean;
+};
+
+export type GoogleAdsConversionStatusReason = {
+    /**
+     * Google’s raw processing-error reason (descriptive; branch on `code`, not this).
+     */
+    reason: string;
+    /**
+     * How many events failed for this reason.
+     */
+    count: number;
+    /**
+     * The typed Postrun error code to branch on.
+     */
+    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+    /**
+     * A short, friendly line you may show your end user.
+     */
+    display_error: string;
+};
+
+export type GoogleAdsConversionWarning = {
+    /**
+     * Google’s raw processing-warning reason (informational).
+     */
+    reason: string;
+    /**
+     * How many events triggered this warning.
+     */
+    count: number;
+};
+
+export type GoogleAdsConversionStatus = {
+    /**
+     * The request id this status is for.
+     */
+    request_id: string;
+    /**
+     * One entry per destination, ordered to match the request’s destinations. EMPTY for the first ~minute after a send, while Google registers the request — poll again until it populates.
+     */
+    destinations: Array<{
+        /**
+         * The destination’s processing status (SUCCESS / PROCESSING / FAILED / PARTIAL_SUCCESS).
+         */
+        request_status: 'REQUEST_STATUS_UNKNOWN' | 'SUCCESS' | 'PROCESSING' | 'FAILED' | 'PARTIAL_SUCCESS';
+        /**
+         * The total events Google received for this request, INCLUDING failures (null while not yet known).
+         */
+        events_submitted: number | null;
+        /**
+         * The count-by-reason error breakdown.
+         */
+        errors: Array<GoogleAdsConversionStatusReason>;
+        /**
+         * The count-by-reason warning breakdown (informational).
+         */
+        warnings: Array<GoogleAdsConversionWarning>;
+    }>;
+};
+
+export type GoogleAdsConversionRequest = {
+    /**
+     * Always the string `conversion_request`.
+     */
+    object: 'conversion_request';
+    /**
+     * Google’s request id for this send. Pass it to the status read for the per-destination processing result.
+     */
+    request_id: string;
+    /**
+     * The conversion action id you targeted in this send (null for sends made before this was recorded).
+     */
+    conversion_action_id: string | null;
+    /**
+     * How many conversion events you submitted in this send (null for sends made before this was recorded).
+     */
+    event_count: number | null;
+    /**
+     * When this send was made (ISO 8601).
+     */
+    created_at: string;
+};
+
+/**
  * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
  */
 export type IdempotencyKey = string;
@@ -1733,16 +1927,7 @@ export type ProfilesListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -1767,16 +1952,7 @@ export type ProfilesListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -1801,16 +1977,7 @@ export type ProfilesListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -1835,16 +2002,7 @@ export type ProfilesListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -1869,16 +2027,7 @@ export type ProfilesListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -1903,16 +2052,7 @@ export type ProfilesListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -1937,16 +2077,7 @@ export type ProfilesListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2042,16 +2173,7 @@ export type ProfilesCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2076,16 +2198,7 @@ export type ProfilesCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2110,16 +2223,7 @@ export type ProfilesCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2144,16 +2248,7 @@ export type ProfilesCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2178,16 +2273,7 @@ export type ProfilesCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2212,16 +2298,7 @@ export type ProfilesCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2246,16 +2323,7 @@ export type ProfilesCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2306,16 +2374,7 @@ export type ProfilesDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2340,16 +2399,7 @@ export type ProfilesDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2374,16 +2424,7 @@ export type ProfilesDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2408,16 +2449,7 @@ export type ProfilesDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2442,16 +2474,7 @@ export type ProfilesDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2476,16 +2499,7 @@ export type ProfilesDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2510,16 +2524,7 @@ export type ProfilesDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2583,16 +2588,7 @@ export type ProfilesGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2617,16 +2613,7 @@ export type ProfilesGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2651,16 +2638,7 @@ export type ProfilesGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2685,16 +2663,7 @@ export type ProfilesGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2719,16 +2688,7 @@ export type ProfilesGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2753,16 +2713,7 @@ export type ProfilesGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2787,16 +2738,7 @@ export type ProfilesGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2866,16 +2808,7 @@ export type ProfilesUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2900,16 +2833,7 @@ export type ProfilesUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2934,16 +2858,7 @@ export type ProfilesUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -2968,16 +2883,7 @@ export type ProfilesUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3002,16 +2908,7 @@ export type ProfilesUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3036,16 +2933,7 @@ export type ProfilesUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3070,16 +2958,7 @@ export type ProfilesUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3151,16 +3030,7 @@ export type ConnectionsListByProfileErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3185,16 +3055,7 @@ export type ConnectionsListByProfileErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3219,16 +3080,7 @@ export type ConnectionsListByProfileErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3253,16 +3105,7 @@ export type ConnectionsListByProfileErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3287,16 +3130,7 @@ export type ConnectionsListByProfileErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3321,16 +3155,7 @@ export type ConnectionsListByProfileErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3355,16 +3180,7 @@ export type ConnectionsListByProfileErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3446,16 +3262,7 @@ export type ConnectionsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3480,16 +3287,7 @@ export type ConnectionsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3514,16 +3312,7 @@ export type ConnectionsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3548,16 +3337,7 @@ export type ConnectionsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3582,16 +3362,7 @@ export type ConnectionsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3616,16 +3387,7 @@ export type ConnectionsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3650,16 +3412,7 @@ export type ConnectionsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3723,16 +3476,7 @@ export type ConnectionsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3757,16 +3501,7 @@ export type ConnectionsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3791,16 +3526,7 @@ export type ConnectionsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3825,16 +3551,7 @@ export type ConnectionsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3859,16 +3576,7 @@ export type ConnectionsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3893,16 +3601,7 @@ export type ConnectionsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3927,16 +3626,7 @@ export type ConnectionsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -3998,16 +3688,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4032,16 +3713,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4066,16 +3738,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4100,16 +3763,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4134,16 +3788,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4168,16 +3813,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4202,16 +3838,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4236,16 +3863,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4270,16 +3888,7 @@ export type ConnectionsSelectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4330,16 +3939,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4364,16 +3964,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4398,16 +3989,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4432,16 +4014,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4466,16 +4039,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4500,16 +4064,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4534,16 +4089,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4568,16 +4114,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4602,16 +4139,7 @@ export type ConnectionsListAccountsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4682,16 +4210,7 @@ export type ConnectionsConnectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4716,16 +4235,7 @@ export type ConnectionsConnectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4750,16 +4260,7 @@ export type ConnectionsConnectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4784,16 +4285,7 @@ export type ConnectionsConnectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4818,16 +4310,7 @@ export type ConnectionsConnectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4852,16 +4335,7 @@ export type ConnectionsConnectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4886,16 +4360,7 @@ export type ConnectionsConnectErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -4972,16 +4437,7 @@ export type MediaListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5006,16 +4462,7 @@ export type MediaListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5040,16 +4487,7 @@ export type MediaListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5074,16 +4512,7 @@ export type MediaListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5108,16 +4537,7 @@ export type MediaListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5142,16 +4562,7 @@ export type MediaListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5176,16 +4587,7 @@ export type MediaListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5290,16 +4692,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5324,16 +4717,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5358,16 +4742,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5392,16 +4767,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5426,16 +4792,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5460,16 +4817,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5494,16 +4842,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5528,16 +4867,7 @@ export type MediaCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5707,16 +5037,7 @@ export type MediaDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5741,16 +5062,7 @@ export type MediaDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5775,16 +5087,7 @@ export type MediaDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5809,16 +5112,7 @@ export type MediaDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5843,16 +5137,7 @@ export type MediaDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5877,16 +5162,7 @@ export type MediaDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5911,16 +5187,7 @@ export type MediaDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -5975,16 +5242,7 @@ export type MediaGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6009,16 +5267,7 @@ export type MediaGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6043,16 +5292,7 @@ export type MediaGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6077,16 +5317,7 @@ export type MediaGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6111,16 +5342,7 @@ export type MediaGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6145,16 +5367,7 @@ export type MediaGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6179,16 +5392,7 @@ export type MediaGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6258,16 +5462,7 @@ export type MediaUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6292,16 +5487,7 @@ export type MediaUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6326,16 +5512,7 @@ export type MediaUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6360,16 +5537,7 @@ export type MediaUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6394,16 +5562,7 @@ export type MediaUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6428,16 +5587,7 @@ export type MediaUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6462,16 +5612,7 @@ export type MediaUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6527,16 +5668,7 @@ export type MediaSignPartErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6561,16 +5693,7 @@ export type MediaSignPartErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6595,16 +5718,7 @@ export type MediaSignPartErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6629,16 +5743,7 @@ export type MediaSignPartErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6663,16 +5768,7 @@ export type MediaSignPartErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6697,16 +5793,7 @@ export type MediaSignPartErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6731,16 +5818,7 @@ export type MediaSignPartErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6796,16 +5874,7 @@ export type MediaListPartsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6830,16 +5899,7 @@ export type MediaListPartsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6864,16 +5924,7 @@ export type MediaListPartsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6898,16 +5949,7 @@ export type MediaListPartsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6932,16 +5974,7 @@ export type MediaListPartsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -6966,16 +5999,7 @@ export type MediaListPartsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7000,16 +6024,7 @@ export type MediaListPartsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7074,16 +6089,7 @@ export type MediaCompleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7108,16 +6114,7 @@ export type MediaCompleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7142,16 +6139,7 @@ export type MediaCompleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7176,16 +6164,7 @@ export type MediaCompleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7210,16 +6189,7 @@ export type MediaCompleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7244,16 +6214,7 @@ export type MediaCompleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7278,16 +6239,7 @@ export type MediaCompleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7338,16 +6290,7 @@ export type MediaAbortErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7372,16 +6315,7 @@ export type MediaAbortErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7406,16 +6340,7 @@ export type MediaAbortErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7440,16 +6365,7 @@ export type MediaAbortErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7474,16 +6390,7 @@ export type MediaAbortErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7508,16 +6415,7 @@ export type MediaAbortErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7542,16 +6440,7 @@ export type MediaAbortErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7636,16 +6525,7 @@ export type PostsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7670,16 +6550,7 @@ export type PostsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7704,16 +6575,7 @@ export type PostsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7738,16 +6600,7 @@ export type PostsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7772,16 +6625,7 @@ export type PostsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7806,16 +6650,7 @@ export type PostsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7840,16 +6675,7 @@ export type PostsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7926,16 +6752,7 @@ export type PostsCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7960,16 +6777,7 @@ export type PostsCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -7994,16 +6802,7 @@ export type PostsCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8028,16 +6827,7 @@ export type PostsCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8062,16 +6852,7 @@ export type PostsCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8096,16 +6877,7 @@ export type PostsCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8130,16 +6902,7 @@ export type PostsCreateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8228,16 +6991,7 @@ export type PostsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8262,16 +7016,7 @@ export type PostsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8296,16 +7041,7 @@ export type PostsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8330,16 +7066,7 @@ export type PostsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8364,16 +7091,7 @@ export type PostsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8398,16 +7116,7 @@ export type PostsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8432,16 +7141,7 @@ export type PostsDeleteErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8496,16 +7196,7 @@ export type PostsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8530,16 +7221,7 @@ export type PostsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8564,16 +7246,7 @@ export type PostsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8598,16 +7271,7 @@ export type PostsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8632,16 +7296,7 @@ export type PostsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8666,16 +7321,7 @@ export type PostsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8700,16 +7346,7 @@ export type PostsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8780,16 +7417,7 @@ export type PostsUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8814,16 +7442,7 @@ export type PostsUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8848,16 +7467,7 @@ export type PostsUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8882,16 +7492,7 @@ export type PostsUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8916,16 +7517,7 @@ export type PostsUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8950,16 +7542,7 @@ export type PostsUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -8984,16 +7567,7 @@ export type PostsUpdateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9086,16 +7660,7 @@ export type PostsValidateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9120,16 +7685,7 @@ export type PostsValidateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9154,16 +7710,7 @@ export type PostsValidateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9188,16 +7735,7 @@ export type PostsValidateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9222,16 +7760,7 @@ export type PostsValidateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9256,16 +7785,7 @@ export type PostsValidateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9290,16 +7810,7 @@ export type PostsValidateErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9322,21 +7833,12 @@ export type PostsValidateResponses = {
         object: 'validation';
         publishable: boolean;
         issues: Array<{
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
             message: string;
             hint?: string;
             allowed?: Array<string>;
             got?: string;
-            /**
-             * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-             */
-            source?: {
-                platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-                platform_code?: string;
-                field?: string;
-                value?: string;
-                platform_request_id?: string;
-            };
+            source?: ErrorSource;
             variant_index: number;
             path: Array<string | number>;
             /**
@@ -9380,16 +7882,7 @@ export type MetaAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9414,16 +7907,7 @@ export type MetaAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9448,16 +7932,7 @@ export type MetaAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9482,16 +7957,7 @@ export type MetaAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9516,16 +7982,7 @@ export type MetaAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9550,16 +8007,7 @@ export type MetaAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9584,16 +8032,7 @@ export type MetaAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9701,16 +8140,7 @@ export type MetaInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9735,16 +8165,7 @@ export type MetaInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9769,16 +8190,7 @@ export type MetaInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9803,16 +8215,7 @@ export type MetaInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9837,16 +8240,7 @@ export type MetaInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9871,16 +8265,7 @@ export type MetaInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -9905,16 +8290,7 @@ export type MetaInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10014,16 +8390,7 @@ export type MetaCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10048,16 +8415,7 @@ export type MetaCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10082,16 +8440,7 @@ export type MetaCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10116,16 +8465,7 @@ export type MetaCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10150,16 +8490,7 @@ export type MetaCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10184,16 +8515,7 @@ export type MetaCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10218,16 +8540,7 @@ export type MetaCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10341,16 +8654,7 @@ export type MetaCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10375,16 +8679,7 @@ export type MetaCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10409,16 +8704,7 @@ export type MetaCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10443,16 +8729,7 @@ export type MetaCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10477,16 +8754,7 @@ export type MetaCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10511,16 +8779,7 @@ export type MetaCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10545,16 +8804,7 @@ export type MetaCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10658,16 +8908,7 @@ export type MetaAdsetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10692,16 +8933,7 @@ export type MetaAdsetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10726,16 +8958,7 @@ export type MetaAdsetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10760,16 +8983,7 @@ export type MetaAdsetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10794,16 +9008,7 @@ export type MetaAdsetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10828,16 +9033,7 @@ export type MetaAdsetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10862,16 +9058,7 @@ export type MetaAdsetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -10989,16 +9176,7 @@ export type MetaAdsetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11023,16 +9201,7 @@ export type MetaAdsetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11057,16 +9226,7 @@ export type MetaAdsetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11091,16 +9251,7 @@ export type MetaAdsetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11125,16 +9276,7 @@ export type MetaAdsetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11159,16 +9301,7 @@ export type MetaAdsetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11193,16 +9326,7 @@ export type MetaAdsetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11310,16 +9434,7 @@ export type MetaAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11344,16 +9459,7 @@ export type MetaAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11378,16 +9484,7 @@ export type MetaAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11412,16 +9509,7 @@ export type MetaAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11446,16 +9534,7 @@ export type MetaAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11480,16 +9559,7 @@ export type MetaAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11514,16 +9584,7 @@ export type MetaAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11621,16 +9682,7 @@ export type MetaAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11655,16 +9707,7 @@ export type MetaAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11689,16 +9732,7 @@ export type MetaAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11723,16 +9757,7 @@ export type MetaAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11757,16 +9782,7 @@ export type MetaAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11791,16 +9807,7 @@ export type MetaAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11825,16 +9832,7 @@ export type MetaAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11922,16 +9920,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11956,16 +9945,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -11990,16 +9970,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12024,16 +9995,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12058,16 +10020,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12092,16 +10045,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12126,16 +10070,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12160,16 +10095,7 @@ export type GoogleGetAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12255,16 +10181,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12289,16 +10206,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12323,16 +10231,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12357,16 +10256,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12391,16 +10281,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12425,16 +10306,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12459,16 +10331,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12493,16 +10356,7 @@ export type GoogleEditAccountErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12579,16 +10433,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12613,16 +10458,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12647,16 +10483,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12681,16 +10508,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12715,16 +10533,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12749,16 +10558,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12783,16 +10583,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12817,16 +10608,7 @@ export type GoogleGetInsightsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12895,16 +10677,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12929,16 +10702,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12963,16 +10727,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -12997,16 +10752,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13031,16 +10777,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13065,16 +10802,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13099,16 +10827,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13133,16 +10852,7 @@ export type GoogleGetAdTreeErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13198,16 +10908,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13232,16 +10933,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13266,16 +10958,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13300,16 +10983,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13334,16 +11008,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13368,16 +11033,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13402,16 +11058,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13436,16 +11083,7 @@ export type GoogleRunGaqlErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13518,16 +11156,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13552,16 +11181,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13586,16 +11206,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13620,16 +11231,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13654,16 +11256,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13688,16 +11281,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13722,16 +11306,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13756,16 +11331,7 @@ export type GoogleCreateBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13835,16 +11401,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13869,16 +11426,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13903,16 +11451,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13937,16 +11476,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -13971,16 +11501,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14005,16 +11526,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14039,16 +11551,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14073,16 +11576,7 @@ export type GoogleEditBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14148,16 +11642,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14182,16 +11667,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14216,16 +11692,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14250,16 +11717,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14284,16 +11742,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14318,16 +11767,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14352,16 +11792,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14386,16 +11817,7 @@ export type GoogleRemoveBudgetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14446,16 +11868,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14480,16 +11893,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14514,16 +11918,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14548,16 +11943,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14582,16 +11968,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14616,16 +11993,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14650,16 +12018,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14684,16 +12043,7 @@ export type GoogleListCampaignsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14757,7 +12107,7 @@ export type GoogleCreateCampaignData = {
          */
         channel: 'SEARCH' | 'DISPLAY';
         /**
-         * The budget resource_name to attach (e.g. "customers/123/campaignBudgets/789"), as returned by a budget create.
+         * The id of the budget to attach, as returned by a budget create (POST /budgets). The full resource name is built server-side from the connection’s account.
          */
         campaign_budget: string;
         /**
@@ -14808,16 +12158,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14842,16 +12183,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14876,16 +12208,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14910,16 +12233,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14944,16 +12258,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -14978,16 +12283,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15012,16 +12308,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15046,16 +12333,7 @@ export type GoogleCreateCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15110,16 +12388,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15144,16 +12413,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15178,16 +12438,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15212,16 +12463,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15246,16 +12488,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15280,16 +12513,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15314,16 +12538,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15348,16 +12563,7 @@ export type GoogleGetCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15465,16 +12671,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15499,16 +12696,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15533,16 +12721,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15567,16 +12746,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15601,16 +12771,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15635,16 +12796,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15669,16 +12821,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15703,16 +12846,7 @@ export type GoogleEditCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15778,16 +12912,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15812,16 +12937,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15846,16 +12962,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15880,16 +12987,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15914,16 +13012,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15948,16 +13037,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -15982,16 +13062,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16016,16 +13087,7 @@ export type GoogleRemoveCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16091,16 +13153,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16125,16 +13178,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16159,16 +13203,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16193,16 +13228,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16227,16 +13253,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16261,16 +13278,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16295,16 +13303,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16329,16 +13328,7 @@ export type GooglePauseCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16409,16 +13399,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16443,16 +13424,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16477,16 +13449,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16511,16 +13474,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16545,16 +13499,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16579,16 +13524,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16613,16 +13549,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16647,16 +13574,7 @@ export type GoogleEnableCampaignErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16721,16 +13639,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16755,16 +13664,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16789,16 +13689,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16823,16 +13714,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16857,16 +13739,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16891,16 +13764,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16925,16 +13789,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -16959,16 +13814,7 @@ export type GoogleSearchGeoTargetsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17026,16 +13872,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17060,16 +13897,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17094,16 +13922,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17128,16 +13947,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17162,16 +13972,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17196,16 +13997,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17230,16 +14022,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17264,16 +14047,7 @@ export type GoogleListCampaignCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17355,16 +14129,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17389,16 +14154,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17423,16 +14179,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17457,16 +14204,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17491,16 +14229,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17525,16 +14254,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17559,16 +14279,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17593,16 +14304,7 @@ export type GoogleCreateCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17672,16 +14374,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17706,16 +14399,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17740,16 +14424,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17774,16 +14449,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17808,16 +14474,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17842,16 +14499,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17876,16 +14524,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17910,16 +14549,7 @@ export type GoogleRemoveCampaignCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -17993,16 +14623,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18027,16 +14648,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18061,16 +14673,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18095,16 +14698,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18129,16 +14723,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18163,16 +14748,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18197,16 +14773,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18231,16 +14798,7 @@ export type GoogleSetCampaignGeoSettingsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18297,16 +14855,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18331,16 +14880,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18365,16 +14905,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18399,16 +14930,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18433,16 +14955,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18467,16 +14980,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18501,16 +15005,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18535,16 +15030,7 @@ export type GoogleListAdGroupsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18578,7 +15064,7 @@ export type GoogleCreateAdGroupData = {
          */
         name: string;
         /**
-         * The resource name of the parent campaign (e.g. `customers/123/campaigns/456`), as returned by POST /campaigns.
+         * The numeric id of the parent campaign, as returned by POST /campaigns.
          */
         campaign: string;
         /**
@@ -18625,16 +15111,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18659,16 +15136,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18693,16 +15161,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18727,16 +15186,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18761,16 +15211,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18795,16 +15236,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18829,16 +15261,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18863,16 +15286,7 @@ export type GoogleCreateAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18927,16 +15341,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18961,16 +15366,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -18995,16 +15391,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19029,16 +15416,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19063,16 +15441,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19097,16 +15466,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19131,16 +15491,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19165,16 +15516,7 @@ export type GoogleGetAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19244,16 +15586,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19278,16 +15611,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19312,16 +15636,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19346,16 +15661,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19380,16 +15686,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19414,16 +15711,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19448,16 +15736,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19482,16 +15761,7 @@ export type GoogleEditAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19573,16 +15843,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19607,16 +15868,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19641,16 +15893,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19675,16 +15918,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19709,16 +15943,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19743,16 +15968,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19777,16 +15993,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19811,16 +16018,7 @@ export type GoogleSetAdGroupBidsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19886,16 +16084,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19920,16 +16109,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19954,16 +16134,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -19988,16 +16159,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20022,16 +16184,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20056,16 +16209,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20090,16 +16234,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20124,16 +16259,7 @@ export type GoogleRemoveAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20199,16 +16325,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20233,16 +16350,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20267,16 +16375,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20301,16 +16400,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20335,16 +16425,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20369,16 +16450,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20403,16 +16475,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20437,16 +16500,7 @@ export type GooglePauseAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20517,16 +16571,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20551,16 +16596,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20585,16 +16621,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20619,16 +16646,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20653,16 +16671,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20687,16 +16696,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20721,16 +16721,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20755,16 +16746,7 @@ export type GoogleEnableAdGroupErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20824,16 +16806,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20858,16 +16831,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20892,16 +16856,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20926,16 +16881,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20960,16 +16906,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -20994,16 +16931,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21028,16 +16956,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21062,16 +16981,7 @@ export type GoogleListAdGroupCriteriaErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21173,16 +17083,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21207,16 +17108,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21241,16 +17133,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21275,16 +17158,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21309,16 +17183,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21343,16 +17208,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21377,16 +17233,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21411,16 +17258,7 @@ export type GoogleCreateAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21490,16 +17328,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21524,16 +17353,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21558,16 +17378,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21592,16 +17403,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21626,16 +17428,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21660,16 +17453,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21694,16 +17478,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21728,16 +17503,7 @@ export type GoogleRemoveAdGroupCriterionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21797,16 +17563,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21831,16 +17588,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21865,16 +17613,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21899,16 +17638,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21933,16 +17663,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -21967,16 +17688,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22001,16 +17713,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22035,16 +17738,7 @@ export type GoogleListAudiencesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22121,16 +17815,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22155,16 +17840,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22189,16 +17865,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22223,16 +17890,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22257,16 +17915,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22291,16 +17940,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22325,16 +17965,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22359,16 +17990,7 @@ export type GoogleSetCampaignTargetingSettingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22425,16 +18047,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22459,16 +18072,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22493,16 +18097,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22527,16 +18122,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22561,16 +18147,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22595,16 +18172,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22629,16 +18197,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22663,16 +18222,7 @@ export type GoogleListAdsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22702,7 +18252,7 @@ export type GoogleListAdsResponse = GoogleListAdsResponses[keyof GoogleListAdsRe
 export type GoogleCreateAdData = {
     body: {
         /**
-         * The ad group resource name this ad belongs to.
+         * The numeric id of the ad group this ad belongs to.
          */
         ad_group: string;
         /**
@@ -22779,16 +18329,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22813,16 +18354,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22847,16 +18379,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22881,16 +18404,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22915,16 +18429,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22949,16 +18454,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -22983,16 +18479,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23017,16 +18504,7 @@ export type GoogleCreateAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23081,16 +18559,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23115,16 +18584,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23149,16 +18609,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23183,16 +18634,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23217,16 +18659,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23251,16 +18684,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23285,16 +18709,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23319,16 +18734,7 @@ export type GoogleGetAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23355,7 +18761,7 @@ export type GoogleGetAdResponse = GoogleGetAdResponses[keyof GoogleGetAdResponse
 export type GoogleCreateDisplayAdData = {
     body: {
         /**
-         * The ad group resource name this ad belongs to.
+         * The numeric id of the ad group this ad belongs to.
          */
         ad_group: string;
         /**
@@ -23481,16 +18887,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23515,16 +18912,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23549,16 +18937,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23583,16 +18962,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23617,16 +18987,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23651,16 +19012,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23685,16 +19037,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23719,16 +19062,7 @@ export type GoogleCreateDisplayAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23794,16 +19128,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23828,16 +19153,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23862,16 +19178,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23896,16 +19203,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23930,16 +19228,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23964,16 +19253,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -23998,16 +19278,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24032,16 +19303,7 @@ export type GoogleRemoveAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24107,16 +19369,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24141,16 +19394,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24175,16 +19419,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24209,16 +19444,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24243,16 +19469,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24277,16 +19494,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24311,16 +19519,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24345,16 +19544,7 @@ export type GooglePauseAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24425,16 +19615,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24459,16 +19640,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24493,16 +19665,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24527,16 +19690,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24561,16 +19715,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24595,16 +19740,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24629,16 +19765,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24663,16 +19790,7 @@ export type GoogleEnableAdErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24734,16 +19852,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24768,16 +19877,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24802,16 +19902,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24836,16 +19927,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24870,16 +19952,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24904,16 +19977,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24938,16 +20002,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -24972,16 +20027,7 @@ export type GoogleListKeywordsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25011,7 +20057,7 @@ export type GoogleListKeywordsResponse = GoogleListKeywordsResponses[keyof Googl
 export type GoogleCreateKeywordData = {
     body: {
         /**
-         * The resource name of the ad group to add the keyword to (e.g. `customers/123/adGroups/456`).
+         * The numeric id of the ad group to add the keyword to.
          */
         ad_group: string;
         /**
@@ -25066,16 +20112,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25100,16 +20137,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25134,16 +20162,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25168,16 +20187,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25202,16 +20212,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25236,16 +20237,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25270,16 +20262,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25304,16 +20287,7 @@ export type GoogleCreateKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25368,16 +20342,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25402,16 +20367,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25436,16 +20392,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25470,16 +20417,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25504,16 +20442,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25538,16 +20467,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25572,16 +20492,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25606,16 +20517,7 @@ export type GoogleGetKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25685,16 +20587,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25719,16 +20612,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25753,16 +20637,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25787,16 +20662,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25821,16 +20687,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25855,16 +20712,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25889,16 +20737,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25923,16 +20762,7 @@ export type GoogleSetKeywordBidErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -25998,16 +20828,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26032,16 +20853,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26066,16 +20878,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26100,16 +20903,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26134,16 +20928,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26168,16 +20953,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26202,16 +20978,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26236,16 +21003,7 @@ export type GoogleRemoveKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26311,16 +21069,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26345,16 +21094,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26379,16 +21119,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26413,16 +21144,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26447,16 +21169,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26481,16 +21194,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26515,16 +21219,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26549,16 +21244,7 @@ export type GooglePauseKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26629,16 +21315,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26663,16 +21340,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26697,16 +21365,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26731,16 +21390,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26765,16 +21415,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26799,16 +21440,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26833,16 +21465,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26867,16 +21490,7 @@ export type GoogleEnableKeywordErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26932,16 +21546,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -26966,16 +21571,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27000,16 +21596,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27034,16 +21621,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27068,16 +21646,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27102,16 +21671,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27136,16 +21696,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27170,16 +21721,7 @@ export type GoogleListConversionActionsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27309,16 +21851,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27343,16 +21876,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27377,16 +21901,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27411,16 +21926,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27445,16 +21951,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27479,16 +21976,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27513,16 +22001,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27547,16 +22026,7 @@ export type GoogleCreateConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27611,16 +22081,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27645,16 +22106,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27679,16 +22131,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27713,16 +22156,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27747,16 +22181,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27781,16 +22206,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27815,16 +22231,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27849,16 +22256,7 @@ export type GoogleGetConversionActionErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27902,6 +22300,746 @@ export type GoogleGetConversionActionResponses = {
 
 export type GoogleGetConversionActionResponse = GoogleGetConversionActionResponses[keyof GoogleGetConversionActionResponses];
 
+export type GoogleSendConversionsData = {
+    body: {
+        /**
+         * The numeric id of the conversion action these events count toward.
+         */
+        conversion_action_id: string;
+        /**
+         * The conversion events to send (1–2000 per request).
+         */
+        conversions: Array<GoogleAdsConversionEvent>;
+        /**
+         * Request-level consent default, applied to every event without its own consent.
+         */
+        consent?: GoogleAdsConversionConsent;
+        /**
+         * When true, validate the request against Google without creating anything (Google’s native validate_only).
+         */
+        dry_run?: boolean;
+    };
+    headers?: {
+        /**
+         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+         */
+        'Idempotency-Key'?: string;
+    };
+    path: {
+        /**
+         * The id of a Google Ads connection in your account.
+         */
+        connection_id: string;
+    };
+    query?: never;
+    url: '/google/{connection_id}/conversions:send';
+};
+
+export type GoogleSendConversionsErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid' | 'google_request_failed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized' | 'google_auth_expired';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'google_permission_denied';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited' | 'google_rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'google_server_error';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type GoogleSendConversionsError = GoogleSendConversionsErrors[keyof GoogleSendConversionsErrors];
+
+export type GoogleSendConversionsResponses = {
+    /**
+     * OK
+     */
+    202: GoogleAdsSendConversionsResult;
+};
+
+export type GoogleSendConversionsResponse = GoogleSendConversionsResponses[keyof GoogleSendConversionsResponses];
+
+export type GoogleGetConversionStatusData = {
+    body?: never;
+    path: {
+        /**
+         * The id of a Google Ads connection in your account.
+         */
+        connection_id: string;
+    };
+    query: {
+        /**
+         * The request id returned by the conversion SEND.
+         */
+        request_id: string;
+    };
+    url: '/google/{connection_id}/conversions/status';
+};
+
+export type GoogleGetConversionStatusErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid' | 'google_request_failed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized' | 'google_auth_expired';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'google_permission_denied';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited' | 'google_rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'google_server_error';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type GoogleGetConversionStatusError = GoogleGetConversionStatusErrors[keyof GoogleGetConversionStatusErrors];
+
+export type GoogleGetConversionStatusResponses = {
+    /**
+     * OK
+     */
+    200: GoogleAdsConversionStatus;
+};
+
+export type GoogleGetConversionStatusResponse = GoogleGetConversionStatusResponses[keyof GoogleGetConversionStatusResponses];
+
+export type GoogleListConversionRequestsData = {
+    body?: never;
+    path: {
+        /**
+         * The id of a Google Ads connection in your account.
+         */
+        connection_id: string;
+    };
+    query?: {
+        /**
+         * Maximum number of items to return (1–100). Defaults to 20.
+         */
+        limit?: number;
+        /**
+         * Number of items to skip before this page. Defaults to 0.
+         */
+        offset?: number;
+    };
+    url: '/google/{connection_id}/conversions';
+};
+
+export type GoogleListConversionRequestsErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid' | 'google_request_failed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized' | 'google_auth_expired';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'google_permission_denied';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited' | 'google_rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'google_server_error';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type GoogleListConversionRequestsError = GoogleListConversionRequestsErrors[keyof GoogleListConversionRequestsErrors];
+
+export type GoogleListConversionRequestsResponses = {
+    /**
+     * OK
+     */
+    200: {
+        /**
+         * Always the string `list`.
+         */
+        object: 'list';
+        /**
+         * The items on this page.
+         */
+        data: Array<GoogleAdsConversionRequest>;
+        /**
+         * Total items matching the query, across all pages.
+         */
+        total: number;
+        /**
+         * The limit applied to this page.
+         */
+        limit: number;
+        /**
+         * The offset applied to this page.
+         */
+        offset: number;
+        /**
+         * True if more items exist after this page.
+         */
+        has_more: boolean;
+    };
+};
+
+export type GoogleListConversionRequestsResponse = GoogleListConversionRequestsResponses[keyof GoogleListConversionRequestsResponses];
+
 export type GoogleListConversionGoalsData = {
     body?: never;
     path: {
@@ -27929,16 +23067,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27963,16 +23092,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -27997,16 +23117,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28031,16 +23142,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28065,16 +23167,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28099,16 +23192,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28133,16 +23217,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28167,16 +23242,7 @@ export type GoogleListConversionGoalsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28257,16 +23323,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28291,16 +23348,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28325,16 +23373,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28359,16 +23398,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28393,16 +23423,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28427,16 +23448,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28461,16 +23473,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28495,16 +23498,7 @@ export type GoogleSetConversionGoalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28576,16 +23570,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28610,16 +23595,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28644,16 +23620,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28678,16 +23645,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28712,16 +23670,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28746,16 +23695,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28780,16 +23720,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28814,16 +23745,7 @@ export type GoogleUploadImageAssetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28874,16 +23796,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28908,16 +23821,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28942,16 +23846,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -28976,16 +23871,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29010,16 +23896,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29044,16 +23921,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29078,16 +23946,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29112,16 +23971,7 @@ export type TiktokCreatorInfoErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29208,16 +24058,7 @@ export type LogsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29242,16 +24083,7 @@ export type LogsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29276,16 +24108,7 @@ export type LogsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29310,16 +24133,7 @@ export type LogsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29344,16 +24158,7 @@ export type LogsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29378,16 +24183,7 @@ export type LogsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29412,16 +24208,7 @@ export type LogsListErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29496,7 +24283,7 @@ export type LogsListResponses = {
                 /**
                  * Stable, machine-readable error code from the closed registry.
                  */
-                code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+                code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
                 /**
                  * Human-readable, non-sensitive message.
                  */
@@ -29528,7 +24315,7 @@ export type LogsListResponses = {
                         /**
                          * The typed error code the variant carries.
                          */
-                        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+                        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
                         message: string;
                         /**
                          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
@@ -29622,16 +24409,7 @@ export type LogsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29656,16 +24434,7 @@ export type LogsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29690,16 +24459,7 @@ export type LogsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29724,16 +24484,7 @@ export type LogsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29758,16 +24509,7 @@ export type LogsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29792,16 +24534,7 @@ export type LogsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29826,16 +24559,7 @@ export type LogsGetErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -29902,7 +24626,7 @@ export type LogsGetResponses = {
             /**
              * Stable, machine-readable error code from the closed registry.
              */
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
             /**
              * Human-readable, non-sensitive message.
              */
@@ -29934,7 +24658,7 @@ export type LogsGetResponses = {
                     /**
                      * The typed error code the variant carries.
                      */
-                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
+                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_cannot_post_now' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'not_publishable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'content_kind_mismatch' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_url_ownership_unverified' | 'tiktok_unaudited_private_only' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'google_rate_limited' | 'google_server_error' | 'google_auth_expired' | 'google_permission_denied' | 'google_request_failed' | 'google_conversion_duplicate' | 'google_conversion_invalid_click_id' | 'google_conversion_event_too_old' | 'google_conversion_consent_required' | 'google_conversion_terms_not_signed' | 'google_conversion_rejected' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed';
                     message: string;
                     /**
                      * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
@@ -30015,16 +24739,7 @@ export type WebhooksListEndpointsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30049,16 +24764,7 @@ export type WebhooksListEndpointsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30083,16 +24789,7 @@ export type WebhooksListEndpointsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30117,16 +24814,7 @@ export type WebhooksListEndpointsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30151,16 +24839,7 @@ export type WebhooksListEndpointsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30185,16 +24864,7 @@ export type WebhooksListEndpointsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30219,16 +24889,7 @@ export type WebhooksListEndpointsErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30347,16 +25008,7 @@ export type WebhooksCreateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30381,16 +25033,7 @@ export type WebhooksCreateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30415,16 +25058,7 @@ export type WebhooksCreateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30449,16 +25083,7 @@ export type WebhooksCreateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30483,16 +25108,7 @@ export type WebhooksCreateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30517,16 +25133,7 @@ export type WebhooksCreateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30551,16 +25158,7 @@ export type WebhooksCreateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30640,16 +25238,7 @@ export type WebhooksDeleteEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30674,16 +25263,7 @@ export type WebhooksDeleteEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30708,16 +25288,7 @@ export type WebhooksDeleteEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30742,16 +25313,7 @@ export type WebhooksDeleteEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30776,16 +25338,7 @@ export type WebhooksDeleteEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30810,16 +25363,7 @@ export type WebhooksDeleteEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30844,16 +25388,7 @@ export type WebhooksDeleteEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30917,16 +25452,7 @@ export type WebhooksGetEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30951,16 +25477,7 @@ export type WebhooksGetEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -30985,16 +25502,7 @@ export type WebhooksGetEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31019,16 +25527,7 @@ export type WebhooksGetEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31053,16 +25552,7 @@ export type WebhooksGetEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31087,16 +25577,7 @@ export type WebhooksGetEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31121,16 +25602,7 @@ export type WebhooksGetEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31227,16 +25699,7 @@ export type WebhooksUpdateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31261,16 +25724,7 @@ export type WebhooksUpdateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31295,16 +25749,7 @@ export type WebhooksUpdateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31329,16 +25774,7 @@ export type WebhooksUpdateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31363,16 +25799,7 @@ export type WebhooksUpdateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31397,16 +25824,7 @@ export type WebhooksUpdateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31431,16 +25849,7 @@ export type WebhooksUpdateEndpointErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31515,16 +25924,7 @@ export type WebhooksCreatePortalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31549,16 +25949,7 @@ export type WebhooksCreatePortalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31583,16 +25974,7 @@ export type WebhooksCreatePortalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31617,16 +25999,7 @@ export type WebhooksCreatePortalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31651,16 +26024,7 @@ export type WebhooksCreatePortalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31685,16 +26049,7 @@ export type WebhooksCreatePortalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31719,16 +26074,7 @@ export type WebhooksCreatePortalErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31779,16 +26125,7 @@ export type WebhooksListEventTypesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31813,16 +26150,7 @@ export type WebhooksListEventTypesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31847,16 +26175,7 @@ export type WebhooksListEventTypesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31881,16 +26200,7 @@ export type WebhooksListEventTypesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31915,16 +26225,7 @@ export type WebhooksListEventTypesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31949,16 +26250,7 @@ export type WebhooksListEventTypesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -31983,16 +26275,7 @@ export type WebhooksListEventTypesErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32056,16 +26339,7 @@ export type WebhooksPingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32090,16 +26364,7 @@ export type WebhooksPingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32124,16 +26389,7 @@ export type WebhooksPingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32158,16 +26414,7 @@ export type WebhooksPingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32192,16 +26439,7 @@ export type WebhooksPingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32226,16 +26464,7 @@ export type WebhooksPingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32260,16 +26489,7 @@ export type WebhooksPingErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32344,16 +26564,7 @@ export type TokensMintErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32378,16 +26589,7 @@ export type TokensMintErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32412,16 +26614,7 @@ export type TokensMintErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32446,16 +26639,7 @@ export type TokensMintErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32480,16 +26664,7 @@ export type TokensMintErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32514,16 +26689,7 @@ export type TokensMintErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;
@@ -32548,16 +26714,7 @@ export type TokensMintErrors = {
         display_error: string;
         detail?: string;
         request_id?: string;
-        /**
-         * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
-         */
-        source?: {
-            platform: 'google' | 'meta' | 'x' | 'linkedin' | 'instagram' | 'facebook' | 'tiktok' | 'youtube';
-            platform_code?: string;
-            field?: string;
-            value?: string;
-            platform_request_id?: string;
-        };
+        source?: ErrorSource;
         errors?: Array<{
             field: string;
             code: string;

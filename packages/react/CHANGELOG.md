@@ -1,5 +1,70 @@
 # @postrun/react
 
+## 2.25.0
+
+### Minor Changes
+
+- Google Ads: conversion history list, structured error `source`, and consistent
+  bare-id parent references.
+
+  - **Conversion history list** — new `googleListConversionRequests`
+    (`GET /google/{connection_id}/conversions`) returns the recent real conversion
+    sends on a connection (newest first), each `{ request_id, conversion_action_id,
+event_count, created_at }`; deep-link any row to its live per-destination status
+    via `googleGetConversionStatus`. New importable type `GoogleAdsConversionRequest`.
+  - **Structured error `source`** — every error now carries one importable
+    `ErrorSource` (`{ platform, platform_code?, field?, value?, platform_request_id? }`)
+    on `PostrunError.source`, surfacing the platform's own field-level reject detail
+    (Google Ads + the Data Manager conversion API) instead of dropping it. A
+    multi-field reject lists every offending field on `errors[]`.
+  - **Consistent bare-id parent references** — create bodies for ad groups, keywords,
+    and ads now take a bare numeric parent id (e.g. `campaign: "123"`,
+    `ad_group: "456"`), matching `campaign_budget` — so a created entity's id drops
+    straight into the next create. A full `resource_name` is rejected at the boundary.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.25.0
+
+## 2.24.0
+
+### Minor Changes
+
+- Correct the Google Ads conversion SEND contract (live-verified against the Data
+  Manager API). `event_source` is now a REQUIRED field on each conversion event
+  (WEB / APP / IN_STORE / PHONE / MESSAGE / OTHER — Google rejects a missing one);
+  postal `address` requires all four parts (`given_name` / `family_name` /
+  `region_code` / `postal_code`) with `region_code` as an ISO 3166-1 alpha-2 code;
+  `event_timestamp` accepts a timezone offset (e.g. `+05:30`), not just `Z`. The
+  conversion status read now returns an empty `destinations` array (poll again) for
+  the first ~minute after a send, while Google registers the request, instead of an
+  error.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.24.0
+
+## 2.23.0
+
+### Minor Changes
+
+- Add Google Ads conversion SEND + STATUS (Data Manager API). New SDK functions
+  `googleSendConversions` (POST `/google/{connection_id}/conversions:send`) and
+  `googleGetConversionStatus` (GET `/google/{connection_id}/conversions/status`),
+  plus named, importable types: `GoogleAdsConversionConsent`,
+  `GoogleAdsConversionUserIdentifier`, `GoogleAdsConversionEvent`,
+  `GoogleAdsSendConversionsResult`, `GoogleAdsConversionStatusReason`,
+  `GoogleAdsConversionWarning`, and `GoogleAdsConversionStatus`. Send plaintext
+  identifiers (email / phone / address) — they're hashed server-side; pass
+  `dry_run: true` to validate against Google without sending.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@2.23.0
+
 ## 2.22.0
 
 ### Minor Changes

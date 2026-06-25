@@ -124,11 +124,37 @@ export const zErrorCode = z.enum([
     'google_auth_expired',
     'google_permission_denied',
     'google_request_failed',
+    'google_conversion_duplicate',
+    'google_conversion_invalid_click_id',
+    'google_conversion_event_too_old',
+    'google_conversion_consent_required',
+    'google_conversion_terms_not_signed',
+    'google_conversion_rejected',
     'post_publish_failed',
     'post_partially_published',
     'connection_platform_mismatch',
     'connection_removed'
 ]);
+
+/**
+ * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
+ */
+export const zErrorSource = z.object({
+    platform: z.enum([
+        'google',
+        'meta',
+        'x',
+        'linkedin',
+        'instagram',
+        'facebook',
+        'tiktok',
+        'youtube'
+    ]),
+    platform_code: z.string().optional(),
+    field: z.string().optional(),
+    value: z.string().optional(),
+    platform_request_id: z.string().optional()
+});
 
 export const zProfile = z.object({
     id: z.string(),
@@ -593,6 +619,12 @@ export const zPostVariant = z.union([
                 'google_auth_expired',
                 'google_permission_denied',
                 'google_request_failed',
+                'google_conversion_duplicate',
+                'google_conversion_invalid_click_id',
+                'google_conversion_event_too_old',
+                'google_conversion_consent_required',
+                'google_conversion_terms_not_signed',
+                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
@@ -782,6 +814,12 @@ export const zPostVariant = z.union([
                 'google_auth_expired',
                 'google_permission_denied',
                 'google_request_failed',
+                'google_conversion_duplicate',
+                'google_conversion_invalid_click_id',
+                'google_conversion_event_too_old',
+                'google_conversion_consent_required',
+                'google_conversion_terms_not_signed',
+                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
@@ -937,6 +975,12 @@ export const zPostVariant = z.union([
                 'google_auth_expired',
                 'google_permission_denied',
                 'google_request_failed',
+                'google_conversion_duplicate',
+                'google_conversion_invalid_click_id',
+                'google_conversion_event_too_old',
+                'google_conversion_consent_required',
+                'google_conversion_terms_not_signed',
+                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
@@ -1106,6 +1150,12 @@ export const zPostVariant = z.union([
                 'google_auth_expired',
                 'google_permission_denied',
                 'google_request_failed',
+                'google_conversion_duplicate',
+                'google_conversion_invalid_click_id',
+                'google_conversion_event_too_old',
+                'google_conversion_consent_required',
+                'google_conversion_terms_not_signed',
+                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
@@ -1269,6 +1319,12 @@ export const zPostVariant = z.union([
                 'google_auth_expired',
                 'google_permission_denied',
                 'google_request_failed',
+                'google_conversion_duplicate',
+                'google_conversion_invalid_click_id',
+                'google_conversion_event_too_old',
+                'google_conversion_consent_required',
+                'google_conversion_terms_not_signed',
+                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
@@ -2243,6 +2299,221 @@ export const zGoogleAdTree = z.object({
 });
 
 /**
+ * EEA/UK consent signals. Set at the request level as a default; a per-event value overrides it.
+ */
+export const zGoogleAdsConversionConsent = z.object({
+    ad_user_data: z.enum(['CONSENT_GRANTED', 'CONSENT_DENIED']).optional(),
+    ad_personalization: z.enum(['CONSENT_GRANTED', 'CONSENT_DENIED']).optional()
+});
+
+/**
+ * A plaintext customer identifier (email, phone, or address) used to match the conversion. Hashed server-side.
+ */
+export const zGoogleAdsConversionUserIdentifier = z.object({
+    email_address: z.email().optional(),
+    phone_number: z.string().min(1).regex(/\d/).optional(),
+    address: z.object({
+        given_name: z.string().min(1),
+        family_name: z.string().min(1),
+        region_code: z.string().regex(/^[A-Za-z]{2}$/),
+        postal_code: z.string().min(1)
+    }).optional()
+});
+
+/**
+ * A single conversion to send. Requires an event_timestamp and at least one match signal (gclid/gbraid/wbraid or user_data).
+ */
+export const zGoogleAdsConversionEvent = z.object({
+    event_timestamp: z.iso.datetime(),
+    event_source: z.enum([
+        'WEB',
+        'APP',
+        'IN_STORE',
+        'PHONE',
+        'MESSAGE',
+        'OTHER'
+    ]),
+    order_id: z.string().optional(),
+    gclid: z.string().optional(),
+    gbraid: z.string().optional(),
+    wbraid: z.string().optional(),
+    user_data: z.array(zGoogleAdsConversionUserIdentifier).min(1).max(10).optional(),
+    currency: z.string().length(3).optional(),
+    conversion_value: z.number().gte(0).optional(),
+    consent: zGoogleAdsConversionConsent.optional()
+});
+
+export const zGoogleAdsSendConversionsResult = z.object({
+    request_id: z.string().nullable(),
+    status: z.enum(['accepted', 'validated']),
+    dry_run: z.boolean(),
+    executed: z.boolean()
+});
+
+export const zGoogleAdsConversionStatusReason = z.object({
+    reason: z.string(),
+    count: z.int().gte(-9007199254740991).lte(9007199254740991),
+    code: z.enum([
+        'unauthorized',
+        'forbidden',
+        'not_found',
+        'conflict',
+        'validation_failed',
+        'rate_limited',
+        'internal_error',
+        'idempotency_key_invalid',
+        'idempotency_key_reused',
+        'idempotency_request_in_progress',
+        'account_not_available',
+        'connection_reauth_required',
+        'connection_not_pending',
+        'not_implemented',
+        'connection_discovery_failed',
+        'tiktok_creator_info_unavailable',
+        'tiktok_cannot_post_now',
+        'media_processing',
+        'media_upload_init_failed',
+        'media_upload_incomplete',
+        'not_publishable',
+        'invalid_connection',
+        'invalid_media',
+        'profile_scope_invalid',
+        'media_unprobeable',
+        'media_too_large',
+        'media_aspect_ratio_unsupported',
+        'media_resolution_too_low',
+        'media_gif_unsupported',
+        'media_format_recompressed',
+        'media_resolution_downscaled',
+        'video_container_unsupported',
+        'video_codec_unsupported',
+        'video_audio_codec_unsupported',
+        'video_too_large',
+        'video_too_small',
+        'video_dimensions_unsupported',
+        'video_dimensions_too_large',
+        'video_fps_unsupported',
+        'video_fps_too_low',
+        'video_aspect_unsupported',
+        'video_duration_too_short',
+        'video_duration_exceeds_max',
+        'video_transform_failed',
+        'media_fetch_failed',
+        'document_format_unsupported',
+        'document_too_large',
+        'document_too_many_pages',
+        'media_format_indeterminate',
+        'media_format_unsupported',
+        'media_count_invalid',
+        'body_too_long',
+        'content_missing',
+        'content_conflict',
+        'content_incomplete',
+        'content_kind_mismatch',
+        'media_type_mismatch',
+        'tag_limit_exceeded',
+        'reel_field_on_non_reel',
+        'field_placement_invalid',
+        'media_not_ready',
+        'media_failed',
+        'media_unsupported',
+        'media_kind_mismatch',
+        'variant_unparseable',
+        'publishing_unavailable',
+        'x_duplicate_content',
+        'x_not_authorized',
+        'x_access_not_permitted',
+        'x_rate_limited',
+        'x_publish_failed',
+        'x_media_upload_failed',
+        'linkedin_duplicate_content',
+        'linkedin_auth_expired',
+        'linkedin_permission_denied',
+        'linkedin_rate_limited',
+        'linkedin_media_processing',
+        'linkedin_media_failed',
+        'linkedin_media_upload_failed',
+        'linkedin_publish_failed',
+        'instagram_media_processing',
+        'instagram_container_expired',
+        'instagram_container_failed',
+        'instagram_rate_limited',
+        'instagram_daily_limit_reached',
+        'instagram_aspect_ratio_unsupported',
+        'instagram_media_unsupported',
+        'instagram_not_authorized',
+        'instagram_publish_failed',
+        'facebook_reel_processing',
+        'facebook_reel_failed',
+        'facebook_rate_limited',
+        'facebook_duplicate_content',
+        'facebook_temporarily_blocked',
+        'facebook_not_authorized',
+        'facebook_publish_failed',
+        'tiktok_privacy_not_allowed',
+        'tiktok_duration_exceeds_max',
+        'tiktok_media_processing',
+        'tiktok_not_authorized',
+        'tiktok_rate_limited',
+        'tiktok_url_ownership_unverified',
+        'tiktok_unaudited_private_only',
+        'tiktok_spam_risk',
+        'tiktok_file_format_invalid',
+        'tiktok_duration_invalid',
+        'tiktok_frame_rate_invalid',
+        'tiktok_resolution_invalid',
+        'tiktok_media_pull_failed',
+        'tiktok_server_error',
+        'tiktok_publish_failed',
+        'google_rate_limited',
+        'google_server_error',
+        'google_auth_expired',
+        'google_permission_denied',
+        'google_request_failed',
+        'google_conversion_duplicate',
+        'google_conversion_invalid_click_id',
+        'google_conversion_event_too_old',
+        'google_conversion_consent_required',
+        'google_conversion_terms_not_signed',
+        'google_conversion_rejected',
+        'post_publish_failed',
+        'post_partially_published',
+        'connection_platform_mismatch',
+        'connection_removed'
+    ]),
+    display_error: z.string()
+});
+
+export const zGoogleAdsConversionWarning = z.object({
+    reason: z.string(),
+    count: z.int().gte(-9007199254740991).lte(9007199254740991)
+});
+
+export const zGoogleAdsConversionStatus = z.object({
+    request_id: z.string(),
+    destinations: z.array(z.object({
+        request_status: z.enum([
+            'REQUEST_STATUS_UNKNOWN',
+            'SUCCESS',
+            'PROCESSING',
+            'FAILED',
+            'PARTIAL_SUCCESS'
+        ]),
+        events_submitted: z.int().gte(-9007199254740991).lte(9007199254740991).nullable(),
+        errors: z.array(zGoogleAdsConversionStatusReason),
+        warnings: z.array(zGoogleAdsConversionWarning)
+    }))
+});
+
+export const zGoogleAdsConversionRequest = z.object({
+    object: z.literal('conversion_request'),
+    request_id: z.string(),
+    conversion_action_id: z.string().nullable(),
+    event_count: z.int().gte(-9007199254740991).lte(9007199254740991).nullable(),
+    created_at: z.string()
+});
+
+/**
  * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
  */
 export const zIdempotencyKey = z.string().min(1).max(255);
@@ -3034,6 +3305,12 @@ export const zPostsValidateResponse = z.object({
             'google_auth_expired',
             'google_permission_denied',
             'google_request_failed',
+            'google_conversion_duplicate',
+            'google_conversion_invalid_click_id',
+            'google_conversion_event_too_old',
+            'google_conversion_consent_required',
+            'google_conversion_terms_not_signed',
+            'google_conversion_rejected',
             'post_publish_failed',
             'post_partially_published',
             'connection_platform_mismatch',
@@ -3043,22 +3320,7 @@ export const zPostsValidateResponse = z.object({
         hint: z.string().optional(),
         allowed: z.array(z.string()).optional(),
         got: z.string().optional(),
-        source: z.object({
-            platform: z.enum([
-                'google',
-                'meta',
-                'x',
-                'linkedin',
-                'instagram',
-                'facebook',
-                'tiktok',
-                'youtube'
-            ]),
-            platform_code: z.string().optional(),
-            field: z.string().optional(),
-            value: z.string().optional(),
-            platform_request_id: z.string().optional()
-        }).optional(),
+        source: zErrorSource.optional(),
         variant_index: z.int().gte(-9007199254740991).lte(9007199254740991),
         path: z.array(z.union([z.string(), z.number()])),
         platform: zPostPlatform.optional(),
@@ -3534,7 +3796,7 @@ export const zGoogleListCampaignsResponse = z.object({
 export const zGoogleCreateCampaignBody = z.object({
     name: z.string().min(1).max(255),
     channel: z.enum(['SEARCH', 'DISPLAY']),
-    campaign_budget: z.string().min(1),
+    campaign_budget: z.string().regex(/^\d+$/),
     bidding: z.enum([
         'manual_cpc',
         'maximize_conversions',
@@ -3823,7 +4085,7 @@ export const zGoogleListAdGroupsResponse = z.object({
 
 export const zGoogleCreateAdGroupBody = z.object({
     name: z.string().min(1).max(255),
-    campaign: z.string().min(1),
+    campaign: z.string().regex(/^\d+$/),
     type: z.enum(['SEARCH_STANDARD', 'DISPLAY_STANDARD']),
     status: z.enum(['ENABLED', 'PAUSED']).optional().default('ENABLED'),
     dry_run: z.boolean().optional().default(false)
@@ -4116,7 +4378,7 @@ export const zGoogleListAdsResponse = z.object({
 });
 
 export const zGoogleCreateAdBody = z.object({
-    ad_group: z.string().min(1),
+    ad_group: z.string().regex(/^\d+$/),
     final_urls: z.array(z.url()).min(1),
     headlines: z.array(z.object({
         text: z.string().min(1).max(30),
@@ -4159,7 +4421,7 @@ export const zGoogleGetAdPath = z.object({
 export const zGoogleGetAdResponse = zGoogleAdsAd;
 
 export const zGoogleCreateDisplayAdBody = z.object({
-    ad_group: z.string().min(1),
+    ad_group: z.string().regex(/^\d+$/),
     final_urls: z.array(z.url()).min(1),
     marketing_images: z.array(z.object({
         asset: z.string().min(1)
@@ -4285,7 +4547,7 @@ export const zGoogleListKeywordsResponse = z.object({
 });
 
 export const zGoogleCreateKeywordBody = z.object({
-    ad_group: z.string().min(1),
+    ad_group: z.string().regex(/^\d+$/),
     text: z.string().min(1).max(80),
     match_type: z.enum([
         'EXACT',
@@ -4735,6 +4997,60 @@ export const zGoogleGetConversionActionResponse = z.object({
     }))
 });
 
+export const zGoogleSendConversionsBody = z.object({
+    conversion_action_id: z.string().regex(/^\d+$/),
+    conversions: z.array(zGoogleAdsConversionEvent).min(1).max(2000),
+    consent: zGoogleAdsConversionConsent.optional(),
+    dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleSendConversionsHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleSendConversionsPath = z.object({
+    connection_id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zGoogleSendConversionsResponse = zGoogleAdsSendConversionsResult;
+
+export const zGoogleGetConversionStatusPath = z.object({
+    connection_id: z.string()
+});
+
+export const zGoogleGetConversionStatusQuery = z.object({
+    request_id: z.string().min(1)
+});
+
+/**
+ * OK
+ */
+export const zGoogleGetConversionStatusResponse = zGoogleAdsConversionStatus;
+
+export const zGoogleListConversionRequestsPath = z.object({
+    connection_id: z.string()
+});
+
+export const zGoogleListConversionRequestsQuery = z.object({
+    limit: z.int().gte(1).lte(100).optional().default(20),
+    offset: z.int().gte(0).lte(9007199254740991).optional().default(0)
+});
+
+/**
+ * OK
+ */
+export const zGoogleListConversionRequestsResponse = z.object({
+    object: z.literal('list'),
+    data: z.array(zGoogleAdsConversionRequest),
+    total: z.int().gte(-9007199254740991).lte(9007199254740991),
+    limit: z.int().gte(-9007199254740991).lte(9007199254740991),
+    offset: z.int().gte(-9007199254740991).lte(9007199254740991),
+    has_more: z.boolean()
+});
+
 export const zGoogleListConversionGoalsPath = z.object({
     connection_id: z.string()
 });
@@ -5085,6 +5401,12 @@ export const zLogsListResponse = z.object({
                 'google_auth_expired',
                 'google_permission_denied',
                 'google_request_failed',
+                'google_conversion_duplicate',
+                'google_conversion_invalid_click_id',
+                'google_conversion_event_too_old',
+                'google_conversion_consent_required',
+                'google_conversion_terms_not_signed',
+                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
@@ -5239,6 +5561,12 @@ export const zLogsListResponse = z.object({
                         'google_auth_expired',
                         'google_permission_denied',
                         'google_request_failed',
+                        'google_conversion_duplicate',
+                        'google_conversion_invalid_click_id',
+                        'google_conversion_event_too_old',
+                        'google_conversion_consent_required',
+                        'google_conversion_terms_not_signed',
+                        'google_conversion_rejected',
                         'post_publish_failed',
                         'post_partially_published',
                         'connection_platform_mismatch',
@@ -5419,6 +5747,12 @@ export const zLogsGetResponse = z.object({
             'google_auth_expired',
             'google_permission_denied',
             'google_request_failed',
+            'google_conversion_duplicate',
+            'google_conversion_invalid_click_id',
+            'google_conversion_event_too_old',
+            'google_conversion_consent_required',
+            'google_conversion_terms_not_signed',
+            'google_conversion_rejected',
             'post_publish_failed',
             'post_partially_published',
             'connection_platform_mismatch',
@@ -5573,6 +5907,12 @@ export const zLogsGetResponse = z.object({
                     'google_auth_expired',
                     'google_permission_denied',
                     'google_request_failed',
+                    'google_conversion_duplicate',
+                    'google_conversion_invalid_click_id',
+                    'google_conversion_event_too_old',
+                    'google_conversion_consent_required',
+                    'google_conversion_terms_not_signed',
+                    'google_conversion_rejected',
                     'post_publish_failed',
                     'post_partially_published',
                     'connection_platform_mismatch',

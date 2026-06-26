@@ -39,6 +39,7 @@
           "media_processing",
           "media_upload_init_failed",
           "media_upload_incomplete",
+          "media_upload_invalid_parts",
           "not_publishable",
           "invalid_connection",
           "invalid_media",
@@ -1127,7 +1128,7 @@
                     "type": "null"
                   }
                 ],
-                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null only while the shape is undetermined — referenced media is still being probed (kind not yet known), or the current media/settings combination has no valid shape for this platform. (A text-capable platform with zero media derives `text`, not null.)"
               },
               "connection_id": {
                 "anyOf": [
@@ -1225,6 +1226,7 @@
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
+                          "media_upload_invalid_parts",
                           "not_publishable",
                           "invalid_connection",
                           "invalid_media",
@@ -1542,7 +1544,7 @@
                     "type": "null"
                   }
                 ],
-                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null only while the shape is undetermined — referenced media is still being probed (kind not yet known), or the current media/settings combination has no valid shape for this platform. (A text-capable platform with zero media derives `text`, not null.)"
               },
               "connection_id": {
                 "anyOf": [
@@ -1640,6 +1642,7 @@
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
+                          "media_upload_invalid_parts",
                           "not_publishable",
                           "invalid_connection",
                           "invalid_media",
@@ -1870,7 +1873,7 @@
                     "type": "null"
                   }
                 ],
-                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null only while the shape is undetermined — referenced media is still being probed (kind not yet known), or the current media/settings combination has no valid shape for this platform. (A text-capable platform with zero media derives `text`, not null.)"
               },
               "connection_id": {
                 "anyOf": [
@@ -1968,6 +1971,7 @@
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
+                          "media_upload_invalid_parts",
                           "not_publishable",
                           "invalid_connection",
                           "invalid_media",
@@ -2232,7 +2236,7 @@
                     "type": "null"
                   }
                 ],
-                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null only while the shape is undetermined — referenced media is still being probed (kind not yet known), or the current media/settings combination has no valid shape for this platform. (A text-capable platform with zero media derives `text`, not null.)"
               },
               "connection_id": {
                 "anyOf": [
@@ -2330,6 +2334,7 @@
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
+                          "media_upload_invalid_parts",
                           "not_publishable",
                           "invalid_connection",
                           "invalid_media",
@@ -2591,7 +2596,7 @@
                     "type": "null"
                   }
                 ],
-                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null only while the shape is undetermined — referenced media is still being probed (kind not yet known), or the current media/settings combination has no valid shape for this platform. (A text-capable platform with zero media derives `text`, not null.)"
               },
               "connection_id": {
                 "anyOf": [
@@ -2689,6 +2694,7 @@
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
+                          "media_upload_invalid_parts",
                           "not_publishable",
                           "invalid_connection",
                           "invalid_media",
@@ -5627,6 +5633,7 @@
               "media_processing",
               "media_upload_init_failed",
               "media_upload_incomplete",
+              "media_upload_invalid_parts",
               "not_publishable",
               "invalid_connection",
               "invalid_media",
@@ -21942,7 +21949,10 @@
                     },
                     "code": {
                       "type": "string",
-                      "enum": ["idempotency_key_reused"],
+                      "enum": [
+                        "idempotency_key_reused",
+                        "media_upload_invalid_parts"
+                      ],
                       "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
                       "examples": ["idempotency_key_reused"]
                     },
@@ -22011,6 +22021,18 @@
                       "code": "idempotency_key_reused",
                       "display_error": "This looks like a different request — please try again.",
                       "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "media_upload_invalid_parts": {
+                    "summary": "The parts sent do not form a valid multipart upload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/media_upload_invalid_parts",
+                      "title": "The parts sent do not form a valid multipart upload.",
+                      "status": 422,
+                      "code": "media_upload_invalid_parts",
+                      "display_error": "This upload couldn’t be finished — the uploaded parts aren’t valid.",
+                      "detail": "The parts sent do not form a valid multipart upload.",
                       "request_id": "req_8x2k4m9q1z"
                     }
                   }
@@ -27799,6 +27821,7 @@
                               "media_processing",
                               "media_upload_init_failed",
                               "media_upload_incomplete",
+                              "media_upload_invalid_parts",
                               "not_publishable",
                               "invalid_connection",
                               "invalid_media",
@@ -89713,6 +89736,7 @@
                                       "media_processing",
                                       "media_upload_init_failed",
                                       "media_upload_incomplete",
+                                      "media_upload_invalid_parts",
                                       "not_publishable",
                                       "invalid_connection",
                                       "invalid_media",
@@ -89948,6 +89972,7 @@
                                                     "media_processing",
                                                     "media_upload_init_failed",
                                                     "media_upload_incomplete",
+                                                    "media_upload_invalid_parts",
                                                     "not_publishable",
                                                     "invalid_connection",
                                                     "invalid_media",
@@ -91155,6 +91180,7 @@
                                 "media_processing",
                                 "media_upload_init_failed",
                                 "media_upload_incomplete",
+                                "media_upload_invalid_parts",
                                 "not_publishable",
                                 "invalid_connection",
                                 "invalid_media",
@@ -91390,6 +91416,7 @@
                                               "media_processing",
                                               "media_upload_init_failed",
                                               "media_upload_incomplete",
+                                              "media_upload_invalid_parts",
                                               "not_publishable",
                                               "invalid_connection",
                                               "invalid_media",

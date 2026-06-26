@@ -1,5 +1,16 @@
 # @postrun/react
 
+## 3.1.0
+
+### Minor Changes
+
+- Add `media_upload_invalid_parts` to the typed error-code union. `POST /v1/media/{id}/multipart/complete` now returns a typed 422 for malformed/duplicate/out-of-order/undersized parts (previously a generic 500), so customers can branch on it. Regenerated from the API OpenAPI spec.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@3.1.0
+
 ## 3.0.0
 
 ### Major Changes

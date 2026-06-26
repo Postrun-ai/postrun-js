@@ -6,3 +6,7 @@
  * would, with zero network cost. Refreshed by `pnpm generate`.
  */
 export * from '../client/zod.gen';
+
+// Hand-written validators that re-apply the API's cross-field rules OpenAPI can't
+// express (e.g. a conversion's ≥1-match-signal). Layered on the generated zod.
+export * from './conversions';

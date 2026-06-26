@@ -1,5 +1,6 @@
 import type {
   MediaResource,
+  PostType,
   TikTokCreatorInfo,
   TikTokPostVariant,
 } from '@postrun/js';
@@ -39,7 +40,6 @@ const CONN = 'conn_sample0000000000000000';
 
 export const videoVariant: TikTokPostVariant = {
   platform: 'tiktok',
-  post_type: 'video',
   connection_id: CONN,
   body: 'Behind the scenes of our spring shoot 🌸 #bts #studio @acmestudio',
   media: [{ media_id: 'med_video' }],
@@ -54,7 +54,6 @@ export const videoVariant: TikTokPostVariant = {
 
 export const carouselVariant: TikTokPostVariant = {
   platform: 'tiktok',
-  post_type: 'carousel',
   connection_id: CONN,
   body: 'Three frames from the trip 📸 swipe → #travel #photography',
   media: [
@@ -72,7 +71,6 @@ export const carouselVariant: TikTokPostVariant = {
 
 export const singleImageVariant: TikTokPostVariant = {
   platform: 'tiktok',
-  post_type: 'single_image',
   connection_id: CONN,
   body: 'One shot from golden hour.',
   media: [{ media_id: 'med_photo1' }],
@@ -84,7 +82,6 @@ export const singleImageVariant: TikTokPostVariant = {
 
 export const processingVariant: TikTokPostVariant = {
   platform: 'tiktok',
-  post_type: 'video',
   connection_id: CONN,
   body: 'New drop incoming — clip still processing.',
   media: [{ media_id: 'med_video' }],
@@ -95,27 +92,34 @@ export interface Sample {
   id: string;
   label: string;
   variant: TikTokPostVariant;
+  /** The shape this post is — server-derived from the media on the live API; the
+   * composer passes the shape it's building so the panel sizes captions + the
+   * media-count rule correctly. */
+  postType: PostType;
   media: MediaResource[];
 }
 
 export const SAMPLES: Sample[] = [
-  { id: 'video', label: 'Video', variant: videoVariant, media: videoMedia },
+  { id: 'video', label: 'Video', variant: videoVariant, postType: 'video', media: videoMedia },
   {
     id: 'carousel',
     label: 'Photo carousel',
     variant: carouselVariant,
+    postType: 'carousel',
     media: carouselMedia,
   },
   {
     id: 'single',
     label: 'Single image',
     variant: singleImageVariant,
+    postType: 'single_image',
     media: singleImageMedia,
   },
   {
     id: 'processing',
     label: 'Processing',
     variant: processingVariant,
+    postType: 'video',
     media: [processingAsset('med_video')],
   },
 ];

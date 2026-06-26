@@ -1,7 +1,7 @@
 import type {
+  PostType,
   SettingsFor,
   TikTokCreatorInfo,
-  TikTokPostVariant,
 } from './resources';
 import { type TikTokPrivacyLevel } from './resources';
 import { tiktokPrivacyLabel } from './tiktok';
@@ -25,8 +25,10 @@ import { tiktokPrivacyLabel } from './tiktok';
  * it. The server enforces these; the editor surfaces them. */
 export const TIKTOK_CAPTION_MAX = { video: 2200, photo: 4000 } as const;
 
-/** The caption cap for a given post_type (video → title cap, photo → description). */
-export function captionMaxFor(postType: TikTokPostVariant['post_type']): number {
+/** The caption cap for a given post_type (video → title cap, photo → description).
+ * `post_type` is server-derived from the media (read-only) — the composer passes
+ * the shape it knows it's building (a video post vs a photo post). */
+export function captionMaxFor(postType: PostType): number {
   return postType === 'video'
     ? TIKTOK_CAPTION_MAX.video
     : TIKTOK_CAPTION_MAX.photo;

@@ -63,11 +63,10 @@ function igVariant(
 ): InstagramPostVariant {
   return {
     platform: 'instagram',
-    post_type: 'single_image',
     connection_id: 'conn_1',
     body: '',
     media: [{ media_id: 'm1' }],
-    settings: { media_type: 'IMAGE' },
+    settings: {},
     ...overrides,
   };
 }
@@ -103,7 +102,7 @@ describe('<InstagramPostPreview>', () => {
     render(
       <InstagramPostPreview
         variant={igVariant({
-          settings: { media_type: 'IMAGE', collaborators: ['janedev'] },
+          settings: { collaborators: ['janedev'] },
         })}
         connection={conn}
         media={image}
@@ -116,9 +115,7 @@ describe('<InstagramPostPreview>', () => {
     const { container } = render(
       <InstagramPostPreview
         variant={igVariant({
-          post_type: 'carousel',
           media: [{ media_id: 'm1' }, { media_id: 'm2' }],
-          settings: { media_type: 'CAROUSEL' },
         })}
         connection={conn}
         media={[readyMedia('m1', 'instagram'), readyMedia('m2', 'instagram')]}
@@ -127,13 +124,10 @@ describe('<InstagramPostPreview>', () => {
     expect(container.querySelectorAll('img').length).toBeGreaterThan(1);
   });
 
-  it('renders a FEED card (not a reel) when post_type is single_image even if media_type is REELS', () => {
+  it('renders a FEED card (not a reel) for a single image — shape derived from the media', () => {
     const { container } = render(
       <InstagramPostPreview
-        variant={igVariant({
-          post_type: 'single_image',
-          settings: { media_type: 'REELS' },
-        })}
+        variant={igVariant()}
         connection={conn}
         media={image}
       />,
@@ -146,10 +140,9 @@ describe('<InstagramPostPreview>', () => {
     const { container } = render(
       <InstagramPostPreview
         variant={igVariant({
-          post_type: 'reel',
           body: 'behind the scenes',
           media: [{ media_id: 'v1' }],
-          settings: { media_type: 'REELS', audio_name: 'Original audio' },
+          settings: { audio_name: 'Original audio' },
         })}
         connection={conn}
         media={[readyVideo('v1', 'instagram')]}
@@ -163,6 +156,7 @@ describe('<InstagramPostPreview>', () => {
     const fetched: Extract<PostVariant, { platform: 'instagram' }> = {
       platform: 'instagram',
       post_type: 'single_image',
+      media_type: 'IMAGE',
       id: 'pv_ig1',
       object: 'post_variant',
       connection_id: 'conn_1',
@@ -179,7 +173,7 @@ describe('<InstagramPostPreview>', () => {
           media: readyMedia('m1', 'instagram'),
         },
       ],
-      settings: { media_type: 'IMAGE' },
+      settings: {},
     };
     // No `media` prop — the read variant carries its asset inline.
     const { container } = render(
@@ -227,18 +221,4 @@ describe('<InstagramPostPreview>', () => {
     expect(card.style.maxWidth).toBe('470px');
   });
 
-  it('shows a media placeholder on an empty reel', () => {
-    render(
-      <InstagramPostPreview
-        variant={igVariant({
-          post_type: 'reel',
-          media: [],
-          settings: { media_type: 'REELS' },
-        })}
-        connection={conn}
-        media={[]}
-      />,
-    );
-    expect(screen.getByText('No media yet')).toBeDefined();
-  });
 });

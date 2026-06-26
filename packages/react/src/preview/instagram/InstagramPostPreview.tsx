@@ -73,8 +73,10 @@ function InstagramPostPreviewImpl({
   );
 
   const settings = variant.settings;
-  // `post_type` is the authoritative discriminator (the contract).
-  const isReel = variant.post_type === 'reel';
+  // The post shape is server-derived (read-only). For the preview we read it
+  // straight off the media we resolved: an Instagram reel is a single video;
+  // anything else (one image, or a multi-item carousel) is a feed card.
+  const isReel = resolved.length === 1 && resolved[0]?.kind === 'video';
 
   if (isReel) {
     return (

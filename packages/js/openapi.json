@@ -74,7 +74,6 @@
           "content_missing",
           "content_conflict",
           "content_incomplete",
-          "content_kind_mismatch",
           "media_type_mismatch",
           "tag_limit_exceeded",
           "reel_field_on_non_reel",
@@ -997,10 +996,6 @@
               "platform": {
                 "const": "x"
               },
-              "post_type": {
-                "enum": ["text", "single_image", "multi_image", "video"],
-                "type": "string"
-              },
               "settings": {
                 "type": "object",
                 "properties": {
@@ -1123,6 +1118,17 @@
               "object": {
                 "const": "post_variant"
               },
+              "post_type": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PostType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+              },
               "connection_id": {
                 "anyOf": [
                   {
@@ -1254,7 +1260,6 @@
                           "content_missing",
                           "content_conflict",
                           "content_incomplete",
-                          "content_kind_mismatch",
                           "media_type_mismatch",
                           "tag_limit_exceeded",
                           "reel_field_on_non_reel",
@@ -1383,10 +1388,10 @@
             },
             "required": [
               "platform",
-              "post_type",
               "settings",
               "id",
               "object",
+              "post_type",
               "connection_id",
               "body",
               "status",
@@ -1402,10 +1407,6 @@
               "platform": {
                 "const": "linkedin"
               },
-              "post_type": {
-                "enum": ["text", "single_image", "multi_image", "video"],
-                "type": "string"
-              },
               "settings": {
                 "type": "object",
                 "properties": {
@@ -1413,19 +1414,6 @@
                     "enum": ["PUBLIC", "CONNECTIONS"],
                     "type": "string",
                     "description": "Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts."
-                  },
-                  "content_kind": {
-                    "enum": [
-                      "text",
-                      "single_image",
-                      "video",
-                      "multi_image",
-                      "document",
-                      "article",
-                      "poll"
-                    ],
-                    "type": "string",
-                    "description": "Which content shape this post carries (mutually exclusive with the others)."
                   },
                   "article": {
                     "type": "object",
@@ -1535,7 +1523,7 @@
                     "description": "Inline @mentions encoded into the commentary at publish."
                   }
                 },
-                "required": ["visibility", "content_kind"],
+                "required": ["visibility"],
                 "additionalProperties": false,
                 "description": "LinkedIn personal member post settings."
               },
@@ -1544,6 +1532,17 @@
               },
               "object": {
                 "const": "post_variant"
+              },
+              "post_type": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PostType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
               },
               "connection_id": {
                 "anyOf": [
@@ -1676,7 +1675,6 @@
                           "content_missing",
                           "content_conflict",
                           "content_incomplete",
-                          "content_kind_mismatch",
                           "media_type_mismatch",
                           "tag_limit_exceeded",
                           "reel_field_on_non_reel",
@@ -1801,21 +1799,42 @@
                     "media"
                   ]
                 }
+              },
+              "content_kind": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "text",
+                      "single_image",
+                      "video",
+                      "multi_image",
+                      "document",
+                      "article",
+                      "poll"
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "LinkedIn content shape, DERIVED from the media + the article/poll sub-object (never sent). null while undetermined."
               }
             },
             "required": [
               "platform",
-              "post_type",
               "settings",
               "id",
               "object",
+              "post_type",
               "connection_id",
               "body",
               "status",
               "schedule_at",
               "result",
               "error",
-              "media"
+              "media",
+              "content_kind"
             ]
           },
           {
@@ -1823,10 +1842,6 @@
             "properties": {
               "platform": {
                 "const": "facebook_page"
-              },
-              "post_type": {
-                "enum": ["text", "single_image", "multi_image", "reel"],
-                "type": "string"
               },
               "settings": {
                 "type": "object",
@@ -1846,6 +1861,17 @@
               "object": {
                 "const": "post_variant"
               },
+              "post_type": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PostType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+              },
               "connection_id": {
                 "anyOf": [
                   {
@@ -1977,7 +2003,6 @@
                           "content_missing",
                           "content_conflict",
                           "content_incomplete",
-                          "content_kind_mismatch",
                           "media_type_mismatch",
                           "tag_limit_exceeded",
                           "reel_field_on_non_reel",
@@ -2106,10 +2131,10 @@
             },
             "required": [
               "platform",
-              "post_type",
               "settings",
               "id",
               "object",
+              "post_type",
               "connection_id",
               "body",
               "status",
@@ -2125,18 +2150,9 @@
               "platform": {
                 "const": "instagram"
               },
-              "post_type": {
-                "enum": ["single_image", "carousel", "reel"],
-                "type": "string"
-              },
               "settings": {
                 "type": "object",
                 "properties": {
-                  "media_type": {
-                    "enum": ["IMAGE", "CAROUSEL", "REELS"],
-                    "type": "string",
-                    "description": "Feed image, carousel, or reel. Defaults to IMAGE for a single image."
-                  },
                   "location_id": {
                     "type": "string",
                     "description": "Facebook Page id representing a location."
@@ -2207,6 +2223,17 @@
               "object": {
                 "const": "post_variant"
               },
+              "post_type": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PostType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+              },
               "connection_id": {
                 "anyOf": [
                   {
@@ -2338,7 +2365,6 @@
                           "content_missing",
                           "content_conflict",
                           "content_incomplete",
-                          "content_kind_mismatch",
                           "media_type_mismatch",
                           "tag_limit_exceeded",
                           "reel_field_on_non_reel",
@@ -2463,21 +2489,34 @@
                     "media"
                   ]
                 }
+              },
+              "media_type": {
+                "anyOf": [
+                  {
+                    "enum": ["IMAGE", "CAROUSEL", "REELS"],
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Instagram media type (IMAGE/CAROUSEL/REELS), DERIVED from the media (never sent). null while undetermined."
               }
             },
             "required": [
               "platform",
-              "post_type",
               "settings",
               "id",
               "object",
+              "post_type",
               "connection_id",
               "body",
               "status",
               "schedule_at",
               "result",
               "error",
-              "media"
+              "media",
+              "media_type"
             ]
           },
           {
@@ -2485,10 +2524,6 @@
             "properties": {
               "platform": {
                 "const": "tiktok"
-              },
-              "post_type": {
-                "enum": ["video", "single_image", "carousel"],
-                "type": "string"
               },
               "settings": {
                 "type": "object",
@@ -2547,6 +2582,17 @@
               "object": {
                 "const": "post_variant"
               },
+              "post_type": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PostType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The post shape, DERIVED from the media (the customer never sends it). null while the shape is undetermined — a draft with no media, or media still being probed."
+              },
               "connection_id": {
                 "anyOf": [
                   {
@@ -2678,7 +2724,6 @@
                           "content_missing",
                           "content_conflict",
                           "content_incomplete",
-                          "content_kind_mismatch",
                           "media_type_mismatch",
                           "tag_limit_exceeded",
                           "reel_field_on_non_reel",
@@ -2807,10 +2852,10 @@
             },
             "required": [
               "platform",
-              "post_type",
               "settings",
               "id",
               "object",
+              "post_type",
               "connection_id",
               "body",
               "status",
@@ -3119,10 +3164,6 @@
               "platform": {
                 "const": "x"
               },
-              "post_type": {
-                "enum": ["text", "single_image", "multi_image", "video"],
-                "type": "string"
-              },
               "settings": {
                 "type": "object",
                 "properties": {
@@ -3274,17 +3315,13 @@
                 "description": "Ordered media references; the count drives the post-type rules."
               }
             },
-            "required": ["platform", "post_type", "connection_id"]
+            "required": ["platform", "connection_id"]
           },
           {
             "type": "object",
             "properties": {
               "platform": {
                 "const": "linkedin"
-              },
-              "post_type": {
-                "enum": ["text", "single_image", "multi_image", "video"],
-                "type": "string"
               },
               "settings": {
                 "type": "object",
@@ -3293,19 +3330,6 @@
                     "enum": ["PUBLIC", "CONNECTIONS"],
                     "type": "string",
                     "description": "Audience. PUBLIC or CONNECTIONS — CONTAINER/LOGGED_IN are invalid for member posts."
-                  },
-                  "content_kind": {
-                    "enum": [
-                      "text",
-                      "single_image",
-                      "video",
-                      "multi_image",
-                      "document",
-                      "article",
-                      "poll"
-                    ],
-                    "type": "string",
-                    "description": "Which content shape this post carries (mutually exclusive with the others)."
                   },
                   "article": {
                     "type": "object",
@@ -3415,7 +3439,7 @@
                     "description": "Inline @mentions encoded into the commentary at publish."
                   }
                 },
-                "required": ["visibility", "content_kind"],
+                "required": ["visibility"],
                 "additionalProperties": false,
                 "description": "LinkedIn personal member post settings."
               },
@@ -3453,7 +3477,7 @@
                 "description": "Ordered media references; the count drives the post-type rules."
               }
             },
-            "required": ["platform", "post_type", "settings", "connection_id"]
+            "required": ["platform", "settings", "connection_id"]
           },
           {
             "type": "object",
@@ -3461,18 +3485,9 @@
               "platform": {
                 "const": "instagram"
               },
-              "post_type": {
-                "enum": ["single_image", "carousel", "reel"],
-                "type": "string"
-              },
               "settings": {
                 "type": "object",
                 "properties": {
-                  "media_type": {
-                    "enum": ["IMAGE", "CAROUSEL", "REELS"],
-                    "type": "string",
-                    "description": "Feed image, carousel, or reel. Defaults to IMAGE for a single image."
-                  },
                   "location_id": {
                     "type": "string",
                     "description": "Facebook Page id representing a location."
@@ -3571,17 +3586,13 @@
                 "description": "Ordered media references; the count drives the post-type rules."
               }
             },
-            "required": ["platform", "post_type", "settings", "connection_id"]
+            "required": ["platform", "settings", "connection_id"]
           },
           {
             "type": "object",
             "properties": {
               "platform": {
                 "const": "facebook_page"
-              },
-              "post_type": {
-                "enum": ["text", "single_image", "multi_image", "reel"],
-                "type": "string"
               },
               "settings": {
                 "type": "object",
@@ -3630,17 +3641,13 @@
                 "description": "Ordered media references; the count drives the post-type rules."
               }
             },
-            "required": ["platform", "post_type", "connection_id"]
+            "required": ["platform", "connection_id"]
           },
           {
             "type": "object",
             "properties": {
               "platform": {
                 "const": "tiktok"
-              },
-              "post_type": {
-                "enum": ["video", "single_image", "carousel"],
-                "type": "string"
               },
               "settings": {
                 "type": "object",
@@ -3728,10 +3735,10 @@
                 "description": "Ordered media references; the count drives the post-type rules."
               }
             },
-            "required": ["platform", "post_type", "connection_id"]
+            "required": ["platform", "connection_id"]
           }
         ],
-        "description": "A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings."
+        "description": "A single platform variant of a post: connection, platform, body, ordered media, and native typed settings. The post SHAPE (post_type, and LinkedIn content_kind / Instagram media_type) is DERIVED from the media — never sent."
       },
       "CreatePostBody": {
         "type": "object",
@@ -5655,7 +5662,6 @@
               "content_missing",
               "content_conflict",
               "content_incomplete",
-              "content_kind_mismatch",
               "media_type_mismatch",
               "tag_limit_exceeded",
               "reel_field_on_non_reel",
@@ -23078,7 +23084,6 @@
                       "variants": [
                         {
                           "platform": "x",
-                          "post_type": "text",
                           "settings": {
                             "reply_settings": "everyone",
                             "quote_tweet_id": "Example quote tweet id",
@@ -23106,6 +23111,7 @@
                           },
                           "id": "pv_01h455vb4pex5vsknk084sn02q",
                           "object": "post_variant",
+                          "post_type": "text",
                           "connection_id": "conn_01h455vb4pex5vsknk084sn02q",
                           "body": "Example body",
                           "status": "draft",
@@ -24164,7 +24170,6 @@
                           "variants": [
                             {
                               "platform": "x",
-                              "post_type": "text",
                               "settings": {
                                 "reply_settings": "everyone",
                                 "quote_tweet_id": "Example quote tweet id",
@@ -24192,6 +24197,7 @@
                               },
                               "id": "pv_01h455vb4pex5vsknk084sn02q",
                               "object": "post_variant",
+                              "post_type": "text",
                               "connection_id": "conn_01h455vb4pex5vsknk084sn02q",
                               "body": "Example body",
                               "status": "draft",
@@ -25026,7 +25032,6 @@
                       "variants": [
                         {
                           "platform": "x",
-                          "post_type": "text",
                           "settings": {
                             "reply_settings": "everyone",
                             "quote_tweet_id": "Example quote tweet id",
@@ -25054,6 +25059,7 @@
                           },
                           "id": "pv_01h455vb4pex5vsknk084sn02q",
                           "object": "post_variant",
+                          "post_type": "text",
                           "connection_id": "conn_01h455vb4pex5vsknk084sn02q",
                           "body": "Example body",
                           "status": "draft",
@@ -26091,7 +26097,6 @@
                       "variants": [
                         {
                           "platform": "x",
-                          "post_type": "text",
                           "settings": {
                             "reply_settings": "everyone",
                             "quote_tweet_id": "Example quote tweet id",
@@ -26119,6 +26124,7 @@
                           },
                           "id": "pv_01h455vb4pex5vsknk084sn02q",
                           "object": "post_variant",
+                          "post_type": "text",
                           "connection_id": "conn_01h455vb4pex5vsknk084sn02q",
                           "body": "Example body",
                           "status": "draft",
@@ -27828,7 +27834,6 @@
                               "content_missing",
                               "content_conflict",
                               "content_incomplete",
-                              "content_kind_mismatch",
                               "media_type_mismatch",
                               "tag_limit_exceeded",
                               "reel_field_on_non_reel",
@@ -89743,7 +89748,6 @@
                                       "content_missing",
                                       "content_conflict",
                                       "content_incomplete",
-                                      "content_kind_mismatch",
                                       "media_type_mismatch",
                                       "tag_limit_exceeded",
                                       "reel_field_on_non_reel",
@@ -89979,7 +89983,6 @@
                                                     "content_missing",
                                                     "content_conflict",
                                                     "content_incomplete",
-                                                    "content_kind_mismatch",
                                                     "media_type_mismatch",
                                                     "tag_limit_exceeded",
                                                     "reel_field_on_non_reel",
@@ -91187,7 +91190,6 @@
                                 "content_missing",
                                 "content_conflict",
                                 "content_incomplete",
-                                "content_kind_mismatch",
                                 "media_type_mismatch",
                                 "tag_limit_exceeded",
                                 "reel_field_on_non_reel",
@@ -91423,7 +91425,6 @@
                                               "content_missing",
                                               "content_conflict",
                                               "content_incomplete",
-                                              "content_kind_mismatch",
                                               "media_type_mismatch",
                                               "tag_limit_exceeded",
                                               "reel_field_on_non_reel",

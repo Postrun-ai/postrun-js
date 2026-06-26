@@ -60,7 +60,7 @@ export type {
   PostValidation,
   ValidationIssue,
   PostPlatform,
-  PostTypeFor,
+  PostType,
   SettingsFor,
   PublishMode,
   PostMetadata,

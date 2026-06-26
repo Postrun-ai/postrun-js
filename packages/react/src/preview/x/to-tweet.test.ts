@@ -16,7 +16,6 @@ const author: XAuthor = {
 function xVariant(overrides: Partial<XPostVariant> = {}): XPostVariant {
   return {
     platform: 'x',
-    post_type: 'text',
     connection_id: 'conn_1',
     body: '',
     media: [],
@@ -107,7 +106,7 @@ describe('toTweet — media', () => {
 
   it('maps a single image to one photo mediaDetail', () => {
     const tweet = toTweet({
-      variant: xVariant({ post_type: 'single_image' }),
+      variant: xVariant(),
       author,
       media: [photo('https://cdn.test/a.jpg', 'a cat')],
     });
@@ -120,7 +119,7 @@ describe('toTweet — media', () => {
 
   it('maps multiple images preserving order', () => {
     const tweet = toTweet({
-      variant: xVariant({ post_type: 'multi_image' }),
+      variant: xVariant(),
       author,
       media: [
         photo('https://cdn.test/1.jpg'),
@@ -138,7 +137,7 @@ describe('toTweet — media', () => {
 
   it('maps a video to a video mediaDetail carrying the source variant', () => {
     const tweet = toTweet({
-      variant: xVariant({ post_type: 'video' }),
+      variant: xVariant(),
       author,
       media: [
         {

@@ -10,11 +10,12 @@ import type {
 
 /**
  * A platform's FETCHED (read) variant — one member of a stored `Post`'s
- * `variants`, as returned by `usePost`/`usePosts`/the calendar. Since the API's
- * read variant is now a typed discriminated union, it carries the SAME typed
- * `settings`/`body`/`post_type` the write variant does, plus the read-only
- * `id`/`status`/`result`/`error` AND the enriched `media[].media` (the full
- * `MediaResource` inline) — so a fetched post previews with no extra fetch.
+ * `variants`, as returned by `usePost`/`usePosts`/the calendar. A typed
+ * discriminated union carrying the typed `settings`/`body`, the read-only
+ * `id`/`status`/`result`/`error`, the server-DERIVED post shape (`post_type`, and
+ * the LinkedIn `content_kind` / Instagram `media_type`), AND the enriched
+ * `media[].media` (the full `MediaResource` inline) — so a fetched post previews
+ * with no extra fetch.
  */
 export type ReadPostVariant<P extends PostVariant['platform']> = Extract<
   PostVariant,
@@ -24,10 +25,12 @@ export type ReadPostVariant<P extends PostVariant['platform']> = Extract<
 /**
  * What a preview's `variant` prop accepts: EITHER the compose-time **write**
  * variant (`XPostVariant`, …) OR the fetched **read** variant. Both expose the
- * typed `settings`, `body`, `post_type`, and ordered `media` refs the cards read
- * — so you can hand a preview a post you just built OR one you fetched, with no
- * transform. A read variant additionally carries each media's full asset inline;
- * a write/draft variant references media by id (resolve it via the `media` prop).
+ * typed `settings`, `body`, and ordered `media` refs the cards read — so you can
+ * hand a preview a post you just built OR one you fetched, with no transform. The
+ * cards derive the visual shape from the media + settings (the post shape itself
+ * is server-derived, present only on the read variant). A read variant
+ * additionally carries each media's full asset inline; a write/draft variant
+ * references media by id (resolve it via the `media` prop).
  */
 export type XPreviewVariant = XPostVariant | ReadPostVariant<'x'>;
 export type LinkedInPreviewVariant =

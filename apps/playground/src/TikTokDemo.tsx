@@ -18,7 +18,7 @@ export function TikTokDemo() {
   const [posted, setPosted] = useState<string | null>(null);
 
   const sample = SAMPLES.find((s) => s.id === sampleId) ?? SAMPLES[0]!;
-  const isVideo = sample.variant.post_type === 'video';
+  const isVideo = sample.postType === 'video';
 
   function pickSample(id: string) {
     const next = SAMPLES.find((s) => s.id === id) ?? SAMPLES[0]!;
@@ -84,6 +84,7 @@ export function TikTokDemo() {
         <div className={panelLight ? 'panel panel-light' : 'panel'}>
           <TikTokPublishPanel
             variant={variant}
+            postType={sample.postType}
             creatorInfo={creatorInfo}
             caption={caption}
             onCaptionChange={setCaption}

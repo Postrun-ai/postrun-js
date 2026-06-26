@@ -135,8 +135,9 @@ function LinkedInPostPreviewImpl({
     Boolean(variant.body) ||
     resolved.length > 0 ||
     Boolean(
-      variant.settings?.content_kind &&
-        variant.settings.content_kind !== 'text',
+      variant.settings?.article ||
+        variant.settings?.poll ||
+        variant.settings?.document,
     );
 
   return (
@@ -174,10 +175,13 @@ const emptyBodyStyle: CSSProperties = {
 };
 
 /**
- * The content unit below the commentary, by `content_kind`. Article and document
- * thumbnails come from the first ready media item. Rich cards (article/poll/
- * document) sit in the text column; media is edge-to-edge. When media is attached
- * but not yet resolved, a processing tile holds the slot.
+ * The content unit below the commentary. The LinkedIn content shape is
+ * server-derived (read-only); here we dispatch on the rich sub-object the
+ * customer attached (article / poll / document — mutually exclusive with media in
+ * the contract), else the media mosaic. Article and document thumbnails come from
+ * the first ready media item. Rich cards sit in the text column; media is
+ * edge-to-edge. When media is attached but not yet resolved, a processing tile
+ * holds the slot.
  */
 function renderContent(
   variant: LinkedInPreviewVariant,
@@ -185,24 +189,23 @@ function renderContent(
   pending: boolean,
 ) {
   const settings = variant.settings;
-  const kind = settings?.content_kind;
   const [firstMedia] = media;
 
-  if (kind === 'article' && settings?.article) {
+  if (settings?.article) {
     return (
       <div style={INSET}>
         <ArticleCard article={settings.article} thumbnail={firstMedia} />
       </div>
     );
   }
-  if (kind === 'poll' && settings?.poll) {
+  if (settings?.poll) {
     return (
       <div style={INSET}>
         <Poll poll={settings.poll} />
       </div>
     );
   }
-  if (kind === 'document' && settings?.document) {
+  if (settings?.document) {
     return (
       <div style={INSET}>
         <DocumentCard document={settings.document} cover={firstMedia} />

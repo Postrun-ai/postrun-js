@@ -12,7 +12,6 @@ const CONN = 'conn_x0000000000000000000';
 function v(overrides: Partial<XPostVariant>): XPostVariant {
   return {
     platform: 'x',
-    post_type: 'text',
     connection_id: CONN,
     body: '',
     media: [],
@@ -44,7 +43,6 @@ export const X_SAMPLES: XSample[] = [
     id: 'image',
     label: 'Image',
     variant: v({
-      post_type: 'single_image',
       body: 'Golden hour from the offsite 🌅',
       media: [{ media_id: 'med_x1' }],
     }),
@@ -56,7 +54,6 @@ export const X_SAMPLES: XSample[] = [
     id: 'processing',
     label: 'Processing',
     variant: v({
-      post_type: 'single_image',
       body: 'Uploading the keynote clip…',
       media: [{ media_id: 'med_x1' }],
     }),

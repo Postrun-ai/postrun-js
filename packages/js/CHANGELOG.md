@@ -1,5 +1,49 @@
 # @postrun/js
 
+## 3.0.0
+
+### Major Changes
+
+- Post shape is now server-derived from the media — the customer never declares it.
+
+  The API no longer accepts `post_type` on a write variant, or LinkedIn
+  `content_kind` / Instagram `media_type` in write `settings`. The server derives
+  the shape from each asset's byte-detected kind and surfaces it (nullable) only on
+  the READ variant (`post_type`, plus LinkedIn `content_kind` / Instagram
+  `media_type`).
+
+  - **`MediaInput` is now `{ id }`** (the required `kind` is gone) — attach an
+    uploaded asset by id and the server figures out the shape:
+    `create({ channels: { instagram: { settings: {}, media: [{ id: asset.id }] } } })`.
+  - **`ChannelConfig.postType` override removed**, and the client-side
+    `derivePostType` is gone — the composed write body never sends `post_type`,
+    `content_kind`, or `media_type`.
+  - **`PostTypeFor<P>` is replaced by `PostType`** (the closed shape union, derived
+    from the read variant).
+  - **Preview components** derive the visual shape from the resolved media +
+    settings sub-objects, so they accept both compose (write) and fetched (read)
+    variants unchanged.
+  - **`<TikTokPublishPanel>` / `<TikTokCaptionField>`** now take a `postType:
+PostType` prop (the shape the composer is building) instead of reading it off
+    the write variant; `captionMaxFor` accepts `PostType`.
+  - Removed error code `content_kind_mismatch` (the declared-vs-derived mismatch no
+    longer exists).
+
+### Minor Changes
+
+- Fix client-side validation of conversion events.
+
+  - **Timestamps with timezone offsets now validate.** Every `date-time` field
+    (e.g. a conversion's `event_timestamp`, a post's `schedule_at`) is generated as
+    `z.iso.datetime({ offset: true })`, so a valid RFC 3339 timestamp with an offset
+    like `2026-06-21T14:32:00-04:00` validates client-side exactly as the API accepts
+    it (previously the generated validator was UTC-`Z`-only and would false-reject it).
+  - **New `conversionEventSchema`** (from `@postrun/js/schemas`) layers the API's
+    cross-field rules — each conversion needs at least one match signal (gclid /
+    gbraid / wbraid / user_data), and each `user_data` identifier needs at least one
+    of email / phone / address — on top of the generated `zGoogleAdsConversionEvent`.
+    Use it to validate a conversion before sending, the same way the API does.
+
 ## 2.25.0
 
 ### Minor Changes

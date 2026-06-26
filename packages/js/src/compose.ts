@@ -4,7 +4,6 @@ import type {
   MediaResource,
   PostMetadata,
   PostPlatform,
-  PostTypeFor,
   PostVariantInput,
   PublishMode,
   SettingsFor,
@@ -13,8 +12,13 @@ import type {
 
 /* --------------------------------- types --------------------------------- */
 
-/** A media attachment — the uploaded asset (or just its id + kind). */
-export type MediaInput = Pick<MediaResource, 'id' | 'kind'>;
+/**
+ * A media attachment — just the uploaded asset's id. The post SHAPE (`post_type`
+ * and the LinkedIn `content_kind` / Instagram `media_type`) is DERIVED server-side
+ * from the media's byte-detected kind, so the customer never declares a media
+ * `kind` here — they attach the asset and we figure out the rest.
+ */
+export type MediaInput = Pick<MediaResource, 'id'>;
 
 /** Base content, shared across channels unless a channel overrides it. */
 export interface PostContent {
@@ -23,14 +27,13 @@ export interface PostContent {
 }
 
 /**
- * One channel's config. The SDK owns the plumbing (connection, media, assembly)
- * and derives `post_type` from the media; the CUSTOMER owns `settings` — the
- * platform's native, fully-typed config. An Instagram setting on an X channel is
- * a compile error. `postType` is an optional override of the derived value.
+ * One channel's config. The SDK owns the plumbing (connection, media, assembly);
+ * the CUSTOMER owns `settings` — the platform's native, fully-typed config. An
+ * Instagram setting on an X channel is a compile error. The post shape is never
+ * specified here — the server derives it from the attached media.
  */
 export interface ChannelConfig<P extends PostPlatform> {
   settings: SettingsFor<P>;
-  postType?: PostTypeFor<P>;
   body?: string;
   media?: readonly MediaInput[];
   connectionId?: string;
@@ -71,10 +74,10 @@ export type ConnectionRef = Pick<Connection, 'id' | 'platform'>;
 /**
  * Thrown only for a genuine USAGE error the SDK can't paper over — an
  * unresolvable connection, or a build with zero channels. It is NEVER thrown for
- * a media/`post_type` combination: validity (which media pair with which
- * post_type, document support, count limits, …) is the SERVER's job, surfaced as
- * typed `ValidationIssue`s by `POST /v1/posts/validate`. `derivePostType` is
- * best-effort SUGAR, so the SDK can always build an in-progress composition.
+ * a media combination: validity (which media a platform accepts, document
+ * support, count limits, …) is the SERVER's job — it derives the post shape from
+ * the media and surfaces any problem as a typed `ValidationIssue` from
+ * `POST /v1/posts/validate`. So the SDK can always build an in-progress composition.
  */
 export class ComposeError extends Error {
   constructor(message: string) {
@@ -87,67 +90,29 @@ type VariantFor<P extends PostPlatform> = Extract<PostVariantInput, { platform: 
 
 /* ----------------------------- platform handlers -------------------------- */
 
-/** What a handler receives once `post_type` is resolved (derived or explicit). */
+/** What a handler receives to assemble one variant. */
 interface ResolvedChannel<P extends PostPlatform> {
   settings: SettingsFor<P>;
-  postType: PostTypeFor<P>;
   connectionId: string;
   body: string | undefined;
   media: readonly { media_id: string }[];
 }
 
 /**
- * Each platform implements two layers:
- *  - `derivePostType` — the SUGAR: a BEST-EFFORT default `post_type` guessed from
- *    the media. Pure and TOTAL — it NEVER throws and never decides validity; it
- *    only runs when the caller doesn't pass `postType`. The SERVER
- *    (`POST /v1/posts/validate`) is the sole authority on whether the
- *    composition is publishable, returning typed `ValidationIssue`s.
- *  - `buildVariant` — the explicit CORE: assemble the typed variant from a
- *    resolved channel. Passes `settings` straight through (the customer owns it).
- * Splitting them keeps the core stable and the derivation purely additive.
+ * A per-platform variant builder: assemble the typed variant from a resolved
+ * channel, passing `settings` straight through (the customer owns it). Each
+ * platform gets its own builder so the literal `platform` discriminant ties the
+ * result to the right union member with no cast — and so the registry is
+ * exhaustive over `PostPlatform`. The post shape is NOT set here: the server
+ * derives it from the media.
  */
 interface PlatformHandler<P extends PostPlatform> {
-  derivePostType(media: readonly MediaInput[]): PostTypeFor<P>;
   buildVariant(resolved: ResolvedChannel<P>): VariantFor<P>;
 }
 
-function countKinds(media: readonly MediaInput[]) {
-  let images = 0;
-  let videos = 0;
-  let documents = 0;
-  for (const item of media) {
-    if (item.kind === 'video') videos += 1;
-    else if (item.kind === 'document') documents += 1;
-    else images += 1; // image | gif
-  }
-  return { images, videos, documents };
-}
-
-/**
- * X / LinkedIn / Facebook have no mixed-media placement: a post is text, images,
- * OR a single video. This is a BEST-EFFORT guess — it never throws. When a video
- * is present it wins the placement (`video`/`reel`), else 2+ images is
- * `multi_image` and a lone item is `single_image`. The SERVER rules on whether
- * the actual combination (a blend, >1 video, a document) is publishable.
- */
-function deriveSinglePlacement<V extends 'video' | 'reel'>(
-  media: readonly MediaInput[],
-  videoType: V,
-): 'single_image' | 'multi_image' | V {
-  const { images, videos } = countKinds(media);
-  if (videos >= 1) return videoType;
-  return images >= 2 ? 'multi_image' : 'single_image';
-}
-
 const xHandler: PlatformHandler<'x'> = {
-  derivePostType: (media) => {
-    if (media.length === 0) return 'text';
-    return deriveSinglePlacement(media, 'video');
-  },
-  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+  buildVariant: ({ settings, connectionId, body, media }) => ({
     platform: 'x',
-    post_type: postType,
     connection_id: connectionId,
     body,
     media: [...media],
@@ -156,19 +121,8 @@ const xHandler: PlatformHandler<'x'> = {
 };
 
 const linkedInHandler: PlatformHandler<'linkedin'> = {
-  derivePostType: (media) => {
-    if (media.length === 0) return 'text';
-    if (countKinds(media).documents > 0) {
-      // A document rides as a `single_image` post_type; the customer sets
-      // `content_kind: 'document'` in settings — we don't infer it. Best-effort:
-      // multi-document is a server concern, not a local throw.
-      return 'single_image';
-    }
-    return deriveSinglePlacement(media, 'video');
-  },
-  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+  buildVariant: ({ settings, connectionId, body, media }) => ({
     platform: 'linkedin',
-    post_type: postType,
     connection_id: connectionId,
     body,
     media: [...media],
@@ -177,13 +131,8 @@ const linkedInHandler: PlatformHandler<'linkedin'> = {
 };
 
 const facebookHandler: PlatformHandler<'facebook_page'> = {
-  derivePostType: (media) => {
-    if (media.length === 0) return 'text';
-    return deriveSinglePlacement(media, 'reel');
-  },
-  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+  buildVariant: ({ settings, connectionId, body, media }) => ({
     platform: 'facebook_page',
-    post_type: postType,
     connection_id: connectionId,
     body,
     media: [...media],
@@ -192,16 +141,8 @@ const facebookHandler: PlatformHandler<'facebook_page'> = {
 };
 
 const instagramHandler: PlatformHandler<'instagram'> = {
-  derivePostType: (media) => {
-    // Best-effort: empty media falls back to `single_image` (the server rules on
-    // whether Instagram needs media). 2+ items is a carousel (the API allows it
-    // to mix image/gif/video); a lone video is a reel, else a single image.
-    if (media.length >= 2) return 'carousel';
-    return countKinds(media).videos === 1 ? 'reel' : 'single_image';
-  },
-  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+  buildVariant: ({ settings, connectionId, body, media }) => ({
     platform: 'instagram',
-    post_type: postType,
     connection_id: connectionId,
     body,
     media: [...media],
@@ -210,19 +151,8 @@ const instagramHandler: PlatformHandler<'instagram'> = {
 };
 
 const tiktokHandler: PlatformHandler<'tiktok'> = {
-  derivePostType: (media) => {
-    // Best-effort: TikTok keeps video and photo posts separate (a video post is
-    // one standalone video; photos form a single image or a multi-photo
-    // carousel). A video present wins `video`; else 2+ images is a carousel and a
-    // lone item is `single_image`. The SERVER rules on a blend / >1 video / docs /
-    // empty media.
-    const { images, videos } = countKinds(media);
-    if (videos >= 1) return 'video';
-    return images >= 2 ? 'carousel' : 'single_image';
-  },
-  buildVariant: ({ settings, postType, connectionId, body, media }) => ({
+  buildVariant: ({ settings, connectionId, body, media }) => ({
     platform: 'tiktok',
-    post_type: postType,
     connection_id: connectionId,
     body,
     media: [...media],
@@ -281,7 +211,6 @@ function buildChannel<P extends PostPlatform>(
   const media = config.media ?? content.media ?? [];
   return handler.buildVariant({
     settings: config.settings,
-    postType: config.postType ?? handler.derivePostType(media),
     connectionId: resolveConnectionId(platform, config.connectionId, connections),
     body: config.body ?? content.body,
     media: media.map((item) => ({ media_id: item.id })),
@@ -328,8 +257,8 @@ function buildVariants(
   if (variants.length === 0) {
     // The ONE retained composition-level guard: "you called build with no
     // channels" is a programmer USAGE error, not a per-end-user validity judgment.
-    // It is NOT a verdict on whether any media/post_type combination is
-    // publishable — that authority lives entirely on the server.
+    // It is NOT a verdict on whether the media is publishable — that authority
+    // (and the post-shape derivation) lives entirely on the server.
     throw new ComposeError('At least one channel is required.');
   }
   return variants;
@@ -337,12 +266,12 @@ function buildVariants(
 
 /**
  * Turn an ergonomic `{ content, channels }` input into the exact
- * `CreatePostInput` the API expects — resolving each channel's connection,
- * attaching the shared/overridden media, and deriving a best-effort `post_type`
- * from that media (sugar — the server validates the real composition). The build
- * is TOTAL: it never throws for a media/post_type combination, so an in-progress
- * post can always be built to validate. The customer never assembles `variants[]`
- * or sees a `connection_id`, and owns each channel's typed `settings`.
+ * `CreatePostInput` the API expects — resolving each channel's connection and
+ * attaching the shared/overridden media. The server derives the post shape from
+ * that media, so the build is TOTAL: it never throws for a media combination and
+ * an in-progress post can always be built to validate. The customer never
+ * assembles `variants[]` or sees a `connection_id`, and owns each channel's typed
+ * `settings`.
  */
 export function buildCreatePost(
   input: ComposePostInput,

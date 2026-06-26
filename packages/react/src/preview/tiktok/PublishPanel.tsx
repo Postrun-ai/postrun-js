@@ -1,6 +1,7 @@
 'use client';
 
 import type {
+  PostType,
   TikTokCreatorInfo,
   TikTokOptionsValue,
   TikTokPostVariant,
@@ -28,8 +29,13 @@ import { Notice, Row, Switch, TOKENS } from './ui';
  * All logic comes from `@postrun/js` (the single source); this is the render.
  */
 export interface TikTokPublishPanelProps {
-  /** The variant — drives post_type (caps, interaction set) + media count. */
+  /** The variant — supplies the media count for the readiness gate. */
   variant: TikTokPostVariant;
+  /** The post shape this publish flow is for. It's server-DERIVED from the media
+   * (read-only on the API), so the composer passes the shape it knows it's
+   * building — `video` vs a `single_image` / `carousel` photo post — which drives
+   * the caption cap, the interaction set, and the media-count rule. */
+  postType: PostType;
   /** Live creator info (audience options, interaction gates). */
   creatorInfo: TikTokCreatorInfo;
   /** Editable caption (controlled) + its setter. */
@@ -49,10 +55,7 @@ export interface TikTokPublishPanelProps {
 }
 
 /** Media-count validity per post_type (mirrors the publish contract). */
-function mediaCountValid(
-  postType: TikTokPostVariant['post_type'],
-  count: number,
-): boolean {
+function mediaCountValid(postType: PostType, count: number): boolean {
   if (postType === 'carousel') {
     return count >= 2 && count <= 35;
   }
@@ -61,6 +64,7 @@ function mediaCountValid(
 
 export function TikTokPublishPanel({
   variant,
+  postType,
   creatorInfo,
   caption,
   onCaptionChange,
@@ -72,10 +76,10 @@ export function TikTokPublishPanel({
   className,
   style,
 }: TikTokPublishPanelProps) {
-  const isVideo = variant.post_type === 'video';
+  const isVideo = postType === 'video';
 
-  const captionOver = caption.length > captionMaxFor(variant.post_type);
-  const mediaOk = mediaCountValid(variant.post_type, variant.media?.length ?? 0);
+  const captionOver = caption.length > captionMaxFor(postType);
+  const mediaOk = mediaCountValid(postType, variant.media?.length ?? 0);
   const ready = !captionOver && mediaOk && tiktokOptionsReady(options);
 
   return (
@@ -92,7 +96,7 @@ export function TikTokPublishPanel({
       <TikTokCaptionField
         value={caption}
         onChange={onCaptionChange}
-        postType={variant.post_type}
+        postType={postType}
       />
 
       <Divider />

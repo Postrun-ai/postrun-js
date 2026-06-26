@@ -114,8 +114,9 @@ export type PostVariantInput = CreatePostBody['variants'][number];
 export type XPostVariant = Extract<PostVariantInput, { platform: 'x' }>;
 
 /** The LinkedIn member of the write variant union — typed native settings
- * (`content_kind`, `visibility`, `article`, `poll`, `document`, `mentions`).
- * Narrowed from the contract, never hand-declared. */
+ * (`visibility`, `article`, `poll`, `document`, `mentions`). The `content_kind`
+ * shape is server-DERIVED and read-only (see {@link PostVariant}). Narrowed from
+ * the contract, never hand-declared. */
 export type LinkedInPostVariant = Extract<
   PostVariantInput,
   { platform: 'linkedin' }
@@ -132,8 +133,9 @@ export type TikTokPostVariant = Extract<
 >;
 
 /** The Instagram member of the write variant union — typed native settings
- * (`media_type`, `collaborators`, `user_tags`, `location_id`, and the reel-only
- * `share_to_feed`/`audio_name`/`cover_url`/`thumb_offset`). Narrowed from the
+ * (`collaborators`, `user_tags`, `location_id`, and the reel-only
+ * `share_to_feed`/`audio_name`/`cover_url`/`thumb_offset`). The `media_type` shape
+ * is server-DERIVED and read-only (see {@link PostVariant}). Narrowed from the
  * contract, never hand-declared — the compose-time shape an IG preview renders. */
 export type InstagramPostVariant = Extract<
   PostVariantInput,
@@ -222,11 +224,14 @@ export type ValidationIssue = PostValidation['issues'][number];
 /** A posting platform — the variant discriminator (x / linkedin / …). */
 export type PostPlatform = PostVariantInput['platform'];
 
-/** The allowed `post_type` union for a given platform. */
-export type PostTypeFor<P extends PostPlatform> = Extract<
-  PostVariantInput,
-  { platform: P }
->['post_type'];
+/**
+ * The post shape (`text` / `single_image` / `multi_image` / `video` / `reel` /
+ * `carousel`) — DERIVED server-side from the attached media, never sent on write.
+ * It surfaces on the READ variant (`PostVariant.post_type`, null while
+ * undetermined); this strips that null to the concrete union. Derived from the
+ * contract, never hand-listed.
+ */
+export type PostType = NonNullable<PostVariant['post_type']>;
 
 /** The native `settings` shape for a given platform (typed per channel). */
 export type SettingsFor<P extends PostPlatform> = Extract<

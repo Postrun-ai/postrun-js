@@ -3,8 +3,9 @@ import type { PreviewConnection } from '@preview/types';
 
 import { conn, processingAsset, readyImage } from './samples-media';
 
-/** LinkedIn preview fixtures — one per content_kind, shaped exactly like our Post
- * object (LinkedInPostVariant). */
+/** LinkedIn preview fixtures, shaped exactly like our Post object
+ * (LinkedInPostVariant). The content shape is server-derived from the media + the
+ * article/poll/document sub-object, so the fixtures only attach those + media. */
 
 export const connection: PreviewConnection = conn({
   platform: 'linkedin',
@@ -17,11 +18,10 @@ const CONN = 'conn_li000000000000000000';
 function v(overrides: Partial<LinkedInPostVariant>): LinkedInPostVariant {
   return {
     platform: 'linkedin',
-    post_type: 'text',
     connection_id: CONN,
     body: '',
     media: [],
-    settings: { visibility: 'PUBLIC', content_kind: 'text' },
+    settings: { visibility: 'PUBLIC' },
     ...overrides,
   };
 }
@@ -38,12 +38,10 @@ export const LI_SAMPLES: LiSample[] = [
     id: 'article',
     label: 'Article',
     variant: v({
-      post_type: 'text',
       body: 'Wrote up everything we learned shipping our preview SDK. The "match the real platform" rule changed how we build. 👇',
       media: [{ media_id: 'med_li_thumb' }],
       settings: {
         visibility: 'PUBLIC',
-        content_kind: 'article',
         article: {
           source: 'https://www.acme.com/blog/social-preview-playbook',
           title: 'The social preview playbook: match the platform, not the mock',
@@ -58,11 +56,9 @@ export const LI_SAMPLES: LiSample[] = [
     id: 'poll',
     label: 'Poll',
     variant: v({
-      post_type: 'text',
       body: 'Settling a team debate — when do you actually like to ship?',
       settings: {
         visibility: 'PUBLIC',
-        content_kind: 'poll',
         poll: {
           question: 'Best day to deploy to production?',
           options: ['Monday', 'Wednesday', 'Friday', 'Never on Friday'],
@@ -76,7 +72,6 @@ export const LI_SAMPLES: LiSample[] = [
     id: 'multi_image',
     label: 'Multi-image',
     variant: v({
-      post_type: 'multi_image',
       body: 'A few frames from the offsite. #team #design',
       media: [
         { media_id: 'med_i1' },
@@ -84,7 +79,6 @@ export const LI_SAMPLES: LiSample[] = [
         { media_id: 'med_i3' },
         { media_id: 'med_i4' },
       ],
-      settings: { visibility: 'PUBLIC', content_kind: 'multi_image' },
     }),
     media: [
       readyImage('med_i1', 'photo-1469474968028-56623f02e42e'),
@@ -97,20 +91,15 @@ export const LI_SAMPLES: LiSample[] = [
     id: 'processing',
     label: 'Processing',
     variant: v({
-      post_type: 'single_image',
       body: 'New case study — the hero shot is still rendering.',
       media: [{ media_id: 'med_i1' }],
-      settings: { visibility: 'PUBLIC', content_kind: 'single_image' },
     }),
     media: [processingAsset('med_i1')],
   },
   {
     id: 'empty',
     label: 'Empty',
-    variant: v({
-      body: '',
-      settings: { visibility: 'PUBLIC', content_kind: 'text' },
-    }),
+    variant: v({ body: '' }),
     media: [],
   },
 ];

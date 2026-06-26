@@ -68,7 +68,6 @@ function ttVariant(
 ): TikTokPostVariant {
   return {
     platform: 'tiktok',
-    post_type: 'video',
     connection_id: 'conn_1',
     body: 'spring shoot',
     media: [{ media_id: 'med_1' }],
@@ -108,7 +107,7 @@ describe('<TikTokPostPreview>', () => {
   it('renders an image carousel for a photo post', () => {
     const { container } = render(
       <TikTokPostPreview
-        variant={ttVariant({ post_type: 'carousel', media: [{ media_id: 'a' }, { media_id: 'b' }] })}
+        variant={ttVariant({ media: [{ media_id: 'a' }, { media_id: 'b' }] })}
         creatorInfo={creatorInfo}
         media={photoMedia}
       />,

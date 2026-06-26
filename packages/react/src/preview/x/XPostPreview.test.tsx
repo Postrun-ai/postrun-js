@@ -21,7 +21,6 @@ const image = [readyMedia('m1', 'x', { alt_text: 'a cat' })];
 function xVariant(overrides: Partial<XPostVariant> = {}): XPostVariant {
   return {
     platform: 'x',
-    post_type: 'text',
     connection_id: 'conn_1',
     body: '',
     media: [],
@@ -32,7 +31,7 @@ function xVariant(overrides: Partial<XPostVariant> = {}): XPostVariant {
 
 /** A single-image variant referencing `m1`. */
 function withImage(over: Partial<XPostVariant> = {}): XPostVariant {
-  return xVariant({ post_type: 'single_image', media: [{ media_id: 'm1' }], ...over });
+  return xVariant({ media: [{ media_id: 'm1' }], ...over });
 }
 
 describe('<XPostPreview>', () => {

@@ -31,7 +31,19 @@ export default defineConfig({
     '@hey-api/sdk',
     // Runtime validators generated from the same schemas, exported via
     // `@postrun/js/schemas` for client-side validation before a request.
-    'zod',
+    // `dates.offset: true` → `z.iso.datetime({ offset: true })`: OpenAPI
+    // `format: date-time` is RFC 3339, which ALLOWS timezone offsets, but Zod's
+    // default `z.iso.datetime()` is UTC-`Z`-only and would FALSE-REJECT a valid
+    // offset timestamp the API accepts. The API's datetime inputs all accept
+    // offsets, so this keeps client-side validation == server-side. (Cross-field
+    // refines OpenAPI can't express — e.g. conversion match-signal — are layered
+    // back on in the hand-written `src/validation/` schemas.)
+    {
+      name: 'zod',
+      dates: {
+        offset: true,
+      },
+    },
     // TanStack Query options/mutations for EVERY operation (queryKey + queryFn,
     // mutationOptions). The paved FE path: a customer composes them with their own
     // `useQuery`/`useMutation` however they like — no hand-written per-endpoint

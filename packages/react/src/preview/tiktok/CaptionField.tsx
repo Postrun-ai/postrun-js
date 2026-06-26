@@ -1,6 +1,6 @@
 'use client';
 
-import type { TikTokPostVariant } from '@postrun/js';
+import type { PostType } from '@postrun/js';
 import { captionMaxFor } from '@postrun/js';
 import { useId } from 'react';
 import type { CSSProperties } from 'react';
@@ -27,8 +27,9 @@ export interface TikTokCaptionFieldProps {
   value: string;
   /** Fired on every edit — keep your variant `body` in sync with this. */
   onChange: (value: string) => void;
-  /** Drives the cap (video → 2200, photo → 4000). */
-  postType: TikTokPostVariant['post_type'];
+  /** Drives the cap (video → 2200, photo → 4000). Server-derived from the media;
+   * the composer passes the shape it's building. */
+  postType: PostType;
   /** Placeholder shown when empty. */
   placeholder?: string;
   className?: string;

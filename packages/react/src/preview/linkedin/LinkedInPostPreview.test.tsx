@@ -19,11 +19,10 @@ function liVariant(
 ): LinkedInPostVariant {
   return {
     platform: 'linkedin',
-    post_type: 'text',
     connection_id: 'conn_1',
     body: '',
     media: [],
-    settings: { visibility: 'PUBLIC', content_kind: 'text' },
+    settings: { visibility: 'PUBLIC' },
     ...overrides,
   };
 }
@@ -50,7 +49,7 @@ describe('<LinkedInPostPreview>', () => {
     render(
       <LinkedInPostPreview
         variant={liVariant({
-          settings: { visibility: 'CONNECTIONS', content_kind: 'text' },
+          settings: { visibility: 'CONNECTIONS' },
         })}
         connection={conn} headline={HEADLINE} verified
       />,
@@ -61,7 +60,7 @@ describe('<LinkedInPostPreview>', () => {
   it('renders a media image', () => {
     render(
       <LinkedInPostPreview
-        variant={liVariant({ post_type: 'single_image', media: [{ media_id: 'm1' }] })}
+        variant={liVariant({ media: [{ media_id: 'm1' }] })}
         connection={conn} headline={HEADLINE} verified
         media={image}
       />,
@@ -103,13 +102,12 @@ describe('<LinkedInPostPreview>', () => {
     expect(container.firstElementChild?.className).toContain('my-li');
   });
 
-  it('dispatches to the article card for content_kind: article', () => {
+  it('dispatches to the article card when an article sub-object is present', () => {
     render(
       <LinkedInPostPreview
         variant={liVariant({
           settings: {
             visibility: 'PUBLIC',
-            content_kind: 'article',
             article: { source: 'https://acme.com/x', title: 'We launched' },
           },
         })}
@@ -120,13 +118,12 @@ describe('<LinkedInPostPreview>', () => {
     expect(screen.getByText('acme.com')).toBeDefined();
   });
 
-  it('dispatches to the poll for content_kind: poll', () => {
+  it('dispatches to the poll when a poll sub-object is present', () => {
     render(
       <LinkedInPostPreview
         variant={liVariant({
           settings: {
             visibility: 'PUBLIC',
-            content_kind: 'poll',
             poll: { question: 'Best day?', options: ['Mon', 'Fri'], duration: 'ONE_DAY' },
           },
         })}
@@ -141,6 +138,7 @@ describe('<LinkedInPostPreview>', () => {
     const fetched: Extract<PostVariant, { platform: 'linkedin' }> = {
       platform: 'linkedin',
       post_type: 'text',
+      content_kind: 'text',
       id: 'pv_li1',
       object: 'post_variant',
       connection_id: 'conn_1',
@@ -150,7 +148,7 @@ describe('<LinkedInPostPreview>', () => {
       result: null,
       error: null,
       media: [],
-      settings: { visibility: 'PUBLIC', content_kind: 'text' },
+      settings: { visibility: 'PUBLIC' },
     };
     render(<LinkedInPostPreview variant={fetched} connection={conn} headline={HEADLINE} verified />);
     expect(screen.getByText(/fetched linkedin post/)).toBeDefined();
@@ -180,7 +178,7 @@ describe('<LinkedInPostPreview>', () => {
   it('hides the placeholder when only media is present', () => {
     render(
       <LinkedInPostPreview
-        variant={liVariant({ post_type: 'single_image', media: [{ media_id: 'm1' }] })}
+        variant={liVariant({ media: [{ media_id: 'm1' }] })}
         connection={conn} headline={HEADLINE} verified
         media={image}
       />,
@@ -188,13 +186,12 @@ describe('<LinkedInPostPreview>', () => {
     expect(screen.queryByText('What do you want to talk about?')).toBeNull();
   });
 
-  it('dispatches to the document card for content_kind: document', () => {
+  it('dispatches to the document card when a document sub-object is present', () => {
     render(
       <LinkedInPostPreview
         variant={liVariant({
           settings: {
             visibility: 'PUBLIC',
-            content_kind: 'document',
             document: { title: 'Q3 Deck.pdf' },
           },
         })}

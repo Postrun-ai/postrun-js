@@ -63,7 +63,6 @@ export const zErrorCode = z.enum([
     'content_missing',
     'content_conflict',
     'content_incomplete',
-    'content_kind_mismatch',
     'media_type_mismatch',
     'tag_limit_exceeded',
     'reel_field_on_non_reel',
@@ -452,12 +451,6 @@ export const zTikTokPrivacyLevel = z.enum([
 export const zPostVariant = z.union([
     z.object({
         platform: z.literal('x'),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'video'
-        ]),
         settings: z.object({
             reply_settings: z.enum([
                 'everyone',
@@ -492,6 +485,7 @@ export const zPostVariant = z.union([
         }),
         id: z.string(),
         object: z.literal('post_variant'),
+        post_type: zPostType.nullable(),
         connection_id: z.string().nullable(),
         body: z.string().nullable(),
         status: zPostVariantStatus,
@@ -558,7 +552,6 @@ export const zPostVariant = z.union([
                 'content_missing',
                 'content_conflict',
                 'content_incomplete',
-                'content_kind_mismatch',
                 'media_type_mismatch',
                 'tag_limit_exceeded',
                 'reel_field_on_non_reel',
@@ -642,23 +635,8 @@ export const zPostVariant = z.union([
     }),
     z.object({
         platform: z.literal('linkedin'),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'video'
-        ]),
         settings: z.object({
             visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-            content_kind: z.enum([
-                'text',
-                'single_image',
-                'video',
-                'multi_image',
-                'document',
-                'article',
-                'poll'
-            ]),
             article: z.object({
                 source: z.url(),
                 title: z.string().max(400).optional(),
@@ -687,6 +665,7 @@ export const zPostVariant = z.union([
         }),
         id: z.string(),
         object: z.literal('post_variant'),
+        post_type: zPostType.nullable(),
         connection_id: z.string().nullable(),
         body: z.string().nullable(),
         status: zPostVariantStatus,
@@ -753,7 +732,6 @@ export const zPostVariant = z.union([
                 'content_missing',
                 'content_conflict',
                 'content_incomplete',
-                'content_kind_mismatch',
                 'media_type_mismatch',
                 'tag_limit_exceeded',
                 'reel_field_on_non_reel',
@@ -833,21 +811,25 @@ export const zPostVariant = z.union([
             position: z.int().gte(-9007199254740991).lte(9007199254740991),
             alt_text_override: z.string().nullable(),
             media: zMedia
-        }))
+        })),
+        content_kind: z.enum([
+            'text',
+            'single_image',
+            'video',
+            'multi_image',
+            'document',
+            'article',
+            'poll'
+        ]).nullable()
     }),
     z.object({
         platform: z.literal('facebook_page'),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'reel'
-        ]),
         settings: z.object({
             link: z.url().optional()
         }),
         id: z.string(),
         object: z.literal('post_variant'),
+        post_type: zPostType.nullable(),
         connection_id: z.string().nullable(),
         body: z.string().nullable(),
         status: zPostVariantStatus,
@@ -914,7 +896,6 @@ export const zPostVariant = z.union([
                 'content_missing',
                 'content_conflict',
                 'content_incomplete',
-                'content_kind_mismatch',
                 'media_type_mismatch',
                 'tag_limit_exceeded',
                 'reel_field_on_non_reel',
@@ -998,17 +979,7 @@ export const zPostVariant = z.union([
     }),
     z.object({
         platform: z.literal('instagram'),
-        post_type: z.enum([
-            'single_image',
-            'carousel',
-            'reel'
-        ]),
         settings: z.object({
-            media_type: z.enum([
-                'IMAGE',
-                'CAROUSEL',
-                'REELS'
-            ]).optional(),
             location_id: z.string().optional(),
             user_tags: z.array(z.object({
                 username: z.string().min(1),
@@ -1023,6 +994,7 @@ export const zPostVariant = z.union([
         }),
         id: z.string(),
         object: z.literal('post_variant'),
+        post_type: zPostType.nullable(),
         connection_id: z.string().nullable(),
         body: z.string().nullable(),
         status: zPostVariantStatus,
@@ -1089,7 +1061,6 @@ export const zPostVariant = z.union([
                 'content_missing',
                 'content_conflict',
                 'content_incomplete',
-                'content_kind_mismatch',
                 'media_type_mismatch',
                 'tag_limit_exceeded',
                 'reel_field_on_non_reel',
@@ -1169,15 +1140,15 @@ export const zPostVariant = z.union([
             position: z.int().gte(-9007199254740991).lte(9007199254740991),
             alt_text_override: z.string().nullable(),
             media: zMedia
-        }))
+        })),
+        media_type: z.enum([
+            'IMAGE',
+            'CAROUSEL',
+            'REELS'
+        ]).nullable()
     }),
     z.object({
         platform: z.literal('tiktok'),
-        post_type: z.enum([
-            'video',
-            'single_image',
-            'carousel'
-        ]),
         settings: z.object({
             privacy_level: zTikTokPrivacyLevel.optional(),
             disable_comment: z.boolean().optional(),
@@ -1192,6 +1163,7 @@ export const zPostVariant = z.union([
         }),
         id: z.string(),
         object: z.literal('post_variant'),
+        post_type: zPostType.nullable(),
         connection_id: z.string().nullable(),
         body: z.string().nullable(),
         status: zPostVariantStatus,
@@ -1258,7 +1230,6 @@ export const zPostVariant = z.union([
                 'content_missing',
                 'content_conflict',
                 'content_incomplete',
-                'content_kind_mismatch',
                 'media_type_mismatch',
                 'tag_limit_exceeded',
                 'reel_field_on_non_reel',
@@ -1387,17 +1358,11 @@ export const zTikTokCreatorInfo = z.object({
 });
 
 /**
- * A single platform variant of a post: connection, platform, explicit post_type, body, ordered media, and native typed settings.
+ * A single platform variant of a post: connection, platform, body, ordered media, and native typed settings. The post SHAPE (post_type, and LinkedIn content_kind / Instagram media_type) is DERIVED from the media — never sent.
  */
 export const zPostVariantInput = z.union([
     z.object({
         platform: z.literal('x'),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'video'
-        ]),
         settings: z.object({
             reply_settings: z.enum([
                 'everyone',
@@ -1439,23 +1404,8 @@ export const zPostVariantInput = z.union([
     }),
     z.object({
         platform: z.literal('linkedin'),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'video'
-        ]),
         settings: z.object({
             visibility: z.enum(['PUBLIC', 'CONNECTIONS']),
-            content_kind: z.enum([
-                'text',
-                'single_image',
-                'video',
-                'multi_image',
-                'document',
-                'article',
-                'poll'
-            ]),
             article: z.object({
                 source: z.url(),
                 title: z.string().max(400).optional(),
@@ -1491,17 +1441,7 @@ export const zPostVariantInput = z.union([
     }),
     z.object({
         platform: z.literal('instagram'),
-        post_type: z.enum([
-            'single_image',
-            'carousel',
-            'reel'
-        ]),
         settings: z.object({
-            media_type: z.enum([
-                'IMAGE',
-                'CAROUSEL',
-                'REELS'
-            ]).optional(),
             location_id: z.string().optional(),
             user_tags: z.array(z.object({
                 username: z.string().min(1),
@@ -1523,12 +1463,6 @@ export const zPostVariantInput = z.union([
     }),
     z.object({
         platform: z.literal('facebook_page'),
-        post_type: z.enum([
-            'text',
-            'single_image',
-            'multi_image',
-            'reel'
-        ]),
         settings: z.object({
             link: z.url().optional()
         }).optional().default({}),
@@ -1541,11 +1475,6 @@ export const zPostVariantInput = z.union([
     }),
     z.object({
         platform: z.literal('tiktok'),
-        post_type: z.enum([
-            'video',
-            'single_image',
-            'carousel'
-        ]),
         settings: z.object({
             privacy_level: zTikTokPrivacyLevel.optional(),
             disable_comment: z.boolean().optional(),
@@ -1574,7 +1503,7 @@ export const zCreatePostBody = z.object({
         'schedule',
         'draft'
     ]).optional().default('draft'),
-    schedule_at: z.iso.datetime().optional(),
+    schedule_at: z.iso.datetime({ offset: true }).optional(),
     external_id: z.string().min(1).max(255).optional(),
     metadata: z.record(z.string(), z.union([
         z.string().max(500),
@@ -2324,7 +2253,7 @@ export const zGoogleAdsConversionUserIdentifier = z.object({
  * A single conversion to send. Requires an event_timestamp and at least one match signal (gclid/gbraid/wbraid or user_data).
  */
 export const zGoogleAdsConversionEvent = z.object({
-    event_timestamp: z.iso.datetime(),
+    event_timestamp: z.iso.datetime({ offset: true }),
     event_source: z.enum([
         'WEB',
         'APP',
@@ -2409,7 +2338,6 @@ export const zGoogleAdsConversionStatusReason = z.object({
         'content_missing',
         'content_conflict',
         'content_incomplete',
-        'content_kind_mismatch',
         'media_type_mismatch',
         'tag_limit_exceeded',
         'reel_field_on_non_reel',
@@ -3041,9 +2969,9 @@ export const zPostsListQuery = z.object({
         z.number(),
         z.boolean()
     ])).optional(),
-    scheduled_after: z.iso.datetime().optional(),
-    scheduled_before: z.iso.datetime().optional(),
-    updated_after: z.iso.datetime().optional(),
+    scheduled_after: z.iso.datetime({ offset: true }).optional(),
+    scheduled_before: z.iso.datetime({ offset: true }).optional(),
+    updated_after: z.iso.datetime({ offset: true }).optional(),
     status: z.array(zPostStatus).optional()
 });
 
@@ -3124,7 +3052,7 @@ export const zPostsUpdateBody = z.object({
         'schedule',
         'draft'
     ]).optional(),
-    schedule_at: z.iso.datetime().nullish(),
+    schedule_at: z.iso.datetime({ offset: true }).nullish(),
     external_id: z.string().min(1).max(255).nullish(),
     metadata: z.record(z.string(), z.union([
         z.string().max(500),
@@ -3244,7 +3172,6 @@ export const zPostsValidateResponse = z.object({
             'content_missing',
             'content_conflict',
             'content_incomplete',
-            'content_kind_mismatch',
             'media_type_mismatch',
             'tag_limit_exceeded',
             'reel_field_on_non_reel',
@@ -5245,8 +5172,8 @@ export const zLogsListQuery = z.object({
         'scheduler'
     ]).optional(),
     action: z.string().min(1).optional(),
-    created_after: z.iso.datetime().optional(),
-    created_before: z.iso.datetime().optional()
+    created_after: z.iso.datetime({ offset: true }).optional(),
+    created_before: z.iso.datetime({ offset: true }).optional()
 });
 
 /**
@@ -5340,7 +5267,6 @@ export const zLogsListResponse = z.object({
                 'content_missing',
                 'content_conflict',
                 'content_incomplete',
-                'content_kind_mismatch',
                 'media_type_mismatch',
                 'tag_limit_exceeded',
                 'reel_field_on_non_reel',
@@ -5500,7 +5426,6 @@ export const zLogsListResponse = z.object({
                         'content_missing',
                         'content_conflict',
                         'content_incomplete',
-                        'content_kind_mismatch',
                         'media_type_mismatch',
                         'tag_limit_exceeded',
                         'reel_field_on_non_reel',
@@ -5686,7 +5611,6 @@ export const zLogsGetResponse = z.object({
             'content_missing',
             'content_conflict',
             'content_incomplete',
-            'content_kind_mismatch',
             'media_type_mismatch',
             'tag_limit_exceeded',
             'reel_field_on_non_reel',
@@ -5846,7 +5770,6 @@ export const zLogsGetResponse = z.object({
                     'content_missing',
                     'content_conflict',
                     'content_incomplete',
-                    'content_kind_mismatch',
                     'media_type_mismatch',
                     'tag_limit_exceeded',
                     'reel_field_on_non_reel',

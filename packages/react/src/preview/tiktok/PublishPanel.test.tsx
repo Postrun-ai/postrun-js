@@ -14,7 +14,6 @@ const creatorInfo: TikTokCreatorInfo = {
 
 const variant: TikTokPostVariant = {
   platform: 'tiktok',
-  post_type: 'video',
   connection_id: 'conn_1',
   body: 'hello',
   media: [{ media_id: 'med_1' }],
@@ -29,6 +28,7 @@ function renderPanel(
   render(
     <TikTokPublishPanel
       variant={variant}
+      postType="video"
       creatorInfo={creatorInfo}
       caption="hello"
       onCaptionChange={() => {}}
@@ -87,9 +87,9 @@ describe('<TikTokPublishPanel> — consent gate (#9) + readiness', () => {
 
   it('hides the AIGC toggle on a photo post (video-only field)', () => {
     renderPanel(ready, vi.fn(), {
+      postType: 'carousel',
       variant: {
         ...variant,
-        post_type: 'carousel',
         media: [{ media_id: 'a' }, { media_id: 'b' }],
       },
     });

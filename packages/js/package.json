@@ -1,6 +1,6 @@
 {
   "name": "@postrun/js",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Typed JavaScript client + client-side validation for the Postrun API",
   "license": "Apache-2.0",
   "homepage": "https://postrun.ai",

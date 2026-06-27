@@ -1,5 +1,12 @@
 # @postrun/react
 
+## 3.2.0
+
+### Patch Changes
+
+- Updated dependencies [d1e68e9]
+  - @postrun/js@3.2.0
+
 ## 3.1.0
 
 ### Minor Changes

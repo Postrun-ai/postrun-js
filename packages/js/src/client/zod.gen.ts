@@ -4715,6 +4715,8 @@ export const zGoogleListConversionActionsResponse = z.object({
             'ONE_PER_CLICK',
             'MANY_PER_CLICK'
         ]),
+        click_through_lookback_window_days: z.number().nullable(),
+        view_through_lookback_window_days: z.number().nullable(),
         value_settings: z.object({
             default_value: z.number().nullable(),
             default_currency_code: z.string().nullable(),
@@ -4907,6 +4909,8 @@ export const zGoogleGetConversionActionResponse = z.object({
         'ONE_PER_CLICK',
         'MANY_PER_CLICK'
     ]),
+    click_through_lookback_window_days: z.number().nullable(),
+    view_through_lookback_window_days: z.number().nullable(),
     value_settings: z.object({
         default_value: z.number().nullable(),
         default_currency_code: z.string().nullable(),
@@ -4931,6 +4935,77 @@ export const zGoogleGetConversionActionResponse = z.object({
         event_snippet: z.string().nullable()
     }))
 });
+
+export const zGoogleUpdateConversionActionBody = z.object({
+    name: z.string().min(1).max(255).optional(),
+    category: z.enum([
+        'DEFAULT',
+        'PAGE_VIEW',
+        'PURCHASE',
+        'SIGNUP',
+        'DOWNLOAD',
+        'ADD_TO_CART',
+        'BEGIN_CHECKOUT',
+        'SUBSCRIBE_PAID',
+        'PHONE_CALL_LEAD',
+        'IMPORTED_LEAD',
+        'SUBMIT_LEAD_FORM',
+        'BOOK_APPOINTMENT',
+        'REQUEST_QUOTE',
+        'GET_DIRECTIONS',
+        'OUTBOUND_CLICK',
+        'CONTACT',
+        'ENGAGEMENT',
+        'STORE_VISIT',
+        'STORE_SALE',
+        'QUALIFIED_LEAD',
+        'CONVERTED_LEAD',
+        'YOUTUBE_FOLLOW_ON_VIEWS'
+    ]).optional(),
+    status: z.enum(['ENABLED']).optional(),
+    value_settings: z.object({
+        default_value: z.number().gte(0).optional(),
+        default_currency_code: z.string().length(3).optional(),
+        always_use_default_value: z.boolean().optional()
+    }).optional(),
+    counting_type: z.enum(['ONE_PER_CLICK', 'MANY_PER_CLICK']).optional(),
+    click_through_lookback_window_days: z.int().gt(0).lte(9007199254740991).optional(),
+    view_through_lookback_window_days: z.int().gt(0).lte(9007199254740991).optional(),
+    primary_for_goal: z.boolean().optional(),
+    dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleUpdateConversionActionHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleUpdateConversionActionPath = z.object({
+    connection_id: z.string(),
+    id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleUpdateConversionActionResponse = zGoogleAdsEditResult;
+
+export const zGoogleRemoveConversionActionBody = z.object({
+    dry_run: z.boolean().optional().default(false)
+});
+
+export const zGoogleRemoveConversionActionHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zGoogleRemoveConversionActionPath = z.object({
+    connection_id: z.string(),
+    id: z.string().regex(/^\d+$/)
+});
+
+/**
+ * OK
+ */
+export const zGoogleRemoveConversionActionResponse = zGoogleAdsDeleteResult;
 
 export const zGoogleSendConversionsBody = z.object({
     conversion_action_id: z.string().regex(/^\d+$/),

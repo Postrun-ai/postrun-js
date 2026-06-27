@@ -21753,6 +21753,8 @@ export type GoogleListConversionActionsResponses = {
             origin: 'UNSPECIFIED' | 'UNKNOWN' | 'WEBSITE' | 'GOOGLE_HOSTED' | 'APP' | 'CALL_FROM_ADS' | 'STORE' | 'YOUTUBE_HOSTED';
             primary_for_goal: boolean;
             counting_type: 'UNSPECIFIED' | 'UNKNOWN' | 'ONE_PER_CLICK' | 'MANY_PER_CLICK';
+            click_through_lookback_window_days: number | null;
+            view_through_lookback_window_days: number | null;
             value_settings: {
                 default_value: number | null;
                 default_currency_code: string | null;
@@ -22286,6 +22288,8 @@ export type GoogleGetConversionActionResponses = {
         origin: 'UNSPECIFIED' | 'UNKNOWN' | 'WEBSITE' | 'GOOGLE_HOSTED' | 'APP' | 'CALL_FROM_ADS' | 'STORE' | 'YOUTUBE_HOSTED';
         primary_for_goal: boolean;
         counting_type: 'UNSPECIFIED' | 'UNKNOWN' | 'ONE_PER_CLICK' | 'MANY_PER_CLICK';
+        click_through_lookback_window_days: number | null;
+        view_through_lookback_window_days: number | null;
         value_settings: {
             default_value: number | null;
             default_currency_code: string | null;
@@ -22301,6 +22305,533 @@ export type GoogleGetConversionActionResponses = {
 };
 
 export type GoogleGetConversionActionResponse = GoogleGetConversionActionResponses[keyof GoogleGetConversionActionResponses];
+
+export type GoogleUpdateConversionActionData = {
+    body?: {
+        /**
+         * A name for the conversion action, unique within the Google Ads account.
+         */
+        name?: string;
+        /**
+         * The conversion category (e.g. PURCHASE, SIGNUP, SUBMIT_LEAD_FORM) — any member of Google’s ConversionActionCategory.
+         */
+        category?: 'DEFAULT' | 'PAGE_VIEW' | 'PURCHASE' | 'SIGNUP' | 'DOWNLOAD' | 'ADD_TO_CART' | 'BEGIN_CHECKOUT' | 'SUBSCRIBE_PAID' | 'PHONE_CALL_LEAD' | 'IMPORTED_LEAD' | 'SUBMIT_LEAD_FORM' | 'BOOK_APPOINTMENT' | 'REQUEST_QUOTE' | 'GET_DIRECTIONS' | 'OUTBOUND_CLICK' | 'CONTACT' | 'ENGAGEMENT' | 'STORE_VISIT' | 'STORE_SALE' | 'QUALIFIED_LEAD' | 'CONVERTED_LEAD' | 'YOUTUBE_FOLLOW_ON_VIEWS';
+        /**
+         * The conversion action status. Only ENABLED is settable (the proto has no PAUSED). Use the remove endpoint to soft-delete.
+         */
+        status?: 'ENABLED';
+        /**
+         * How to value conversions. Omit to let Google apply its category-based defaults.
+         */
+        value_settings?: {
+            /**
+             * The value to assign a conversion when the event reports no value.
+             */
+            default_value?: number;
+            /**
+             * The ISO 4217 currency code (3 letters) for the default value.
+             */
+            default_currency_code?: string;
+            /**
+             * When true, always use the default value (ignore any value reported with the event).
+             */
+            always_use_default_value?: boolean;
+        };
+        /**
+         * How to count conversions per ad interaction: ONE_PER_CLICK (e.g. leads) or MANY_PER_CLICK (e.g. purchases).
+         */
+        counting_type?: 'ONE_PER_CLICK' | 'MANY_PER_CLICK';
+        /**
+         * The max days between an ad click and a conversion to attribute it (click-through).
+         */
+        click_through_lookback_window_days?: number;
+        /**
+         * The max days between an ad impression and a conversion to attribute it (view-through).
+         */
+        view_through_lookback_window_days?: number;
+        /**
+         * Whether this action is a primary (biddable) action for its conversion goal. Pass false to make it observation-only. Update-only: on create Google always starts an action as primary.
+         */
+        primary_for_goal?: boolean;
+        /**
+         * When true, validate the request against Google without creating anything (Google’s native validate_only).
+         */
+        dry_run?: boolean;
+    };
+    headers?: {
+        /**
+         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+         */
+        'Idempotency-Key'?: string;
+    };
+    path: {
+        /**
+         * The id of a Google Ads connection in your account.
+         */
+        connection_id: string;
+        /**
+         * The numeric id of the resource.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/google/{connection_id}/conversion-actions/{id}';
+};
+
+export type GoogleUpdateConversionActionErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid' | 'google_request_failed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized' | 'google_auth_expired';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'google_permission_denied';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited' | 'google_rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'google_server_error';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type GoogleUpdateConversionActionError = GoogleUpdateConversionActionErrors[keyof GoogleUpdateConversionActionErrors];
+
+export type GoogleUpdateConversionActionResponses = {
+    /**
+     * OK
+     */
+    200: GoogleAdsEditResult;
+};
+
+export type GoogleUpdateConversionActionResponse = GoogleUpdateConversionActionResponses[keyof GoogleUpdateConversionActionResponses];
+
+export type GoogleRemoveConversionActionData = {
+    body?: {
+        /**
+         * When true, validate the request against Google without creating anything (Google’s native validate_only).
+         */
+        dry_run?: boolean;
+    };
+    headers?: {
+        /**
+         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+         */
+        'Idempotency-Key'?: string;
+    };
+    path: {
+        /**
+         * The id of a Google Ads connection in your account.
+         */
+        connection_id: string;
+        /**
+         * The numeric id of the resource.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/google/{connection_id}/conversion-actions/{id}/remove';
+};
+
+export type GoogleRemoveConversionActionErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid' | 'google_request_failed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized' | 'google_auth_expired';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'google_permission_denied';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited' | 'google_rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    502: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'google_server_error';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type GoogleRemoveConversionActionError = GoogleRemoveConversionActionErrors[keyof GoogleRemoveConversionActionErrors];
+
+export type GoogleRemoveConversionActionResponses = {
+    /**
+     * OK
+     */
+    200: GoogleAdsDeleteResult;
+};
+
+export type GoogleRemoveConversionActionResponse = GoogleRemoveConversionActionResponses[keyof GoogleRemoveConversionActionResponses];
 
 export type GoogleSendConversionsData = {
     body: {

@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import pLimit from 'p-limit';
-import pWaitFor from 'p-wait-for';
 import { useCallback, useRef, useState } from 'react';
 
 import {
@@ -10,6 +9,7 @@ import {
   mediaList,
   mediaUpdate,
   uploadFile,
+  waitForMedia,
 } from '@postrun/js';
 import type {
   ListMediaQuery,
@@ -23,48 +23,6 @@ import type {
 import { usePostrun } from './context';
 import { useInfiniteList } from './infinite-list';
 import { mediaKeys } from './keys';
-
-/** Interval between media status polls. */
-export const MEDIA_POLL_INTERVAL_MS = 1_500;
-
-/**
- * How long to poll a media asset before giving up. Server-side video transcode
- * can legitimately take many minutes (a long/large clip on a busy worker), so
- * this ceiling is generous — a short one marked still-processing-but-eventually-
- * ready videos as `failed`, silently dropping them from the post. 30 minutes is a
- * backstop, NOT the expectation; assets normally settle in seconds-to-minutes.
- */
-export const MEDIA_POLL_TIMEOUT_MS = 30 * 60 * 1_000;
-
-/**
- * Poll the asset until it settles (ready/failed), respecting cancellation.
- * `onTick` fires with each fetched resource so callers can surface the live
- * `progress.{stage,percent}` the API reports during processing.
- */
-export async function pollUntilSettled(
-  client: PostrunClient,
-  id: string,
-  signal: AbortSignal,
-  onTick?: (resource: MediaResource) => void,
-): Promise<MediaResource> {
-  let latest: MediaResource | undefined;
-  await pWaitFor(
-    async () => {
-      if (signal.aborted) {
-        throw new DOMException('Upload aborted', 'AbortError');
-      }
-      latest = (await mediaGet({ client, path: { id } })).data;
-      onTick?.(latest);
-      return latest.status === 'ready' || latest.status === 'failed';
-    },
-    { interval: MEDIA_POLL_INTERVAL_MS, timeout: MEDIA_POLL_TIMEOUT_MS },
-  );
-
-  if (!latest) {
-    throw new Error('Media polling returned no result.');
-  }
-  return latest;
-}
 
 export type MediaUploadStatus =
   | 'idle'
@@ -135,7 +93,7 @@ async function runUpload(
   }
 
   callbacks.onProcessing();
-  return pollUntilSettled(client, created.id, signal, callbacks.onPoll);
+  return waitForMedia(created.id, { client, signal, onPoll: callbacks.onPoll });
 }
 
 /** One file's slot in an upload — its own live status, progress, and settled

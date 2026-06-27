@@ -84,6 +84,9 @@ export { isPublished, failedVariants } from './resources';
 export { UploadError, uploadFile } from './upload';
 export type { UploadFileOptions, MultipartSession } from './upload';
 
+export { waitForMedia } from './media';
+export type { WaitForMediaOptions } from './media';
+
 export { tiktokPrivacyLabel } from './tiktok';
 
 export { linkedinPollDurationLabel } from './linkedin';

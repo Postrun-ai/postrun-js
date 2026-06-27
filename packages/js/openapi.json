@@ -79758,6 +79758,26 @@
                             ],
                             "type": "string"
                           },
+                          "click_through_lookback_window_days": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "view_through_lookback_window_days": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "value_settings": {
                             "anyOf": [
                               {
@@ -79869,6 +79889,8 @@
                           "origin",
                           "primary_for_goal",
                           "counting_type",
+                          "click_through_lookback_window_days",
+                          "view_through_lookback_window_days",
                           "value_settings",
                           "tag_snippets"
                         ],
@@ -79892,6 +79914,8 @@
                           "origin": "UNSPECIFIED",
                           "primary_for_goal": false,
                           "counting_type": "UNSPECIFIED",
+                          "click_through_lookback_window_days": 42,
+                          "view_through_lookback_window_days": 42,
                           "value_settings": {
                             "default_value": 42,
                             "default_currency_code": "USD",
@@ -81921,6 +81945,26 @@
                       ],
                       "type": "string"
                     },
+                    "click_through_lookback_window_days": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "view_through_lookback_window_days": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "value_settings": {
                       "anyOf": [
                         {
@@ -82027,6 +82071,8 @@
                     "origin",
                     "primary_for_goal",
                     "counting_type",
+                    "click_through_lookback_window_days",
+                    "view_through_lookback_window_days",
                     "value_settings",
                     "tag_snippets"
                   ],
@@ -82043,6 +82089,8 @@
                       "origin": "UNSPECIFIED",
                       "primary_for_goal": false,
                       "counting_type": "UNSPECIFIED",
+                      "click_through_lookback_window_days": 42,
+                      "view_through_lookback_window_days": 42,
                       "value_settings": {
                         "default_value": 42,
                         "default_currency_code": "USD",
@@ -82907,6 +82955,1922 @@
             "lang": "javascript",
             "label": "@postrun/js",
             "source": "import { createPostrunClient, googleGetConversionAction } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await googleGetConversionAction({\n  client,\n  path: { connection_id: '…', id: '…' },\n});"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "google.updateConversionAction",
+        "summary": "Update a Google Ads conversion action",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.\n\nUpdates the mutable fields of a conversion action (name, category, status, value settings, counting type, lookback windows, primary-for-goal) by numeric id. Only the supplied fields change. Pass `dry_run: true` to validate against Google without applying.",
+        "tags": ["Google Ads"],
+        "parameters": [
+          {
+            "name": "connection_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The id of a Google Ads connection in your account."
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$",
+              "description": "The numeric id of the resource."
+            }
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255,
+                    "description": "A name for the conversion action, unique within the Google Ads account."
+                  },
+                  "category": {
+                    "enum": [
+                      "DEFAULT",
+                      "PAGE_VIEW",
+                      "PURCHASE",
+                      "SIGNUP",
+                      "DOWNLOAD",
+                      "ADD_TO_CART",
+                      "BEGIN_CHECKOUT",
+                      "SUBSCRIBE_PAID",
+                      "PHONE_CALL_LEAD",
+                      "IMPORTED_LEAD",
+                      "SUBMIT_LEAD_FORM",
+                      "BOOK_APPOINTMENT",
+                      "REQUEST_QUOTE",
+                      "GET_DIRECTIONS",
+                      "OUTBOUND_CLICK",
+                      "CONTACT",
+                      "ENGAGEMENT",
+                      "STORE_VISIT",
+                      "STORE_SALE",
+                      "QUALIFIED_LEAD",
+                      "CONVERTED_LEAD",
+                      "YOUTUBE_FOLLOW_ON_VIEWS"
+                    ],
+                    "type": "string",
+                    "description": "The conversion category (e.g. PURCHASE, SIGNUP, SUBMIT_LEAD_FORM) — any member of Google’s ConversionActionCategory."
+                  },
+                  "status": {
+                    "enum": ["ENABLED"],
+                    "type": "string",
+                    "description": "The conversion action status. Only ENABLED is settable (the proto has no PAUSED). Use the remove endpoint to soft-delete."
+                  },
+                  "value_settings": {
+                    "type": "object",
+                    "properties": {
+                      "default_value": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "The value to assign a conversion when the event reports no value."
+                      },
+                      "default_currency_code": {
+                        "type": "string",
+                        "minLength": 3,
+                        "maxLength": 3,
+                        "description": "The ISO 4217 currency code (3 letters) for the default value."
+                      },
+                      "always_use_default_value": {
+                        "type": "boolean",
+                        "description": "When true, always use the default value (ignore any value reported with the event)."
+                      }
+                    },
+                    "description": "How to value conversions. Omit to let Google apply its category-based defaults."
+                  },
+                  "counting_type": {
+                    "enum": ["ONE_PER_CLICK", "MANY_PER_CLICK"],
+                    "type": "string",
+                    "description": "How to count conversions per ad interaction: ONE_PER_CLICK (e.g. leads) or MANY_PER_CLICK (e.g. purchases)."
+                  },
+                  "click_through_lookback_window_days": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0,
+                    "description": "The max days between an ad click and a conversion to attribute it (click-through)."
+                  },
+                  "view_through_lookback_window_days": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991,
+                    "exclusiveMinimum": 0,
+                    "description": "The max days between an ad impression and a conversion to attribute it (view-through)."
+                  },
+                  "primary_for_goal": {
+                    "type": "boolean",
+                    "description": "Whether this action is a primary (biddable) action for its conversion goal. Pass false to make it observation-only. Update-only: on create Google always starts an action as primary."
+                  },
+                  "dry_run": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "When true, validate the request against Google without creating anything (Google’s native validate_only)."
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoogleAdsEditResult"
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "id": "7891234560",
+                      "resource_name": "customers/1234567890/campaigns/9876543210",
+                      "dry_run": false,
+                      "executed": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_invalid",
+                        "google_request_failed"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_invalid"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "display_error": "Something went wrong — please try again.",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_request_failed": {
+                    "summary": "Google rejected the request.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_request_failed",
+                      "title": "Google rejected the request.",
+                      "status": 400,
+                      "code": "google_request_failed",
+                      "display_error": "Google Ads rejected the request.",
+                      "detail": "Google rejected the request.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized", "google_auth_expired"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["unauthorized"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "display_error": "Please sign in again to continue.",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_auth_expired": {
+                    "summary": "The Google Ads connection must be reconnected.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_auth_expired",
+                      "title": "The Google Ads connection must be reconnected.",
+                      "status": 401,
+                      "code": "google_auth_expired",
+                      "display_error": "Reconnect your Google Ads account to continue.",
+                      "detail": "The Google Ads connection must be reconnected.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["forbidden", "google_permission_denied"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["forbidden"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "display_error": "You don’t have access to do that.",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_permission_denied": {
+                    "summary": "The connected account lacks access for the operation.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_permission_denied",
+                      "title": "The connected account lacks access for the operation.",
+                      "status": 403,
+                      "code": "google_permission_denied",
+                      "display_error": "This Google Ads account can’t perform that action.",
+                      "detail": "The connected account lacks access for the operation.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["not_found"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "display_error": "We couldn’t find what you’re looking for.",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["conflict", "idempotency_request_in_progress"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["conflict"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "display_error": "That didn’t go through — please refresh and try again.",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "display_error": "We’re still working on this — please wait a moment.",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["idempotency_key_reused"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_reused"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "display_error": "This looks like a different request — please try again.",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["rate_limited", "google_rate_limited"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["rate_limited"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "display_error": "Too many requests — please try again shortly.",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_rate_limited": {
+                    "summary": "Google Ads throttled the request (a quota or rate limit).",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_rate_limited",
+                      "title": "Google Ads throttled the request (a quota or rate limit).",
+                      "status": 429,
+                      "code": "google_rate_limited",
+                      "display_error": "Google Ads is rate-limiting this account — please try again later.",
+                      "detail": "Google Ads throttled the request (a quota or rate limit).",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "502",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["google_server_error"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["google_server_error"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "google_server_error": {
+                    "summary": "A transient Google-side failure.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_server_error",
+                      "title": "A transient Google-side failure.",
+                      "status": 502,
+                      "code": "google_server_error",
+                      "display_error": "Google Ads had a temporary problem — please try again.",
+                      "detail": "A transient Google-side failure.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, googleUpdateConversionAction } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await googleUpdateConversionAction({\n  client,\n  path: { connection_id: '…', id: '…' },\n  body: { /* … */ },\n});"
+          }
+        ]
+      }
+    },
+    "/google/{connection_id}/conversion-actions/{id}/remove": {
+      "post": {
+        "operationId": "google.removeConversionAction",
+        "summary": "Remove a Google Ads conversion action",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `ads:write` scoped to the profile that owns the connection.\n\nRemoves a conversion action by numeric id (Google’s native remove — a soft delete to status REMOVED). Set `dry_run: true` in the body to validate the removal against Google without applying it.",
+        "tags": ["Google Ads"],
+        "parameters": [
+          {
+            "name": "connection_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The id of a Google Ads connection in your account."
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$",
+              "description": "The numeric id of the resource."
+            }
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dry_run": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "When true, validate the request against Google without creating anything (Google’s native validate_only)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoogleAdsDeleteResult"
+                },
+                "examples": {
+                  "example": {
+                    "value": {
+                      "id": "7891234560",
+                      "removed": false,
+                      "dry_run": false,
+                      "executed": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "idempotency_key_invalid",
+                        "google_request_failed"
+                      ],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_invalid"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "idempotency_key_invalid": {
+                    "summary": "The Idempotency-Key header is malformed.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_invalid",
+                      "title": "The Idempotency-Key header is malformed.",
+                      "status": 400,
+                      "code": "idempotency_key_invalid",
+                      "display_error": "Something went wrong — please try again.",
+                      "detail": "The Idempotency-Key header is malformed.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_request_failed": {
+                    "summary": "Google rejected the request.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_request_failed",
+                      "title": "Google rejected the request.",
+                      "status": 400,
+                      "code": "google_request_failed",
+                      "display_error": "Google Ads rejected the request.",
+                      "detail": "Google rejected the request.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["unauthorized", "google_auth_expired"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["unauthorized"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "unauthorized": {
+                    "summary": "The request carried no valid Postrun credential.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/unauthorized",
+                      "title": "The request carried no valid Postrun credential.",
+                      "status": 401,
+                      "code": "unauthorized",
+                      "display_error": "Please sign in again to continue.",
+                      "detail": "The request carried no valid Postrun credential.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_auth_expired": {
+                    "summary": "The Google Ads connection must be reconnected.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_auth_expired",
+                      "title": "The Google Ads connection must be reconnected.",
+                      "status": 401,
+                      "code": "google_auth_expired",
+                      "display_error": "Reconnect your Google Ads account to continue.",
+                      "detail": "The Google Ads connection must be reconnected.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["forbidden", "google_permission_denied"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["forbidden"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "forbidden": {
+                    "summary": "The credential is valid but not permitted to do this.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/forbidden",
+                      "title": "The credential is valid but not permitted to do this.",
+                      "status": 403,
+                      "code": "forbidden",
+                      "display_error": "You don’t have access to do that.",
+                      "detail": "The credential is valid but not permitted to do this.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_permission_denied": {
+                    "summary": "The connected account lacks access for the operation.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_permission_denied",
+                      "title": "The connected account lacks access for the operation.",
+                      "status": 403,
+                      "code": "google_permission_denied",
+                      "display_error": "This Google Ads account can’t perform that action.",
+                      "detail": "The connected account lacks access for the operation.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["not_found"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["not_found"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "not_found": {
+                    "summary": "The requested resource does not exist for this account.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/not_found",
+                      "title": "The requested resource does not exist for this account.",
+                      "status": 404,
+                      "code": "not_found",
+                      "display_error": "We couldn’t find what you’re looking for.",
+                      "detail": "The requested resource does not exist for this account.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["conflict", "idempotency_request_in_progress"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["conflict"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "conflict": {
+                    "summary": "The request conflicts with the resource’s current state.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/conflict",
+                      "title": "The request conflicts with the resource’s current state.",
+                      "status": 409,
+                      "code": "conflict",
+                      "display_error": "That didn’t go through — please refresh and try again.",
+                      "detail": "The request conflicts with the resource’s current state.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "idempotency_request_in_progress": {
+                    "summary": "A request with this Idempotency-Key is still running.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_request_in_progress",
+                      "title": "A request with this Idempotency-Key is still running.",
+                      "status": 409,
+                      "code": "idempotency_request_in_progress",
+                      "display_error": "We’re still working on this — please wait a moment.",
+                      "detail": "A request with this Idempotency-Key is still running.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["idempotency_key_reused"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["idempotency_key_reused"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "idempotency_key_reused": {
+                    "summary": "This Idempotency-Key was reused with a different payload.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/idempotency_key_reused",
+                      "title": "This Idempotency-Key was reused with a different payload.",
+                      "status": 422,
+                      "code": "idempotency_key_reused",
+                      "display_error": "This looks like a different request — please try again.",
+                      "detail": "This Idempotency-Key was reused with a different payload.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["rate_limited", "google_rate_limited"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["rate_limited"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "rate_limited": {
+                    "summary": "Too many requests for this account in the current window.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/rate_limited",
+                      "title": "Too many requests for this account in the current window.",
+                      "status": 429,
+                      "code": "rate_limited",
+                      "display_error": "Too many requests — please try again shortly.",
+                      "detail": "Too many requests for this account in the current window.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "google_rate_limited": {
+                    "summary": "Google Ads throttled the request (a quota or rate limit).",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_rate_limited",
+                      "title": "Google Ads throttled the request (a quota or rate limit).",
+                      "status": 429,
+                      "code": "google_rate_limited",
+                      "display_error": "Google Ads is rate-limiting this account — please try again later.",
+                      "detail": "Google Ads throttled the request (a quota or rate limit).",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "502",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "code": {
+                      "type": "string",
+                      "enum": ["google_server_error"],
+                      "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
+                      "examples": ["google_server_error"]
+                    },
+                    "display_error": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "$ref": "#/components/schemas/ErrorSource"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "display_error": {
+                            "type": "string"
+                          },
+                          "hint": {
+                            "type": "string"
+                          },
+                          "allowed": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "got": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["field", "code", "detail", "display_error"]
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "code",
+                    "display_error"
+                  ],
+                  "description": "An RFC 9457 problem response."
+                },
+                "examples": {
+                  "google_server_error": {
+                    "summary": "A transient Google-side failure.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/google_server_error",
+                      "title": "A transient Google-side failure.",
+                      "status": 502,
+                      "code": "google_server_error",
+                      "display_error": "Google Ads had a temporary problem — please try again.",
+                      "detail": "A transient Google-side failure.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "secretKey": []
+          },
+          {
+            "frontendToken": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "javascript",
+            "label": "@postrun/js",
+            "source": "import { createPostrunClient, googleRemoveConversionAction } from '@postrun/js';\n\nconst client = createPostrunClient({ getToken });\n\nconst { data } = await googleRemoveConversionAction({\n  client,\n  path: { connection_id: '…', id: '…' },\n  body: { /* … */ },\n});"
           }
         ]
       }

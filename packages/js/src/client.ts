@@ -1,6 +1,8 @@
 import { createClient, createConfig } from './client/client';
 import type { Client } from './client/client';
 import { PostrunError } from './errors';
+import { createTokenCache } from './token-cache';
+import type { TokenCache } from './token-cache';
 
 /**
  * The strongly-typed Postrun API client (Hey API). Pass it to any generated SDK
@@ -13,14 +15,50 @@ export interface PostrunClientOptions {
   /** Override the API base URL (defaults to the production gateway). */
   baseUrl?: string;
   /**
-   * Returns a valid short-lived scoped token. The host app's backend mints it
-   * from a secret `pr_` key (`POST /v1/tokens`); the secret never reaches the
-   * browser. Called per request — cache/refresh before `exp` inside here.
+   * Returns a short-lived scoped token. The host app's backend mints it from a
+   * secret `pr_` key (`POST /v1/tokens`); the secret never reaches the browser.
+   * The client caches the result and only re-fetches reactively on a `401`, so
+   * this can be a trivial "fetch a token from my backend" — it is NOT called
+   * per request.
    */
   getToken: () => string | Promise<string>;
 }
 
 const DEFAULT_BASE_URL = 'https://api.postrun.ai/v1';
+
+/** The one status a fresh token can fix; 403/404 are scope/tenancy, not auth. */
+const UNAUTHORIZED = 401;
+
+/**
+ * Wrap `fetch` so a single `401` triggers one token refresh + retry. The request
+ * is cloned BEFORE the first send so its body survives the retry; on retry only
+ * `Authorization` is overridden — every other header (idempotency key,
+ * content-type, …) is preserved. A refresh failure surfaces the original `401`.
+ * Bounded to one retry (no recursion), so a genuinely bad credential just
+ * returns the second `401` for the error interceptor to surface.
+ */
+function createRetryingFetch(tokenCache: TokenCache): typeof fetch {
+  const realFetch: typeof fetch = (...args) => globalThis.fetch(...args);
+
+  return async (input, init) => {
+    const request = new Request(input, init);
+    const retryable = request.clone();
+
+    const response = await realFetch(request);
+    if (response.status !== UNAUTHORIZED) {
+      return response;
+    }
+
+    try {
+      const token = await tokenCache.refresh();
+      const headers = new Headers(retryable.headers);
+      headers.set('Authorization', `Bearer ${token}`);
+      return await realFetch(new Request(retryable, { headers }));
+    } catch {
+      return response;
+    }
+  };
+}
 
 /** Append `key=value` (URL-encoded) for one scalar to the running parts list. */
 function appendScalar(parts: string[], key: string, value: unknown): void {
@@ -70,8 +108,8 @@ function serializeQuery(query: Record<string, unknown>): string {
 
 /**
  * Construct a typed client. The browser only ever holds the scoped token —
- * `getToken` is invoked per request and its value is sent as `Bearer <token>`
- * for the spec's `bearerAuth` security scheme.
+ * the cached token is sent as `Bearer <token>` for the spec's `bearerAuth`
+ * security scheme, re-fetched only when a request returns `401`.
  *
  * Calls throw on failure (`throwOnError`), so SDK functions return the value
  * directly (no `{ data, error }` to unwrap) — the throw-based shape every major
@@ -82,10 +120,13 @@ function serializeQuery(query: Record<string, unknown>): string {
 export function createPostrunClient(
   options: PostrunClientOptions,
 ): PostrunClient {
+  const tokenCache = createTokenCache(options.getToken);
+
   const client = createClient(
     createConfig({
       baseUrl: options.baseUrl ?? DEFAULT_BASE_URL,
-      auth: () => options.getToken(),
+      auth: () => tokenCache.current(),
+      fetch: createRetryingFetch(tokenCache),
       querySerializer: serializeQuery,
       throwOnError: true,
     }),

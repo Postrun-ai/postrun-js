@@ -44,21 +44,28 @@ test('throws a clear, actionable error when used outside a provider', () => {
   );
 });
 
-test('sends the freshest getToken result on every request (stable client, live token)', async () => {
+test('caches the token across requests and re-fetches the freshest closure on a 401', async () => {
   const sent: string[] = [];
+  const okBody = JSON.stringify({
+    object: 'list',
+    data: [],
+    total: 0,
+    limit: 20,
+    offset: 0,
+    has_more: false,
+  });
+  // First request 200, second 401 (then its retry 200): a 401 — never a token
+  // prop change alone — is what makes the client re-fetch the token.
+  const statuses = [200, 401, 200];
+  let index = 0;
   const fetchMock = vi.fn(async (input: Request) => {
     sent.push(input.headers.get('authorization') ?? '');
-    return new Response(
-      JSON.stringify({
-        object: 'list',
-        data: [],
-        total: 0,
-        limit: 20,
-        offset: 0,
-        has_more: false,
-      }),
-      { status: 200, headers: { 'content-type': 'application/json' } },
-    );
+    const status = statuses[Math.min(index, statuses.length - 1)]!;
+    index += 1;
+    return new Response(status === 200 ? okBody : '{}', {
+      status,
+      headers: { 'content-type': 'application/json' },
+    });
   });
   vi.stubGlobal('fetch', fetchMock);
 
@@ -80,12 +87,14 @@ test('sends the freshest getToken result on every request (stable client, live t
     if (client) await profilesList({ client });
   });
 
-  // New token prop → new getToken closure; the stable client must pick it up.
+  // New token prop → new getToken closure. The cached token is reused (NO
+  // re-fetch) until the request 401s, which forces a refresh that reads the
+  // freshest closure via the provider's ref.
   rerender(<Tree token="tok-B" />);
   await act(async () => {
     if (client) await profilesList({ client });
   });
 
-  expect(sent).toEqual(['Bearer tok-A', 'Bearer tok-B']);
+  expect(sent).toEqual(['Bearer tok-A', 'Bearer tok-A', 'Bearer tok-B']);
   vi.unstubAllGlobals();
 });

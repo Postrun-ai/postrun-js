@@ -39,9 +39,10 @@ PostrunContext.displayName = 'PostrunContext';
 
 export interface PostrunProviderProps {
   /**
-   * Returns a valid short-lived scoped token. The host app's backend mints it
-   * from a secret `pr_` key (`POST /v1/tokens`); the secret never reaches the
-   * browser. Called per request — cache and refresh before `exp` inside here.
+   * Returns a short-lived scoped token. The host app's backend mints it from a
+   * secret `pr_` key (`POST /v1/tokens`); the secret never reaches the browser.
+   * The client caches the result and only re-fetches reactively on a `401`, so
+   * this can be a trivial "fetch a token from my backend".
    */
   getToken: () => string | Promise<string>;
   /** Override the API base URL (defaults to the production gateway). */

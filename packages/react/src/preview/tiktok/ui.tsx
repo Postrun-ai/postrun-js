@@ -118,10 +118,13 @@ export function CheckRow({
   label,
   checked,
   onChange,
+  disabledReason,
 }: {
   label: string;
   checked: boolean;
   onChange: (next: boolean) => void;
+  /** When set, the box is disabled and the reason is shown beside it. */
+  disabledReason?: string;
 }) {
   const id = useId();
   return (
@@ -130,10 +133,12 @@ export function CheckRow({
         id={id}
         type="checkbox"
         checked={checked}
+        disabled={disabledReason !== undefined}
         onChange={(e) => onChange(e.target.checked)}
         style={{ accentColor: ACCENT, width: 16, height: 16 }}
       />
       <span style={{ fontSize: 14 }}>{label}</span>
+      {disabledReason ? <Hint>{disabledReason}</Hint> : null}
     </label>
   );
 }

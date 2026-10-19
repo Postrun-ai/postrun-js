@@ -24,12 +24,13 @@ export const zErrorCode = z.enum([
     'not_implemented',
     'connection_discovery_failed',
     'tiktok_creator_info_unavailable',
-    'tiktok_cannot_post_now',
+    'tiktok_analytics_unavailable',
     'media_processing',
     'media_upload_init_failed',
     'media_upload_incomplete',
     'media_upload_invalid_parts',
     'not_publishable',
+    'post_not_retryable',
     'invalid_connection',
     'invalid_media',
     'profile_scope_invalid',
@@ -80,6 +81,7 @@ export const zErrorCode = z.enum([
     'x_rate_limited',
     'x_publish_failed',
     'x_media_upload_failed',
+    'x_thread_incomplete',
     'linkedin_duplicate_content',
     'linkedin_auth_expired',
     'linkedin_permission_denied',
@@ -97,6 +99,7 @@ export const zErrorCode = z.enum([
     'instagram_media_unsupported',
     'instagram_not_authorized',
     'instagram_publish_failed',
+    'instagram_comment_failed',
     'facebook_reel_processing',
     'facebook_reel_failed',
     'facebook_rate_limited',
@@ -104,13 +107,14 @@ export const zErrorCode = z.enum([
     'facebook_temporarily_blocked',
     'facebook_not_authorized',
     'facebook_publish_failed',
+    'facebook_comment_failed',
     'tiktok_privacy_not_allowed',
+    'tiktok_interaction_not_allowed',
+    'tiktok_thumbnail_offset_invalid',
     'tiktok_duration_exceeds_max',
     'tiktok_media_processing',
     'tiktok_not_authorized',
     'tiktok_rate_limited',
-    'tiktok_url_ownership_unverified',
-    'tiktok_unaudited_private_only',
     'tiktok_spam_risk',
     'tiktok_file_format_invalid',
     'tiktok_duration_invalid',
@@ -119,21 +123,17 @@ export const zErrorCode = z.enum([
     'tiktok_media_pull_failed',
     'tiktok_server_error',
     'tiktok_publish_failed',
-    'google_rate_limited',
-    'google_server_error',
-    'google_auth_expired',
-    'google_permission_denied',
-    'google_request_failed',
-    'google_conversion_duplicate',
-    'google_conversion_invalid_click_id',
-    'google_conversion_event_too_old',
-    'google_conversion_consent_required',
-    'google_conversion_terms_not_signed',
-    'google_conversion_rejected',
     'post_publish_failed',
     'post_partially_published',
     'connection_platform_mismatch',
-    'connection_removed'
+    'connection_removed',
+    'publish_interrupted',
+    'publish_outcome_unknown',
+    'plan_limit_reached',
+    'billing_required',
+    'x_link_requires_paid_plan',
+    'analytics_not_supported',
+    'analytics_no_data'
 ]);
 
 /**
@@ -141,8 +141,6 @@ export const zErrorCode = z.enum([
  */
 export const zErrorSource = z.object({
     platform: z.enum([
-        'google',
-        'meta',
         'x',
         'linkedin',
         'instagram',
@@ -171,7 +169,62 @@ export const zProfile = z.object({
 });
 
 /**
- * An external ad account reachable through a connection’s OAuth grant, offered for selection.
+ * Lifetime metrics for one TikTok post, as reported by TikTok. TikTok updates them 24–48 hours after the activity and stops updating a post 365 days after it was published. A metric TikTok did not report is null.
+ */
+export const zTikTokPostMetrics = z.object({
+    platform: z.literal('tiktok'),
+    video_views: z.number().nullable(),
+    reach: z.number().nullable(),
+    likes: z.number().nullable(),
+    comments: z.number().nullable(),
+    shares: z.number().nullable(),
+    favorites: z.number().nullable(),
+    average_time_watched: z.number().nullable(),
+    total_time_watched: z.number().nullable(),
+    full_video_watched_rate: z.number().nullable(),
+    new_followers: z.number().nullable(),
+    profile_views: z.number().nullable()
+});
+
+/**
+ * One UTC day of account activity.
+ */
+export const zTikTokAccountDay = z.object({
+    date: z.string(),
+    followers_count: z.number().nullable(),
+    daily_new_followers: z.number().nullable(),
+    daily_lost_followers: z.number().nullable(),
+    video_views: z.number().nullable(),
+    profile_views: z.number().nullable(),
+    likes: z.number().nullable(),
+    comments: z.number().nullable(),
+    shares: z.number().nullable()
+});
+
+/**
+ * A TikTok account’s current totals plus its daily activity, as reported by TikTok. A metric TikTok did not report is null.
+ */
+export const zTikTokAccountMetrics = z.object({
+    platform: z.literal('tiktok'),
+    followers_count: z.number().nullable(),
+    following_count: z.number().nullable(),
+    total_likes: z.number().nullable(),
+    videos_count: z.number().nullable(),
+    daily: z.array(zTikTokAccountDay)
+});
+
+/**
+ * A connected account’s metrics, read live from the platform.
+ */
+export const zConnectionAnalytics = z.object({
+    object: z.literal('connection_analytics'),
+    connection_id: z.string(),
+    fetched_at: z.iso.datetime({ offset: true }),
+    metrics: zTikTokAccountMetrics
+});
+
+/**
+ * An external account reachable through a connection’s OAuth grant, offered for selection.
  */
 export const zDiscoverableAccount = z.object({
     external_account_id: z.string(),
@@ -258,8 +311,7 @@ export const zMedia = z.object({
             'media_fetch_failed',
             'document_format_unsupported',
             'document_too_large',
-            'document_too_many_pages',
-            'media_unsupported'
+            'document_too_many_pages'
         ]),
         message: z.string(),
         hint: z.string().optional(),
@@ -312,8 +364,7 @@ export const zMedia = z.object({
                 'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
+                'document_too_many_pages'
             ]),
             message: z.string(),
             hint: z.string().optional(),
@@ -348,8 +399,7 @@ export const zMedia = z.object({
                 'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
+                'document_too_many_pages'
             ]),
             message: z.string(),
             hint: z.string().optional(),
@@ -375,6 +425,31 @@ export const zPostPlatform = z.enum([
     'instagram',
     'tiktok'
 ]);
+
+/**
+ * One variant’s metrics. Exactly one of `metrics` and `error` is set: `error` explains why there are no metrics (`analytics_not_supported` or `analytics_no_data`).
+ */
+export const zPostVariantAnalytics = z.object({
+    variant_id: z.string(),
+    connection_id: z.string().nullable(),
+    platform: zPostPlatform,
+    metrics: zTikTokPostMetrics.nullable(),
+    error: z.object({
+        code: z.enum(['analytics_not_supported', 'analytics_no_data']),
+        message: z.string(),
+        display_error: z.string()
+    }).nullable()
+});
+
+/**
+ * Metrics for each of a post’s variants, read live from each platform.
+ */
+export const zPostAnalytics = z.object({
+    object: z.literal('post_analytics'),
+    post_id: z.string(),
+    fetched_at: z.iso.datetime({ offset: true }),
+    variants: z.array(zPostVariantAnalytics)
+});
 
 export const zPostType = z.enum([
     'text',
@@ -403,7 +478,7 @@ export const zPostVariantStatus = z.enum([
 ]);
 
 /**
- * Whether the connection targets an ads platform (`ads`) or a posting social network (`posting`). Computed from the platform.
+ * Whether the connection targets a posting social network (`posting`) or a legacy, no-longer-supported ads platform (`ads`). Computed from the platform.
  */
 export const zConnectionKind = z.enum(['posting', 'ads']);
 
@@ -482,7 +557,14 @@ export const zPostVariant = z.union([
                 place_id: z.string()
             }).optional(),
             card_uri: z.string().optional(),
-            media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+            media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional(),
+            thread_items: z.array(z.object({
+                body: z.string().optional(),
+                media: z.array(z.object({
+                    media_id: z.string(),
+                    alt_text_override: z.string().nullish()
+                })).max(4).optional()
+            })).optional()
         }),
         id: z.string(),
         object: z.literal('post_variant'),
@@ -514,12 +596,13 @@ export const zPostVariant = z.union([
                 'not_implemented',
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
-                'tiktok_cannot_post_now',
+                'tiktok_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
                 'media_upload_invalid_parts',
                 'not_publishable',
+                'post_not_retryable',
                 'invalid_connection',
                 'invalid_media',
                 'profile_scope_invalid',
@@ -570,6 +653,7 @@ export const zPostVariant = z.union([
                 'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
+                'x_thread_incomplete',
                 'linkedin_duplicate_content',
                 'linkedin_auth_expired',
                 'linkedin_permission_denied',
@@ -587,6 +671,7 @@ export const zPostVariant = z.union([
                 'instagram_media_unsupported',
                 'instagram_not_authorized',
                 'instagram_publish_failed',
+                'instagram_comment_failed',
                 'facebook_reel_processing',
                 'facebook_reel_failed',
                 'facebook_rate_limited',
@@ -594,13 +679,14 @@ export const zPostVariant = z.union([
                 'facebook_temporarily_blocked',
                 'facebook_not_authorized',
                 'facebook_publish_failed',
+                'facebook_comment_failed',
                 'tiktok_privacy_not_allowed',
+                'tiktok_interaction_not_allowed',
+                'tiktok_thumbnail_offset_invalid',
                 'tiktok_duration_exceeds_max',
                 'tiktok_media_processing',
                 'tiktok_not_authorized',
                 'tiktok_rate_limited',
-                'tiktok_url_ownership_unverified',
-                'tiktok_unaudited_private_only',
                 'tiktok_spam_risk',
                 'tiktok_file_format_invalid',
                 'tiktok_duration_invalid',
@@ -609,23 +695,20 @@ export const zPostVariant = z.union([
                 'tiktok_media_pull_failed',
                 'tiktok_server_error',
                 'tiktok_publish_failed',
-                'google_rate_limited',
-                'google_server_error',
-                'google_auth_expired',
-                'google_permission_denied',
-                'google_request_failed',
-                'google_conversion_duplicate',
-                'google_conversion_invalid_click_id',
-                'google_conversion_event_too_old',
-                'google_conversion_consent_required',
-                'google_conversion_terms_not_signed',
-                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
-                'connection_removed'
+                'connection_removed',
+                'publish_interrupted',
+                'publish_outcome_unknown',
+                'plan_limit_reached',
+                'billing_required',
+                'x_link_requires_paid_plan',
+                'analytics_not_supported',
+                'analytics_no_data'
             ]),
             message: z.string(),
+            source: zErrorSource.optional(),
             display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
@@ -695,12 +778,13 @@ export const zPostVariant = z.union([
                 'not_implemented',
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
-                'tiktok_cannot_post_now',
+                'tiktok_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
                 'media_upload_invalid_parts',
                 'not_publishable',
+                'post_not_retryable',
                 'invalid_connection',
                 'invalid_media',
                 'profile_scope_invalid',
@@ -751,6 +835,7 @@ export const zPostVariant = z.union([
                 'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
+                'x_thread_incomplete',
                 'linkedin_duplicate_content',
                 'linkedin_auth_expired',
                 'linkedin_permission_denied',
@@ -768,6 +853,7 @@ export const zPostVariant = z.union([
                 'instagram_media_unsupported',
                 'instagram_not_authorized',
                 'instagram_publish_failed',
+                'instagram_comment_failed',
                 'facebook_reel_processing',
                 'facebook_reel_failed',
                 'facebook_rate_limited',
@@ -775,13 +861,14 @@ export const zPostVariant = z.union([
                 'facebook_temporarily_blocked',
                 'facebook_not_authorized',
                 'facebook_publish_failed',
+                'facebook_comment_failed',
                 'tiktok_privacy_not_allowed',
+                'tiktok_interaction_not_allowed',
+                'tiktok_thumbnail_offset_invalid',
                 'tiktok_duration_exceeds_max',
                 'tiktok_media_processing',
                 'tiktok_not_authorized',
                 'tiktok_rate_limited',
-                'tiktok_url_ownership_unverified',
-                'tiktok_unaudited_private_only',
                 'tiktok_spam_risk',
                 'tiktok_file_format_invalid',
                 'tiktok_duration_invalid',
@@ -790,23 +877,20 @@ export const zPostVariant = z.union([
                 'tiktok_media_pull_failed',
                 'tiktok_server_error',
                 'tiktok_publish_failed',
-                'google_rate_limited',
-                'google_server_error',
-                'google_auth_expired',
-                'google_permission_denied',
-                'google_request_failed',
-                'google_conversion_duplicate',
-                'google_conversion_invalid_click_id',
-                'google_conversion_event_too_old',
-                'google_conversion_consent_required',
-                'google_conversion_terms_not_signed',
-                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
-                'connection_removed'
+                'connection_removed',
+                'publish_interrupted',
+                'publish_outcome_unknown',
+                'plan_limit_reached',
+                'billing_required',
+                'x_link_requires_paid_plan',
+                'analytics_not_supported',
+                'analytics_no_data'
             ]),
             message: z.string(),
+            source: zErrorSource.optional(),
             display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
@@ -828,7 +912,8 @@ export const zPostVariant = z.union([
     z.object({
         platform: z.literal('facebook_page'),
         settings: z.object({
-            link: z.url().optional()
+            link: z.url().optional(),
+            first_comment: z.string().min(1).optional()
         }),
         id: z.string(),
         object: z.literal('post_variant'),
@@ -860,12 +945,13 @@ export const zPostVariant = z.union([
                 'not_implemented',
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
-                'tiktok_cannot_post_now',
+                'tiktok_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
                 'media_upload_invalid_parts',
                 'not_publishable',
+                'post_not_retryable',
                 'invalid_connection',
                 'invalid_media',
                 'profile_scope_invalid',
@@ -916,6 +1002,7 @@ export const zPostVariant = z.union([
                 'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
+                'x_thread_incomplete',
                 'linkedin_duplicate_content',
                 'linkedin_auth_expired',
                 'linkedin_permission_denied',
@@ -933,6 +1020,7 @@ export const zPostVariant = z.union([
                 'instagram_media_unsupported',
                 'instagram_not_authorized',
                 'instagram_publish_failed',
+                'instagram_comment_failed',
                 'facebook_reel_processing',
                 'facebook_reel_failed',
                 'facebook_rate_limited',
@@ -940,13 +1028,14 @@ export const zPostVariant = z.union([
                 'facebook_temporarily_blocked',
                 'facebook_not_authorized',
                 'facebook_publish_failed',
+                'facebook_comment_failed',
                 'tiktok_privacy_not_allowed',
+                'tiktok_interaction_not_allowed',
+                'tiktok_thumbnail_offset_invalid',
                 'tiktok_duration_exceeds_max',
                 'tiktok_media_processing',
                 'tiktok_not_authorized',
                 'tiktok_rate_limited',
-                'tiktok_url_ownership_unverified',
-                'tiktok_unaudited_private_only',
                 'tiktok_spam_risk',
                 'tiktok_file_format_invalid',
                 'tiktok_duration_invalid',
@@ -955,23 +1044,20 @@ export const zPostVariant = z.union([
                 'tiktok_media_pull_failed',
                 'tiktok_server_error',
                 'tiktok_publish_failed',
-                'google_rate_limited',
-                'google_server_error',
-                'google_auth_expired',
-                'google_permission_denied',
-                'google_request_failed',
-                'google_conversion_duplicate',
-                'google_conversion_invalid_click_id',
-                'google_conversion_event_too_old',
-                'google_conversion_consent_required',
-                'google_conversion_terms_not_signed',
-                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
-                'connection_removed'
+                'connection_removed',
+                'publish_interrupted',
+                'publish_outcome_unknown',
+                'plan_limit_reached',
+                'billing_required',
+                'x_link_requires_paid_plan',
+                'analytics_not_supported',
+                'analytics_no_data'
             ]),
             message: z.string(),
+            source: zErrorSource.optional(),
             display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
@@ -994,7 +1080,8 @@ export const zPostVariant = z.union([
             share_to_feed: z.boolean().optional(),
             thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
             cover_url: z.url().optional(),
-            audio_name: z.string().optional()
+            audio_name: z.string().optional(),
+            first_comment: z.string().min(1).optional()
         }),
         id: z.string(),
         object: z.literal('post_variant'),
@@ -1026,12 +1113,13 @@ export const zPostVariant = z.union([
                 'not_implemented',
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
-                'tiktok_cannot_post_now',
+                'tiktok_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
                 'media_upload_invalid_parts',
                 'not_publishable',
+                'post_not_retryable',
                 'invalid_connection',
                 'invalid_media',
                 'profile_scope_invalid',
@@ -1082,6 +1170,7 @@ export const zPostVariant = z.union([
                 'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
+                'x_thread_incomplete',
                 'linkedin_duplicate_content',
                 'linkedin_auth_expired',
                 'linkedin_permission_denied',
@@ -1099,6 +1188,7 @@ export const zPostVariant = z.union([
                 'instagram_media_unsupported',
                 'instagram_not_authorized',
                 'instagram_publish_failed',
+                'instagram_comment_failed',
                 'facebook_reel_processing',
                 'facebook_reel_failed',
                 'facebook_rate_limited',
@@ -1106,13 +1196,14 @@ export const zPostVariant = z.union([
                 'facebook_temporarily_blocked',
                 'facebook_not_authorized',
                 'facebook_publish_failed',
+                'facebook_comment_failed',
                 'tiktok_privacy_not_allowed',
+                'tiktok_interaction_not_allowed',
+                'tiktok_thumbnail_offset_invalid',
                 'tiktok_duration_exceeds_max',
                 'tiktok_media_processing',
                 'tiktok_not_authorized',
                 'tiktok_rate_limited',
-                'tiktok_url_ownership_unverified',
-                'tiktok_unaudited_private_only',
                 'tiktok_spam_risk',
                 'tiktok_file_format_invalid',
                 'tiktok_duration_invalid',
@@ -1121,23 +1212,20 @@ export const zPostVariant = z.union([
                 'tiktok_media_pull_failed',
                 'tiktok_server_error',
                 'tiktok_publish_failed',
-                'google_rate_limited',
-                'google_server_error',
-                'google_auth_expired',
-                'google_permission_denied',
-                'google_request_failed',
-                'google_conversion_duplicate',
-                'google_conversion_invalid_click_id',
-                'google_conversion_event_too_old',
-                'google_conversion_consent_required',
-                'google_conversion_terms_not_signed',
-                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
-                'connection_removed'
+                'connection_removed',
+                'publish_interrupted',
+                'publish_outcome_unknown',
+                'plan_limit_reached',
+                'billing_required',
+                'x_link_requires_paid_plan',
+                'analytics_not_supported',
+                'analytics_no_data'
             ]),
             message: z.string(),
+            source: zErrorSource.optional(),
             display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
@@ -1159,12 +1247,13 @@ export const zPostVariant = z.union([
             disable_comment: z.boolean().optional(),
             disable_duet: z.boolean().optional(),
             disable_stitch: z.boolean().optional(),
-            video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+            thumbnail_offset: z.int().gte(0).lte(9007199254740991).optional(),
             photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
             auto_add_music: z.boolean().optional(),
-            brand_content_toggle: z.boolean().optional(),
-            brand_organic_toggle: z.boolean().optional(),
-            is_aigc: z.boolean().optional()
+            is_branded_content: z.boolean().optional(),
+            is_brand_organic: z.boolean().optional(),
+            is_ai_generated: z.boolean().optional(),
+            is_ads_only: z.boolean().optional()
         }),
         id: z.string(),
         object: z.literal('post_variant'),
@@ -1196,12 +1285,13 @@ export const zPostVariant = z.union([
                 'not_implemented',
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
-                'tiktok_cannot_post_now',
+                'tiktok_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
                 'media_upload_invalid_parts',
                 'not_publishable',
+                'post_not_retryable',
                 'invalid_connection',
                 'invalid_media',
                 'profile_scope_invalid',
@@ -1252,6 +1342,7 @@ export const zPostVariant = z.union([
                 'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
+                'x_thread_incomplete',
                 'linkedin_duplicate_content',
                 'linkedin_auth_expired',
                 'linkedin_permission_denied',
@@ -1269,6 +1360,7 @@ export const zPostVariant = z.union([
                 'instagram_media_unsupported',
                 'instagram_not_authorized',
                 'instagram_publish_failed',
+                'instagram_comment_failed',
                 'facebook_reel_processing',
                 'facebook_reel_failed',
                 'facebook_rate_limited',
@@ -1276,13 +1368,14 @@ export const zPostVariant = z.union([
                 'facebook_temporarily_blocked',
                 'facebook_not_authorized',
                 'facebook_publish_failed',
+                'facebook_comment_failed',
                 'tiktok_privacy_not_allowed',
+                'tiktok_interaction_not_allowed',
+                'tiktok_thumbnail_offset_invalid',
                 'tiktok_duration_exceeds_max',
                 'tiktok_media_processing',
                 'tiktok_not_authorized',
                 'tiktok_rate_limited',
-                'tiktok_url_ownership_unverified',
-                'tiktok_unaudited_private_only',
                 'tiktok_spam_risk',
                 'tiktok_file_format_invalid',
                 'tiktok_duration_invalid',
@@ -1291,23 +1384,20 @@ export const zPostVariant = z.union([
                 'tiktok_media_pull_failed',
                 'tiktok_server_error',
                 'tiktok_publish_failed',
-                'google_rate_limited',
-                'google_server_error',
-                'google_auth_expired',
-                'google_permission_denied',
-                'google_request_failed',
-                'google_conversion_duplicate',
-                'google_conversion_invalid_click_id',
-                'google_conversion_event_too_old',
-                'google_conversion_consent_required',
-                'google_conversion_terms_not_signed',
-                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
-                'connection_removed'
+                'connection_removed',
+                'publish_interrupted',
+                'publish_outcome_unknown',
+                'plan_limit_reached',
+                'billing_required',
+                'x_link_requires_paid_plan',
+                'analytics_not_supported',
+                'analytics_no_data'
             ]),
             message: z.string(),
+            source: zErrorSource.optional(),
             display_error: z.string()
         }).nullable(),
         media: z.array(z.object({
@@ -1345,8 +1435,36 @@ export const zPost = z.object({
     updated_at: z.string()
 });
 
+export const zPostWriteResult = z.object({
+    id: z.string(),
+    object: z.literal('post'),
+    profile_id: z.string(),
+    external_id: z.string().nullable(),
+    status: z.enum([
+        'draft',
+        'scheduled',
+        'publishing',
+        'partially_published',
+        'published',
+        'failed'
+    ]),
+    schedule_at: z.string().nullable(),
+    tags: z.array(z.string()),
+    notes: z.string().nullable(),
+    metadata: z.record(z.string(), z.union([
+        z.string().max(500),
+        z.number(),
+        z.boolean()
+    ])),
+    variants: z.array(zPostVariant),
+    created_at: z.string(),
+    updated_at: z.string(),
+    dry_run: z.boolean(),
+    executed: z.boolean()
+});
+
 /**
- * A TikTok creator's publish options, fetched live from TikTok. The composer renders creator.nickname + avatar, a privacy dropdown built from privacy_options (with no default), and Comment/Duet/Stitch toggles per the interaction flags (true = the interaction is ALLOWED). max_video_duration_sec caps a video's length for this account.
+ * A TikTok account's publish options, fetched live from TikTok. privacy_options are the audiences available for photo posts (videos are always published publicly). The interaction flags say which of Comment/Duet/Stitch the account allows (true = ALLOWED); an unavailable interaction can only be disabled on a post. max_video_duration_sec caps a video's length for this account.
  */
 export const zTikTokCreatorInfo = z.object({
     creator: z.object({
@@ -1399,7 +1517,14 @@ export const zPostVariantInput = z.union([
                 place_id: z.string()
             }).optional(),
             card_uri: z.string().optional(),
-            media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional()
+            media_tagged_user_ids: z.array(z.string().regex(/^[0-9]{1,19}$/)).max(10).optional(),
+            thread_items: z.array(z.object({
+                body: z.string().optional(),
+                media: z.array(z.object({
+                    media_id: z.string(),
+                    alt_text_override: z.string().nullish()
+                })).max(4).optional()
+            })).optional()
         }).optional().default({}),
         connection_id: z.string(),
         body: z.string().optional(),
@@ -1458,7 +1583,8 @@ export const zPostVariantInput = z.union([
             share_to_feed: z.boolean().optional(),
             thumb_offset: z.int().gte(0).lte(9007199254740991).optional(),
             cover_url: z.url().optional(),
-            audio_name: z.string().optional()
+            audio_name: z.string().optional(),
+            first_comment: z.string().min(1).optional()
         }),
         connection_id: z.string(),
         body: z.string().optional(),
@@ -1470,7 +1596,8 @@ export const zPostVariantInput = z.union([
     z.object({
         platform: z.literal('facebook_page'),
         settings: z.object({
-            link: z.url().optional()
+            link: z.url().optional(),
+            first_comment: z.string().min(1).optional()
         }).optional().default({}),
         connection_id: z.string(),
         body: z.string().optional(),
@@ -1486,12 +1613,13 @@ export const zPostVariantInput = z.union([
             disable_comment: z.boolean().optional(),
             disable_duet: z.boolean().optional(),
             disable_stitch: z.boolean().optional(),
-            video_cover_timestamp_ms: z.int().gte(0).lte(9007199254740991).optional(),
+            thumbnail_offset: z.int().gte(0).lte(9007199254740991).optional(),
             photo_cover_index: z.int().gte(0).lte(9007199254740991).optional(),
             auto_add_music: z.boolean().optional(),
-            brand_content_toggle: z.boolean().optional(),
-            brand_organic_toggle: z.boolean().optional(),
-            is_aigc: z.boolean().optional()
+            is_branded_content: z.boolean().optional(),
+            is_brand_organic: z.boolean().optional(),
+            is_ai_generated: z.boolean().optional(),
+            is_ads_only: z.boolean().optional()
         }).optional().default({}),
         connection_id: z.string(),
         body: z.string().optional(),
@@ -1520,932 +1648,6 @@ export const zCreatePostBody = z.object({
     notes: z.string().optional(),
     dry_run: z.boolean().optional().default(false),
     variants: z.array(zPostVariantInput).min(1)
-});
-
-/**
- * A Google Ads ad group (the `ad_group` resource): id, name, status, type, and the resource name of the parent campaign.
- */
-export const zGoogleAdsAdGroup = z.object({
-    id: z.string(),
-    name: z.string().nullable(),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'SEARCH_STANDARD',
-        'DISPLAY_STANDARD',
-        'SHOPPING_PRODUCT_ADS',
-        'HOTEL_ADS',
-        'SHOPPING_SMART_ADS',
-        'VIDEO_BUMPER',
-        'VIDEO_TRUE_VIEW_IN_STREAM',
-        'VIDEO_TRUE_VIEW_IN_DISPLAY',
-        'VIDEO_NON_SKIPPABLE_IN_STREAM',
-        'SEARCH_DYNAMIC_ADS',
-        'SHOPPING_COMPARISON_LISTING_ADS',
-        'PROMOTED_HOTEL_ADS',
-        'VIDEO_RESPONSIVE',
-        'VIDEO_EFFICIENT_REACH',
-        'SMART_CAMPAIGN_ADS',
-        'TRAVEL_ADS',
-        'YOUTUBE_AUDIO'
-    ]),
-    campaign: z.string().nullable()
-});
-
-/**
- * A Google Ads ad (the `ad_group_ad` resource): id, name, creative type, serving status, and the ad group resource name it belongs to.
- */
-export const zGoogleAdsAd = z.object({
-    id: z.string().regex(/^\d+~\d+$/),
-    name: z.string().nullable(),
-    type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'TEXT_AD',
-        'EXPANDED_TEXT_AD',
-        'EXPANDED_DYNAMIC_SEARCH_AD',
-        'HOTEL_AD',
-        'SHOPPING_SMART_AD',
-        'SHOPPING_PRODUCT_AD',
-        'VIDEO_AD',
-        'IMAGE_AD',
-        'RESPONSIVE_SEARCH_AD',
-        'LEGACY_RESPONSIVE_DISPLAY_AD',
-        'APP_AD',
-        'LEGACY_APP_INSTALL_AD',
-        'RESPONSIVE_DISPLAY_AD',
-        'LOCAL_AD',
-        'HTML5_UPLOAD_AD',
-        'DYNAMIC_HTML5_AD',
-        'APP_ENGAGEMENT_AD',
-        'SHOPPING_COMPARISON_LISTING_AD',
-        'VIDEO_BUMPER_AD',
-        'VIDEO_NON_SKIPPABLE_IN_STREAM_AD',
-        'VIDEO_TRUEVIEW_IN_STREAM_AD',
-        'VIDEO_RESPONSIVE_AD',
-        'SMART_CAMPAIGN_AD',
-        'CALL_AD',
-        'APP_PRE_REGISTRATION_AD',
-        'IN_FEED_VIDEO_AD',
-        'DEMAND_GEN_MULTI_ASSET_AD',
-        'DEMAND_GEN_CAROUSEL_AD',
-        'TRAVEL_AD',
-        'DEMAND_GEN_VIDEO_RESPONSIVE_AD',
-        'DEMAND_GEN_PRODUCT_AD',
-        'YOUTUBE_AUDIO_AD'
-    ]),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    ad_group: z.string().nullable()
-});
-
-/**
- * A Google Ads keyword (an `ad_group_criterion` of type KEYWORD): criterion id, text, match type, status, whether it is a negative keyword, and the owning ad group resource name.
- */
-export const zGoogleAdsKeyword = z.object({
-    id: z.string().regex(/^\d+~\d+$/),
-    text: z.string().nullable(),
-    match_type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'EXACT',
-        'PHRASE',
-        'BROAD'
-    ]),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    negative: z.boolean(),
-    ad_group: z.string().nullable()
-});
-
-/**
- * A Google Ads audience available to target: a user_list (remarketing / CRM list, with its type + membership status), an audience (audience asset, with its status), or a custom_audience (interest / intent custom audience, with its status + type). Pass its `resource_name` as the user_list / audience / custom_audience of an ad-group audience criterion.
- */
-export const zGoogleAdsAudience = z.union([
-    z.object({
-        kind: z.literal('user_list'),
-        id: z.string(),
-        resource_name: z.string(),
-        name: z.string().nullable(),
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'REMARKETING',
-            'LOGICAL',
-            'EXTERNAL_REMARKETING',
-            'RULE_BASED',
-            'SIMILAR',
-            'CRM_BASED',
-            'LOOKALIKE'
-        ]),
-        membership_status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'OPEN',
-            'CLOSED'
-        ])
-    }),
-    z.object({
-        kind: z.literal('audience'),
-        id: z.string(),
-        resource_name: z.string(),
-        name: z.string().nullable(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'REMOVED'
-        ])
-    }),
-    z.object({
-        kind: z.literal('custom_audience'),
-        id: z.string(),
-        resource_name: z.string(),
-        name: z.string().nullable(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'REMOVED'
-        ]),
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'AUTO',
-            'INTEREST',
-            'PURCHASE_INTENT',
-            'SEARCH'
-        ])
-    })
-]);
-
-/**
- * Filter by serving status (ENABLED / PAUSED / REMOVED). Omit to return everything except REMOVED.
- */
-export const zGoogleAdsReadStatusFilter = z.array(z.enum([
-    'ENABLED',
-    'PAUSED',
-    'REMOVED'
-])).min(1);
-
-/**
- * A Google Ads campaign targeting criterion. LOCATION and LANGUAGE are fully modelled (with their geo_target_constant / language_constant, status, and negative flag); any other criterion type is returned as { type, criterion_id }.
- */
-export const zGoogleAdsCampaignCriterion = z.union([
-    z.object({
-        type: z.literal('LOCATION'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        geo_target_constant: z.string().nullable()
-    }),
-    z.object({
-        type: z.literal('LANGUAGE'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        language_constant: z.string().nullable()
-    }),
-    z.object({
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'KEYWORD',
-            'PLACEMENT',
-            'MOBILE_APP_CATEGORY',
-            'MOBILE_APPLICATION',
-            'DEVICE',
-            'LISTING_GROUP',
-            'AD_SCHEDULE',
-            'AGE_RANGE',
-            'GENDER',
-            'INCOME_RANGE',
-            'PARENTAL_STATUS',
-            'YOUTUBE_VIDEO',
-            'YOUTUBE_CHANNEL',
-            'USER_LIST',
-            'PROXIMITY',
-            'TOPIC',
-            'LISTING_SCOPE',
-            'IP_BLOCK',
-            'CONTENT_LABEL',
-            'CARRIER',
-            'USER_INTEREST',
-            'WEBPAGE',
-            'OPERATING_SYSTEM_VERSION',
-            'APP_PAYMENT_MODEL',
-            'MOBILE_DEVICE',
-            'CUSTOM_AFFINITY',
-            'CUSTOM_INTENT',
-            'LOCATION_GROUP',
-            'CUSTOM_AUDIENCE',
-            'COMBINED_AUDIENCE',
-            'KEYWORD_THEME',
-            'AUDIENCE',
-            'NEGATIVE_KEYWORD_LIST',
-            'LOCAL_SERVICE_ID',
-            'SEARCH_THEME',
-            'BRAND',
-            'BRAND_LIST',
-            'LIFE_EVENT',
-            'WEBPAGE_LIST',
-            'VIDEO_LINEUP',
-            'PLACEMENT_LIST',
-            'VERTICAL_ADS_ITEM_GROUP_RULE_LIST',
-            'VERTICAL_ADS_ITEM_GROUP_RULE',
-            'RETAIL_FILTER_BUNDLE',
-            'RETAIL_FILTER'
-        ]),
-        criterion_id: z.string()
-    })
-]);
-
-/**
- * A Google Ads ad-group targeting criterion. The four demographics (AGE_RANGE, GENDER, INCOME_RANGE, PARENTAL_STATUS) and the three audience kinds (USER_LIST, AUDIENCE, CUSTOM_AUDIENCE) are fully modelled with their value, status, and negative (exclusion) flag; any other criterion type (e.g. KEYWORD) is returned as { type, criterion_id }.
- */
-export const zGoogleAdsAdGroupCriterion = z.union([
-    z.object({
-        type: z.literal('AGE_RANGE'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        age_range: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'AGE_RANGE_18_24',
-            'AGE_RANGE_25_34',
-            'AGE_RANGE_35_44',
-            'AGE_RANGE_45_54',
-            'AGE_RANGE_55_64',
-            'AGE_RANGE_65_UP',
-            'AGE_RANGE_UNDETERMINED'
-        ])
-    }),
-    z.object({
-        type: z.literal('GENDER'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        gender: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'MALE',
-            'FEMALE',
-            'UNDETERMINED'
-        ])
-    }),
-    z.object({
-        type: z.literal('INCOME_RANGE'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        income_range: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'INCOME_RANGE_0_50',
-            'INCOME_RANGE_50_60',
-            'INCOME_RANGE_60_70',
-            'INCOME_RANGE_70_80',
-            'INCOME_RANGE_80_90',
-            'INCOME_RANGE_90_UP',
-            'INCOME_RANGE_UNDETERMINED'
-        ])
-    }),
-    z.object({
-        type: z.literal('PARENTAL_STATUS'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        parental_status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'PARENT',
-            'NOT_A_PARENT',
-            'UNDETERMINED'
-        ])
-    }),
-    z.object({
-        type: z.literal('USER_LIST'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        user_list: z.string().nullable()
-    }),
-    z.object({
-        type: z.literal('AUDIENCE'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        audience: z.string().nullable()
-    }),
-    z.object({
-        type: z.literal('CUSTOM_AUDIENCE'),
-        criterion_id: z.string(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        negative: z.boolean(),
-        custom_audience: z.string().nullable()
-    }),
-    z.object({
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'KEYWORD',
-            'PLACEMENT',
-            'MOBILE_APP_CATEGORY',
-            'MOBILE_APPLICATION',
-            'DEVICE',
-            'LOCATION',
-            'LISTING_GROUP',
-            'AD_SCHEDULE',
-            'YOUTUBE_VIDEO',
-            'YOUTUBE_CHANNEL',
-            'PROXIMITY',
-            'TOPIC',
-            'LISTING_SCOPE',
-            'LANGUAGE',
-            'IP_BLOCK',
-            'CONTENT_LABEL',
-            'CARRIER',
-            'USER_INTEREST',
-            'WEBPAGE',
-            'OPERATING_SYSTEM_VERSION',
-            'APP_PAYMENT_MODEL',
-            'MOBILE_DEVICE',
-            'CUSTOM_AFFINITY',
-            'CUSTOM_INTENT',
-            'LOCATION_GROUP',
-            'COMBINED_AUDIENCE',
-            'KEYWORD_THEME',
-            'NEGATIVE_KEYWORD_LIST',
-            'LOCAL_SERVICE_ID',
-            'SEARCH_THEME',
-            'BRAND',
-            'BRAND_LIST',
-            'LIFE_EVENT',
-            'WEBPAGE_LIST',
-            'VIDEO_LINEUP',
-            'PLACEMENT_LIST',
-            'VERTICAL_ADS_ITEM_GROUP_RULE_LIST',
-            'VERTICAL_ADS_ITEM_GROUP_RULE',
-            'RETAIL_FILTER_BUNDLE',
-            'RETAIL_FILTER'
-        ]),
-        criterion_id: z.string()
-    })
-]);
-
-/**
- * A Google Ads geo target constant (a targetable location): its id, resource name, name, canonical name, country code, target type (Country/Region/City/…), and status. Pass the `resource_name` (`geoTargetConstants/{id}`) — NOT the bare id — as the `geo_target_constant` of a location criterion: Google’s `LocationInfo.geo_target_constant` is a resource name.
- */
-export const zGoogleAdsGeoTargetConstant = z.object({
-    id: z.string(),
-    resource_name: z.string().nullable(),
-    name: z.string().nullable(),
-    canonical_name: z.string().nullable(),
-    country_code: z.string().nullable(),
-    target_type: z.string().nullable(),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'REMOVAL_PLANNED'
-    ])
-});
-
-/**
- * A Google Ads URL custom parameter ({_key} → value).
- */
-export const zGoogleAdsUrlCustomParameter = z.object({
-    key: z.string().min(1).regex(/^[A-Za-z0-9]+$/),
-    value: z.string()
-});
-
-export const zGoogleAdsCreateResult = z.object({
-    id: z.string().nullable(),
-    resource_name: z.string().nullable(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleAdsEditResult = z.object({
-    id: z.string(),
-    resource_name: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleAdsDeleteResult = z.object({
-    id: z.string(),
-    removed: z.boolean(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-/**
- * Add a geo (location) or language targeting criterion to a campaign.
- */
-export const zGoogleAdsCreateCampaignCriterionRequest = z.union([
-    z.object({
-        type: z.literal('location'),
-        geo_target_constant: z.string().regex(/^geoTargetConstants\/\d+$/),
-        negative: z.boolean().optional().default(false)
-    }),
-    z.object({
-        type: z.literal('language'),
-        language_constant: z.string().min(1)
-    })
-]);
-
-/**
- * Add a demographic (age range, gender, income range, or parental status) or audience (user list, audience, custom audience) targeting criterion to an ad group. Set negative: true to exclude instead of target.
- */
-export const zGoogleAdsCreateAdGroupCriterionRequest = z.union([
-    z.object({
-        type: z.literal('age_range'),
-        age_range: z.enum([
-            'AGE_RANGE_18_24',
-            'AGE_RANGE_25_34',
-            'AGE_RANGE_35_44',
-            'AGE_RANGE_45_54',
-            'AGE_RANGE_55_64',
-            'AGE_RANGE_65_UP',
-            'AGE_RANGE_UNDETERMINED'
-        ]),
-        negative: z.boolean().optional().default(false)
-    }),
-    z.object({
-        type: z.literal('gender'),
-        gender: z.enum([
-            'MALE',
-            'FEMALE',
-            'UNDETERMINED'
-        ]),
-        negative: z.boolean().optional().default(false)
-    }),
-    z.object({
-        type: z.literal('income_range'),
-        income_range: z.enum([
-            'INCOME_RANGE_0_50',
-            'INCOME_RANGE_50_60',
-            'INCOME_RANGE_60_70',
-            'INCOME_RANGE_70_80',
-            'INCOME_RANGE_80_90',
-            'INCOME_RANGE_90_UP',
-            'INCOME_RANGE_UNDETERMINED'
-        ]),
-        negative: z.boolean().optional().default(false)
-    }),
-    z.object({
-        type: z.literal('parental_status'),
-        parental_status: z.enum([
-            'PARENT',
-            'NOT_A_PARENT',
-            'UNDETERMINED'
-        ]),
-        negative: z.boolean().optional().default(false)
-    }),
-    z.object({
-        type: z.literal('user_list'),
-        user_list: z.string().regex(/^customers\/\d+\/userLists\/\d+$/),
-        negative: z.boolean().optional().default(false)
-    }),
-    z.object({
-        type: z.literal('audience'),
-        audience: z.string().regex(/^customers\/\d+\/audiences\/\d+$/),
-        negative: z.boolean().optional().default(false)
-    }),
-    z.object({
-        type: z.literal('custom_audience'),
-        custom_audience: z.string().regex(/^customers\/\d+\/customAudiences\/\d+$/),
-        negative: z.boolean().optional().default(false)
-    })
-]);
-
-/**
- * Set a campaign’s geo target type (presence vs presence-or-interest).
- */
-export const zGoogleAdsGeoSettingsRequest = z.object({
-    positive_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional(),
-    negative_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional()
-});
-
-/**
- * Aggregation level: the connected account, a campaign, an ad group, a single ad, or a single keyword.
- */
-export const zGoogleAdsInsightLevel = z.enum([
-    'account',
-    'campaign',
-    'ad_group',
-    'ad',
-    'keyword'
-]);
-
-export const zGoogleAdsInsightsRow = z.object({
-    level: zGoogleAdsInsightLevel,
-    id: z.string().min(1),
-    name: z.string().nullable(),
-    parent_id: z.string().min(1).nullable(),
-    metrics: z.object({
-        impressions: z.number().nullish(),
-        clicks: z.number().nullish(),
-        ctr: z.number().nullish(),
-        average_cpc: z.number().nullish(),
-        cost_micros: z.number().nullish(),
-        conversions: z.number().nullish(),
-        conversions_value: z.number().nullish(),
-        cost_per_conversion: z.number().nullish()
-    }),
-    segments: z.object({
-        date: z.string().optional(),
-        device: z.string().optional()
-    }).optional()
-});
-
-/**
- * Performance rows for the requested level, metrics, and window.
- */
-export const zGoogleAdsInsights = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsInsightsRow)
-});
-
-export const zGoogleAdsInsightMetric = z.enum([
-    'impressions',
-    'clicks',
-    'ctr',
-    'average_cpc',
-    'cost_micros',
-    'conversions',
-    'conversions_value',
-    'cost_per_conversion'
-]);
-
-export const zGoogleAdsInsightSegment = z.enum(['date', 'device']);
-
-export const zGoogleAdsInsightsQuery = z.object({
-    level: zGoogleAdsInsightLevel.optional().default('campaign'),
-    metrics: z.array(zGoogleAdsInsightMetric).min(1).optional().default([
-        'impressions',
-        'clicks',
-        'cost_micros',
-        'conversions'
-    ]),
-    segments: z.array(zGoogleAdsInsightSegment).optional(),
-    campaign_id: z.string().regex(/^\d+$/).optional(),
-    ad_group_id: z.string().regex(/^\d+$/).optional(),
-    since: z.iso.date(),
-    until: z.iso.date()
-});
-
-/**
- * One flat node in a Google Ads campaign → ad_group → ad/keyword tree, with native structure (status, type, child_kind, expandable) and Google’s authoritative per-level metrics. Group nodes by parent_id to assemble the tree.
- */
-export const zGoogleAdTreeNode = z.object({
-    level: z.enum([
-        'campaign',
-        'ad_group',
-        'ad',
-        'keyword'
-    ]),
-    id: z.string().min(1),
-    name: z.string().nullable(),
-    parent_id: z.string().min(1).nullable(),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'SEARCH',
-        'DISPLAY',
-        'SHOPPING',
-        'HOTEL',
-        'VIDEO',
-        'MULTI_CHANNEL',
-        'LOCAL',
-        'SMART',
-        'PERFORMANCE_MAX',
-        'LOCAL_SERVICES',
-        'TRAVEL',
-        'DEMAND_GEN'
-    ]).nullable(),
-    child_kind: z.enum([
-        'ad_group',
-        'asset_group',
-        'none'
-    ]),
-    expandable: z.boolean(),
-    budget_micros: z.number().nullable(),
-    metrics: z.object({
-        impressions: z.number().nullish(),
-        clicks: z.number().nullish(),
-        ctr: z.number().nullish(),
-        average_cpc: z.number().nullish(),
-        cost_micros: z.number().nullish(),
-        conversions: z.number().nullish(),
-        conversions_value: z.number().nullish(),
-        cost_per_conversion: z.number().nullish()
-    }),
-    cost_micros: z.number(),
-    cost: z.number()
-});
-
-/**
- * Flat tree nodes for the requested level or subtree and window. Group by parent_id to assemble the tree.
- */
-export const zGoogleAdTree = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdTreeNode)
-});
-
-/**
- * EEA/UK consent signals. Set at the request level as a default; a per-event value overrides it.
- */
-export const zGoogleAdsConversionConsent = z.object({
-    ad_user_data: z.enum(['CONSENT_GRANTED', 'CONSENT_DENIED']).optional(),
-    ad_personalization: z.enum(['CONSENT_GRANTED', 'CONSENT_DENIED']).optional()
-});
-
-/**
- * A plaintext customer identifier (email, phone, or address) used to match the conversion. Hashed server-side.
- */
-export const zGoogleAdsConversionUserIdentifier = z.object({
-    email_address: z.email().optional(),
-    phone_number: z.string().min(1).regex(/\d/).optional(),
-    address: z.object({
-        given_name: z.string().min(1),
-        family_name: z.string().min(1),
-        region_code: z.string().regex(/^[A-Za-z]{2}$/),
-        postal_code: z.string().min(1)
-    }).optional()
-});
-
-/**
- * A single conversion to send. Requires an event_timestamp and at least one match signal (gclid/gbraid/wbraid or user_data).
- */
-export const zGoogleAdsConversionEvent = z.object({
-    event_timestamp: z.iso.datetime({ offset: true }),
-    event_source: z.enum([
-        'WEB',
-        'APP',
-        'IN_STORE',
-        'PHONE',
-        'MESSAGE',
-        'OTHER'
-    ]),
-    order_id: z.string().optional(),
-    gclid: z.string().optional(),
-    gbraid: z.string().optional(),
-    wbraid: z.string().optional(),
-    user_data: z.array(zGoogleAdsConversionUserIdentifier).min(1).max(10).optional(),
-    currency: z.string().length(3).optional(),
-    conversion_value: z.number().gte(0).optional(),
-    consent: zGoogleAdsConversionConsent.optional()
-});
-
-export const zGoogleAdsSendConversionsResult = z.object({
-    request_id: z.string().nullable(),
-    status: z.enum(['accepted', 'validated']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleAdsConversionStatusReason = z.object({
-    reason: z.string(),
-    count: z.int().gte(-9007199254740991).lte(9007199254740991),
-    code: z.enum([
-        'unauthorized',
-        'forbidden',
-        'not_found',
-        'conflict',
-        'validation_failed',
-        'rate_limited',
-        'internal_error',
-        'idempotency_key_invalid',
-        'idempotency_key_reused',
-        'idempotency_request_in_progress',
-        'account_not_available',
-        'connection_reauth_required',
-        'connection_not_pending',
-        'not_implemented',
-        'connection_discovery_failed',
-        'tiktok_creator_info_unavailable',
-        'tiktok_cannot_post_now',
-        'media_processing',
-        'media_upload_init_failed',
-        'media_upload_incomplete',
-        'media_upload_invalid_parts',
-        'not_publishable',
-        'invalid_connection',
-        'invalid_media',
-        'profile_scope_invalid',
-        'media_unprobeable',
-        'media_too_large',
-        'media_aspect_ratio_unsupported',
-        'media_resolution_too_low',
-        'media_gif_unsupported',
-        'media_format_recompressed',
-        'media_resolution_downscaled',
-        'video_container_unsupported',
-        'video_codec_unsupported',
-        'video_audio_codec_unsupported',
-        'video_too_large',
-        'video_too_small',
-        'video_dimensions_unsupported',
-        'video_dimensions_too_large',
-        'video_fps_unsupported',
-        'video_fps_too_low',
-        'video_aspect_unsupported',
-        'video_duration_too_short',
-        'video_duration_exceeds_max',
-        'video_transform_failed',
-        'media_fetch_failed',
-        'document_format_unsupported',
-        'document_too_large',
-        'document_too_many_pages',
-        'media_format_indeterminate',
-        'media_format_unsupported',
-        'media_count_invalid',
-        'body_too_long',
-        'content_missing',
-        'content_conflict',
-        'content_incomplete',
-        'media_type_mismatch',
-        'tag_limit_exceeded',
-        'reel_field_on_non_reel',
-        'field_placement_invalid',
-        'media_not_ready',
-        'media_failed',
-        'media_unsupported',
-        'media_kind_mismatch',
-        'variant_unparseable',
-        'publishing_unavailable',
-        'x_duplicate_content',
-        'x_not_authorized',
-        'x_access_not_permitted',
-        'x_rate_limited',
-        'x_publish_failed',
-        'x_media_upload_failed',
-        'linkedin_duplicate_content',
-        'linkedin_auth_expired',
-        'linkedin_permission_denied',
-        'linkedin_rate_limited',
-        'linkedin_media_processing',
-        'linkedin_media_failed',
-        'linkedin_media_upload_failed',
-        'linkedin_publish_failed',
-        'instagram_media_processing',
-        'instagram_container_expired',
-        'instagram_container_failed',
-        'instagram_rate_limited',
-        'instagram_daily_limit_reached',
-        'instagram_aspect_ratio_unsupported',
-        'instagram_media_unsupported',
-        'instagram_not_authorized',
-        'instagram_publish_failed',
-        'facebook_reel_processing',
-        'facebook_reel_failed',
-        'facebook_rate_limited',
-        'facebook_duplicate_content',
-        'facebook_temporarily_blocked',
-        'facebook_not_authorized',
-        'facebook_publish_failed',
-        'tiktok_privacy_not_allowed',
-        'tiktok_duration_exceeds_max',
-        'tiktok_media_processing',
-        'tiktok_not_authorized',
-        'tiktok_rate_limited',
-        'tiktok_url_ownership_unverified',
-        'tiktok_unaudited_private_only',
-        'tiktok_spam_risk',
-        'tiktok_file_format_invalid',
-        'tiktok_duration_invalid',
-        'tiktok_frame_rate_invalid',
-        'tiktok_resolution_invalid',
-        'tiktok_media_pull_failed',
-        'tiktok_server_error',
-        'tiktok_publish_failed',
-        'google_rate_limited',
-        'google_server_error',
-        'google_auth_expired',
-        'google_permission_denied',
-        'google_request_failed',
-        'google_conversion_duplicate',
-        'google_conversion_invalid_click_id',
-        'google_conversion_event_too_old',
-        'google_conversion_consent_required',
-        'google_conversion_terms_not_signed',
-        'google_conversion_rejected',
-        'post_publish_failed',
-        'post_partially_published',
-        'connection_platform_mismatch',
-        'connection_removed'
-    ]),
-    display_error: z.string()
-});
-
-export const zGoogleAdsConversionWarning = z.object({
-    reason: z.string(),
-    count: z.int().gte(-9007199254740991).lte(9007199254740991)
-});
-
-export const zGoogleAdsConversionStatus = z.object({
-    request_id: z.string(),
-    destinations: z.array(z.object({
-        request_status: z.enum([
-            'REQUEST_STATUS_UNKNOWN',
-            'SUCCESS',
-            'PROCESSING',
-            'FAILED',
-            'PARTIAL_SUCCESS'
-        ]),
-        events_submitted: z.int().gte(-9007199254740991).lte(9007199254740991).nullable(),
-        errors: z.array(zGoogleAdsConversionStatusReason),
-        warnings: z.array(zGoogleAdsConversionWarning)
-    }))
-});
-
-export const zGoogleAdsConversionRequest = z.object({
-    object: z.literal('conversion_request'),
-    request_id: z.string(),
-    conversion_action_id: z.string().nullable(),
-    event_count: z.int().gte(-9007199254740991).lte(9007199254740991).nullable(),
-    created_at: z.string()
 });
 
 /**
@@ -2619,8 +1821,6 @@ export const zConnectionsListAccountsResponse = z.object({
 
 export const zConnectionsConnectBody = z.object({
     platform: z.enum([
-        'meta_ads',
-        'google_ads',
         'x',
         'linkedin',
         'facebook_page',
@@ -2641,6 +1841,15 @@ export const zConnectionsConnectPath = z.object({
  * OK
  */
 export const zConnectionsConnectResponse = zConnectSession;
+
+export const zConnectionsGetAnalyticsPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zConnectionsGetAnalyticsResponse = zConnectionAnalytics;
 
 export const zMediaListQuery = z.object({
     limit: z.int().gte(1).lte(100).optional().default(20),
@@ -2674,14 +1883,7 @@ export const zMediaListResponse = z.object({
 export const zMediaCreateBody = z.object({
     profile_id: z.string(),
     source_url: z.url().optional(),
-    targets: z.array(z.enum([
-        'x',
-        'linkedin',
-        'facebook_page',
-        'instagram',
-        'tiktok',
-        'google_ads'
-    ])).min(1).optional(),
+    targets: z.array(zPostPlatform).min(1).optional(),
     raw: z.boolean().optional().default(false),
     alt_text: z.string().max(1000).optional(),
     external_id: z.string().min(1).max(255).optional(),
@@ -2738,8 +1940,7 @@ export const zMediaCreateResponse = z.object({
             'media_fetch_failed',
             'document_format_unsupported',
             'document_too_large',
-            'document_too_many_pages',
-            'media_unsupported'
+            'document_too_many_pages'
         ]),
         message: z.string(),
         hint: z.string().optional(),
@@ -2792,8 +1993,7 @@ export const zMediaCreateResponse = z.object({
                 'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
+                'document_too_many_pages'
             ]),
             message: z.string(),
             hint: z.string().optional(),
@@ -2828,8 +2028,7 @@ export const zMediaCreateResponse = z.object({
                 'media_fetch_failed',
                 'document_format_unsupported',
                 'document_too_large',
-                'document_too_many_pages',
-                'media_unsupported'
+                'document_too_many_pages'
             ]),
             message: z.string(),
             hint: z.string().optional(),
@@ -2888,14 +2087,7 @@ export const zMediaUpdateBody = z.object({
         z.number(),
         z.boolean()
     ])).optional(),
-    targets: z.array(z.enum([
-        'x',
-        'linkedin',
-        'facebook_page',
-        'instagram',
-        'tiktok',
-        'google_ads'
-    ])).min(1).optional()
+    targets: z.array(zPostPlatform).min(1).optional()
 });
 
 export const zMediaUpdateHeaders = z.object({
@@ -3003,33 +2195,7 @@ export const zPostsCreateHeaders = z.object({
 /**
  * OK
  */
-export const zPostsCreateResponse = z.object({
-    id: z.string(),
-    object: z.literal('post'),
-    profile_id: z.string(),
-    external_id: z.string().nullable(),
-    status: z.enum([
-        'draft',
-        'scheduled',
-        'publishing',
-        'partially_published',
-        'published',
-        'failed'
-    ]),
-    schedule_at: z.string().nullable(),
-    tags: z.array(z.string()),
-    notes: z.string().nullable(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])),
-    variants: z.array(zPostVariant),
-    created_at: z.string(),
-    updated_at: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
+export const zPostsCreateResponse = zPostWriteResult;
 
 export const zPostsDeletePath = z.object({
     id: z.string()
@@ -3083,33 +2249,24 @@ export const zPostsUpdatePath = z.object({
 /**
  * OK
  */
-export const zPostsUpdateResponse = z.object({
-    id: z.string(),
-    object: z.literal('post'),
-    profile_id: z.string(),
-    external_id: z.string().nullable(),
-    status: z.enum([
-        'draft',
-        'scheduled',
-        'publishing',
-        'partially_published',
-        'published',
-        'failed'
-    ]),
-    schedule_at: z.string().nullable(),
-    tags: z.array(z.string()),
-    notes: z.string().nullable(),
-    metadata: z.record(z.string(), z.union([
-        z.string().max(500),
-        z.number(),
-        z.boolean()
-    ])),
-    variants: z.array(zPostVariant),
-    created_at: z.string(),
-    updated_at: z.string(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
+export const zPostsUpdateResponse = zPostWriteResult;
+
+export const zPostsRetryBody = z.object({
+    dry_run: z.boolean().optional().default(false)
 });
+
+export const zPostsRetryHeaders = z.object({
+    'Idempotency-Key': z.string().min(1).max(255).optional()
+});
+
+export const zPostsRetryPath = z.object({
+    id: z.string()
+});
+
+/**
+ * OK
+ */
+export const zPostsRetryResponse = zPostWriteResult;
 
 export const zPostsValidateBody = z.object({
     profile_id: z.string(),
@@ -3140,12 +2297,13 @@ export const zPostsValidateResponse = z.object({
             'not_implemented',
             'connection_discovery_failed',
             'tiktok_creator_info_unavailable',
-            'tiktok_cannot_post_now',
+            'tiktok_analytics_unavailable',
             'media_processing',
             'media_upload_init_failed',
             'media_upload_incomplete',
             'media_upload_invalid_parts',
             'not_publishable',
+            'post_not_retryable',
             'invalid_connection',
             'invalid_media',
             'profile_scope_invalid',
@@ -3196,6 +2354,7 @@ export const zPostsValidateResponse = z.object({
             'x_rate_limited',
             'x_publish_failed',
             'x_media_upload_failed',
+            'x_thread_incomplete',
             'linkedin_duplicate_content',
             'linkedin_auth_expired',
             'linkedin_permission_denied',
@@ -3213,6 +2372,7 @@ export const zPostsValidateResponse = z.object({
             'instagram_media_unsupported',
             'instagram_not_authorized',
             'instagram_publish_failed',
+            'instagram_comment_failed',
             'facebook_reel_processing',
             'facebook_reel_failed',
             'facebook_rate_limited',
@@ -3220,13 +2380,14 @@ export const zPostsValidateResponse = z.object({
             'facebook_temporarily_blocked',
             'facebook_not_authorized',
             'facebook_publish_failed',
+            'facebook_comment_failed',
             'tiktok_privacy_not_allowed',
+            'tiktok_interaction_not_allowed',
+            'tiktok_thumbnail_offset_invalid',
             'tiktok_duration_exceeds_max',
             'tiktok_media_processing',
             'tiktok_not_authorized',
             'tiktok_rate_limited',
-            'tiktok_url_ownership_unverified',
-            'tiktok_unaudited_private_only',
             'tiktok_spam_risk',
             'tiktok_file_format_invalid',
             'tiktok_duration_invalid',
@@ -3235,21 +2396,17 @@ export const zPostsValidateResponse = z.object({
             'tiktok_media_pull_failed',
             'tiktok_server_error',
             'tiktok_publish_failed',
-            'google_rate_limited',
-            'google_server_error',
-            'google_auth_expired',
-            'google_permission_denied',
-            'google_request_failed',
-            'google_conversion_duplicate',
-            'google_conversion_invalid_click_id',
-            'google_conversion_event_too_old',
-            'google_conversion_consent_required',
-            'google_conversion_terms_not_signed',
-            'google_conversion_rejected',
             'post_publish_failed',
             'post_partially_published',
             'connection_platform_mismatch',
-            'connection_removed'
+            'connection_removed',
+            'publish_interrupted',
+            'publish_outcome_unknown',
+            'plan_limit_reached',
+            'billing_required',
+            'x_link_requires_paid_plan',
+            'analytics_not_supported',
+            'analytics_no_data'
         ]),
         message: z.string(),
         hint: z.string().optional(),
@@ -3263,1961 +2420,14 @@ export const zPostsValidateResponse = z.object({
     }))
 });
 
-export const zMetaAccountPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * A Meta (Facebook) ad account.
- */
-export const zMetaAccountResponse = z.object({
-    id: z.string(),
-    account_id: z.string(),
-    name: z.string().nullable(),
-    account_status: z.int().gte(-9007199254740991).lte(9007199254740991),
-    currency: z.string(),
-    timezone_name: z.string().nullable(),
-    amount_spent: z.string(),
-    balance: z.string(),
-    spend_cap: z.string().nullable()
-});
-
-export const zMetaInsightsPath = z.object({
-    connection_id: z.string()
-});
-
-export const zMetaInsightsQuery = z.object({
-    level: z.enum([
-        'account',
-        'campaign',
-        'adset',
-        'ad'
-    ]).optional().default('account'),
-    date_preset: z.enum([
-        'today',
-        'yesterday',
-        'this_month',
-        'last_month',
-        'this_quarter',
-        'maximum',
-        'data_maximum',
-        'last_3d',
-        'last_7d',
-        'last_14d',
-        'last_28d',
-        'last_30d',
-        'last_90d',
-        'last_week_mon_sun',
-        'last_week_sun_sat',
-        'last_quarter',
-        'last_year',
-        'this_week_mon_today',
-        'this_week_sun_today',
-        'this_year'
-    ]).optional().default('last_30d'),
-    time_range: z.object({
-        since: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-        until: z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
-    }).optional(),
-    time_increment: z.union([
-        z.int().gte(1).lte(90),
-        z.literal('monthly'),
-        z.literal('all_days')
-    ]).optional()
-});
-
-/**
- * A list of curated Meta ad-insights rows.
- */
-export const zMetaInsightsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        date_start: z.string(),
-        date_stop: z.string(),
-        account_id: z.string().optional(),
-        campaign_id: z.string().optional(),
-        campaign_name: z.string().optional(),
-        adset_id: z.string().optional(),
-        adset_name: z.string().optional(),
-        ad_id: z.string().optional(),
-        ad_name: z.string().optional(),
-        spend: z.string().optional(),
-        impressions: z.string().optional(),
-        clicks: z.string().optional(),
-        ctr: z.string().optional(),
-        cpc: z.string().optional(),
-        cpm: z.string().optional(),
-        cpp: z.string().optional(),
-        reach: z.string().optional(),
-        frequency: z.string().optional()
-    }))
-});
-
-export const zMetaCampaignsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * A list of Meta ad campaigns.
- */
-export const zMetaCampaignsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        account_id: z.string().optional(),
-        name: z.string().nullable(),
-        status: z.string().optional(),
-        effective_status: z.string().optional(),
-        objective: z.string().optional(),
-        daily_budget: z.string().optional(),
-        lifetime_budget: z.string().optional(),
-        budget_remaining: z.string().optional(),
-        bid_strategy: z.string().optional(),
-        created_time: z.string().optional(),
-        start_time: z.string().optional(),
-        stop_time: z.string().optional()
-    }))
-});
-
-export const zMetaCampaignPath = z.object({
-    connection_id: z.string(),
-    campaign_id: z.string().min(1)
-});
-
-/**
- * A Meta (Facebook) ad campaign.
- */
-export const zMetaCampaignResponse = z.object({
-    id: z.string(),
-    account_id: z.string().optional(),
-    name: z.string().nullable(),
-    status: z.string().optional(),
-    effective_status: z.string().optional(),
-    objective: z.string().optional(),
-    daily_budget: z.string().optional(),
-    lifetime_budget: z.string().optional(),
-    budget_remaining: z.string().optional(),
-    bid_strategy: z.string().optional(),
-    created_time: z.string().optional(),
-    start_time: z.string().optional(),
-    stop_time: z.string().optional()
-});
-
-export const zMetaAdsetsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * A list of Meta ad sets.
- */
-export const zMetaAdsetsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        account_id: z.string().optional(),
-        name: z.string().nullable(),
-        status: z.string().optional(),
-        effective_status: z.string().optional(),
-        campaign_id: z.string().optional(),
-        daily_budget: z.string().optional(),
-        lifetime_budget: z.string().optional(),
-        budget_remaining: z.string().optional(),
-        bid_amount: z.string().optional(),
-        billing_event: z.string().optional(),
-        optimization_goal: z.string().optional(),
-        start_time: z.string().optional(),
-        end_time: z.string().optional()
-    }))
-});
-
-export const zMetaAdsetPath = z.object({
-    connection_id: z.string(),
-    adset_id: z.string().min(1)
-});
-
-/**
- * A Meta (Facebook) ad set.
- */
-export const zMetaAdsetResponse = z.object({
-    id: z.string(),
-    account_id: z.string().optional(),
-    name: z.string().nullable(),
-    status: z.string().optional(),
-    effective_status: z.string().optional(),
-    campaign_id: z.string().optional(),
-    daily_budget: z.string().optional(),
-    lifetime_budget: z.string().optional(),
-    budget_remaining: z.string().optional(),
-    bid_amount: z.string().optional(),
-    billing_event: z.string().optional(),
-    optimization_goal: z.string().optional(),
-    start_time: z.string().optional(),
-    end_time: z.string().optional()
-});
-
-export const zMetaAdsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * A list of Meta ads.
- */
-export const zMetaAdsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        name: z.string().nullable(),
-        status: z.string().optional(),
-        effective_status: z.string().optional(),
-        adset_id: z.string().optional(),
-        campaign_id: z.string().optional(),
-        account_id: z.string().optional(),
-        created_time: z.string().optional(),
-        updated_time: z.string().optional()
-    }))
-});
-
-export const zMetaAdPath = z.object({
-    connection_id: z.string(),
-    ad_id: z.string().min(1)
-});
-
-/**
- * A Meta (Facebook) ad.
- */
-export const zMetaAdResponse = z.object({
-    id: z.string(),
-    name: z.string().nullable(),
-    status: z.string().optional(),
-    effective_status: z.string().optional(),
-    adset_id: z.string().optional(),
-    campaign_id: z.string().optional(),
-    account_id: z.string().optional(),
-    created_time: z.string().optional(),
-    updated_time: z.string().optional()
-});
-
-export const zGoogleGetAccountPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * A connected Google Ads account (the `customer` resource): id, descriptive name, currency, time zone, status, whether it is a manager (MCC) or test account, and the account-level URL tracking settings.
- */
-export const zGoogleGetAccountResponse = z.object({
-    id: z.string(),
-    descriptive_name: z.string().nullable(),
-    currency_code: z.string().nullable(),
-    time_zone: z.string().nullable(),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'CANCELED',
-        'SUSPENDED',
-        'CLOSED'
-    ]),
-    manager: z.boolean(),
-    test_account: z.boolean(),
-    tracking_url_template: z.string().nullable(),
-    final_url_suffix: z.string().nullable()
-});
-
-export const zGoogleEditAccountBody = z.object({
-    tracking_url_template: z.string().min(1).optional(),
-    final_url_suffix: z.string().min(1).optional(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEditAccountHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEditAccountPath = z.object({
-    connection_id: z.string()
+export const zPostsGetAnalyticsPath = z.object({
+    id: z.string()
 });
 
 /**
  * OK
  */
-export const zGoogleEditAccountResponse = zGoogleAdsEditResult;
-
-export const zGoogleGetInsightsBody = z.object({
-    level: zGoogleAdsInsightLevel.optional().default('campaign'),
-    metrics: z.array(zGoogleAdsInsightMetric).min(1).optional().default([
-        'impressions',
-        'clicks',
-        'cost_micros',
-        'conversions'
-    ]),
-    segments: z.array(zGoogleAdsInsightSegment).optional(),
-    campaign_id: z.string().regex(/^\d+$/).optional(),
-    ad_group_id: z.string().regex(/^\d+$/).optional(),
-    since: z.iso.date(),
-    until: z.iso.date()
-});
-
-export const zGoogleGetInsightsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleGetInsightsResponse = zGoogleAdsInsights;
-
-export const zGoogleGetAdTreePath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleGetAdTreeQuery = z.object({
-    campaign_id: z.string().regex(/^\d+$/).optional(),
-    status: zGoogleAdsReadStatusFilter.optional(),
-    metrics: z.array(zGoogleAdsInsightMetric).min(1).optional().default([
-        'impressions',
-        'clicks',
-        'cost_micros',
-        'conversions'
-    ]),
-    since: z.iso.date(),
-    until: z.iso.date()
-});
-
-/**
- * OK
- */
-export const zGoogleGetAdTreeResponse = zGoogleAdTree;
-
-export const zGoogleRunGaqlBody = z.object({
-    query: z.string().min(1).max(10000)
-});
-
-export const zGoogleRunGaqlPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * The native GAQL rows for the query (unnormalised).
- */
-export const zGoogleRunGaqlResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.union([z.unknown(), z.null()]))
-});
-
-export const zGoogleCreateBudgetBody = z.object({
-    name: z.string().min(1).max(255),
-    amount_micros: z.int().gt(0).lte(9007199254740991),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleCreateBudgetHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateBudgetPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleCreateBudgetResponse = zGoogleAdsCreateResult;
-
-export const zGoogleEditBudgetBody = z.object({
-    amount_micros: z.int().gt(0).lte(9007199254740991),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEditBudgetHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEditBudgetPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleEditBudgetResponse = zGoogleAdsEditResult;
-
-export const zGoogleRemoveBudgetBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveBudgetHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveBudgetPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveBudgetResponse = zGoogleAdsDeleteResult;
-
-export const zGoogleListCampaignsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleListCampaignsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        name: z.string().nullable(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'PAUSED',
-            'REMOVED'
-        ]),
-        advertising_channel_type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'SEARCH',
-            'DISPLAY',
-            'SHOPPING',
-            'HOTEL',
-            'VIDEO',
-            'MULTI_CHANNEL',
-            'LOCAL',
-            'SMART',
-            'PERFORMANCE_MAX',
-            'LOCAL_SERVICES',
-            'TRAVEL',
-            'DEMAND_GEN'
-        ]),
-        bidding_strategy_type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'COMMISSION',
-            'ENHANCED_CPC',
-            'FIXED_CPM',
-            'FIXED_SHARE_OF_VOICE',
-            'INVALID',
-            'MANUAL_CPA',
-            'MANUAL_CPC',
-            'MANUAL_CPM',
-            'MANUAL_CPV',
-            'MAXIMIZE_CONVERSIONS',
-            'MAXIMIZE_CONVERSION_VALUE',
-            'PAGE_ONE_PROMOTED',
-            'PERCENT_CPC',
-            'TARGET_CPA',
-            'TARGET_CPC',
-            'TARGET_CPM',
-            'TARGET_CPV',
-            'TARGET_IMPRESSION_SHARE',
-            'TARGET_OUTRANK_SHARE',
-            'TARGET_ROAS',
-            'TARGET_SPEND'
-        ]),
-        start_date_time: z.string().nullable(),
-        end_date_time: z.string().nullable(),
-        tracking_url_template: z.string().nullable(),
-        final_url_suffix: z.string().nullable(),
-        url_custom_parameters: z.array(zGoogleAdsUrlCustomParameter).max(8).optional().default([])
-    }))
-});
-
-export const zGoogleCreateCampaignBody = z.object({
-    name: z.string().min(1).max(255),
-    channel: z.enum(['SEARCH', 'DISPLAY']),
-    campaign_budget: z.string().regex(/^\d+$/),
-    bidding: z.enum([
-        'manual_cpc',
-        'maximize_conversions',
-        'target_spend'
-    ]),
-    status: z.enum(['ENABLED', 'PAUSED']).optional().default('PAUSED'),
-    contains_eu_political_advertising: z.enum(['DOES_NOT_CONTAIN_EU_POLITICAL_ADVERTISING', 'CONTAINS_EU_POLITICAL_ADVERTISING']).optional().default('DOES_NOT_CONTAIN_EU_POLITICAL_ADVERTISING'),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleCreateCampaignHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateCampaignPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleCreateCampaignResponse = zGoogleAdsCreateResult;
-
-export const zGoogleGetCampaignPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * A Google Ads campaign (the `campaign` resource): id, name, status, advertising channel type, bidding strategy type, and serving start/end date-times.
- */
-export const zGoogleGetCampaignResponse = z.object({
-    id: z.string(),
-    name: z.string().nullable(),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'PAUSED',
-        'REMOVED'
-    ]),
-    advertising_channel_type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'SEARCH',
-        'DISPLAY',
-        'SHOPPING',
-        'HOTEL',
-        'VIDEO',
-        'MULTI_CHANNEL',
-        'LOCAL',
-        'SMART',
-        'PERFORMANCE_MAX',
-        'LOCAL_SERVICES',
-        'TRAVEL',
-        'DEMAND_GEN'
-    ]),
-    bidding_strategy_type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'COMMISSION',
-        'ENHANCED_CPC',
-        'FIXED_CPM',
-        'FIXED_SHARE_OF_VOICE',
-        'INVALID',
-        'MANUAL_CPA',
-        'MANUAL_CPC',
-        'MANUAL_CPM',
-        'MANUAL_CPV',
-        'MAXIMIZE_CONVERSIONS',
-        'MAXIMIZE_CONVERSION_VALUE',
-        'PAGE_ONE_PROMOTED',
-        'PERCENT_CPC',
-        'TARGET_CPA',
-        'TARGET_CPC',
-        'TARGET_CPM',
-        'TARGET_CPV',
-        'TARGET_IMPRESSION_SHARE',
-        'TARGET_OUTRANK_SHARE',
-        'TARGET_ROAS',
-        'TARGET_SPEND'
-    ]),
-    start_date_time: z.string().nullable(),
-    end_date_time: z.string().nullable(),
-    tracking_url_template: z.string().nullable(),
-    final_url_suffix: z.string().nullable(),
-    url_custom_parameters: z.array(zGoogleAdsUrlCustomParameter).max(8).optional().default([])
-});
-
-export const zGoogleEditCampaignBody = z.object({
-    name: z.string().min(1).max(255).optional(),
-    tracking_url_template: z.string().min(1).optional(),
-    final_url_suffix: z.string().min(1).optional(),
-    url_custom_parameters: z.array(zGoogleAdsUrlCustomParameter).min(1).max(8).optional(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEditCampaignHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEditCampaignPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleEditCampaignResponse = zGoogleAdsEditResult;
-
-export const zGoogleRemoveCampaignBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveCampaignHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveCampaignPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveCampaignResponse = zGoogleAdsDeleteResult;
-
-export const zGooglePauseCampaignBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGooglePauseCampaignHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGooglePauseCampaignPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGooglePauseCampaignResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleEnableCampaignBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEnableCampaignHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEnableCampaignPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGoogleEnableCampaignResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleSearchGeoTargetsPath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleSearchGeoTargetsQuery = z.object({
-    q: z.string().min(1),
-    country_code: z.string().length(2).optional()
-});
-
-/**
- * OK
- */
-export const zGoogleSearchGeoTargetsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsGeoTargetConstant)
-});
-
-export const zGoogleListCampaignCriteriaPath = z.object({
-    connection_id: z.string(),
-    campaign_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleListCampaignCriteriaResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsCampaignCriterion)
-});
-
-export const zGoogleCreateCampaignCriterionBody = z.object({
-    dry_run: z.boolean().optional().default(false),
-    type: z.union([
-        z.literal('location'),
-        z.literal('language')
-    ]),
-    geo_target_constant: z.string().regex(/^geoTargetConstants\/\d+$/).optional(),
-    negative: z.boolean().optional().default(false),
-    language_constant: z.string().min(1).optional()
-});
-
-export const zGoogleCreateCampaignCriterionHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateCampaignCriterionPath = z.object({
-    connection_id: z.string(),
-    campaign_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleCreateCampaignCriterionResponse = zGoogleAdsCreateResult;
-
-export const zGoogleRemoveCampaignCriterionBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveCampaignCriterionHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveCampaignCriterionPath = z.object({
-    connection_id: z.string(),
-    campaign_id: z.string().regex(/^\d+$/),
-    criterion_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveCampaignCriterionResponse = zGoogleAdsDeleteResult;
-
-export const zGoogleSetCampaignGeoSettingsBody = z.object({
-    dry_run: z.boolean().optional().default(false),
-    positive_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional(),
-    negative_geo_target_type: z.enum(['PRESENCE_OR_INTEREST', 'PRESENCE']).optional()
-});
-
-export const zGoogleSetCampaignGeoSettingsHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleSetCampaignGeoSettingsPath = z.object({
-    connection_id: z.string(),
-    campaign_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleSetCampaignGeoSettingsResponse = zGoogleAdsEditResult;
-
-export const zGoogleListAdGroupsPath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleListAdGroupsQuery = z.object({
-    campaign_id: z.string().regex(/^\d+$/).optional(),
-    status: zGoogleAdsReadStatusFilter.optional()
-});
-
-/**
- * OK
- */
-export const zGoogleListAdGroupsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsAdGroup)
-});
-
-export const zGoogleCreateAdGroupBody = z.object({
-    name: z.string().min(1).max(255),
-    campaign: z.string().regex(/^\d+$/),
-    type: z.enum(['SEARCH_STANDARD', 'DISPLAY_STANDARD']),
-    status: z.enum(['ENABLED', 'PAUSED']).optional().default('ENABLED'),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleCreateAdGroupHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateAdGroupPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleCreateAdGroupResponse = zGoogleAdsCreateResult;
-
-export const zGoogleGetAdGroupPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleGetAdGroupResponse = zGoogleAdsAdGroup;
-
-export const zGoogleEditAdGroupBody = z.object({
-    name: z.string().min(1).max(255),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEditAdGroupHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEditAdGroupPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleEditAdGroupResponse = zGoogleAdsEditResult;
-
-export const zGoogleSetAdGroupBidsBody = z.object({
-    cpc_bid_micros: z.int().gt(0).lte(9007199254740991).optional(),
-    cpm_bid_micros: z.int().gt(0).lte(9007199254740991).optional(),
-    target_cpa_micros: z.int().gt(0).lte(9007199254740991).optional(),
-    target_roas: z.number().gt(0).optional(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleSetAdGroupBidsHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleSetAdGroupBidsPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleSetAdGroupBidsResponse = zGoogleAdsEditResult;
-
-export const zGoogleRemoveAdGroupBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveAdGroupHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveAdGroupPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveAdGroupResponse = zGoogleAdsDeleteResult;
-
-export const zGooglePauseAdGroupBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGooglePauseAdGroupHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGooglePauseAdGroupPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGooglePauseAdGroupResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleEnableAdGroupBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEnableAdGroupHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEnableAdGroupPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGoogleEnableAdGroupResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleListAdGroupCriteriaPath = z.object({
-    connection_id: z.string(),
-    ad_group_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleListAdGroupCriteriaResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsAdGroupCriterion)
-});
-
-export const zGoogleCreateAdGroupCriterionBody = z.object({
-    dry_run: z.boolean().optional().default(false),
-    type: z.union([
-        z.literal('age_range'),
-        z.literal('gender'),
-        z.literal('income_range'),
-        z.literal('parental_status'),
-        z.literal('user_list'),
-        z.literal('audience'),
-        z.literal('custom_audience')
-    ]),
-    age_range: z.enum([
-        'AGE_RANGE_18_24',
-        'AGE_RANGE_25_34',
-        'AGE_RANGE_35_44',
-        'AGE_RANGE_45_54',
-        'AGE_RANGE_55_64',
-        'AGE_RANGE_65_UP',
-        'AGE_RANGE_UNDETERMINED'
-    ]).optional(),
-    negative: z.boolean().optional().default(false),
-    gender: z.enum([
-        'MALE',
-        'FEMALE',
-        'UNDETERMINED'
-    ]).optional(),
-    income_range: z.enum([
-        'INCOME_RANGE_0_50',
-        'INCOME_RANGE_50_60',
-        'INCOME_RANGE_60_70',
-        'INCOME_RANGE_70_80',
-        'INCOME_RANGE_80_90',
-        'INCOME_RANGE_90_UP',
-        'INCOME_RANGE_UNDETERMINED'
-    ]).optional(),
-    parental_status: z.enum([
-        'PARENT',
-        'NOT_A_PARENT',
-        'UNDETERMINED'
-    ]).optional(),
-    user_list: z.string().regex(/^customers\/\d+\/userLists\/\d+$/).optional(),
-    audience: z.string().regex(/^customers\/\d+\/audiences\/\d+$/).optional(),
-    custom_audience: z.string().regex(/^customers\/\d+\/customAudiences\/\d+$/).optional()
-});
-
-export const zGoogleCreateAdGroupCriterionHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateAdGroupCriterionPath = z.object({
-    connection_id: z.string(),
-    ad_group_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleCreateAdGroupCriterionResponse = zGoogleAdsCreateResult;
-
-export const zGoogleRemoveAdGroupCriterionBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveAdGroupCriterionHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveAdGroupCriterionPath = z.object({
-    connection_id: z.string(),
-    ad_group_id: z.string().regex(/^\d+$/),
-    criterion_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveAdGroupCriterionResponse = zGoogleAdsDeleteResult;
-
-export const zGoogleListAudiencesPath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleListAudiencesQuery = z.object({
-    q: z.string().min(1).optional(),
-    kind: z.enum([
-        'user_list',
-        'audience',
-        'custom_audience'
-    ]).optional()
-});
-
-/**
- * OK
- */
-export const zGoogleListAudiencesResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsAudience)
-});
-
-export const zGoogleSetCampaignTargetingSettingBody = z.object({
-    dry_run: z.boolean().optional().default(false),
-    targeting_dimension: z.enum([
-        'KEYWORD',
-        'AUDIENCE',
-        'TOPIC',
-        'GENDER',
-        'AGE_RANGE',
-        'PLACEMENT',
-        'PARENTAL_STATUS',
-        'INCOME_RANGE'
-    ]),
-    bid_only: z.boolean()
-});
-
-export const zGoogleSetCampaignTargetingSettingHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleSetCampaignTargetingSettingPath = z.object({
-    connection_id: z.string(),
-    campaign_id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleSetCampaignTargetingSettingResponse = zGoogleAdsEditResult;
-
-export const zGoogleListAdsPath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleListAdsQuery = z.object({
-    ad_group_id: z.string().regex(/^\d+$/).optional(),
-    status: zGoogleAdsReadStatusFilter.optional()
-});
-
-/**
- * OK
- */
-export const zGoogleListAdsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsAd)
-});
-
-export const zGoogleCreateAdBody = z.object({
-    ad_group: z.string().regex(/^\d+$/),
-    final_urls: z.array(z.url()).min(1),
-    headlines: z.array(z.object({
-        text: z.string().min(1).max(30),
-        pinned_field: z.enum([
-            'HEADLINE_1',
-            'HEADLINE_2',
-            'HEADLINE_3'
-        ]).optional()
-    })).min(3).max(15),
-    descriptions: z.array(z.object({
-        text: z.string().min(1).max(90)
-    })).min(2).max(4),
-    path1: z.string().max(15).optional(),
-    path2: z.string().max(15).optional(),
-    status: z.enum(['ENABLED', 'PAUSED']).optional().default('PAUSED'),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleCreateAdHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateAdPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleCreateAdResponse = zGoogleAdsCreateResult;
-
-export const zGoogleGetAdPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleGetAdResponse = zGoogleAdsAd;
-
-export const zGoogleCreateDisplayAdBody = z.object({
-    ad_group: z.string().regex(/^\d+$/),
-    final_urls: z.array(z.url()).min(1),
-    marketing_images: z.array(z.object({
-        asset: z.string().min(1)
-    })).max(15).optional().default([]),
-    square_marketing_images: z.array(z.object({
-        asset: z.string().min(1)
-    })).max(15).optional().default([]),
-    logo_images: z.array(z.object({
-        asset: z.string().min(1)
-    })).max(5).optional().default([]),
-    square_logo_images: z.array(z.object({
-        asset: z.string().min(1)
-    })).max(5).optional().default([]),
-    headlines: z.array(z.object({
-        text: z.string().min(1).max(30)
-    })).min(1).max(5),
-    long_headline: z.object({
-        text: z.string().min(1).max(90)
-    }),
-    descriptions: z.array(z.object({
-        text: z.string().min(1).max(90)
-    })).min(1).max(5),
-    business_name: z.string().min(1).max(25).optional(),
-    call_to_action_text: z.string().min(1).optional(),
-    main_color: z.string().min(1).optional(),
-    accent_color: z.string().min(1).optional(),
-    status: z.enum(['ENABLED', 'PAUSED']).optional().default('PAUSED'),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleCreateDisplayAdHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateDisplayAdPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleCreateDisplayAdResponse = zGoogleAdsCreateResult;
-
-export const zGoogleRemoveAdBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveAdHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveAdPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveAdResponse = zGoogleAdsDeleteResult;
-
-export const zGooglePauseAdBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGooglePauseAdHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGooglePauseAdPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGooglePauseAdResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleEnableAdBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEnableAdHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEnableAdPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGoogleEnableAdResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleListKeywordsPath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleListKeywordsQuery = z.object({
-    ad_group_id: z.string().regex(/^\d+$/).optional(),
-    status: zGoogleAdsReadStatusFilter.optional()
-});
-
-/**
- * OK
- */
-export const zGoogleListKeywordsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsKeyword)
-});
-
-export const zGoogleCreateKeywordBody = z.object({
-    ad_group: z.string().regex(/^\d+$/),
-    text: z.string().min(1).max(80),
-    match_type: z.enum([
-        'EXACT',
-        'PHRASE',
-        'BROAD'
-    ]),
-    negative: z.boolean().optional().default(false),
-    status: z.enum(['ENABLED', 'PAUSED']).optional().default('ENABLED'),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleCreateKeywordHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateKeywordPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleCreateKeywordResponse = zGoogleAdsCreateResult;
-
-export const zGoogleGetKeywordPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleGetKeywordResponse = zGoogleAdsKeyword;
-
-export const zGoogleSetKeywordBidBody = z.object({
-    cpc_bid_micros: z.int().gt(0).lte(9007199254740991),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleSetKeywordBidHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleSetKeywordBidPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleSetKeywordBidResponse = zGoogleAdsEditResult;
-
-export const zGoogleRemoveKeywordBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveKeywordHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveKeywordPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveKeywordResponse = zGoogleAdsDeleteResult;
-
-export const zGooglePauseKeywordBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGooglePauseKeywordHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGooglePauseKeywordPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGooglePauseKeywordResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleEnableKeywordBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleEnableKeywordHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleEnableKeywordPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+~\d+$/)
-});
-
-/**
- * The outcome of a status change: the resource id, the new status, whether it was a dry run, and whether it executed.
- */
-export const zGoogleEnableKeywordResponse = z.object({
-    id: z.string(),
-    status: z.enum(['ENABLED', 'PAUSED']),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleListConversionActionsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleListConversionActionsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        id: z.string(),
-        name: z.string().nullable(),
-        status: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ENABLED',
-            'REMOVED',
-            'HIDDEN'
-        ]),
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'AD_CALL',
-            'CLICK_TO_CALL',
-            'GOOGLE_PLAY_DOWNLOAD',
-            'GOOGLE_PLAY_IN_APP_PURCHASE',
-            'UPLOAD_CALLS',
-            'UPLOAD_CLICKS',
-            'WEBPAGE',
-            'WEBSITE_CALL',
-            'STORE_SALES_DIRECT_UPLOAD',
-            'STORE_SALES',
-            'FIREBASE_ANDROID_FIRST_OPEN',
-            'FIREBASE_ANDROID_IN_APP_PURCHASE',
-            'FIREBASE_ANDROID_CUSTOM',
-            'FIREBASE_IOS_FIRST_OPEN',
-            'FIREBASE_IOS_IN_APP_PURCHASE',
-            'FIREBASE_IOS_CUSTOM',
-            'THIRD_PARTY_APP_ANALYTICS_ANDROID_FIRST_OPEN',
-            'THIRD_PARTY_APP_ANALYTICS_ANDROID_IN_APP_PURCHASE',
-            'THIRD_PARTY_APP_ANALYTICS_ANDROID_CUSTOM',
-            'THIRD_PARTY_APP_ANALYTICS_IOS_FIRST_OPEN',
-            'THIRD_PARTY_APP_ANALYTICS_IOS_IN_APP_PURCHASE',
-            'THIRD_PARTY_APP_ANALYTICS_IOS_CUSTOM',
-            'ANDROID_APP_PRE_REGISTRATION',
-            'ANDROID_INSTALLS_ALL_OTHER_APPS',
-            'FLOODLIGHT_ACTION',
-            'FLOODLIGHT_TRANSACTION',
-            'GOOGLE_HOSTED',
-            'LEAD_FORM_SUBMIT',
-            'SALESFORCE',
-            'SEARCH_ADS_360',
-            'SMART_CAMPAIGN_AD_CLICKS_TO_CALL',
-            'SMART_CAMPAIGN_MAP_CLICKS_TO_CALL',
-            'SMART_CAMPAIGN_MAP_DIRECTIONS',
-            'SMART_CAMPAIGN_TRACKED_CALLS',
-            'STORE_VISITS',
-            'WEBPAGE_CODELESS',
-            'UNIVERSAL_ANALYTICS_GOAL',
-            'UNIVERSAL_ANALYTICS_TRANSACTION',
-            'GOOGLE_ANALYTICS_4_CUSTOM',
-            'GOOGLE_ANALYTICS_4_PURCHASE',
-            'GOOGLE_ANALYTICS_4_GENERATE_LEAD',
-            'GOOGLE_ANALYTICS_4_QUALIFY_LEAD',
-            'GOOGLE_ANALYTICS_4_CLOSE_CONVERT_LEAD',
-            'FIREBASE_ANDROID_GENERATE_LEAD',
-            'FIREBASE_ANDROID_QUALIFY_LEAD',
-            'FIREBASE_ANDROID_CLOSE_CONVERT_LEAD',
-            'FIREBASE_IOS_GENERATE_LEAD',
-            'FIREBASE_IOS_QUALIFY_LEAD',
-            'FIREBASE_IOS_CLOSE_CONVERT_LEAD'
-        ]),
-        category: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'DEFAULT',
-            'PAGE_VIEW',
-            'PURCHASE',
-            'SIGNUP',
-            'DOWNLOAD',
-            'ADD_TO_CART',
-            'BEGIN_CHECKOUT',
-            'SUBSCRIBE_PAID',
-            'PHONE_CALL_LEAD',
-            'IMPORTED_LEAD',
-            'SUBMIT_LEAD_FORM',
-            'BOOK_APPOINTMENT',
-            'REQUEST_QUOTE',
-            'GET_DIRECTIONS',
-            'OUTBOUND_CLICK',
-            'CONTACT',
-            'ENGAGEMENT',
-            'STORE_VISIT',
-            'STORE_SALE',
-            'QUALIFIED_LEAD',
-            'CONVERTED_LEAD',
-            'YOUTUBE_FOLLOW_ON_VIEWS'
-        ]),
-        origin: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'WEBSITE',
-            'GOOGLE_HOSTED',
-            'APP',
-            'CALL_FROM_ADS',
-            'STORE',
-            'YOUTUBE_HOSTED'
-        ]),
-        primary_for_goal: z.boolean(),
-        counting_type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'ONE_PER_CLICK',
-            'MANY_PER_CLICK'
-        ]),
-        click_through_lookback_window_days: z.number().nullable(),
-        view_through_lookback_window_days: z.number().nullable(),
-        value_settings: z.object({
-            default_value: z.number().nullable(),
-            default_currency_code: z.string().nullable(),
-            always_use_default_value: z.boolean().nullable()
-        }).nullable(),
-        tag_snippets: z.array(z.object({
-            type: z.enum([
-                'UNSPECIFIED',
-                'UNKNOWN',
-                'WEBPAGE',
-                'WEBPAGE_ONCLICK',
-                'CLICK_TO_CALL',
-                'WEBSITE_CALL'
-            ]),
-            page_format: z.enum([
-                'UNSPECIFIED',
-                'UNKNOWN',
-                'HTML',
-                'AMP'
-            ]),
-            global_site_tag: z.string().nullable(),
-            event_snippet: z.string().nullable()
-        }))
-    }))
-});
-
-export const zGoogleCreateConversionActionBody = z.object({
-    name: z.string().min(1).max(255),
-    type: z.enum(['WEBPAGE', 'UPLOAD_CLICKS']),
-    category: z.enum([
-        'DEFAULT',
-        'PAGE_VIEW',
-        'PURCHASE',
-        'SIGNUP',
-        'DOWNLOAD',
-        'ADD_TO_CART',
-        'BEGIN_CHECKOUT',
-        'SUBSCRIBE_PAID',
-        'PHONE_CALL_LEAD',
-        'IMPORTED_LEAD',
-        'SUBMIT_LEAD_FORM',
-        'BOOK_APPOINTMENT',
-        'REQUEST_QUOTE',
-        'GET_DIRECTIONS',
-        'OUTBOUND_CLICK',
-        'CONTACT',
-        'ENGAGEMENT',
-        'STORE_VISIT',
-        'STORE_SALE',
-        'QUALIFIED_LEAD',
-        'CONVERTED_LEAD',
-        'YOUTUBE_FOLLOW_ON_VIEWS'
-    ]),
-    status: z.enum(['ENABLED']).optional().default('ENABLED'),
-    value_settings: z.object({
-        default_value: z.number().gte(0).optional(),
-        default_currency_code: z.string().length(3).optional(),
-        always_use_default_value: z.boolean().optional()
-    }).optional(),
-    counting_type: z.enum(['ONE_PER_CLICK', 'MANY_PER_CLICK']).optional(),
-    click_through_lookback_window_days: z.int().gt(0).lte(9007199254740991).optional(),
-    view_through_lookback_window_days: z.int().gt(0).lte(9007199254740991).optional(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleCreateConversionActionHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleCreateConversionActionPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleCreateConversionActionResponse = zGoogleAdsCreateResult;
-
-export const zGoogleGetConversionActionPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * A Google Ads conversion action (the `conversion_action` resource): id, name, status, type, category, origin, whether it is a primary goal, counting type, value settings, and the website tag snippets (present only for a WEBPAGE action).
- */
-export const zGoogleGetConversionActionResponse = z.object({
-    id: z.string(),
-    name: z.string().nullable(),
-    status: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ENABLED',
-        'REMOVED',
-        'HIDDEN'
-    ]),
-    type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'AD_CALL',
-        'CLICK_TO_CALL',
-        'GOOGLE_PLAY_DOWNLOAD',
-        'GOOGLE_PLAY_IN_APP_PURCHASE',
-        'UPLOAD_CALLS',
-        'UPLOAD_CLICKS',
-        'WEBPAGE',
-        'WEBSITE_CALL',
-        'STORE_SALES_DIRECT_UPLOAD',
-        'STORE_SALES',
-        'FIREBASE_ANDROID_FIRST_OPEN',
-        'FIREBASE_ANDROID_IN_APP_PURCHASE',
-        'FIREBASE_ANDROID_CUSTOM',
-        'FIREBASE_IOS_FIRST_OPEN',
-        'FIREBASE_IOS_IN_APP_PURCHASE',
-        'FIREBASE_IOS_CUSTOM',
-        'THIRD_PARTY_APP_ANALYTICS_ANDROID_FIRST_OPEN',
-        'THIRD_PARTY_APP_ANALYTICS_ANDROID_IN_APP_PURCHASE',
-        'THIRD_PARTY_APP_ANALYTICS_ANDROID_CUSTOM',
-        'THIRD_PARTY_APP_ANALYTICS_IOS_FIRST_OPEN',
-        'THIRD_PARTY_APP_ANALYTICS_IOS_IN_APP_PURCHASE',
-        'THIRD_PARTY_APP_ANALYTICS_IOS_CUSTOM',
-        'ANDROID_APP_PRE_REGISTRATION',
-        'ANDROID_INSTALLS_ALL_OTHER_APPS',
-        'FLOODLIGHT_ACTION',
-        'FLOODLIGHT_TRANSACTION',
-        'GOOGLE_HOSTED',
-        'LEAD_FORM_SUBMIT',
-        'SALESFORCE',
-        'SEARCH_ADS_360',
-        'SMART_CAMPAIGN_AD_CLICKS_TO_CALL',
-        'SMART_CAMPAIGN_MAP_CLICKS_TO_CALL',
-        'SMART_CAMPAIGN_MAP_DIRECTIONS',
-        'SMART_CAMPAIGN_TRACKED_CALLS',
-        'STORE_VISITS',
-        'WEBPAGE_CODELESS',
-        'UNIVERSAL_ANALYTICS_GOAL',
-        'UNIVERSAL_ANALYTICS_TRANSACTION',
-        'GOOGLE_ANALYTICS_4_CUSTOM',
-        'GOOGLE_ANALYTICS_4_PURCHASE',
-        'GOOGLE_ANALYTICS_4_GENERATE_LEAD',
-        'GOOGLE_ANALYTICS_4_QUALIFY_LEAD',
-        'GOOGLE_ANALYTICS_4_CLOSE_CONVERT_LEAD',
-        'FIREBASE_ANDROID_GENERATE_LEAD',
-        'FIREBASE_ANDROID_QUALIFY_LEAD',
-        'FIREBASE_ANDROID_CLOSE_CONVERT_LEAD',
-        'FIREBASE_IOS_GENERATE_LEAD',
-        'FIREBASE_IOS_QUALIFY_LEAD',
-        'FIREBASE_IOS_CLOSE_CONVERT_LEAD'
-    ]),
-    category: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'DEFAULT',
-        'PAGE_VIEW',
-        'PURCHASE',
-        'SIGNUP',
-        'DOWNLOAD',
-        'ADD_TO_CART',
-        'BEGIN_CHECKOUT',
-        'SUBSCRIBE_PAID',
-        'PHONE_CALL_LEAD',
-        'IMPORTED_LEAD',
-        'SUBMIT_LEAD_FORM',
-        'BOOK_APPOINTMENT',
-        'REQUEST_QUOTE',
-        'GET_DIRECTIONS',
-        'OUTBOUND_CLICK',
-        'CONTACT',
-        'ENGAGEMENT',
-        'STORE_VISIT',
-        'STORE_SALE',
-        'QUALIFIED_LEAD',
-        'CONVERTED_LEAD',
-        'YOUTUBE_FOLLOW_ON_VIEWS'
-    ]),
-    origin: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'WEBSITE',
-        'GOOGLE_HOSTED',
-        'APP',
-        'CALL_FROM_ADS',
-        'STORE',
-        'YOUTUBE_HOSTED'
-    ]),
-    primary_for_goal: z.boolean(),
-    counting_type: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'ONE_PER_CLICK',
-        'MANY_PER_CLICK'
-    ]),
-    click_through_lookback_window_days: z.number().nullable(),
-    view_through_lookback_window_days: z.number().nullable(),
-    value_settings: z.object({
-        default_value: z.number().nullable(),
-        default_currency_code: z.string().nullable(),
-        always_use_default_value: z.boolean().nullable()
-    }).nullable(),
-    tag_snippets: z.array(z.object({
-        type: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'WEBPAGE',
-            'WEBPAGE_ONCLICK',
-            'CLICK_TO_CALL',
-            'WEBSITE_CALL'
-        ]),
-        page_format: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'HTML',
-            'AMP'
-        ]),
-        global_site_tag: z.string().nullable(),
-        event_snippet: z.string().nullable()
-    }))
-});
-
-export const zGoogleUpdateConversionActionBody = z.object({
-    name: z.string().min(1).max(255).optional(),
-    category: z.enum([
-        'DEFAULT',
-        'PAGE_VIEW',
-        'PURCHASE',
-        'SIGNUP',
-        'DOWNLOAD',
-        'ADD_TO_CART',
-        'BEGIN_CHECKOUT',
-        'SUBSCRIBE_PAID',
-        'PHONE_CALL_LEAD',
-        'IMPORTED_LEAD',
-        'SUBMIT_LEAD_FORM',
-        'BOOK_APPOINTMENT',
-        'REQUEST_QUOTE',
-        'GET_DIRECTIONS',
-        'OUTBOUND_CLICK',
-        'CONTACT',
-        'ENGAGEMENT',
-        'STORE_VISIT',
-        'STORE_SALE',
-        'QUALIFIED_LEAD',
-        'CONVERTED_LEAD',
-        'YOUTUBE_FOLLOW_ON_VIEWS'
-    ]).optional(),
-    status: z.enum(['ENABLED']).optional(),
-    value_settings: z.object({
-        default_value: z.number().gte(0).optional(),
-        default_currency_code: z.string().length(3).optional(),
-        always_use_default_value: z.boolean().optional()
-    }).optional(),
-    counting_type: z.enum(['ONE_PER_CLICK', 'MANY_PER_CLICK']).optional(),
-    click_through_lookback_window_days: z.int().gt(0).lte(9007199254740991).optional(),
-    view_through_lookback_window_days: z.int().gt(0).lte(9007199254740991).optional(),
-    primary_for_goal: z.boolean().optional(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleUpdateConversionActionHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleUpdateConversionActionPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleUpdateConversionActionResponse = zGoogleAdsEditResult;
-
-export const zGoogleRemoveConversionActionBody = z.object({
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleRemoveConversionActionHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleRemoveConversionActionPath = z.object({
-    connection_id: z.string(),
-    id: z.string().regex(/^\d+$/)
-});
-
-/**
- * OK
- */
-export const zGoogleRemoveConversionActionResponse = zGoogleAdsDeleteResult;
-
-export const zGoogleSendConversionsBody = z.object({
-    conversion_action_id: z.string().regex(/^\d+$/),
-    conversions: z.array(zGoogleAdsConversionEvent).min(1).max(2000),
-    consent: zGoogleAdsConversionConsent.optional(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleSendConversionsHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleSendConversionsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleSendConversionsResponse = zGoogleAdsSendConversionsResult;
-
-export const zGoogleGetConversionStatusPath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleGetConversionStatusQuery = z.object({
-    request_id: z.string().min(1)
-});
-
-/**
- * OK
- */
-export const zGoogleGetConversionStatusResponse = zGoogleAdsConversionStatus;
-
-export const zGoogleListConversionRequestsPath = z.object({
-    connection_id: z.string()
-});
-
-export const zGoogleListConversionRequestsQuery = z.object({
-    limit: z.int().gte(1).lte(100).optional().default(20),
-    offset: z.int().gte(0).lte(9007199254740991).optional().default(0)
-});
-
-/**
- * OK
- */
-export const zGoogleListConversionRequestsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(zGoogleAdsConversionRequest),
-    total: z.int().gte(-9007199254740991).lte(9007199254740991),
-    limit: z.int().gte(-9007199254740991).lte(9007199254740991),
-    offset: z.int().gte(-9007199254740991).lte(9007199254740991),
-    has_more: z.boolean()
-});
-
-export const zGoogleListConversionGoalsPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleListConversionGoalsResponse = z.object({
-    object: z.literal('list'),
-    data: z.array(z.object({
-        category: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'DEFAULT',
-            'PAGE_VIEW',
-            'PURCHASE',
-            'SIGNUP',
-            'DOWNLOAD',
-            'ADD_TO_CART',
-            'BEGIN_CHECKOUT',
-            'SUBSCRIBE_PAID',
-            'PHONE_CALL_LEAD',
-            'IMPORTED_LEAD',
-            'SUBMIT_LEAD_FORM',
-            'BOOK_APPOINTMENT',
-            'REQUEST_QUOTE',
-            'GET_DIRECTIONS',
-            'OUTBOUND_CLICK',
-            'CONTACT',
-            'ENGAGEMENT',
-            'STORE_VISIT',
-            'STORE_SALE',
-            'QUALIFIED_LEAD',
-            'CONVERTED_LEAD',
-            'YOUTUBE_FOLLOW_ON_VIEWS'
-        ]),
-        origin: z.enum([
-            'UNSPECIFIED',
-            'UNKNOWN',
-            'WEBSITE',
-            'GOOGLE_HOSTED',
-            'APP',
-            'CALL_FROM_ADS',
-            'STORE',
-            'YOUTUBE_HOSTED'
-        ]),
-        biddable: z.boolean()
-    }))
-});
-
-export const zGoogleSetConversionGoalBody = z.object({
-    category: z.enum([
-        'DEFAULT',
-        'PAGE_VIEW',
-        'PURCHASE',
-        'SIGNUP',
-        'DOWNLOAD',
-        'ADD_TO_CART',
-        'BEGIN_CHECKOUT',
-        'SUBSCRIBE_PAID',
-        'PHONE_CALL_LEAD',
-        'IMPORTED_LEAD',
-        'SUBMIT_LEAD_FORM',
-        'BOOK_APPOINTMENT',
-        'REQUEST_QUOTE',
-        'GET_DIRECTIONS',
-        'OUTBOUND_CLICK',
-        'CONTACT',
-        'ENGAGEMENT',
-        'STORE_VISIT',
-        'STORE_SALE',
-        'QUALIFIED_LEAD',
-        'CONVERTED_LEAD',
-        'YOUTUBE_FOLLOW_ON_VIEWS'
-    ]),
-    origin: z.enum([
-        'WEBSITE',
-        'GOOGLE_HOSTED',
-        'APP',
-        'CALL_FROM_ADS',
-        'STORE',
-        'YOUTUBE_HOSTED'
-    ]),
-    biddable: z.boolean(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleSetConversionGoalHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleSetConversionGoalPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * The outcome of a conversion-goal update: the goal’s category and origin, the new biddable value, whether it was a dry run, and whether it executed.
- */
-export const zGoogleSetConversionGoalResponse = z.object({
-    category: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'DEFAULT',
-        'PAGE_VIEW',
-        'PURCHASE',
-        'SIGNUP',
-        'DOWNLOAD',
-        'ADD_TO_CART',
-        'BEGIN_CHECKOUT',
-        'SUBSCRIBE_PAID',
-        'PHONE_CALL_LEAD',
-        'IMPORTED_LEAD',
-        'SUBMIT_LEAD_FORM',
-        'BOOK_APPOINTMENT',
-        'REQUEST_QUOTE',
-        'GET_DIRECTIONS',
-        'OUTBOUND_CLICK',
-        'CONTACT',
-        'ENGAGEMENT',
-        'STORE_VISIT',
-        'STORE_SALE',
-        'QUALIFIED_LEAD',
-        'CONVERTED_LEAD',
-        'YOUTUBE_FOLLOW_ON_VIEWS'
-    ]),
-    origin: z.enum([
-        'UNSPECIFIED',
-        'UNKNOWN',
-        'WEBSITE',
-        'GOOGLE_HOSTED',
-        'APP',
-        'CALL_FROM_ADS',
-        'STORE',
-        'YOUTUBE_HOSTED'
-    ]),
-    biddable: z.boolean(),
-    dry_run: z.boolean(),
-    executed: z.boolean()
-});
-
-export const zGoogleUploadImageAssetBody = z.object({
-    media_id: z.string(),
-    dry_run: z.boolean().optional().default(false)
-});
-
-export const zGoogleUploadImageAssetHeaders = z.object({
-    'Idempotency-Key': z.string().min(1).max(255).optional()
-});
-
-export const zGoogleUploadImageAssetPath = z.object({
-    connection_id: z.string()
-});
-
-/**
- * OK
- */
-export const zGoogleUploadImageAssetResponse = zGoogleAdsCreateResult;
+export const zPostsGetAnalyticsResponse = zPostAnalytics;
 
 export const zTiktokCreatorInfoPath = z.object({
     id: z.string()
@@ -5311,12 +2521,13 @@ export const zLogsListResponse = z.object({
                 'not_implemented',
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
-                'tiktok_cannot_post_now',
+                'tiktok_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
                 'media_upload_invalid_parts',
                 'not_publishable',
+                'post_not_retryable',
                 'invalid_connection',
                 'invalid_media',
                 'profile_scope_invalid',
@@ -5367,6 +2578,7 @@ export const zLogsListResponse = z.object({
                 'x_rate_limited',
                 'x_publish_failed',
                 'x_media_upload_failed',
+                'x_thread_incomplete',
                 'linkedin_duplicate_content',
                 'linkedin_auth_expired',
                 'linkedin_permission_denied',
@@ -5384,6 +2596,7 @@ export const zLogsListResponse = z.object({
                 'instagram_media_unsupported',
                 'instagram_not_authorized',
                 'instagram_publish_failed',
+                'instagram_comment_failed',
                 'facebook_reel_processing',
                 'facebook_reel_failed',
                 'facebook_rate_limited',
@@ -5391,13 +2604,14 @@ export const zLogsListResponse = z.object({
                 'facebook_temporarily_blocked',
                 'facebook_not_authorized',
                 'facebook_publish_failed',
+                'facebook_comment_failed',
                 'tiktok_privacy_not_allowed',
+                'tiktok_interaction_not_allowed',
+                'tiktok_thumbnail_offset_invalid',
                 'tiktok_duration_exceeds_max',
                 'tiktok_media_processing',
                 'tiktok_not_authorized',
                 'tiktok_rate_limited',
-                'tiktok_url_ownership_unverified',
-                'tiktok_unaudited_private_only',
                 'tiktok_spam_risk',
                 'tiktok_file_format_invalid',
                 'tiktok_duration_invalid',
@@ -5406,21 +2620,17 @@ export const zLogsListResponse = z.object({
                 'tiktok_media_pull_failed',
                 'tiktok_server_error',
                 'tiktok_publish_failed',
-                'google_rate_limited',
-                'google_server_error',
-                'google_auth_expired',
-                'google_permission_denied',
-                'google_request_failed',
-                'google_conversion_duplicate',
-                'google_conversion_invalid_click_id',
-                'google_conversion_event_too_old',
-                'google_conversion_consent_required',
-                'google_conversion_terms_not_signed',
-                'google_conversion_rejected',
                 'post_publish_failed',
                 'post_partially_published',
                 'connection_platform_mismatch',
-                'connection_removed'
+                'connection_removed',
+                'publish_interrupted',
+                'publish_outcome_unknown',
+                'plan_limit_reached',
+                'billing_required',
+                'x_link_requires_paid_plan',
+                'analytics_not_supported',
+                'analytics_no_data'
             ]),
             message: z.string()
         }).nullable(),
@@ -5471,12 +2681,13 @@ export const zLogsListResponse = z.object({
                         'not_implemented',
                         'connection_discovery_failed',
                         'tiktok_creator_info_unavailable',
-                        'tiktok_cannot_post_now',
+                        'tiktok_analytics_unavailable',
                         'media_processing',
                         'media_upload_init_failed',
                         'media_upload_incomplete',
                         'media_upload_invalid_parts',
                         'not_publishable',
+                        'post_not_retryable',
                         'invalid_connection',
                         'invalid_media',
                         'profile_scope_invalid',
@@ -5527,6 +2738,7 @@ export const zLogsListResponse = z.object({
                         'x_rate_limited',
                         'x_publish_failed',
                         'x_media_upload_failed',
+                        'x_thread_incomplete',
                         'linkedin_duplicate_content',
                         'linkedin_auth_expired',
                         'linkedin_permission_denied',
@@ -5544,6 +2756,7 @@ export const zLogsListResponse = z.object({
                         'instagram_media_unsupported',
                         'instagram_not_authorized',
                         'instagram_publish_failed',
+                        'instagram_comment_failed',
                         'facebook_reel_processing',
                         'facebook_reel_failed',
                         'facebook_rate_limited',
@@ -5551,13 +2764,14 @@ export const zLogsListResponse = z.object({
                         'facebook_temporarily_blocked',
                         'facebook_not_authorized',
                         'facebook_publish_failed',
+                        'facebook_comment_failed',
                         'tiktok_privacy_not_allowed',
+                        'tiktok_interaction_not_allowed',
+                        'tiktok_thumbnail_offset_invalid',
                         'tiktok_duration_exceeds_max',
                         'tiktok_media_processing',
                         'tiktok_not_authorized',
                         'tiktok_rate_limited',
-                        'tiktok_url_ownership_unverified',
-                        'tiktok_unaudited_private_only',
                         'tiktok_spam_risk',
                         'tiktok_file_format_invalid',
                         'tiktok_duration_invalid',
@@ -5566,25 +2780,155 @@ export const zLogsListResponse = z.object({
                         'tiktok_media_pull_failed',
                         'tiktok_server_error',
                         'tiktok_publish_failed',
-                        'google_rate_limited',
-                        'google_server_error',
-                        'google_auth_expired',
-                        'google_permission_denied',
-                        'google_request_failed',
-                        'google_conversion_duplicate',
-                        'google_conversion_invalid_click_id',
-                        'google_conversion_event_too_old',
-                        'google_conversion_consent_required',
-                        'google_conversion_terms_not_signed',
-                        'google_conversion_rejected',
                         'post_publish_failed',
                         'post_partially_published',
                         'connection_platform_mismatch',
-                        'connection_removed'
+                        'connection_removed',
+                        'publish_interrupted',
+                        'publish_outcome_unknown',
+                        'plan_limit_reached',
+                        'billing_required',
+                        'x_link_requires_paid_plan',
+                        'analytics_not_supported',
+                        'analytics_no_data'
                     ]),
                     message: z.string(),
+                    source: zErrorSource.optional(),
                     display_error: z.string()
-                }).nullable()
+                }).nullable(),
+                warning: z.object({
+                    code: z.enum([
+                        'unauthorized',
+                        'forbidden',
+                        'not_found',
+                        'conflict',
+                        'validation_failed',
+                        'rate_limited',
+                        'internal_error',
+                        'idempotency_key_invalid',
+                        'idempotency_key_reused',
+                        'idempotency_request_in_progress',
+                        'account_not_available',
+                        'connection_reauth_required',
+                        'connection_not_pending',
+                        'not_implemented',
+                        'connection_discovery_failed',
+                        'tiktok_creator_info_unavailable',
+                        'tiktok_analytics_unavailable',
+                        'media_processing',
+                        'media_upload_init_failed',
+                        'media_upload_incomplete',
+                        'media_upload_invalid_parts',
+                        'not_publishable',
+                        'post_not_retryable',
+                        'invalid_connection',
+                        'invalid_media',
+                        'profile_scope_invalid',
+                        'media_unprobeable',
+                        'media_too_large',
+                        'media_aspect_ratio_unsupported',
+                        'media_resolution_too_low',
+                        'media_gif_unsupported',
+                        'media_format_recompressed',
+                        'media_resolution_downscaled',
+                        'video_container_unsupported',
+                        'video_codec_unsupported',
+                        'video_audio_codec_unsupported',
+                        'video_too_large',
+                        'video_too_small',
+                        'video_dimensions_unsupported',
+                        'video_dimensions_too_large',
+                        'video_fps_unsupported',
+                        'video_fps_too_low',
+                        'video_aspect_unsupported',
+                        'video_duration_too_short',
+                        'video_duration_exceeds_max',
+                        'video_transform_failed',
+                        'media_fetch_failed',
+                        'document_format_unsupported',
+                        'document_too_large',
+                        'document_too_many_pages',
+                        'media_format_indeterminate',
+                        'media_format_unsupported',
+                        'media_count_invalid',
+                        'body_too_long',
+                        'content_missing',
+                        'content_conflict',
+                        'content_incomplete',
+                        'media_type_mismatch',
+                        'tag_limit_exceeded',
+                        'reel_field_on_non_reel',
+                        'field_placement_invalid',
+                        'media_not_ready',
+                        'media_failed',
+                        'media_unsupported',
+                        'media_kind_mismatch',
+                        'variant_unparseable',
+                        'publishing_unavailable',
+                        'x_duplicate_content',
+                        'x_not_authorized',
+                        'x_access_not_permitted',
+                        'x_rate_limited',
+                        'x_publish_failed',
+                        'x_media_upload_failed',
+                        'x_thread_incomplete',
+                        'linkedin_duplicate_content',
+                        'linkedin_auth_expired',
+                        'linkedin_permission_denied',
+                        'linkedin_rate_limited',
+                        'linkedin_media_processing',
+                        'linkedin_media_failed',
+                        'linkedin_media_upload_failed',
+                        'linkedin_publish_failed',
+                        'instagram_media_processing',
+                        'instagram_container_expired',
+                        'instagram_container_failed',
+                        'instagram_rate_limited',
+                        'instagram_daily_limit_reached',
+                        'instagram_aspect_ratio_unsupported',
+                        'instagram_media_unsupported',
+                        'instagram_not_authorized',
+                        'instagram_publish_failed',
+                        'instagram_comment_failed',
+                        'facebook_reel_processing',
+                        'facebook_reel_failed',
+                        'facebook_rate_limited',
+                        'facebook_duplicate_content',
+                        'facebook_temporarily_blocked',
+                        'facebook_not_authorized',
+                        'facebook_publish_failed',
+                        'facebook_comment_failed',
+                        'tiktok_privacy_not_allowed',
+                        'tiktok_interaction_not_allowed',
+                        'tiktok_thumbnail_offset_invalid',
+                        'tiktok_duration_exceeds_max',
+                        'tiktok_media_processing',
+                        'tiktok_not_authorized',
+                        'tiktok_rate_limited',
+                        'tiktok_spam_risk',
+                        'tiktok_file_format_invalid',
+                        'tiktok_duration_invalid',
+                        'tiktok_frame_rate_invalid',
+                        'tiktok_resolution_invalid',
+                        'tiktok_media_pull_failed',
+                        'tiktok_server_error',
+                        'tiktok_publish_failed',
+                        'post_publish_failed',
+                        'post_partially_published',
+                        'connection_platform_mismatch',
+                        'connection_removed',
+                        'publish_interrupted',
+                        'publish_outcome_unknown',
+                        'plan_limit_reached',
+                        'billing_required',
+                        'x_link_requires_paid_plan',
+                        'analytics_not_supported',
+                        'analytics_no_data'
+                    ]),
+                    message: z.string(),
+                    source: zErrorSource.optional(),
+                    display_error: z.string()
+                }).optional()
             }))
         }).nullable(),
         external_id: z.string().nullable(),
@@ -5657,12 +3001,13 @@ export const zLogsGetResponse = z.object({
             'not_implemented',
             'connection_discovery_failed',
             'tiktok_creator_info_unavailable',
-            'tiktok_cannot_post_now',
+            'tiktok_analytics_unavailable',
             'media_processing',
             'media_upload_init_failed',
             'media_upload_incomplete',
             'media_upload_invalid_parts',
             'not_publishable',
+            'post_not_retryable',
             'invalid_connection',
             'invalid_media',
             'profile_scope_invalid',
@@ -5713,6 +3058,7 @@ export const zLogsGetResponse = z.object({
             'x_rate_limited',
             'x_publish_failed',
             'x_media_upload_failed',
+            'x_thread_incomplete',
             'linkedin_duplicate_content',
             'linkedin_auth_expired',
             'linkedin_permission_denied',
@@ -5730,6 +3076,7 @@ export const zLogsGetResponse = z.object({
             'instagram_media_unsupported',
             'instagram_not_authorized',
             'instagram_publish_failed',
+            'instagram_comment_failed',
             'facebook_reel_processing',
             'facebook_reel_failed',
             'facebook_rate_limited',
@@ -5737,13 +3084,14 @@ export const zLogsGetResponse = z.object({
             'facebook_temporarily_blocked',
             'facebook_not_authorized',
             'facebook_publish_failed',
+            'facebook_comment_failed',
             'tiktok_privacy_not_allowed',
+            'tiktok_interaction_not_allowed',
+            'tiktok_thumbnail_offset_invalid',
             'tiktok_duration_exceeds_max',
             'tiktok_media_processing',
             'tiktok_not_authorized',
             'tiktok_rate_limited',
-            'tiktok_url_ownership_unverified',
-            'tiktok_unaudited_private_only',
             'tiktok_spam_risk',
             'tiktok_file_format_invalid',
             'tiktok_duration_invalid',
@@ -5752,21 +3100,17 @@ export const zLogsGetResponse = z.object({
             'tiktok_media_pull_failed',
             'tiktok_server_error',
             'tiktok_publish_failed',
-            'google_rate_limited',
-            'google_server_error',
-            'google_auth_expired',
-            'google_permission_denied',
-            'google_request_failed',
-            'google_conversion_duplicate',
-            'google_conversion_invalid_click_id',
-            'google_conversion_event_too_old',
-            'google_conversion_consent_required',
-            'google_conversion_terms_not_signed',
-            'google_conversion_rejected',
             'post_publish_failed',
             'post_partially_published',
             'connection_platform_mismatch',
-            'connection_removed'
+            'connection_removed',
+            'publish_interrupted',
+            'publish_outcome_unknown',
+            'plan_limit_reached',
+            'billing_required',
+            'x_link_requires_paid_plan',
+            'analytics_not_supported',
+            'analytics_no_data'
         ]),
         message: z.string()
     }).nullable(),
@@ -5817,12 +3161,13 @@ export const zLogsGetResponse = z.object({
                     'not_implemented',
                     'connection_discovery_failed',
                     'tiktok_creator_info_unavailable',
-                    'tiktok_cannot_post_now',
+                    'tiktok_analytics_unavailable',
                     'media_processing',
                     'media_upload_init_failed',
                     'media_upload_incomplete',
                     'media_upload_invalid_parts',
                     'not_publishable',
+                    'post_not_retryable',
                     'invalid_connection',
                     'invalid_media',
                     'profile_scope_invalid',
@@ -5873,6 +3218,7 @@ export const zLogsGetResponse = z.object({
                     'x_rate_limited',
                     'x_publish_failed',
                     'x_media_upload_failed',
+                    'x_thread_incomplete',
                     'linkedin_duplicate_content',
                     'linkedin_auth_expired',
                     'linkedin_permission_denied',
@@ -5890,6 +3236,7 @@ export const zLogsGetResponse = z.object({
                     'instagram_media_unsupported',
                     'instagram_not_authorized',
                     'instagram_publish_failed',
+                    'instagram_comment_failed',
                     'facebook_reel_processing',
                     'facebook_reel_failed',
                     'facebook_rate_limited',
@@ -5897,13 +3244,14 @@ export const zLogsGetResponse = z.object({
                     'facebook_temporarily_blocked',
                     'facebook_not_authorized',
                     'facebook_publish_failed',
+                    'facebook_comment_failed',
                     'tiktok_privacy_not_allowed',
+                    'tiktok_interaction_not_allowed',
+                    'tiktok_thumbnail_offset_invalid',
                     'tiktok_duration_exceeds_max',
                     'tiktok_media_processing',
                     'tiktok_not_authorized',
                     'tiktok_rate_limited',
-                    'tiktok_url_ownership_unverified',
-                    'tiktok_unaudited_private_only',
                     'tiktok_spam_risk',
                     'tiktok_file_format_invalid',
                     'tiktok_duration_invalid',
@@ -5912,25 +3260,155 @@ export const zLogsGetResponse = z.object({
                     'tiktok_media_pull_failed',
                     'tiktok_server_error',
                     'tiktok_publish_failed',
-                    'google_rate_limited',
-                    'google_server_error',
-                    'google_auth_expired',
-                    'google_permission_denied',
-                    'google_request_failed',
-                    'google_conversion_duplicate',
-                    'google_conversion_invalid_click_id',
-                    'google_conversion_event_too_old',
-                    'google_conversion_consent_required',
-                    'google_conversion_terms_not_signed',
-                    'google_conversion_rejected',
                     'post_publish_failed',
                     'post_partially_published',
                     'connection_platform_mismatch',
-                    'connection_removed'
+                    'connection_removed',
+                    'publish_interrupted',
+                    'publish_outcome_unknown',
+                    'plan_limit_reached',
+                    'billing_required',
+                    'x_link_requires_paid_plan',
+                    'analytics_not_supported',
+                    'analytics_no_data'
                 ]),
                 message: z.string(),
+                source: zErrorSource.optional(),
                 display_error: z.string()
-            }).nullable()
+            }).nullable(),
+            warning: z.object({
+                code: z.enum([
+                    'unauthorized',
+                    'forbidden',
+                    'not_found',
+                    'conflict',
+                    'validation_failed',
+                    'rate_limited',
+                    'internal_error',
+                    'idempotency_key_invalid',
+                    'idempotency_key_reused',
+                    'idempotency_request_in_progress',
+                    'account_not_available',
+                    'connection_reauth_required',
+                    'connection_not_pending',
+                    'not_implemented',
+                    'connection_discovery_failed',
+                    'tiktok_creator_info_unavailable',
+                    'tiktok_analytics_unavailable',
+                    'media_processing',
+                    'media_upload_init_failed',
+                    'media_upload_incomplete',
+                    'media_upload_invalid_parts',
+                    'not_publishable',
+                    'post_not_retryable',
+                    'invalid_connection',
+                    'invalid_media',
+                    'profile_scope_invalid',
+                    'media_unprobeable',
+                    'media_too_large',
+                    'media_aspect_ratio_unsupported',
+                    'media_resolution_too_low',
+                    'media_gif_unsupported',
+                    'media_format_recompressed',
+                    'media_resolution_downscaled',
+                    'video_container_unsupported',
+                    'video_codec_unsupported',
+                    'video_audio_codec_unsupported',
+                    'video_too_large',
+                    'video_too_small',
+                    'video_dimensions_unsupported',
+                    'video_dimensions_too_large',
+                    'video_fps_unsupported',
+                    'video_fps_too_low',
+                    'video_aspect_unsupported',
+                    'video_duration_too_short',
+                    'video_duration_exceeds_max',
+                    'video_transform_failed',
+                    'media_fetch_failed',
+                    'document_format_unsupported',
+                    'document_too_large',
+                    'document_too_many_pages',
+                    'media_format_indeterminate',
+                    'media_format_unsupported',
+                    'media_count_invalid',
+                    'body_too_long',
+                    'content_missing',
+                    'content_conflict',
+                    'content_incomplete',
+                    'media_type_mismatch',
+                    'tag_limit_exceeded',
+                    'reel_field_on_non_reel',
+                    'field_placement_invalid',
+                    'media_not_ready',
+                    'media_failed',
+                    'media_unsupported',
+                    'media_kind_mismatch',
+                    'variant_unparseable',
+                    'publishing_unavailable',
+                    'x_duplicate_content',
+                    'x_not_authorized',
+                    'x_access_not_permitted',
+                    'x_rate_limited',
+                    'x_publish_failed',
+                    'x_media_upload_failed',
+                    'x_thread_incomplete',
+                    'linkedin_duplicate_content',
+                    'linkedin_auth_expired',
+                    'linkedin_permission_denied',
+                    'linkedin_rate_limited',
+                    'linkedin_media_processing',
+                    'linkedin_media_failed',
+                    'linkedin_media_upload_failed',
+                    'linkedin_publish_failed',
+                    'instagram_media_processing',
+                    'instagram_container_expired',
+                    'instagram_container_failed',
+                    'instagram_rate_limited',
+                    'instagram_daily_limit_reached',
+                    'instagram_aspect_ratio_unsupported',
+                    'instagram_media_unsupported',
+                    'instagram_not_authorized',
+                    'instagram_publish_failed',
+                    'instagram_comment_failed',
+                    'facebook_reel_processing',
+                    'facebook_reel_failed',
+                    'facebook_rate_limited',
+                    'facebook_duplicate_content',
+                    'facebook_temporarily_blocked',
+                    'facebook_not_authorized',
+                    'facebook_publish_failed',
+                    'facebook_comment_failed',
+                    'tiktok_privacy_not_allowed',
+                    'tiktok_interaction_not_allowed',
+                    'tiktok_thumbnail_offset_invalid',
+                    'tiktok_duration_exceeds_max',
+                    'tiktok_media_processing',
+                    'tiktok_not_authorized',
+                    'tiktok_rate_limited',
+                    'tiktok_spam_risk',
+                    'tiktok_file_format_invalid',
+                    'tiktok_duration_invalid',
+                    'tiktok_frame_rate_invalid',
+                    'tiktok_resolution_invalid',
+                    'tiktok_media_pull_failed',
+                    'tiktok_server_error',
+                    'tiktok_publish_failed',
+                    'post_publish_failed',
+                    'post_partially_published',
+                    'connection_platform_mismatch',
+                    'connection_removed',
+                    'publish_interrupted',
+                    'publish_outcome_unknown',
+                    'plan_limit_reached',
+                    'billing_required',
+                    'x_link_requires_paid_plan',
+                    'analytics_not_supported',
+                    'analytics_no_data'
+                ]),
+                message: z.string(),
+                source: zErrorSource.optional(),
+                display_error: z.string()
+            }).optional()
         }))
     }).nullable(),
     external_id: z.string().nullable(),
@@ -5976,7 +3454,9 @@ export const zWebhooksCreateEndpointBody = z.object({
         'webhook.ping',
         'post.published',
         'post.failed',
-        'post.completed'
+        'post.completed',
+        'connection.needs_reauth',
+        'connection.restored'
     ]))
 });
 
@@ -6035,7 +3515,9 @@ export const zWebhooksUpdateEndpointBody = z.object({
         'webhook.ping',
         'post.published',
         'post.failed',
-        'post.completed'
+        'post.completed',
+        'connection.needs_reauth',
+        'connection.restored'
     ])).optional()
 });
 
@@ -6103,14 +3585,16 @@ export const zTokensMintBody = z.object({
     scopes: z.array(z.enum([
         'profiles:read',
         'profiles:write',
+        'profiles:delete',
         'connections:read',
         'connections:write',
-        'ads:read',
-        'ads:write',
+        'connections:delete',
         'posts:read',
         'posts:write',
+        'posts:delete',
         'media:read',
-        'media:write'
+        'media:write',
+        'media:delete'
     ])).min(1),
     ttl_seconds: z.int().gte(60).lte(1800).optional().default(900)
 });

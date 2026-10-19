@@ -44,11 +44,10 @@ export const videoVariant: TikTokPostVariant = {
   body: 'Behind the scenes of our spring shoot 🌸 #bts #studio @acmestudio',
   media: [{ media_id: 'med_video' }],
   settings: {
-    privacy_level: 'PUBLIC_TO_EVERYONE',
     disable_comment: false,
     disable_duet: false,
     disable_stitch: true,
-    is_aigc: false,
+    is_ai_generated: false,
   },
 };
 

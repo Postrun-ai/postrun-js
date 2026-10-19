@@ -6,8 +6,8 @@ import { interactionRows, interactionValueKey, toggleInteraction } from '@postru
 import { Row, SectionLabel, Switch } from './ui';
 
 /**
- * The interaction toggles — MUST #6. Video shows Comment / Duet / Stitch; a photo
- * post shows only Comment (TikTok mandate). None default on; an interaction the
+ * The interaction toggles. Video shows Comment / Duet / Stitch; a photo post
+ * shows only Comment (duet/stitch are video-only). None default on; an interaction the
  * creator forbids renders disabled and forced off. The rows + the forbidden flags
  * come from `interactionRows` (the single source).
  */

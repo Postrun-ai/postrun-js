@@ -9,9 +9,8 @@ import type { CSSProperties, ReactNode } from 'react';
 import { TOKENS } from './ui';
 
 /**
- * The consent declaration — MUST #8. Rendered DIRECTLY above the Post button. The
- * wording switches on whether the post is disclosed as branded content (verbatim
- * TikTok copy):
+ * The consent declaration, rendered DIRECTLY above the Post button. The wording
+ * switches on whether the post is disclosed as branded content (TikTok's own copy):
  *   default → "By posting, you agree to TikTok's Music Usage Confirmation"
  *   branded → "By posting, you agree to TikTok's Branded Content Policy and
  *              Music Usage Confirmation."

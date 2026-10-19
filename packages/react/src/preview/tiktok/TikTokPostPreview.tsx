@@ -37,10 +37,10 @@ const DASH = '‑‑‑';
 function commercialLabel(
   settings: TikTokPostPreviewProps['variant']['settings'],
 ): string | null {
-  if (settings?.brand_content_toggle) {
+  if (settings?.is_branded_content) {
     return 'Paid partnership';
   }
-  if (settings?.brand_organic_toggle) {
+  if (settings?.is_brand_organic) {
     return 'Promotional content';
   }
   return null;
@@ -62,7 +62,7 @@ function TikTokPostPreviewImpl({
   const { creator } = creatorInfo;
   const handle = creator.username || creator.nickname;
   const label = commercialLabel(variant.settings);
-  const isAigc = Boolean(variant.settings?.is_aigc);
+  const isAigc = Boolean(variant.settings?.is_ai_generated);
   // Media referenced but not yet resolved to pixels → still processing.
   const pending = resolved.length > 0 && readyMedia.length === 0;
 

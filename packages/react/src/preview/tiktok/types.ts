@@ -17,7 +17,7 @@ export interface TikTokPostPreviewProps {
    * variant (both carry the typed settings/body the card renders). */
   variant: TikTokPreviewVariant;
   /** Live creator info (nickname/avatar, audience options, interaction flags) —
-   * TikTok's Required-UX makes this the authoritative creator identity. */
+   * The authoritative creator identity shown on the card. */
   creatorInfo: TikTokCreatorInfo;
   /** Uploaded assets to resolve a compose variant's media ids against (e.g.
    * `useMediaUpload().ready`); a read variant carries its own inline. */

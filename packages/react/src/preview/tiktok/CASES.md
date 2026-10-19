@@ -19,12 +19,12 @@
 | `settings.disable_comment` | `boolean?` | `true` = disabled (we invert allow→disable) |
 | `settings.disable_duet` | `boolean?` | **video-only** |
 | `settings.disable_stitch` | `boolean?` | **video-only** |
-| `settings.video_cover_timestamp_ms` | `number?` | video-only |
+| `settings.thumbnail_offset` | `number?` | video-only |
 | `settings.photo_cover_index` | `number?` | photo-only |
 | `settings.auto_add_music` | `boolean?` | photo-only |
-| `settings.brand_content_toggle` | `boolean?` | paid partnership; **incompatible w/ SELF_ONLY** |
-| `settings.brand_organic_toggle` | `boolean?` | own-brand promotion |
-| `settings.is_aigc` | `boolean?` | **video-only** AIGC disclosure |
+| `settings.is_branded_content` | `boolean?` | paid partnership; **incompatible w/ SELF_ONLY** |
+| `settings.is_brand_organic` | `boolean?` | own-brand promotion |
+| `settings.is_ai_generated` | `boolean?` | **video-only** AIGC disclosure |
 
 **Creator info** — `TikTokCreatorInfo` (from `useTikTokCreatorInfo(connId)`):
 `creator{nickname, username, avatar_url|null}` · `privacy_options[]` (typed subset) ·
@@ -112,7 +112,7 @@ returns `ResolvedMedia` with an honest `state: 'ready' | 'processing'`.
 
 ## J. AIGC — SHOULD
 
-40. Video + `is_aigc` → show AIGC label in the preview.
+40. Video + `is_ai_generated` → show AIGC label in the preview.
 41. Photo → AIGC hidden (video-only field).
 
 ## K. Presentation / cross-cutting

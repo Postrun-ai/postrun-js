@@ -15,16 +15,16 @@ import { usePostrun } from './context';
 /**
  * The paved FE path over the generated TanStack Query options. Pass a factory
  * that receives the configured client and returns one of the generated `*Options`
- * (e.g. `googleListCampaignsOptions`); the provider's client (Bearer via
+ * (e.g. `postsGetAnalyticsOptions`); the provider's client (Bearer via
  * `getToken`) and its isolated `QueryClient` are injected, so auth + caching just
  * work — no global client, no `<QueryClientProvider>` from the host app.
  *
  *   const q = usePostrunQuery((client) =>
- *     googleListCampaignsOptions({ client, path: { connection_id }, query }),
+ *     postsGetAnalyticsOptions({ client, path: { id: postId } }),
  *   );
  *
  * Equivalent to the raw two-liner — `const { client, queryClient } = usePostrun();
- * useQuery(googleListCampaignsOptions({ client, ... }), queryClient)` — which a
+ * useQuery(postsGetAnalyticsOptions({ client, ... }), queryClient)` — which a
  * customer can always write themselves; this is just sugar.
  */
 export function usePostrunQuery<
@@ -44,11 +44,11 @@ export function usePostrunQuery<
 
 /**
  * The mutation counterpart — pass a factory returning a generated `*Mutation`
- * (e.g. `googlePauseCampaignMutation`); the configured client + `QueryClient` are
+ * (e.g. `postsDeleteMutation`); the configured client + `QueryClient` are
  * injected the same way.
  *
- *   const m = usePostrunMutation((client) => googlePauseCampaignMutation({ client }));
- *   m.mutate({ path: { connection_id, id } });
+ *   const m = usePostrunMutation((client) => postsDeleteMutation({ client }));
+ *   m.mutate({ path: { id: postId } });
  */
 export function usePostrunMutation<TData, TError, TVariables, TContext>(
   optionsFactory: (
@@ -59,8 +59,3 @@ export function usePostrunMutation<TData, TError, TVariables, TContext>(
 
   return useMutation(optionsFactory(client), queryClient);
 }
-
-// The generated query/mutation options + query keys for every operation
-// (`googleListCampaignsOptions`, `postsCreateMutation`, …). Re-exported so a
-// customer imports both the option factories and the hooks from `@postrun/react`.
-export * from '@postrun/js/query';

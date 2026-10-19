@@ -1,5 +1,16 @@
 # @postrun/react
 
+## 4.0.0
+
+### Major Changes
+
+- TikTok moves to the TikTok Accounts API (see `@postrun/js@4.0.0`).
+  - `TikTokPublishPanel` renders the audience select for photo posts only; a video is ready to post without one.
+  - `TikTokPostPreview` reads `is_branded_content` / `is_brand_organic` / `is_ai_generated` (renamed from `brand_content_toggle` / `brand_organic_toggle` / `is_aigc`).
+  - **Breaking:** `TikTokOptionsValue.aigc` is now `ai_generated`.
+  - Copy no longer claims the Content Posting "Required UX" mandates.
+  - **Breaking:** removed `useAdTree` and its `UseAdTreeParams` / `UseAdTreeResult` types — the API no longer serves ads (removed 2026-10-09).
+
 ## 3.2.0
 
 ### Patch Changes

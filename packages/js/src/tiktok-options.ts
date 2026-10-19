@@ -1,4 +1,6 @@
 import type {
+  MediaResource,
+  Post,
   PostType,
   SettingsFor,
   TikTokCreatorInfo,
@@ -7,11 +9,12 @@ import { type TikTokPrivacyLevel } from './resources';
 import { tiktokPrivacyLabel } from './tiktok';
 
 /**
- * TikTok's mandatory publish-options model — the framework-agnostic glue between
- * the live `creator-info` payload and a TikTok post's settings. This is the
- * SINGLE source for the no-default / creator-gated / commercial-disclosure rules
- * TikTok's Required UX mandates; the React panel and the dashboard composer both
- * consume it (never re-implement it).
+ * The TikTok composer's publish-options model — the framework-agnostic glue
+ * between the live `creator-info` payload and a TikTok post's settings. This is
+ * the SINGLE source for the audience / creator-gated interaction / commercial
+ * disclosure rules; the React panel and the dashboard composer both consume it
+ * (never re-implement it). The no-default audience and explicit-consent flow are
+ * Postrun's own UX choices, not API requirements.
  *
  * The creator-info shape, the privacy union, and the privacy label come from the
  * contract (`./resources`, `./tiktok`) — never re-declared. This module owns the
@@ -34,9 +37,9 @@ export function captionMaxFor(postType: PostType): number {
     : TIKTOK_CAPTION_MAX.photo;
 }
 
-/** The creator-gated interactions TikTok requires us to surface — DERIVED from
- * the creator-info contract (`interaction` keys), never hand-listed, so it can
- * never drift from the API shape. */
+/** The creator-gated interactions we surface — DERIVED from the creator-info
+ * contract (`interaction` keys), never hand-listed, so it can never drift from
+ * the API shape. */
 export type TikTokInteractionKey = keyof TikTokCreatorInfo['interaction'];
 
 /** Which commercial-disclosure brand option a control maps to. */
@@ -44,10 +47,10 @@ export type TikTokBrandKind = 'your_brand' | 'branded_content';
 
 /**
  * The controlled value a TikTok composer/preview owns. `privacy_level` is
- * optional because TikTok requires the user to pick — there is NO default (an
- * absent value is the "must choose" state the publish gate keys off). Interaction
- * flags are POSITIVE ("allow"); `tiktokSettings` inverts them to the API's
- * `disable_*` shape.
+ * PHOTO-ONLY (TikTok publishes every video publicly) and optional because we
+ * make the user pick — there is NO default (an absent value is the "must choose"
+ * state the photo publish gate keys off). Interaction flags are POSITIVE
+ * ("allow"); `tiktokSettings` inverts them to the API's `disable_*` shape.
  */
 export interface TikTokOptionsValue {
   privacy_level?: TikTokPrivacyLevel;
@@ -59,14 +62,17 @@ export interface TikTokOptionsValue {
   commercial_disclosure: boolean;
   your_brand: boolean;
   branded_content: boolean;
-  /** AI-generated content disclosure → the API's `is_aigc`. Video-only, off by
-   * default. */
-  aigc: boolean;
+  /** AI-generated content disclosure → the API's `is_ai_generated`. Video-only,
+   * off by default. */
+  ai_generated: boolean;
 }
 
-export interface TikTokPrivacyChoice {
+export interface AudiencePrivacyChoice {
   level: TikTokPrivacyLevel;
   label: string;
+  disabled: boolean;
+  /** Why the option is disabled; present only when disabled. */
+  disabledReason?: string;
 }
 
 export interface TikTokInteractionRow {
@@ -90,21 +96,24 @@ export const TIKTOK_BRANDED_CONTENT_POLICY_URL =
 export const TIKTOK_DISCLOSURE_REQUIRED_HINT =
   'You need to indicate if your content promotes yourself, a third party, or both.';
 
-/** TikTok's required prompt when no audience has been picked yet. */
+/** Shown when a photo post has no audience picked yet. */
 export const TIKTOK_AUDIENCE_REQUIRED_HINT =
-  'Choose who can view this video before publishing.';
+  'Choose who can view this post before publishing.';
 
-/** TikTok Required UX: clients must notify users a published post may take a few
- * minutes to process. No exact string is mandated; this conveys it. */
+/** Why branded content can't be combined with a private audience. */
+export const TIKTOK_BRANDED_CONTENT_PRIVATE_DISABLED_REASON =
+  'Branded content visibility cannot be set to private.';
+
+/** A published post may take a few minutes to process; tells the user so. */
 export const TIKTOK_PROCESSING_NOTICE =
   'After you publish, it may take a few minutes for your post to process and appear on your TikTok profile.';
 
 /* ------------------------------ defaults ------------------------------ */
 
 /**
- * The initial value for a TikTok post: nothing pre-selected. TikTok's Required UX
- * mandates the user actively choose — no default privacy, every interaction OFF,
- * no disclosure. The panel still greys the interactions the creator forbids.
+ * The initial value for a TikTok post: nothing pre-selected. We make the user
+ * actively choose — no default audience, every interaction OFF, no disclosure.
+ * The panel still greys the interactions the creator forbids.
  */
 export function defaultTikTokOptions(): TikTokOptionsValue {
   return {
@@ -115,18 +124,11 @@ export function defaultTikTokOptions(): TikTokOptionsValue {
     commercial_disclosure: false,
     your_brand: false,
     branded_content: false,
-    aigc: false,
+    ai_generated: false,
   };
 }
 
 /* ------------------------------ audience ------------------------------ */
-
-/** The audience choices for the dropdown — one per level the creator allows. */
-export function privacyChoices(
-  options: readonly TikTokPrivacyLevel[],
-): TikTokPrivacyChoice[] {
-  return options.map((level) => ({ level, label: tiktokPrivacyLabel(level) }));
-}
 
 /** Narrow a raw dropdown value to a `TikTokPrivacyLevel` against the creator's
  * allowed options — returns `undefined` for anything not offered (no cast). */
@@ -143,23 +145,38 @@ function discloses(value: TikTokOptionsValue, kind: TikTokBrandKind): boolean {
 }
 
 /**
- * The audience levels to offer. Branded content can ONLY be public/friends —
- * TikTok forbids posting it SELF_ONLY (private) — so that option is dropped when
- * branded content is disclosed. Otherwise every creator-allowed level is offered.
+ * The audience choices for a PHOTO post — one per creator-allowed level. While
+ * branded content is disclosed, `SELF_ONLY` stays visible but disabled with the
+ * reason (branded content can't be private); it is never silently removed or
+ * swapped, so the user's selection is never changed behind their back.
  */
 export function audiencePrivacyOptions(
   options: readonly TikTokPrivacyLevel[],
   value: TikTokOptionsValue,
-): TikTokPrivacyLevel[] {
-  return discloses(value, 'branded_content')
-    ? options.filter((option) => option !== 'SELF_ONLY')
-    : [...options];
+): AudiencePrivacyChoice[] {
+  const brandedContent = discloses(value, 'branded_content');
+
+  return options.map((level) => {
+    const disabled = brandedContent && level === 'SELF_ONLY';
+    return {
+      level,
+      label: tiktokPrivacyLabel(level),
+      disabled,
+      ...(disabled
+        ? { disabledReason: TIKTOK_BRANDED_CONTENT_PRIVATE_DISABLED_REASON }
+        : {}),
+    };
+  });
 }
 
-/** No audience picked yet — must BLOCK publish (TikTok mandates an explicit
- * choice with no default; the API rejects a missing `privacy_level` too). */
-export function audienceUnselected(value: TikTokOptionsValue): boolean {
-  return value.privacy_level === undefined;
+/** A photo post with no audience picked yet — must BLOCK publish (the API
+ * requires `privacy_level` on photos and we offer no default). A video never
+ * needs one: TikTok publishes every video publicly. */
+export function audienceUnselected(
+  value: TikTokOptionsValue,
+  isVideo: boolean,
+): boolean {
+  return !isVideo && value.privacy_level === undefined;
 }
 
 /* --------------------------- commercial disclosure --------------------------- */
@@ -211,26 +228,30 @@ export function setCommercialDisclosure(
       };
 }
 
-/**
- * Set one brand option. Enabling branded content while a private audience is
- * picked clears the audience (branded content can't be SELF_ONLY; no default — the
- * user re-picks from the now-narrowed options).
- */
+/** Set one brand option. Never touches the audience (see
+ * `brandedContentDisabledReason` for how a private audience locks branded content). */
 export function setBrandKind(
   value: TikTokOptionsValue,
   kind: TikTokBrandKind,
   on: boolean,
 ): TikTokOptionsValue {
-  const clearPrivacy =
-    kind === 'branded_content' && on && value.privacy_level === 'SELF_ONLY';
-  return {
-    ...value,
-    [kind]: on,
-    ...(clearPrivacy ? { privacy_level: undefined } : {}),
-  };
+  return { ...value, [kind]: on };
 }
 
 /* ------------------------------ interactions ------------------------------ */
+
+/**
+ * Why "Branded content" is locked, or undefined when it can be toggled. With a
+ * private audience already picked the option stays visible but disabled WITH the
+ * reason — an already-checked box stays untickable.
+ */
+export function brandedContentDisabledReason(
+  value: TikTokOptionsValue,
+): string | undefined {
+  return value.privacy_level === 'SELF_ONLY' && !value.branded_content
+    ? TIKTOK_BRANDED_CONTENT_PRIVATE_DISABLED_REASON
+    : undefined;
+}
 
 /** True when the creator does NOT permit this interaction (so it's locked off). */
 export function isInteractionForbidden(
@@ -246,10 +267,8 @@ const INTERACTION_LABELS: Record<TikTokInteractionKey, string> = {
   stitch: 'Stitch',
 };
 
-/** Duet & Stitch are video-remix features — TikTok states they are NOT applicable
- * to photo posts ("only 'Allow Comment' can be displayed"), and the API rejects
- * `disable_duet`/`disable_stitch` on a non-video post. So a photo post shows only
- * Comment. */
+/** Duet & Stitch are video-only — the API rejects `disable_duet` /
+ * `disable_stitch` on a photo post — so a photo post shows only Comment. */
 const VIDEO_INTERACTIONS: readonly TikTokInteractionKey[] = [
   'comment',
   'duet',
@@ -297,19 +316,19 @@ export function toggleInteraction(
 
 /**
  * Map the composer's positive value into the SDK's `tiktok` settings — INVERTING
- * `allow_*` into TikTok's `disable_*`. `disable_duet`/`disable_stitch`/`is_aigc`
- * are video-only (the API rejects them on a photo post), so a photo post sends
- * just `privacy_level` + `disable_comment` + the brand toggles.
+ * `allow_*` into TikTok's `disable_*`. The API rejects video-only fields
+ * (`disable_duet`/`disable_stitch`/`is_ai_generated`) on a photo and
+ * `privacy_level` on a video (`field_placement_invalid`), so each post kind sends
+ * only its own.
  */
 export function tiktokSettings(
   value: TikTokOptionsValue,
   isVideo: boolean,
 ): NonNullable<SettingsFor<'tiktok'>> {
   const base = {
-    privacy_level: value.privacy_level,
     disable_comment: !value.allow_comment,
-    brand_organic_toggle: discloses(value, 'your_brand'),
-    brand_content_toggle: discloses(value, 'branded_content'),
+    is_brand_organic: discloses(value, 'your_brand'),
+    is_branded_content: discloses(value, 'branded_content'),
   };
 
   return isVideo
@@ -317,26 +336,84 @@ export function tiktokSettings(
         ...base,
         disable_duet: !value.allow_duet,
         disable_stitch: !value.allow_stitch,
-        is_aigc: value.aigc,
+        is_ai_generated: value.ai_generated,
       }
-    : base;
+    : { ...base, privacy_level: value.privacy_level };
+}
+
+/** A fetched post's TikTok variant settings (the read shape) — derived from the
+ * contract, never re-declared. */
+type TikTokVariantSettings = Extract<
+  Post['variants'][number],
+  { platform: 'tiktok' }
+>['settings'];
+
+/**
+ * The inverse of {@link tiktokSettings}: rebuild the composer's controlled
+ * options from a fetched post's TikTok settings — the open-a-draft / scheduled
+ * path. `disable_*` flags invert back to positive "allow"; disclosure is on when
+ * either brand flag is.
+ */
+export function tiktokOptionsFromSettings(
+  settings: TikTokVariantSettings,
+): TikTokOptionsValue {
+  const yourBrand = settings.is_brand_organic ?? false;
+  const brandedContent = settings.is_branded_content ?? false;
+
+  return {
+    privacy_level: settings.privacy_level,
+    allow_comment: !(settings.disable_comment ?? false),
+    allow_duet: !(settings.disable_duet ?? false),
+    allow_stitch: !(settings.disable_stitch ?? false),
+    commercial_disclosure: yourBrand || brandedContent,
+    your_brand: yourBrand,
+    branded_content: brandedContent,
+    ai_generated: settings.is_ai_generated ?? false,
+  };
 }
 
 /* ------------------------------ readiness ------------------------------ */
 
 /**
+ * A render-ready block message when the selected video exceeds the creator's
+ * `max_video_duration_sec`, else `null`. Video-only. Never false-blocks: missing
+ * creator-info (still loading), no video asset, or a duration the probe hasn't
+ * reported yet (`source.duration_ms === null`) all return `null` — it only fires
+ * on a KNOWN over-limit duration.
+ */
+export function tiktokDurationError(
+  media: readonly MediaResource[],
+  info: TikTokCreatorInfo | null,
+  isVideo: boolean,
+): string | null {
+  if (!isVideo || !info) return null;
+
+  const durationMs = media.find((asset) => asset.kind === 'video')?.source
+    ?.duration_ms;
+  if (durationMs == null) return null;
+  if (durationMs / 1000 <= info.max_video_duration_sec) return null;
+
+  return `This video is longer than your TikTok account allows (max ${info.max_video_duration_sec}s).`;
+}
+
+/**
  * Is the TikTok post ready to publish (client-side gate mirroring the API)?
- * Audience must be chosen and, if disclosure is on, a brand kind must be picked.
+ * A photo needs an audience; any post with disclosure on needs a brand kind.
  * The caption-cap + media-count checks live with their own components.
  */
-export function tiktokOptionsReady(value: TikTokOptionsValue): boolean {
-  // Branded content cannot be SELF_ONLY (the API rejects it) — mirror that here so
-  // the Post button never enables on a state the wire will refuse, even if a host
-  // constructs the options object directly (bypassing setBrandKind's clearing).
+export function tiktokOptionsReady(
+  value: TikTokOptionsValue,
+  isVideo: boolean,
+): boolean {
+  // Branded content can't be private (the API rejects it) — checked here so a
+  // host that builds the options object directly (bypassing setBrandKind's
+  // clearing) still can't enable Post on a state the wire will refuse.
   const brandedPrivate =
-    discloses(value, 'branded_content') && value.privacy_level === 'SELF_ONLY';
+    !isVideo &&
+    discloses(value, 'branded_content') &&
+    value.privacy_level === 'SELF_ONLY';
   return (
-    !audienceUnselected(value) &&
+    !audienceUnselected(value, isVideo) &&
     !commercialDisclosureIncomplete(value) &&
     !brandedPrivate
   );

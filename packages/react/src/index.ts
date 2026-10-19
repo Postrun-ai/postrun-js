@@ -75,8 +75,6 @@ export {
 export type { CalendarFilters, LiveOptions } from './posts';
 export { useTikTokCreatorInfo } from './tiktok';
 export type { TikTokCreatorInfo } from './tiktok';
-export { useAdTree } from './ads';
-export type { UseAdTreeParams, UseAdTreeResult } from './ads';
 export type {
   PostValidation,
   ValidationIssue,
@@ -87,9 +85,14 @@ export { useInfiniteList } from './infinite-list';
 export type { InfiniteList } from './infinite-list';
 
 // The generated TanStack Query layer (`*Options`/`*Mutation`/`*QueryKey` for every
-// operation — Google Ads included) + the `usePostrunQuery`/`usePostrunMutation`
+// operation) + the `usePostrunQuery`/`usePostrunMutation`
 // sugar that injects the provider's client (Bearer via getToken) + QueryClient.
 export * from './query';
+// The generated options + query keys, re-exported so a customer imports them and
+// the hooks from one place. It must stay in this entry file: esbuild keeps an
+// entry's `export * from '<external>'` as real ESM, but turns one inside a bundled
+// module into a runtime copy that Turbopack/webpack can't see ("export doesn't exist").
+export * from '@postrun/js/query';
 export {
   profileKeys,
   connectionKeys,

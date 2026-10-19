@@ -8,7 +8,7 @@ import type { CSSProperties } from 'react';
 import { TT_VAR, varRef } from './theme';
 
 /**
- * The editable TikTok caption — MUST #2: the caption stays editable up to the
+ * The editable TikTok caption: it stays editable up to the
  * moment of posting, and it two-way binds to the live preview (type → the card
  * overlay updates). Controlled: the host owns the value and passes the
  * `post_type` so the cap is correct (video title ≤ 2200, photo description ≤

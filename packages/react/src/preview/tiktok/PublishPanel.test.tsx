@@ -47,11 +47,19 @@ const ready: TikTokOptionsValue = {
 };
 
 describe('<TikTokPublishPanel> — consent gate (#9) + readiness', () => {
-  it('disables Post until the post is valid (audience unselected)', () => {
-    renderPanel(defaultTikTokOptions());
+  it('disables a photo Post until an audience is chosen', () => {
+    renderPanel(defaultTikTokOptions(), vi.fn(), { postType: 'single_image' });
     const post = screen.getByRole('button', { name: 'Post' });
     expect(post.hasAttribute('disabled')).toBe(true);
     expect(screen.getByText(/Choose who can view/)).toBeDefined();
+  });
+
+  it('a video has no audience control and is ready without one', () => {
+    renderPanel(defaultTikTokOptions());
+    expect(screen.queryByLabelText('Who can view this post')).toBeNull();
+    expect(
+      screen.getByRole('button', { name: 'Post' }).hasAttribute('disabled'),
+    ).toBe(false);
   });
 
   it('does NOT auto-post and only fires onPost on an explicit click', () => {
@@ -73,13 +81,17 @@ describe('<TikTokPublishPanel> — consent gate (#9) + readiness', () => {
     ).toBe(true);
   });
 
-  it('disables Post for branded content on a private (SELF_ONLY) post', () => {
-    renderPanel({
-      ...ready,
-      privacy_level: 'SELF_ONLY',
-      commercial_disclosure: true,
-      branded_content: true,
-    });
+  it('disables Post for branded content on a private (SELF_ONLY) photo', () => {
+    renderPanel(
+      {
+        ...ready,
+        privacy_level: 'SELF_ONLY',
+        commercial_disclosure: true,
+        branded_content: true,
+      },
+      vi.fn(),
+      { postType: 'single_image' },
+    );
     expect(
       screen.getByRole('button', { name: 'Post' }).hasAttribute('disabled'),
     ).toBe(true);
@@ -113,6 +125,38 @@ describe('<TikTokPublishPanel> — declaration (#8) switches with branded conten
     });
     expect(screen.getByText('Branded Content Policy')).toBeDefined();
     expect(screen.getByText('Music Usage Confirmation')).toBeDefined();
+  });
+});
+
+describe('<TikTokPublishPanel> — audience vs branded content', () => {
+  it('locks Branded content (with the reason) while Only you is picked on a photo', () => {
+    renderPanel(
+      { ...defaultTikTokOptions(), privacy_level: 'SELF_ONLY', commercial_disclosure: true },
+      vi.fn(),
+      { postType: 'single_image' },
+    );
+    expect(
+      screen.getByRole('checkbox', { name: /Branded content/ }).hasAttribute('disabled'),
+    ).toBe(true);
+    expect(
+      screen.getAllByText('Branded content visibility cannot be set to private.')
+        .length,
+    ).toBeGreaterThan(0);
+  });
+
+  it('keeps Only you visible but disabled once branded content is chosen', () => {
+    renderPanel(
+      {
+        ...defaultTikTokOptions(),
+        privacy_level: 'PUBLIC_TO_EVERYONE',
+        commercial_disclosure: true,
+        branded_content: true,
+      },
+      vi.fn(),
+      { postType: 'single_image' },
+    );
+    const option = screen.getByRole('option', { name: 'Only you' });
+    expect(option.hasAttribute('disabled')).toBe(true);
   });
 });
 

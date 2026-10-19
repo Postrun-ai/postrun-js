@@ -81,7 +81,7 @@ test('scopes are typed to the closed union (compile-time)', async () => {
   recordFetch();
   await server().tokens.mint({
     profile_scope: { type: 'all' },
-    // @ts-expect-error — 'ads:delete' is not a real scope
-    scopes: ['ads:delete'],
+    // @ts-expect-error — 'posts:destroy' is not a real scope
+    scopes: ['posts:destroy'],
   });
 });

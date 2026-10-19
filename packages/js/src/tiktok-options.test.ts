@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import type { TikTokCreatorInfo } from './resources';
+import type { MediaResource, TikTokCreatorInfo } from './resources';
 import {
+  TIKTOK_BRANDED_CONTENT_PRIVATE_DISABLED_REASON,
   audiencePrivacyOptions,
   audienceUnselected,
   brandedContentDeclared,
+  brandedContentDisabledReason,
   commercialDisclosureIncomplete,
   commercialLabelNotice,
   defaultTikTokOptions,
@@ -12,18 +14,19 @@ import {
   interactionValueKey,
   isInteractionForbidden,
   parsePrivacyLevel,
-  privacyChoices,
   setBrandKind,
   setCommercialDisclosure,
+  tiktokDurationError,
+  tiktokOptionsFromSettings,
   tiktokOptionsReady,
   tiktokSettings,
   toggleInteraction,
 } from './tiktok-options';
 
 /**
- * The TikTok-options logic is the SINGLE source for TikTok's Required-UX rules
- * (no-default audience, creator-gated interactions, commercial disclosure,
- * allow→disable mapping). These tests pin the compliance-critical behaviours.
+ * The TikTok-options logic is the SINGLE source for the composer's TikTok rules
+ * (photo-only audience with no default, creator-gated interactions, commercial
+ * disclosure, allow→disable mapping). These tests pin those behaviours.
  */
 
 const creatorInfo: TikTokCreatorInfo = {
@@ -41,7 +44,7 @@ describe('defaultTikTokOptions', () => {
     expect(v.allow_duet).toBe(false);
     expect(v.allow_stitch).toBe(false);
     expect(v.commercial_disclosure).toBe(false);
-    expect(v.aigc).toBe(false);
+    expect(v.ai_generated).toBe(false);
   });
 });
 
@@ -49,22 +52,43 @@ describe('audience', () => {
   it('offers every creator-allowed level by default', () => {
     expect(
       audiencePrivacyOptions(creatorInfo.privacy_options, defaultTikTokOptions()),
-    ).toEqual(['PUBLIC_TO_EVERYONE', 'MUTUAL_FOLLOW_FRIENDS', 'SELF_ONLY']);
-  });
-
-  it('drops SELF_ONLY when branded content is disclosed (cannot be private)', () => {
-    const v = { ...defaultTikTokOptions(), commercial_disclosure: true, branded_content: true };
-    expect(audiencePrivacyOptions(creatorInfo.privacy_options, v)).toEqual([
-      'PUBLIC_TO_EVERYONE',
-      'MUTUAL_FOLLOW_FRIENDS',
+    ).toEqual([
+      { level: 'PUBLIC_TO_EVERYONE', label: 'Everyone', disabled: false },
+      { level: 'MUTUAL_FOLLOW_FRIENDS', label: 'Friends', disabled: false },
+      { level: 'SELF_ONLY', label: 'Only you', disabled: false },
     ]);
   });
 
-  it('audienceUnselected is true until a level is chosen (no default)', () => {
-    expect(audienceUnselected(defaultTikTokOptions())).toBe(true);
+  it('keeps SELF_ONLY visible but disabled, with the reason, for branded content', () => {
+    const v = { ...defaultTikTokOptions(), commercial_disclosure: true, branded_content: true };
+    const choices = audiencePrivacyOptions(creatorInfo.privacy_options, v);
+    expect(choices.map((c) => c.level)).toEqual([
+      'PUBLIC_TO_EVERYONE',
+      'MUTUAL_FOLLOW_FRIENDS',
+      'SELF_ONLY',
+    ]);
+    expect(choices.filter((c) => c.disabled)).toEqual([
+      {
+        level: 'SELF_ONLY',
+        label: 'Only you',
+        disabled: true,
+        disabledReason: TIKTOK_BRANDED_CONTENT_PRIVATE_DISABLED_REASON,
+      },
+    ]);
+  });
+
+  it('audienceUnselected is true for a photo until a level is chosen (no default)', () => {
+    expect(audienceUnselected(defaultTikTokOptions(), false)).toBe(true);
     expect(
-      audienceUnselected({ ...defaultTikTokOptions(), privacy_level: 'SELF_ONLY' }),
+      audienceUnselected(
+        { ...defaultTikTokOptions(), privacy_level: 'SELF_ONLY' },
+        false,
+      ),
     ).toBe(false);
+  });
+
+  it('a video never needs an audience (TikTok publishes it publicly)', () => {
+    expect(audienceUnselected(defaultTikTokOptions(), true)).toBe(false);
   });
 
   it('parsePrivacyLevel narrows only to offered values', () => {
@@ -72,11 +96,6 @@ describe('audience', () => {
     expect(parsePrivacyLevel('NONSENSE', creatorInfo.privacy_options)).toBeUndefined();
   });
 
-  it('privacyChoices pairs each level with its label', () => {
-    expect(privacyChoices(['SELF_ONLY'])).toEqual([
-      { level: 'SELF_ONLY', label: 'Only you' },
-    ]);
-  });
 });
 
 describe('commercial disclosure', () => {
@@ -124,14 +143,25 @@ describe('commercial disclosure', () => {
     });
   });
 
-  it('enabling branded content clears a private audience', () => {
+  it('locks branded content while a private audience is picked', () => {
     const v = { ...defaultTikTokOptions(), privacy_level: 'SELF_ONLY' as const };
-    expect(setBrandKind(v, 'branded_content', true).privacy_level).toBeUndefined();
+    expect(brandedContentDisabledReason(v)).toBe(
+      'Branded content visibility cannot be set to private.',
+    );
+    expect(
+      brandedContentDisabledReason({ ...v, privacy_level: 'PUBLIC_TO_EVERYONE' }),
+    ).toBeUndefined();
+    expect(
+      brandedContentDisabledReason({ ...v, branded_content: true }),
+    ).toBeUndefined();
   });
 
-  it('your-brand does not clear the audience', () => {
+  it('setBrandKind never changes the audience', () => {
     const v = { ...defaultTikTokOptions(), privacy_level: 'SELF_ONLY' as const };
     expect(setBrandKind(v, 'your_brand', true).privacy_level).toBe('SELF_ONLY');
+    expect(setBrandKind(v, 'branded_content', true).privacy_level).toBe(
+      'SELF_ONLY',
+    );
   });
 });
 
@@ -167,61 +197,141 @@ describe('interactions', () => {
 });
 
 describe('tiktokSettings mapping', () => {
-  it('video inverts allow→disable and includes duet/stitch/aigc', () => {
+  it('video inverts allow→disable, uses the Accounts API names, and never sends privacy_level', () => {
     const v = {
       ...defaultTikTokOptions(),
       privacy_level: 'PUBLIC_TO_EVERYONE' as const,
       allow_comment: true,
       allow_duet: false,
       allow_stitch: true,
-      aigc: true,
+      ai_generated: true,
     };
     expect(tiktokSettings(v, true)).toEqual({
-      privacy_level: 'PUBLIC_TO_EVERYONE',
       disable_comment: false,
       disable_duet: true,
       disable_stitch: false,
-      brand_organic_toggle: false,
-      brand_content_toggle: false,
-      is_aigc: true,
+      is_brand_organic: false,
+      is_branded_content: false,
+      is_ai_generated: true,
     });
   });
 
-  it('photo omits the video-only fields (duet/stitch/aigc)', () => {
+  it('photo sends privacy_level and omits the video-only fields', () => {
     const v = { ...defaultTikTokOptions(), privacy_level: 'SELF_ONLY' as const };
     const settings = tiktokSettings(v, false);
+    expect(settings.privacy_level).toBe('SELF_ONLY');
     expect(settings).not.toHaveProperty('disable_duet');
     expect(settings).not.toHaveProperty('disable_stitch');
-    expect(settings).not.toHaveProperty('is_aigc');
+    expect(settings).not.toHaveProperty('is_ai_generated');
     expect(settings.disable_comment).toBe(true);
   });
 
-  it('brand toggles are only set while disclosure is on', () => {
+  it('brand flags are only set while disclosure is on', () => {
     const off = { ...defaultTikTokOptions(), your_brand: true };
-    expect(tiktokSettings(off, true).brand_organic_toggle).toBe(false);
+    expect(tiktokSettings(off, true).is_brand_organic).toBe(false);
     const on = { ...off, commercial_disclosure: true };
-    expect(tiktokSettings(on, true).brand_organic_toggle).toBe(true);
+    expect(tiktokSettings(on, true).is_brand_organic).toBe(true);
+  });
+});
+
+describe('tiktokOptionsFromSettings', () => {
+  it('inverts tiktokSettings (disable_* → allow_*, flags → disclosure)', () => {
+    const v = {
+      ...defaultTikTokOptions(),
+      privacy_level: 'MUTUAL_FOLLOW_FRIENDS' as const,
+      allow_comment: true,
+      commercial_disclosure: true,
+      branded_content: true,
+      ai_generated: true,
+    };
+    expect(tiktokOptionsFromSettings(tiktokSettings(v, true))).toEqual({
+      ...v,
+      privacy_level: undefined,
+    });
+  });
+
+  it('reads absent flags as the permissive default', () => {
+    expect(tiktokOptionsFromSettings({})).toMatchObject({
+      allow_comment: true,
+      allow_duet: true,
+      allow_stitch: true,
+      commercial_disclosure: false,
+      ai_generated: false,
+    });
+  });
+});
+
+describe('tiktokDurationError', () => {
+  const clip = (duration_ms: number | null): MediaResource => ({
+    id: 'med_1',
+    object: 'media',
+    profile_id: 'prof_1',
+    kind: 'video',
+    content_type: 'video/mp4',
+    status: 'ready',
+    progress: { stage: 'done', percent: 100 },
+    raw: false,
+    error: null,
+    source: {
+      format: 'video/mp4',
+      bytes: 1,
+      width: 1080,
+      height: 1920,
+      duration_ms,
+    },
+    alt_text: null,
+    per_platform: {},
+    external_id: null,
+    metadata: {},
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+  });
+
+  it('blocks a known over-limit video', () => {
+    expect(tiktokDurationError([clip(601_000)], creatorInfo, true)).toMatch(
+      /max 600s/,
+    );
+  });
+
+  it('never false-blocks (photo, no info, unknown or in-limit duration)', () => {
+    expect(tiktokDurationError([clip(601_000)], creatorInfo, false)).toBeNull();
+    expect(tiktokDurationError([clip(601_000)], null, true)).toBeNull();
+    expect(tiktokDurationError([clip(null)], creatorInfo, true)).toBeNull();
+    expect(tiktokDurationError([clip(600_000)], creatorInfo, true)).toBeNull();
   });
 });
 
 describe('tiktokOptionsReady', () => {
-  it('requires an audience and a complete disclosure', () => {
-    expect(tiktokOptionsReady(defaultTikTokOptions())).toBe(false);
+  it('a photo requires an audience and a complete disclosure', () => {
+    expect(tiktokOptionsReady(defaultTikTokOptions(), false)).toBe(false);
     const chosen = { ...defaultTikTokOptions(), privacy_level: 'SELF_ONLY' as const };
-    expect(tiktokOptionsReady(chosen)).toBe(true);
+    expect(tiktokOptionsReady(chosen, false)).toBe(true);
     expect(
-      tiktokOptionsReady({ ...chosen, commercial_disclosure: true }),
-    ).toBe(false); // disclosure on, no brand picked
+      tiktokOptionsReady({ ...chosen, commercial_disclosure: true }, false),
+    ).toBe(false);
   });
 
-  it('is false for branded content on a private (SELF_ONLY) post', () => {
+  it('a video is ready without an audience but still needs a complete disclosure', () => {
+    expect(tiktokOptionsReady(defaultTikTokOptions(), true)).toBe(true);
     expect(
-      tiktokOptionsReady({
-        ...defaultTikTokOptions(),
-        privacy_level: 'SELF_ONLY',
-        commercial_disclosure: true,
-        branded_content: true,
-      }),
+      tiktokOptionsReady(
+        { ...defaultTikTokOptions(), commercial_disclosure: true },
+        true,
+      ),
+    ).toBe(false);
+  });
+
+  it('is false for branded content on a private (SELF_ONLY) photo', () => {
+    expect(
+      tiktokOptionsReady(
+        {
+          ...defaultTikTokOptions(),
+          privacy_level: 'SELF_ONLY',
+          commercial_disclosure: true,
+          branded_content: true,
+        },
+        false,
+      ),
     ).toBe(false);
   });
 });

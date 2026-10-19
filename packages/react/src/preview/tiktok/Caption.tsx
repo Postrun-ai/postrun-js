@@ -9,7 +9,7 @@ import { ExpandableText } from '../ExpandableText';
  * #hashtags and @mentions tinted in TikTok's link color, line breaks preserved.
  * Clamps to two lines with a shared "more"/"less" fold that expands to the FULL
  * caption (no inner scrollbar) — so the reviewer can read the entire to-be-posted
- * content in the preview (TikTok Required UX §5a). The full text is also always in
+ * content in the preview (nothing is hidden from the reviewer). The full text is also always in
  * the editable caption field.
  */
 

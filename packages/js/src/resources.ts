@@ -78,8 +78,8 @@ export type DiscoverableAccountList = ConnectionsListAccountsResponse;
 
 /**
  * A TikTok creator's live publish options for a connection — the data TikTok's
- * Content Posting policy REQUIRES the publishing UI to render: `creator`
- * (nickname + avatar), the `privacy_options` to offer (with NO default), the
+ * publishing UI renders: `creator` (nickname + avatar), the `privacy_options` to
+ * offer for PHOTO posts (with NO default — videos publish publicly), the
  * positive `interaction` (allowed) flags for Comment/Duet/Stitch toggles, and
  * `max_video_duration_sec`. Derived from the contract, never hand-declared.
  */
@@ -123,8 +123,8 @@ export type LinkedInPostVariant = Extract<
 >;
 
 /** The TikTok member of the write variant union — typed native settings
- * (`privacy_level`, `disable_comment`/`disable_duet`/`disable_stitch`,
- * `brand_content_toggle`/`brand_organic_toggle`, `is_aigc`, photo/video cover).
+ * (photo-only `privacy_level`, `disable_comment`/`disable_duet`/`disable_stitch`,
+ * `is_branded_content`/`is_brand_organic`, `is_ai_generated`, photo/video cover).
  * Narrowed from the contract, never hand-declared — it is the compose-time shape a
  * live TikTok preview renders. */
 export type TikTokPostVariant = Extract<
@@ -256,7 +256,7 @@ export type MediaResource = MediaGetResponse;
  */
 export type MediaKind = NonNullable<MediaResource['kind']>;
 
-/** A media render target — a post platform or `google_ads`. */
+/** A media render target — one of the post platforms. */
 export type MediaTarget = NonNullable<
   NonNullable<MediaCreateData['body']>['targets']
 >[number];

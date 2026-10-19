@@ -3,6 +3,7 @@
 import type { TikTokOptionsValue } from '@postrun/js';
 import {
   TIKTOK_DISCLOSURE_REQUIRED_HINT,
+  brandedContentDisabledReason,
   commercialDisclosureIncomplete,
   commercialLabelNotice,
   setBrandKind,
@@ -12,22 +13,26 @@ import {
 import { CheckRow, Hint, Notice, Row, SectionLabel, Switch } from './ui';
 
 /**
- * Commercial-content disclosure — MUST #7. Off by default. When on, the user must
+ * Commercial-content disclosure. Off by default. When on, the user must
  * pick at least one of "Your brand" / "Branded content" (else the required hint
  * blocks publish), and the resulting label notice is shown verbatim:
  *   Your brand     → "Your photo/video will be labeled as 'Promotional content'"
  *   Branded content→ "Your photo/video will be labeled as 'Paid partnership'"
- * Branded content can't be private (handled in `setBrandKind` / the audience list).
+ * Branded content can't be private: it locks while a private audience is picked.
  */
 export function CommercialDisclosure({
   value,
   onChange,
+  isVideo,
 }: {
   value: TikTokOptionsValue;
   onChange: (value: TikTokOptionsValue) => void;
+  /** A video has no audience, so a private audience never locks branded content. */
+  isVideo: boolean;
 }) {
   const labelNotice = commercialLabelNotice(value);
   const incomplete = commercialDisclosureIncomplete(value);
+  const brandedLocked = isVideo ? undefined : brandedContentDisabledReason(value);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -54,6 +59,7 @@ export function CommercialDisclosure({
           <CheckRow
             label="Branded content"
             checked={value.branded_content}
+            disabledReason={brandedLocked}
             onChange={(next) => onChange(setBrandKind(value, 'branded_content', next))}
           />
           {incomplete ? <Hint>{TIKTOK_DISCLOSURE_REQUIRED_HINT}</Hint> : null}

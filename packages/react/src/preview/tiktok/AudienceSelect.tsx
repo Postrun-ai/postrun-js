@@ -6,17 +6,17 @@ import {
   audiencePrivacyOptions,
   audienceUnselected,
   parsePrivacyLevel,
-  tiktokPrivacyLabel,
 } from '@postrun/js';
 import type { CSSProperties } from 'react';
 
 import { Hint, SectionLabel, TOKENS } from './ui';
 
 /**
- * The audience / privacy selector — MUST #5. TikTok mandates an explicit choice
- * with NO default, so the select opens on a disabled placeholder and an unchosen
- * value shows the required hint. Options come from the creator's allowed set;
- * branded content drops SELF_ONLY (handled in `audiencePrivacyOptions`).
+ * The audience / privacy selector — PHOTO posts only (TikTok publishes videos
+ * publicly). We make the user choose with NO default, so the select opens on a
+ * disabled placeholder and an unchosen value shows the required hint. Options come from the creator's allowed set;
+ * a private audience stays visible but disabled (with its reason) while branded
+ * content is disclosed (see `audiencePrivacyOptions`).
  */
 export function AudienceSelect({
   creatorInfo,
@@ -27,8 +27,10 @@ export function AudienceSelect({
   value: TikTokOptionsValue;
   onChange: (value: TikTokOptionsValue) => void;
 }) {
-  const options = audiencePrivacyOptions(creatorInfo.privacy_options, value);
-  const unselected = audienceUnselected(value);
+  const choices = audiencePrivacyOptions(creatorInfo.privacy_options, value);
+  const enabled = choices.flatMap((c) => (c.disabled ? [] : [c.level]));
+  const reason = choices.find((c) => c.disabled)?.disabledReason;
+  const unselected = audienceUnselected(value, false);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -39,9 +41,9 @@ export function AudienceSelect({
         onChange={(e) =>
           onChange({
             ...value,
-            // Validate against the OFFERED (filtered) options, not the full set —
-            // so a manipulated value (e.g. SELF_ONLY while branded) can't slip in.
-            privacy_level: parsePrivacyLevel(e.target.value, options),
+            // Validate against the ENABLED options so a manipulated value
+            // (e.g. SELF_ONLY while branded) can't slip in.
+            privacy_level: parsePrivacyLevel(e.target.value, enabled),
           })
         }
         style={selectStyle}
@@ -49,12 +51,18 @@ export function AudienceSelect({
         <option value="" disabled>
           Select who can view this post
         </option>
-        {options.map((level) => (
-          <option key={level} value={level}>
-            {tiktokPrivacyLabel(level)}
+        {choices.map((choice) => (
+          <option
+            key={choice.level}
+            value={choice.level}
+            disabled={choice.disabled}
+            title={choice.disabledReason}
+          >
+            {choice.label}
           </option>
         ))}
       </select>
+      {reason ? <Hint>{reason}</Hint> : null}
       {unselected ? <Hint>{TIKTOK_AUDIENCE_REQUIRED_HINT}</Hint> : null}
     </div>
   );

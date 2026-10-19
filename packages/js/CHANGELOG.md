@@ -1,5 +1,30 @@
 # @postrun/js
 
+## 4.0.0
+
+### Major Changes
+
+- TikTok moves to the TikTok Accounts API. Regenerated from the API OpenAPI spec; the composer helpers follow the new contract.
+
+  **Breaking — TikTok settings renamed:** `brand_content_toggle` → `is_branded_content`, `brand_organic_toggle` → `is_brand_organic`, `is_aigc` → `is_ai_generated`, `video_cover_timestamp_ms` → `thumbnail_offset`. New: `is_ads_only` (video only).
+
+  **Breaking — `privacy_level` is photo-only.** TikTok publishes every video publicly; the API rejects `privacy_level` on a video (`field_placement_invalid`) and requires it on photo posts (`single_image`, `carousel`). `creator-info.privacy_options` are now the audiences for photo posts.
+
+  **Breaking — error codes removed:** `tiktok_cannot_post_now`, `tiktok_unaudited_private_only`, `tiktok_url_ownership_unverified`. Added: `tiktok_interaction_not_allowed`, `tiktok_thumbnail_offset_invalid`. The creator-info read no longer returns a 422 "cannot post now".
+
+  **Breaking — helpers:**
+  - `TikTokOptionsValue.aigc` → `ai_generated` (maps to `is_ai_generated`, video only).
+  - `tiktokSettings(value, isVideo)` never emits `privacy_level` for a video; a photo does. It emits the new field names.
+  - `audienceUnselected(value, isVideo)` and `tiktokOptionsReady(value, isVideo)` take the post kind: a video is publish-ready without an audience.
+  - `TIKTOK_AUDIENCE_REQUIRED_HINT` now reads "post", not "video".
+  - `audiencePrivacyOptions` returns `AudiencePrivacyChoice[]` (`{ level, label, disabled, disabledReason? }`). `SELF_ONLY` stays visible but disabled while branded content is disclosed, never removed.
+  - `setBrandKind` never changes the audience; `brandedContentDisabledReason` locks the branded-content toggle while the audience is `SELF_ONLY`.
+  - Removed `privacyChoices` and the `TikTokPrivacyChoice` type (use `audiencePrivacyOptions` / `AudiencePrivacyChoice`).
+
+  **Breaking — ads helpers removed:** `groupAdTree`, `AdTreeNode` and the Google Ads conversion schemas. The API no longer serves ads (removed 2026-10-09).
+
+  **Added:** `tiktokOptionsFromSettings` (inverse of `tiktokSettings`), `tiktokDurationError`, `brandedContentDisabledReason`, `TIKTOK_BRANDED_CONTENT_PRIVATE_DISABLED_REASON`.
+
 ## 3.2.0
 
 ### Minor Changes

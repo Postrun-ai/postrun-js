@@ -6,7 +6,11 @@ import type {
   TikTokOptionsValue,
   TikTokPostVariant,
 } from '@postrun/js';
-import { brandedContentDeclared, tiktokOptionsReady, TIKTOK_PROCESSING_NOTICE } from '@postrun/js';
+import {
+  brandedContentDeclared,
+  tiktokOptionsReady,
+  TIKTOK_PROCESSING_NOTICE,
+} from '@postrun/js';
 import type { CSSProperties } from 'react';
 
 import { AudienceSelect } from './AudienceSelect';
@@ -18,13 +22,13 @@ import { type TikTokTheme, TT_VAR, colorSchemeFor, paletteVars, varRef } from '.
 import { Notice, Row, Switch, TOKENS } from './ui';
 
 /**
- * The TikTok publish/confirmation panel — the Required-UX surface that turns a
- * preview into a compliant publish flow. It composes the editable caption (#2),
- * audience (#5), interaction (#6), commercial disclosure (#7), the video-only
- * AIGC toggle (SHOULD), the processing notice (#10), the consent declaration
- * directly above the button (#8), and the consent-gated Post button (#9) — which
- * fires `onPost` ONLY on an explicit click and is disabled until the post is
- * valid.
+ * The TikTok publish/confirmation panel — the surface that turns a preview into
+ * an explicit publish flow. It composes the editable caption, the photo-only
+ * audience, interactions, commercial disclosure, the video-only AI-generated
+ * toggle, the processing notice, the consent declaration directly above the
+ * button, and the consent-gated Post button — which fires `onPost` ONLY on an
+ * explicit click and is disabled until the post is valid. TikTok publishes every
+ * video publicly, so the audience select is shown for photo posts only.
  *
  * All logic comes from `@postrun/js` (the single source); this is the render.
  */
@@ -44,7 +48,7 @@ export interface TikTokPublishPanelProps {
   /** The TikTok options value (controlled) + its setter. */
   options: TikTokOptionsValue;
   onOptionsChange: (value: TikTokOptionsValue) => void;
-  /** Fired ONLY on an explicit Post click — the affirmative-consent gate (#9). */
+  /** Fired ONLY on an explicit Post click — the affirmative-consent gate. */
   onPost: () => void;
   /** Disable the button + show a busy label while a publish is in flight. */
   posting?: boolean;
@@ -80,7 +84,7 @@ export function TikTokPublishPanel({
 
   const captionOver = caption.length > captionMaxFor(postType);
   const mediaOk = mediaCountValid(postType, variant.media?.length ?? 0);
-  const ready = !captionOver && mediaOk && tiktokOptionsReady(options);
+  const ready = !captionOver && mediaOk && tiktokOptionsReady(options, isVideo);
 
   return (
     <div
@@ -99,8 +103,16 @@ export function TikTokPublishPanel({
         postType={postType}
       />
 
-      <Divider />
-      <AudienceSelect creatorInfo={creatorInfo} value={options} onChange={onOptionsChange} />
+      {isVideo ? null : (
+        <>
+          <Divider />
+          <AudienceSelect
+            creatorInfo={creatorInfo}
+            value={options}
+            onChange={onOptionsChange}
+          />
+        </>
+      )}
 
       <Divider />
       <InteractionToggles
@@ -111,7 +123,11 @@ export function TikTokPublishPanel({
       />
 
       <Divider />
-      <CommercialDisclosure value={options} onChange={onOptionsChange} />
+      <CommercialDisclosure
+        value={options}
+        onChange={onOptionsChange}
+        isVideo={isVideo}
+      />
 
       {isVideo ? (
         <>
@@ -121,9 +137,9 @@ export function TikTokPublishPanel({
             sublabel="Disclose if this video was created or substantially edited with AI."
             control={
               <Switch
-                checked={options.aigc}
+                checked={options.ai_generated}
                 ariaLabel="AI-generated content"
-                onChange={(next) => onOptionsChange({ ...options, aigc: next })}
+                onChange={(next) => onOptionsChange({ ...options, ai_generated: next })}
               />
             }
           />
@@ -133,7 +149,7 @@ export function TikTokPublishPanel({
       <Divider />
       <Notice>{TIKTOK_PROCESSING_NOTICE}</Notice>
 
-      {/* declaration sits DIRECTLY above the Post button (#8) */}
+      {/* declaration sits DIRECTLY above the Post button */}
       <Declaration brandedContent={brandedContentDeclared(options)} />
 
       <button

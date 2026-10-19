@@ -116,7 +116,7 @@ describe('<TikTokPostPreview>', () => {
     expect(container.querySelectorAll('img').length).toBeGreaterThan(0);
   });
 
-  it('shows the AIGC label only when is_aigc is set', () => {
+  it('shows the AIGC label only when is_ai_generated is set', () => {
     const { rerender } = render(
       <TikTokPostPreview variant={ttVariant()} creatorInfo={creatorInfo} media={videoMedia} />,
     );
@@ -124,7 +124,7 @@ describe('<TikTokPostPreview>', () => {
 
     rerender(
       <TikTokPostPreview
-        variant={ttVariant({ settings: { is_aigc: true } })}
+        variant={ttVariant({ settings: { is_ai_generated: true } })}
         creatorInfo={creatorInfo}
         media={videoMedia}
       />,
@@ -135,7 +135,7 @@ describe('<TikTokPostPreview>', () => {
   it('shows the commercial label from the disclosure toggles', () => {
     const { rerender } = render(
       <TikTokPostPreview
-        variant={ttVariant({ settings: { brand_organic_toggle: true } })}
+        variant={ttVariant({ settings: { is_brand_organic: true } })}
         creatorInfo={creatorInfo}
         media={videoMedia}
       />,
@@ -144,7 +144,7 @@ describe('<TikTokPostPreview>', () => {
 
     rerender(
       <TikTokPostPreview
-        variant={ttVariant({ settings: { brand_content_toggle: true } })}
+        variant={ttVariant({ settings: { is_branded_content: true } })}
         creatorInfo={creatorInfo}
         media={videoMedia}
       />,

@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import {
+  type AnalyticsPlatform,
   accountMetricRows,
   accountTrend,
   formatMetric,
@@ -12,6 +13,8 @@ import type {
   FacebookPageDay,
   FacebookPostMetrics,
   InstagramPostMetrics,
+  PostPlatform,
+  PostVariantStatus,
   TikTokAccountDay,
   TikTokPostMetrics,
 } from './client/types.gen';
@@ -423,5 +426,16 @@ describe('hasPostAnalytics', () => {
     expect(hasPostAnalytics({ platform: 'x', status: 'published' })).toBe(
       false,
     );
+  });
+
+  it('narrows the variant’s platform to a network with analytics', () => {
+    const variant: { platform: PostPlatform; status: PostVariantStatus } = {
+      platform: 'instagram',
+      status: 'published',
+    };
+
+    if (hasPostAnalytics(variant)) {
+      expectTypeOf(variant.platform).toEqualTypeOf<AnalyticsPlatform>();
+    }
   });
 });

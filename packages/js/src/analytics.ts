@@ -58,11 +58,12 @@ export function hasAnalytics(platform: string): platform is AnalyticsPlatform {
   return ANALYTICS_PLATFORMS.some((supported) => supported === platform);
 }
 
-/** Only a published variant on a network with analytics has metrics to read. */
-export function hasPostAnalytics(variant: {
-  platform: PostPlatform;
-  status: PostVariantStatus;
-}): boolean {
+/** Only a published variant on a network with analytics has metrics to read.
+ * Narrows `platform`, so the variant can go straight to code keyed by
+ * `AnalyticsPlatform`. */
+export function hasPostAnalytics<
+  Variant extends { platform: PostPlatform; status: PostVariantStatus },
+>(variant: Variant): variant is Variant & { platform: AnalyticsPlatform } {
   return variant.status === 'published' && hasAnalytics(variant.platform);
 }
 

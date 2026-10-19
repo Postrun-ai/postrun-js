@@ -25,6 +25,8 @@ export const zErrorCode = z.enum([
     'connection_discovery_failed',
     'tiktok_creator_info_unavailable',
     'tiktok_analytics_unavailable',
+    'instagram_analytics_unavailable',
+    'facebook_analytics_unavailable',
     'media_processing',
     'media_upload_init_failed',
     'media_upload_incomplete',
@@ -214,13 +216,131 @@ export const zTikTokAccountMetrics = z.object({
 });
 
 /**
+ * Lifetime metrics for one Instagram post, as reported by Meta under Meta’s own names. Single image and carousel posts report different metrics from Reels: a field that does not apply to the post’s type is null, and its description names the types that report it. Meta can take up to 48 hours to report a new post. A metric Meta did not report is null.
+ */
+export const zInstagramPostMetrics = z.object({
+    platform: z.literal('instagram'),
+    views: z.number().nullable(),
+    reach: z.number().nullable(),
+    likes: z.number().nullable(),
+    comments: z.number().nullable(),
+    shares: z.number().nullable(),
+    saved: z.number().nullable(),
+    reposts: z.number().nullable(),
+    total_interactions: z.number().nullable(),
+    follows: z.number().nullable(),
+    profile_visits: z.number().nullable(),
+    profile_activity: z.number().nullable(),
+    ig_reels_avg_watch_time: z.number().nullable(),
+    ig_reels_video_view_total_time: z.number().nullable(),
+    reels_skip_rate: z.number().nullable()
+});
+
+/**
+ * One day of Instagram account reach.
+ */
+export const zInstagramAccountDay = z.object({
+    date: z.string(),
+    reach: z.number().nullable()
+});
+
+/**
+ * An Instagram account’s current totals, its last 30 days and its daily reach, as reported by Meta under Meta’s own names. A metric Meta did not report is null.
+ */
+export const zInstagramAccountMetrics = z.object({
+    platform: z.literal('instagram'),
+    followers_count: z.number().nullable(),
+    follows_count: z.number().nullable(),
+    media_count: z.number().nullable(),
+    last_30_days: z.object({
+        views: z.number().nullable(),
+        reach: z.number().nullable(),
+        accounts_engaged: z.number().nullable(),
+        total_interactions: z.number().nullable(),
+        likes: z.number().nullable(),
+        comments: z.number().nullable(),
+        shares: z.number().nullable(),
+        saves: z.number().nullable(),
+        reposts: z.number().nullable(),
+        replies: z.number().nullable(),
+        profile_links_taps: z.number().nullable(),
+        follows_and_unfollows: z.record(z.string(), z.number()).nullable()
+    }),
+    daily: z.array(zInstagramAccountDay)
+});
+
+/**
+ * Lifetime metrics for one Facebook Page post or Reel, as reported by Meta under Meta’s own names. Text, photo and album posts report different metrics from Reels: a field that does not apply is null, and its description says which reports it. Meta reports no reach for Reels. A metric Meta did not report is null.
+ */
+export const zFacebookPostMetrics = z.object({
+    platform: z.literal('facebook_page'),
+    post_media_view: z.number().nullable(),
+    post_total_media_view_unique: z.number().nullable(),
+    post_reactions_by_type_total: z.record(z.string(), z.number()).nullable(),
+    post_clicks: z.number().nullable(),
+    post_clicks_by_type: z.record(z.string(), z.number()).nullable(),
+    comments: z.number().nullable(),
+    shares: z.number().nullable(),
+    blue_reels_play_count: z.number().nullable(),
+    fb_reels_total_plays: z.number().nullable(),
+    fb_reels_replay_count: z.number().nullable(),
+    post_video_avg_time_watched: z.number().nullable(),
+    post_video_view_time: z.number().nullable(),
+    post_video_followers: z.number().nullable(),
+    post_video_likes_by_reaction_type: z.record(z.string(), z.number()).nullable()
+});
+
+/**
+ * One day of Facebook Page activity.
+ */
+export const zFacebookPageDay = z.object({
+    date: z.string(),
+    page_media_view: z.number().nullable(),
+    page_total_media_view_unique: z.number().nullable(),
+    page_follows: z.number().nullable(),
+    page_daily_follows_unique: z.number().nullable(),
+    page_daily_unfollows_unique: z.number().nullable(),
+    page_post_engagements: z.number().nullable(),
+    page_views_total: z.number().nullable(),
+    page_video_views: z.number().nullable(),
+    page_total_actions: z.number().nullable()
+});
+
+/**
+ * A Facebook Page’s current followers plus its daily activity, as reported by Meta under Meta’s own names. Meta reports Page insights only for Pages with 100 or more likes, and they leave out Reels interactions. A metric Meta did not report is null.
+ */
+export const zFacebookPageMetrics = z.object({
+    platform: z.literal('facebook_page'),
+    followers_count: z.number().nullable(),
+    daily: z.array(zFacebookPageDay)
+});
+
+/**
+ * One variant’s metrics in its network’s own shape. Branch on `platform`.
+ */
+export const zPostMetrics = z.union([
+    zTikTokPostMetrics,
+    zInstagramPostMetrics,
+    zFacebookPostMetrics
+]);
+
+/**
+ * A connected account’s metrics in its network’s own shape. Branch on `platform`.
+ */
+export const zAccountMetrics = z.union([
+    zTikTokAccountMetrics,
+    zInstagramAccountMetrics,
+    zFacebookPageMetrics
+]);
+
+/**
  * A connected account’s metrics, read live from the platform.
  */
 export const zConnectionAnalytics = z.object({
     object: z.literal('connection_analytics'),
     connection_id: z.string(),
     fetched_at: z.iso.datetime({ offset: true }),
-    metrics: zTikTokAccountMetrics
+    metrics: zAccountMetrics
 });
 
 /**
@@ -433,7 +553,7 @@ export const zPostVariantAnalytics = z.object({
     variant_id: z.string(),
     connection_id: z.string().nullable(),
     platform: zPostPlatform,
-    metrics: zTikTokPostMetrics.nullable(),
+    metrics: zPostMetrics.nullable(),
     error: z.object({
         code: z.enum(['analytics_not_supported', 'analytics_no_data']),
         message: z.string(),
@@ -597,6 +717,8 @@ export const zPostVariant = z.union([
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
                 'tiktok_analytics_unavailable',
+                'instagram_analytics_unavailable',
+                'facebook_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
@@ -779,6 +901,8 @@ export const zPostVariant = z.union([
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
                 'tiktok_analytics_unavailable',
+                'instagram_analytics_unavailable',
+                'facebook_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
@@ -946,6 +1070,8 @@ export const zPostVariant = z.union([
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
                 'tiktok_analytics_unavailable',
+                'instagram_analytics_unavailable',
+                'facebook_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
@@ -1114,6 +1240,8 @@ export const zPostVariant = z.union([
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
                 'tiktok_analytics_unavailable',
+                'instagram_analytics_unavailable',
+                'facebook_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
@@ -1286,6 +1414,8 @@ export const zPostVariant = z.union([
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
                 'tiktok_analytics_unavailable',
+                'instagram_analytics_unavailable',
+                'facebook_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
@@ -2298,6 +2428,8 @@ export const zPostsValidateResponse = z.object({
             'connection_discovery_failed',
             'tiktok_creator_info_unavailable',
             'tiktok_analytics_unavailable',
+            'instagram_analytics_unavailable',
+            'facebook_analytics_unavailable',
             'media_processing',
             'media_upload_init_failed',
             'media_upload_incomplete',
@@ -2522,6 +2654,8 @@ export const zLogsListResponse = z.object({
                 'connection_discovery_failed',
                 'tiktok_creator_info_unavailable',
                 'tiktok_analytics_unavailable',
+                'instagram_analytics_unavailable',
+                'facebook_analytics_unavailable',
                 'media_processing',
                 'media_upload_init_failed',
                 'media_upload_incomplete',
@@ -2682,6 +2816,8 @@ export const zLogsListResponse = z.object({
                         'connection_discovery_failed',
                         'tiktok_creator_info_unavailable',
                         'tiktok_analytics_unavailable',
+                        'instagram_analytics_unavailable',
+                        'facebook_analytics_unavailable',
                         'media_processing',
                         'media_upload_init_failed',
                         'media_upload_incomplete',
@@ -2815,6 +2951,8 @@ export const zLogsListResponse = z.object({
                         'connection_discovery_failed',
                         'tiktok_creator_info_unavailable',
                         'tiktok_analytics_unavailable',
+                        'instagram_analytics_unavailable',
+                        'facebook_analytics_unavailable',
                         'media_processing',
                         'media_upload_init_failed',
                         'media_upload_incomplete',
@@ -3002,6 +3140,8 @@ export const zLogsGetResponse = z.object({
             'connection_discovery_failed',
             'tiktok_creator_info_unavailable',
             'tiktok_analytics_unavailable',
+            'instagram_analytics_unavailable',
+            'facebook_analytics_unavailable',
             'media_processing',
             'media_upload_init_failed',
             'media_upload_incomplete',
@@ -3162,6 +3302,8 @@ export const zLogsGetResponse = z.object({
                     'connection_discovery_failed',
                     'tiktok_creator_info_unavailable',
                     'tiktok_analytics_unavailable',
+                    'instagram_analytics_unavailable',
+                    'facebook_analytics_unavailable',
                     'media_processing',
                     'media_upload_init_failed',
                     'media_upload_incomplete',
@@ -3295,6 +3437,8 @@ export const zLogsGetResponse = z.object({
                     'connection_discovery_failed',
                     'tiktok_creator_info_unavailable',
                     'tiktok_analytics_unavailable',
+                    'instagram_analytics_unavailable',
+                    'facebook_analytics_unavailable',
                     'media_processing',
                     'media_upload_init_failed',
                     'media_upload_incomplete',

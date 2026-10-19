@@ -270,7 +270,7 @@ export const connectionsConnect = <ThrowOnError extends boolean = true>(options:
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:read` scoped to the profile that owns the connection.
  *
- * Reads a connected account’s totals and its daily activity for the last 60 days, live from the platform. Today only TikTok connections are supported. TikTok finalizes a day 24–48 hours after it ends. Returns 404 if the connection does not exist in your account, 501 if its platform has no analytics yet, 409 if the account must be reconnected, and 502 if TikTok’s call fails.
+ * Reads a connected account’s totals and its daily activity live from the platform: the last 60 days for TikTok, 30 for Instagram and 90 for Facebook Pages. TikTok, Instagram and Facebook Page connections are supported. TikTok finalizes a day 24–48 hours after it ends, and Meta updates Page insights about once a day. Returns 404 if the connection does not exist in your account, 501 if its platform has no analytics yet, 409 if the account must be reconnected, and 502 if the platform’s call fails.
  */
 export const connectionsGetAnalytics = <ThrowOnError extends boolean = true>(options: Options<ConnectionsGetAnalyticsData, ThrowOnError>): RequestResult<ConnectionsGetAnalyticsResponses, ConnectionsGetAnalyticsErrors, ThrowOnError> => (options.client ?? client).get<ConnectionsGetAnalyticsResponses, ConnectionsGetAnalyticsErrors, ThrowOnError>({
     security: [{
@@ -659,7 +659,7 @@ export const postsValidate = <ThrowOnError extends boolean = true>(options: Opti
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:read` scoped to the profile that owns the post.
  *
- * Reads each variant’s metrics live from its platform. Today TikTok variants return metrics; other networks return `analytics_not_supported`. A variant with nothing to read (not published, connection removed, not public, or no data from TikTok) returns `analytics_no_data`. TikTok updates metrics 24–48 hours after the activity. Returns 404 if the post does not exist in your account, 409 if a TikTok account must be reconnected, and 502 if TikTok’s call fails.
+ * Reads each variant’s metrics live from its platform. TikTok, Instagram and Facebook Page variants return metrics; X and LinkedIn variants return `analytics_not_supported`. A variant with nothing to read (not published, connection removed, not public, deleted, or not yet reported by the platform) returns `analytics_no_data`. TikTok updates metrics 24–48 hours after the activity, and Meta can take up to 48 hours to report a new post. Returns 404 if the post does not exist in your account, 409 if an account must be reconnected, and 502 if the platform’s call fails.
  */
 export const postsGetAnalytics = <ThrowOnError extends boolean = true>(options: Options<PostsGetAnalyticsData, ThrowOnError>): RequestResult<PostsGetAnalyticsResponses, PostsGetAnalyticsErrors, ThrowOnError> => (options.client ?? client).get<PostsGetAnalyticsResponses, PostsGetAnalyticsErrors, ThrowOnError>({
     security: [{

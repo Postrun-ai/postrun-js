@@ -95,6 +95,24 @@ export type { LinkedInPollDuration } from './linkedin';
 export { xPollDurationLabel } from './x';
 export type { XPoll } from './x';
 
+// Analytics presentation: which metrics apply to a post type, their labels and
+// units, an account's headline numbers and its trend series.
+export {
+  accountMetricRows,
+  accountTrend,
+  formatMetric,
+  hasAnalytics,
+  hasPostAnalytics,
+  postMetricRows,
+} from './analytics';
+export type {
+  AnalyticsPlatform,
+  MetricFormat,
+  MetricPoint,
+  MetricRow,
+  MetricValue,
+} from './analytics';
+
 export {
   defaultTikTokOptions,
   parsePrivacyLevel,

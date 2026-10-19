@@ -1,5 +1,17 @@
 # @postrun/js
 
+## 4.1.0
+
+### Minor Changes
+
+- d57104a: Add post and account analytics for TikTok, Instagram and Facebook Pages, read live from each platform.
+
+  - `postsGetAnalytics({ client, path: { id } })` → `GET /v1/posts/{id}/analytics` returns `PostAnalytics`: one `PostVariantAnalytics` per variant. `metrics` is a `PostMetrics` union (`TikTokPostMetrics`, `InstagramPostMetrics`, `FacebookPostMetrics`) — branch on `platform`. A variant without metrics carries an `error` of `analytics_not_supported` (X, LinkedIn) or `analytics_no_data`.
+  - `connectionsGetAnalytics({ client, path: { id } })` → `GET /v1/connections/{id}/analytics` returns `ConnectionAnalytics` with an `AccountMetrics` union: `TikTokAccountMetrics` (totals + 60 daily rows), `InstagramAccountMetrics` (totals, last 30 days, daily reach) or `FacebookPageMetrics` (followers + 90 daily rows).
+  - TanStack Query options `postsGetAnalyticsOptions` / `connectionsGetAnalyticsOptions` on `@postrun/js/query` (and via `usePostrunQuery` in `@postrun/react`).
+  - Presentation helpers: `postMetricRows(metrics, postType)` (the metrics that apply to the post type — Instagram and Facebook Reels report different ones — with labels and units), `accountMetricRows(metrics)`, `accountTrend(metrics)`, `formatMetric(value, format)` (unreported → "—", durations, rates, breakdowns), `hasAnalytics(platform)` and `hasPostAnalytics(variant)`.
+  - New `PostrunErrorCode` members: `tiktok_analytics_unavailable`, `instagram_analytics_unavailable`, `facebook_analytics_unavailable`, `analytics_not_supported`, `analytics_no_data`.
+
 ## 4.0.0
 
 ### Major Changes

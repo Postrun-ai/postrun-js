@@ -36,6 +36,8 @@
           "connection_discovery_failed",
           "tiktok_creator_info_unavailable",
           "tiktok_analytics_unavailable",
+          "instagram_analytics_unavailable",
+          "facebook_analytics_unavailable",
           "media_processing",
           "media_upload_init_failed",
           "media_upload_incomplete",
@@ -1371,6 +1373,8 @@
                           "connection_discovery_failed",
                           "tiktok_creator_info_unavailable",
                           "tiktok_analytics_unavailable",
+                          "instagram_analytics_unavailable",
+                          "facebook_analytics_unavailable",
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
@@ -1790,6 +1794,8 @@
                           "connection_discovery_failed",
                           "tiktok_creator_info_unavailable",
                           "tiktok_analytics_unavailable",
+                          "instagram_analytics_unavailable",
+                          "facebook_analytics_unavailable",
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
@@ -2127,6 +2133,8 @@
                           "connection_discovery_failed",
                           "tiktok_creator_info_unavailable",
                           "tiktok_analytics_unavailable",
+                          "instagram_analytics_unavailable",
+                          "facebook_analytics_unavailable",
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
@@ -2498,6 +2506,8 @@
                           "connection_discovery_failed",
                           "tiktok_creator_info_unavailable",
                           "tiktok_analytics_unavailable",
+                          "instagram_analytics_unavailable",
+                          "facebook_analytics_unavailable",
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
@@ -2865,6 +2875,8 @@
                           "connection_discovery_failed",
                           "tiktok_creator_info_unavailable",
                           "tiktok_analytics_unavailable",
+                          "instagram_analytics_unavailable",
+                          "facebook_analytics_unavailable",
                           "media_processing",
                           "media_upload_init_failed",
                           "media_upload_incomplete",
@@ -3161,7 +3173,7 @@
           "metrics": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/TikTokPostMetrics"
+                "$ref": "#/components/schemas/PostMetrics"
               },
               {
                 "type": "null"
@@ -3218,7 +3230,7 @@
             "description": "When Postrun read these metrics from the platform."
           },
           "metrics": {
-            "$ref": "#/components/schemas/TikTokAccountMetrics"
+            "$ref": "#/components/schemas/AccountMetrics"
           }
         },
         "required": ["object", "connection_id", "fetched_at", "metrics"],
@@ -3548,6 +3560,805 @@
         ],
         "additionalProperties": false,
         "description": "One UTC day of account activity."
+      },
+      "InstagramPostMetrics": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "const": "instagram"
+          },
+          "views": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Times the post was played or displayed, including repeats."
+          },
+          "reach": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Unique accounts that saw the post. Meta estimates it."
+          },
+          "likes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Likes."
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Comments."
+          },
+          "shares": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Shares."
+          },
+          "saved": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Times the post was saved."
+          },
+          "reposts": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Times the post was reposted."
+          },
+          "total_interactions": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Likes, saves, comments and shares, minus unlikes, unsaves and deleted comments."
+          },
+          "follows": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accounts that followed after seeing the post. Single image and carousel posts only."
+          },
+          "profile_visits": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Profile visits from the post. Single image and carousel posts only."
+          },
+          "profile_activity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Actions taken on the profile (such as tapping email, call or directions) after engaging with the post. Single image and carousel posts only."
+          },
+          "ig_reels_avg_watch_time": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Average watch time per play, in milliseconds. Reels only."
+          },
+          "ig_reels_video_view_total_time": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total watch time across all plays, including replays, in milliseconds. Reels only."
+          },
+          "reels_skip_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Percentage of plays skipped within the first 3 seconds. Meta estimates it. Reels only."
+          }
+        },
+        "required": [
+          "platform",
+          "views",
+          "reach",
+          "likes",
+          "comments",
+          "shares",
+          "saved",
+          "reposts",
+          "total_interactions",
+          "follows",
+          "profile_visits",
+          "profile_activity",
+          "ig_reels_avg_watch_time",
+          "ig_reels_video_view_total_time",
+          "reels_skip_rate"
+        ],
+        "additionalProperties": false,
+        "description": "Lifetime metrics for one Instagram post, as reported by Meta under Meta’s own names. Single image and carousel posts report different metrics from Reels: a field that does not apply to the post’s type is null, and its description names the types that report it. Meta can take up to 48 hours to report a new post. A metric Meta did not report is null."
+      },
+      "InstagramAccountMetrics": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "const": "instagram"
+          },
+          "followers_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Current followers."
+          },
+          "follows_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accounts this account follows."
+          },
+          "media_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Posts published by the account."
+          },
+          "last_30_days": {
+            "type": "object",
+            "properties": {
+              "views": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Times the account’s content was played or displayed, including repeats."
+              },
+              "reach": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Unique accounts that saw the account’s content. Meta estimates it."
+              },
+              "accounts_engaged": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Accounts that interacted with the account’s content. Meta estimates it."
+              },
+              "total_interactions": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Likes, saves, comments, shares, reposts and replies on the account’s content."
+              },
+              "likes": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Likes on the account’s content."
+              },
+              "comments": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Comments on the account’s content."
+              },
+              "shares": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Shares of the account’s content."
+              },
+              "saves": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Saves of the account’s content (Meta’s account-level name for a post’s `saved`)."
+              },
+              "reposts": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Reposts of the account’s content."
+              },
+              "replies": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Replies to the account’s stories."
+              },
+              "profile_links_taps": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Taps on the profile’s contact buttons (address, call, email, text)."
+              },
+              "follows_and_unfollows": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "additionalProperties": {
+                      "type": "number"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Follows and unfollows, keyed by Meta’s `follow_type`. Meta reports it only for accounts with 100 or more followers."
+              }
+            },
+            "required": [
+              "views",
+              "reach",
+              "accounts_engaged",
+              "total_interactions",
+              "likes",
+              "comments",
+              "shares",
+              "saves",
+              "reposts",
+              "replies",
+              "profile_links_taps",
+              "follows_and_unfollows"
+            ],
+            "additionalProperties": false,
+            "description": "Totals for the last 30 days."
+          },
+          "daily": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstagramAccountDay"
+            },
+            "description": "Up to one row per day for the last 30 days, oldest first. Reach is the only account metric Meta reports per day."
+          }
+        },
+        "required": [
+          "platform",
+          "followers_count",
+          "follows_count",
+          "media_count",
+          "last_30_days",
+          "daily"
+        ],
+        "additionalProperties": false,
+        "description": "An Instagram account’s current totals, its last 30 days and its daily reach, as reported by Meta under Meta’s own names. A metric Meta did not report is null."
+      },
+      "InstagramAccountDay": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The day the row covers, YYYY-MM-DD. Meta reports days on Pacific time."
+          },
+          "reach": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Unique accounts that saw the account’s content on this day. Meta estimates it."
+          }
+        },
+        "required": ["date", "reach"],
+        "additionalProperties": false,
+        "description": "One day of Instagram account reach."
+      },
+      "FacebookPostMetrics": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "const": "facebook_page"
+          },
+          "post_media_view": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Times the post was played or displayed, including repeats. Text, photo and album posts only."
+          },
+          "post_total_media_view_unique": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Unique accounts the post was played or displayed to. Text, photo and album posts only."
+          },
+          "post_reactions_by_type_total": {
+            "anyOf": [
+              {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reactions by type, keyed by Meta’s reaction type (for example `like`, `love`); `like` includes care reactions. Text, photo and album posts only."
+          },
+          "post_clicks": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Clicks anywhere on the post. Text, photo and album posts only."
+          },
+          "post_clicks_by_type": {
+            "anyOf": [
+              {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Clicks by type, keyed by Meta’s click type (for example `link clicks`, `photo view`). Text, photo and album posts only."
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Comments, including replies. Text, photo and album posts only."
+          },
+          "shares": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Shares. Text, photo and album posts only."
+          },
+          "blue_reels_play_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Plays that lasted at least 1 ms, not counting replays. Reels only."
+          },
+          "fb_reels_total_plays": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Plays, including replays. Reels only."
+          },
+          "fb_reels_replay_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Replays. Reels only."
+          },
+          "post_video_avg_time_watched": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Average watch time per play, in milliseconds. Reels only."
+          },
+          "post_video_view_time": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total watch time across all plays, including replays, in milliseconds. Reels only."
+          },
+          "post_video_followers": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Followers gained from the Reel. Reels only."
+          },
+          "post_video_likes_by_reaction_type": {
+            "anyOf": [
+              {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reactions by type, keyed by Meta’s reaction type. Reels only."
+          }
+        },
+        "required": [
+          "platform",
+          "post_media_view",
+          "post_total_media_view_unique",
+          "post_reactions_by_type_total",
+          "post_clicks",
+          "post_clicks_by_type",
+          "comments",
+          "shares",
+          "blue_reels_play_count",
+          "fb_reels_total_plays",
+          "fb_reels_replay_count",
+          "post_video_avg_time_watched",
+          "post_video_view_time",
+          "post_video_followers",
+          "post_video_likes_by_reaction_type"
+        ],
+        "additionalProperties": false,
+        "description": "Lifetime metrics for one Facebook Page post or Reel, as reported by Meta under Meta’s own names. Text, photo and album posts report different metrics from Reels: a field that does not apply is null, and its description says which reports it. Meta reports no reach for Reels. A metric Meta did not report is null."
+      },
+      "FacebookPageMetrics": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "const": "facebook_page"
+          },
+          "followers_count": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Current followers."
+          },
+          "daily": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FacebookPageDay"
+            },
+            "description": "Up to one row per day for the last 90 days, oldest first. Meta updates Page insights about once a day."
+          }
+        },
+        "required": ["platform", "followers_count", "daily"],
+        "additionalProperties": false,
+        "description": "A Facebook Page’s current followers plus its daily activity, as reported by Meta under Meta’s own names. Meta reports Page insights only for Pages with 100 or more likes, and they leave out Reels interactions. A metric Meta did not report is null."
+      },
+      "FacebookPageDay": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The day the row covers, YYYY-MM-DD. Meta reports days on Pacific time."
+          },
+          "page_media_view": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Times the Page’s content was played or displayed, including repeats."
+          },
+          "page_total_media_view_unique": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Unique accounts the Page’s content was played or displayed to."
+          },
+          "page_follows": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Followers at the end of the day."
+          },
+          "page_daily_follows_unique": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accounts that followed the Page."
+          },
+          "page_daily_unfollows_unique": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accounts that unfollowed the Page."
+          },
+          "page_post_engagements": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reactions, comments, shares and clicks on the Page’s posts."
+          },
+          "page_views_total": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Views of the Page’s profile."
+          },
+          "page_video_views": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Times the Page’s videos played for at least 3 seconds."
+          },
+          "page_total_actions": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Clicks on the Page’s contact info and call-to-action button."
+          }
+        },
+        "required": [
+          "date",
+          "page_media_view",
+          "page_total_media_view_unique",
+          "page_follows",
+          "page_daily_follows_unique",
+          "page_daily_unfollows_unique",
+          "page_post_engagements",
+          "page_views_total",
+          "page_video_views",
+          "page_total_actions"
+        ],
+        "additionalProperties": false,
+        "description": "One day of Facebook Page activity."
+      },
+      "PostMetrics": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/TikTokPostMetrics"
+          },
+          {
+            "$ref": "#/components/schemas/InstagramPostMetrics"
+          },
+          {
+            "$ref": "#/components/schemas/FacebookPostMetrics"
+          }
+        ],
+        "description": "One variant’s metrics in its network’s own shape. Branch on `platform`."
+      },
+      "AccountMetrics": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/TikTokAccountMetrics"
+          },
+          {
+            "$ref": "#/components/schemas/InstagramAccountMetrics"
+          },
+          {
+            "$ref": "#/components/schemas/FacebookPageMetrics"
+          }
+        ],
+        "description": "A connected account’s metrics in its network’s own shape. Branch on `platform`."
       },
       "DiscoverableAccount": {
         "type": "object",
@@ -13557,7 +14368,7 @@
       "get": {
         "operationId": "connections.getAnalytics",
         "summary": "Retrieve account analytics",
-        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:read` scoped to the profile that owns the connection.\n\nReads a connected account’s totals and its daily activity for the last 60 days, live from the platform. Today only TikTok connections are supported. TikTok finalizes a day 24–48 hours after it ends. Returns 404 if the connection does not exist in your account, 501 if its platform has no analytics yet, 409 if the account must be reconnected, and 502 if TikTok’s call fails.",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:read` scoped to the profile that owns the connection.\n\nReads a connected account’s totals and its daily activity live from the platform: the last 60 days for TikTok, 30 for Instagram and 90 for Facebook Pages. TikTok, Instagram and Facebook Page connections are supported. TikTok finalizes a day 24–48 hours after it ends, and Meta updates Page insights about once a day. Returns 404 if the connection does not exist in your account, 501 if its platform has no analytics yet, 409 if the account must be reconnected, and 502 if the platform’s call fails.",
         "tags": ["Analytics"],
         "parameters": [
           {
@@ -14426,7 +15237,11 @@
                     },
                     "code": {
                       "type": "string",
-                      "enum": ["tiktok_analytics_unavailable"],
+                      "enum": [
+                        "tiktok_analytics_unavailable",
+                        "instagram_analytics_unavailable",
+                        "facebook_analytics_unavailable"
+                      ],
                       "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
                       "examples": ["tiktok_analytics_unavailable"]
                     },
@@ -14495,6 +15310,30 @@
                       "code": "tiktok_analytics_unavailable",
                       "display_error": "We couldn’t load TikTok analytics — please try again.",
                       "detail": "We could not load analytics from TikTok.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "instagram_analytics_unavailable": {
+                    "summary": "We could not load analytics from Instagram.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/instagram_analytics_unavailable",
+                      "title": "We could not load analytics from Instagram.",
+                      "status": 502,
+                      "code": "instagram_analytics_unavailable",
+                      "display_error": "We couldn’t load Instagram analytics — please try again.",
+                      "detail": "We could not load analytics from Instagram.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "facebook_analytics_unavailable": {
+                    "summary": "We could not load analytics from Facebook.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/facebook_analytics_unavailable",
+                      "title": "We could not load analytics from Facebook.",
+                      "status": 502,
+                      "code": "facebook_analytics_unavailable",
+                      "display_error": "We couldn’t load Facebook analytics — please try again.",
+                      "detail": "We could not load analytics from Facebook.",
                       "request_id": "req_8x2k4m9q1z"
                     }
                   }
@@ -28075,6 +28914,8 @@
                               "connection_discovery_failed",
                               "tiktok_creator_info_unavailable",
                               "tiktok_analytics_unavailable",
+                              "instagram_analytics_unavailable",
+                              "facebook_analytics_unavailable",
                               "media_processing",
                               "media_upload_init_failed",
                               "media_upload_incomplete",
@@ -29009,7 +29850,7 @@
       "get": {
         "operationId": "posts.getAnalytics",
         "summary": "Retrieve post analytics",
-        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:read` scoped to the profile that owns the post.\n\nReads each variant’s metrics live from its platform. Today TikTok variants return metrics; other networks return `analytics_not_supported`. A variant with nothing to read (not published, connection removed, not public, or no data from TikTok) returns `analytics_no_data`. TikTok updates metrics 24–48 hours after the activity. Returns 404 if the post does not exist in your account, 409 if a TikTok account must be reconnected, and 502 if TikTok’s call fails.",
+        "description": "**Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:read` scoped to the profile that owns the post.\n\nReads each variant’s metrics live from its platform. TikTok, Instagram and Facebook Page variants return metrics; X and LinkedIn variants return `analytics_not_supported`. A variant with nothing to read (not published, connection removed, not public, deleted, or not yet reported by the platform) returns `analytics_no_data`. TikTok updates metrics 24–48 hours after the activity, and Meta can take up to 48 hours to report a new post. Returns 404 if the post does not exist in your account, 409 if an account must be reconnected, and 502 if the platform’s call fails.",
         "tags": ["Analytics"],
         "parameters": [
           {
@@ -29054,6 +29895,29 @@
                             "full_video_watched_rate": 0.0237,
                             "new_followers": 1,
                             "profile_views": 12
+                          },
+                          "error": null
+                        },
+                        {
+                          "variant_id": "pv_01kv3tda7me48banhv08s91sck",
+                          "connection_id": "conn_01kv3tg12kfvgv0kgnmjbbabbq",
+                          "platform": "instagram",
+                          "metrics": {
+                            "platform": "instagram",
+                            "views": 5400,
+                            "reach": 3100,
+                            "likes": 220,
+                            "comments": 14,
+                            "shares": 31,
+                            "saved": 45,
+                            "reposts": 6,
+                            "total_interactions": 316,
+                            "follows": null,
+                            "profile_visits": null,
+                            "profile_activity": null,
+                            "ig_reels_avg_watch_time": 6120,
+                            "ig_reels_video_view_total_time": 33048000,
+                            "reels_skip_rate": 41.2
                           },
                           "error": null
                         }
@@ -29784,7 +30648,11 @@
                     },
                     "code": {
                       "type": "string",
-                      "enum": ["tiktok_analytics_unavailable"],
+                      "enum": [
+                        "tiktok_analytics_unavailable",
+                        "instagram_analytics_unavailable",
+                        "facebook_analytics_unavailable"
+                      ],
                       "description": "The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.",
                       "examples": ["tiktok_analytics_unavailable"]
                     },
@@ -29853,6 +30721,30 @@
                       "code": "tiktok_analytics_unavailable",
                       "display_error": "We couldn’t load TikTok analytics — please try again.",
                       "detail": "We could not load analytics from TikTok.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "instagram_analytics_unavailable": {
+                    "summary": "We could not load analytics from Instagram.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/instagram_analytics_unavailable",
+                      "title": "We could not load analytics from Instagram.",
+                      "status": 502,
+                      "code": "instagram_analytics_unavailable",
+                      "display_error": "We couldn’t load Instagram analytics — please try again.",
+                      "detail": "We could not load analytics from Instagram.",
+                      "request_id": "req_8x2k4m9q1z"
+                    }
+                  },
+                  "facebook_analytics_unavailable": {
+                    "summary": "We could not load analytics from Facebook.",
+                    "value": {
+                      "type": "https://docs.postrun.ai/errors/facebook_analytics_unavailable",
+                      "title": "We could not load analytics from Facebook.",
+                      "status": 502,
+                      "code": "facebook_analytics_unavailable",
+                      "display_error": "We couldn’t load Facebook analytics — please try again.",
+                      "detail": "We could not load analytics from Facebook.",
                       "request_id": "req_8x2k4m9q1z"
                     }
                   }
@@ -31005,6 +31897,8 @@
                                       "connection_discovery_failed",
                                       "tiktok_creator_info_unavailable",
                                       "tiktok_analytics_unavailable",
+                                      "instagram_analytics_unavailable",
+                                      "facebook_analytics_unavailable",
                                       "media_processing",
                                       "media_upload_init_failed",
                                       "media_upload_incomplete",
@@ -31241,6 +32135,8 @@
                                                     "connection_discovery_failed",
                                                     "tiktok_creator_info_unavailable",
                                                     "tiktok_analytics_unavailable",
+                                                    "instagram_analytics_unavailable",
+                                                    "facebook_analytics_unavailable",
                                                     "media_processing",
                                                     "media_upload_init_failed",
                                                     "media_upload_incomplete",
@@ -31398,6 +32294,8 @@
                                                 "connection_discovery_failed",
                                                 "tiktok_creator_info_unavailable",
                                                 "tiktok_analytics_unavailable",
+                                                "instagram_analytics_unavailable",
+                                                "facebook_analytics_unavailable",
                                                 "media_processing",
                                                 "media_upload_init_failed",
                                                 "media_upload_incomplete",
@@ -32617,6 +33515,8 @@
                                 "connection_discovery_failed",
                                 "tiktok_creator_info_unavailable",
                                 "tiktok_analytics_unavailable",
+                                "instagram_analytics_unavailable",
+                                "facebook_analytics_unavailable",
                                 "media_processing",
                                 "media_upload_init_failed",
                                 "media_upload_incomplete",
@@ -32853,6 +33753,8 @@
                                               "connection_discovery_failed",
                                               "tiktok_creator_info_unavailable",
                                               "tiktok_analytics_unavailable",
+                                              "instagram_analytics_unavailable",
+                                              "facebook_analytics_unavailable",
                                               "media_processing",
                                               "media_upload_init_failed",
                                               "media_upload_incomplete",
@@ -33010,6 +33912,8 @@
                                           "connection_discovery_failed",
                                           "tiktok_creator_info_unavailable",
                                           "tiktok_analytics_unavailable",
+                                          "instagram_analytics_unavailable",
+                                          "facebook_analytics_unavailable",
                                           "media_processing",
                                           "media_upload_init_failed",
                                           "media_upload_incomplete",

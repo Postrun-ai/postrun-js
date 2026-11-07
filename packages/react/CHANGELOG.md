@@ -1,5 +1,25 @@
 # @postrun/react
 
+## 4.2.0
+
+### Minor Changes
+
+- YouTube (videos and Shorts). Regenerated from the API spec: `youtube` joins
+  `PostPlatform` and `ConnectablePlatform`, `short` joins `PostType` (derived by the
+  server from the video's duration and size), and `YouTubePostSettings` types the
+  variant's native settings (`title`, `privacy_status`, `tags`, `category_id`,
+  `thumbnail_media_id`, `self_declared_made_for_kids`, `contains_synthetic_media`).
+  `buildCreatePost` / `buildUpdatePost` accept a `youtube` channel, `isPostPlatform`
+  and `POST_PLATFORMS` include it, and `YouTubePostVariant` is exported. New error
+  codes: `youtube_long_upload_not_allowed`, `youtube_not_authorized`,
+  `youtube_daily_limit_reached`, `youtube_upload_failed`, `youtube_upload_unconfirmed`,
+  `youtube_video_rejected`, `youtube_processing_failed`, `youtube_thumbnail_failed`.
+
+### Patch Changes
+
+- Updated dependencies
+  - @postrun/js@4.2.0
+
 ## 4.1.0
 
 ### Patch Changes

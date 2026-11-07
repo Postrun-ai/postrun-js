@@ -517,7 +517,7 @@ export const postsList = <ThrowOnError extends boolean = true>(options?: Options
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:write` scoped to the target profile.
  *
- * Composes a post + its per-channel variants. `publish` decides the outcome: `now` publishes immediately, `schedule` publishes at `schedule_at`, `draft` just stores it.
+ * Composes a post + its per-channel variants. `publish` decides the outcome: `now` publishes immediately, `schedule` publishes at `schedule_at`, `draft` just stores it. The response is the post in its current state. A post with a YouTube variant publishes in the background, and the request waits up to 4 minutes for it; if it is still `publishing` after the wait, use the `post.*` webhooks or poll `GET /v1/posts/{id}`.
  */
 export const postsCreate = <ThrowOnError extends boolean = true>(options: Options<PostsCreateData, ThrowOnError>): RequestResult<PostsCreateResponses, PostsCreateErrors, ThrowOnError> => (options.client ?? client).post<PostsCreateResponses, PostsCreateErrors, ThrowOnError>({
     security: [{
@@ -584,7 +584,7 @@ export const postsGet = <ThrowOnError extends boolean = true>(options: Options<P
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:write` scoped to the profile that owns the post.
  *
- * Edits a post and/or transitions its publish state (`draft` / `schedule` / `now`). Valid only while the post is draft or scheduled. Send only the fields to change; providing `variants` replaces the whole set.
+ * Edits a post and/or transitions its publish state (`draft` / `schedule` / `now`). Valid only while the post is draft or scheduled. Send only the fields to change; providing `variants` replaces the whole set. The response is the post in its current state. A post with a YouTube variant publishes in the background, and the request waits up to 4 minutes for it; if it is still `publishing` after the wait, use the `post.*` webhooks or poll `GET /v1/posts/{id}`.
  */
 export const postsUpdate = <ThrowOnError extends boolean = true>(options: Options<PostsUpdateData, ThrowOnError>): RequestResult<PostsUpdateResponses, PostsUpdateErrors, ThrowOnError> => (options.client ?? client).patch<PostsUpdateResponses, PostsUpdateErrors, ThrowOnError>({
     security: [{
@@ -609,7 +609,7 @@ export const postsUpdate = <ThrowOnError extends boolean = true>(options: Option
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:write` scoped to the profile that owns the post.
  *
- * Re-publishes the post’s failed variants now, through the same path as `publish: "now"`. Published variants are never touched, and a failure that may already be live on the platform (e.g. `x_publish_failed`) is never re-sent, so a retry can’t post twice. Failed attempts are never billed.
+ * Re-publishes the post’s failed variants now, through the same path as `publish: "now"`. Published variants are never touched, and a failure that may already be live on the platform (e.g. `x_publish_failed`) is never re-sent, so a retry can’t post twice. Failed attempts are never billed. The response is the post in its current state. A post with a YouTube variant publishes in the background, and the request waits up to 4 minutes for it; if it is still `publishing` after the wait, use the `post.*` webhooks or poll `GET /v1/posts/{id}`.
  */
 export const postsRetry = <ThrowOnError extends boolean = true>(options: Options<PostsRetryData, ThrowOnError>): RequestResult<PostsRetryResponses, PostsRetryErrors, ThrowOnError> => (options.client ?? client).post<PostsRetryResponses, PostsRetryErrors, ThrowOnError>({
     security: [{

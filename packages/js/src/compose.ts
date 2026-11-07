@@ -160,6 +160,16 @@ const tiktokHandler: PlatformHandler<'tiktok'> = {
   }),
 };
 
+const youtubeHandler: PlatformHandler<'youtube'> = {
+  buildVariant: ({ settings, connectionId, body, media }) => ({
+    platform: 'youtube',
+    connection_id: connectionId,
+    body,
+    media: [...media],
+    settings,
+  }),
+};
+
 /**
  * The handler registry. A `Record<PostPlatform, …>` (no optional keys), so a
  * platform the contract defines without a handler here is a COMPILE ERROR.
@@ -170,6 +180,7 @@ const PLATFORM_HANDLERS: { [P in PostPlatform]: PlatformHandler<P> } = {
   facebook_page: facebookHandler,
   instagram: instagramHandler,
   tiktok: tiktokHandler,
+  youtube: youtubeHandler,
 };
 
 /** Narrow any platform string to a posting platform. */

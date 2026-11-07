@@ -50,6 +50,7 @@ export type {
   LinkedInPostVariant,
   TikTokPostVariant,
   InstagramPostVariant,
+  YouTubePostVariant,
   Post,
   PostList,
   ListPostsQuery,

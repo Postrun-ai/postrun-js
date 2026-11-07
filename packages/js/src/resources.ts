@@ -142,6 +142,16 @@ export type InstagramPostVariant = Extract<
   { platform: 'instagram' }
 >;
 
+/** The YouTube member of the write variant union — typed native settings
+ * (`title`, `privacy_status`, `tags`, `category_id`, `thumbnail_media_id`, the
+ * made-for-kids and synthetic-media declarations); `body` is the description.
+ * The `short` vs `video` shape is server-DERIVED from the video's duration and
+ * size. Narrowed from the contract, never hand-declared. */
+export type YouTubePostVariant = Extract<
+  PostVariantInput,
+  { platform: 'youtube' }
+>;
+
 /** A post — its variants, schedule, and derived status (the read resource). */
 export type Post = PostsGetResponse;
 

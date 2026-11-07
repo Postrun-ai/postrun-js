@@ -8,6 +8,7 @@ const conns = [
   { id: 'conn_ig', platform: 'instagram' },
   { id: 'conn_fb', platform: 'facebook_page' },
   { id: 'conn_tt', platform: 'tiktok' },
+  { id: 'conn_yt', platform: 'youtube' },
 ] as const;
 
 /** A media attachment — just the asset id (the customer never declares a kind;
@@ -67,6 +68,26 @@ test('TikTok resolves its connection from the profile', () => {
     conns,
   );
   expect(post.variants[0]!.connection_id).toBe('conn_tt');
+});
+
+test('YouTube resolves its connection and passes its settings through', () => {
+  const post = buildCreatePost(
+    {
+      profileId: 'p',
+      content: { body: 'The description', media: [media('m1')] },
+      channels: { youtube: { settings: { title: 'Launch', privacy_status: 'unlisted' } } },
+    },
+    conns,
+  );
+  expect(post.variants).toEqual([
+    {
+      platform: 'youtube',
+      connection_id: 'conn_yt',
+      body: 'The description',
+      media: [{ media_id: 'm1' }],
+      settings: { title: 'Launch', privacy_status: 'unlisted' },
+    },
+  ]);
 });
 
 /* ------------------------------- documents -------------------------------- */

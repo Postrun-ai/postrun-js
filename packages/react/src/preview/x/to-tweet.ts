@@ -11,6 +11,7 @@ import type {
 
 import type { ReadyMedia, XPreviewVariant } from '../types';
 import { extractEntities } from './entities';
+import { toReactTweetSrc } from './raw-media';
 
 /**
  * The minimal identity `toTweet` renders into the X card header — the display
@@ -102,7 +103,7 @@ function mediaBase(
     ext_media_availability: { status: 'available' },
     ext_media_color: { palette: [] },
     indices: [0, 0],
-    media_url_https: src,
+    media_url_https: toReactTweetSrc(src),
     original_info: { height: h, width: w, focus_rects: [] },
     sizes: { large: size, medium: size, small: size, thumb: size },
     url: src,

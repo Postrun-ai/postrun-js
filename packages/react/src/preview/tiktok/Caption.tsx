@@ -7,7 +7,7 @@ import { ExpandableText } from '../ExpandableText';
 /**
  * The post description as TikTok renders it over the media: plain white body with
  * #hashtags and @mentions tinted in TikTok's link color, line breaks preserved.
- * Clamps to two lines with a shared "more"/"less" fold that expands to the FULL
+ * Folds at two lines with the shared "… more" that expands to the FULL
  * caption (no inner scrollbar) — so the reviewer can read the entire to-be-posted
  * content in the preview (nothing is hidden from the reviewer). The full text is also always in
  * the editable caption field.
@@ -22,20 +22,26 @@ const TOKEN = /([#@][\p{L}\p{N}_.]+)/gu;
 const IS_TOKEN = /^[#@][\p{L}\p{N}_.]+$/u;
 
 export function Caption({ body }: { body: string }) {
-  const parts = body.split(TOKEN);
-
   return (
-    <ExpandableText lines={2} toggleColor="rgba(255,255,255,0.82)" style={wrapStyle}>
-      {parts.map((part, i) =>
-        IS_TOKEN.test(part) ? (
-          <span key={i} style={{ color: LINK_COLOR }}>
-            {part}
-          </span>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </ExpandableText>
+    <ExpandableText
+      text={body}
+      render={highlight}
+      lines={2}
+      toggleColor="rgba(255,255,255,0.82)"
+      style={wrapStyle}
+    />
+  );
+}
+
+function highlight(text: string) {
+  return text.split(TOKEN).map((part, i) =>
+    IS_TOKEN.test(part) ? (
+      <span key={i} style={{ color: LINK_COLOR }}>
+        {part}
+      </span>
+    ) : (
+      <span key={i}>{part}</span>
+    ),
   );
 }
 

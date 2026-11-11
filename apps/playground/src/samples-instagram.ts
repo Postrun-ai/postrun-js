@@ -34,7 +34,7 @@ export const IG_SAMPLES: IgSample[] = [
     id: 'image',
     label: 'Image',
     variant: v({
-      body: 'Golden hour from the offsite 🌅 #design #team @acmestudio',
+      body: 'Golden hour from the offsite 🌅 Three days in the mountains to plan the year. We hiked, we sketched, we argued about fonts. Thank you to everyone who made it happen. #design #team @acmestudio',
       media: [{ media_id: 'med_i1' }],
       settings: { collaborators: ['janedev'] },
     }),
@@ -57,7 +57,7 @@ export const IG_SAMPLES: IgSample[] = [
     id: 'reel',
     label: 'Reel',
     variant: v({
-      body: 'Behind the scenes of our spring shoot 🌸 #bts #reels',
+      body: 'Behind the scenes of our spring shoot 🌸 Six looks, one rooftop, zero rain. The crew set up before sunrise. Full lookbook drops Friday. #bts #reels',
       media: [{ media_id: 'med_v1' }],
       settings: {
         audio_name: 'Original audio · acmestudio',

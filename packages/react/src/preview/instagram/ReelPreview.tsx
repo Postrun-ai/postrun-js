@@ -82,12 +82,11 @@ export function ReelPreview({
         </div>
         {body ? (
           <ExpandableText
+            text={body}
             lines={2}
             toggleColor="rgba(255,255,255,0.7)"
             style={captionStyle}
-          >
-            {body}
-          </ExpandableText>
+          />
         ) : null}
         <div style={audioStyle}>
           <MdMusicNote size={14} aria-hidden />

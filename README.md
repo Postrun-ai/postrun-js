@@ -1,7 +1,7 @@
 # postrun-js
 
 Official JavaScript SDK + React hooks/components for the [Postrun API](https://postrun.ai) —
-the unified posting + ads API for apps and AI agents.
+the social posting API for apps and AI agents.
 
 Build a full social-scheduling UI (a Hootsuite-style app) directly against Postrun,
 **without standing up your own backend** beyond minting a scoped token.

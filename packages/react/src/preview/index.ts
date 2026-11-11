@@ -6,28 +6,70 @@
  * passes the uploaded assets via `media` and is matched by id.
  */
 export { resolveVariantMedia } from './media-resolver';
-export { XPostPreview, XPoll } from './x';
-export type { XPostPreviewProps, XPollProps } from './x';
+export {
+  XPostPreview,
+  XPreviewRoot,
+  XPreviewHeader,
+  XPreviewBody,
+  XPreviewContent,
+  XPreviewActions,
+  useXPreview,
+  XPoll,
+} from './x';
+export type {
+  XPostPreviewProps,
+  XPreviewRootProps,
+  XPreviewData,
+  XPollProps,
+} from './x';
 export {
   LinkedInPostPreview,
+  LinkedInPreviewRoot,
+  LinkedInPreviewHeader,
+  LinkedInPreviewBody,
+  LinkedInPreviewContent,
+  LinkedInPreviewActions,
+  useLinkedInPreview,
   ArticleCard,
   Poll,
   DocumentCard,
 } from './linkedin';
-export { InstagramPostPreview, ReelPreview } from './instagram';
+export {
+  InstagramPostPreview,
+  InstagramPreviewRoot,
+  InstagramPreviewHeader,
+  InstagramPreviewContent,
+  InstagramPreviewActions,
+  InstagramPreviewBody,
+  useInstagramPreview,
+  ReelPreview,
+} from './instagram';
 export type {
   InstagramPostPreviewProps,
+  InstagramPreviewRootProps,
+  InstagramPreviewData,
+  InstagramAuthor,
   ReelPreviewProps,
   InstagramTheme,
 } from './instagram';
 export type {
   LinkedInPostPreviewProps,
+  LinkedInPreviewRootProps,
+  LinkedInPreviewData,
+  LinkedInAuthor,
+  LinkedInVisibility,
+  LinkedInTheme,
   ArticleCardProps,
   PollProps,
   DocumentCardProps,
 } from './linkedin';
 export {
   TikTokPostPreview,
+  TikTokPreviewRoot,
+  TikTokPreviewContent,
+  TikTokPreviewBody,
+  TikTokPreviewActions,
+  useTikTokPreview,
   TikTokPublishPanel,
   TikTokCaptionField,
   AudienceSelect,
@@ -39,6 +81,8 @@ export {
 } from './tiktok';
 export type {
   TikTokPostPreviewProps,
+  TikTokPreviewRootProps,
+  TikTokPreviewData,
   TikTokPublishPanelProps,
   TikTokCaptionFieldProps,
   TikTokTheme,

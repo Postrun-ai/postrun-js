@@ -17,6 +17,19 @@ import type { ReadyMedia } from '../types';
  * given src on a miss (never crashes).
  */
 
+const RELATIVE_BASE = 'https://relative.invalid';
+
+/** react-tweet runs `new URL()` on every media src, which throws on a relative
+ * path and takes the whole page down. We hand it an absolute stand-in;
+ * `makeRawMediaImg` maps it back to the raw src. */
+export function toReactTweetSrc(src: string): string {
+  try {
+    return new URL(src, RELATIVE_BASE).href;
+  } catch {
+    return RELATIVE_BASE;
+  }
+}
+
 /** A copy of react-tweet@3.3.1's `getMediaUrl(media, 'small')` so the lookup keys
  * match byte-for-byte what react-tweet produces. Pure; never throws. */
 export function twitterMediaUrl(src: string): string {
@@ -43,7 +56,7 @@ export function rawSrcLookup(
   const map = new Map<string, string>();
   for (const list of lists) {
     for (const item of list) {
-      map.set(twitterMediaUrl(item.src), item.src);
+      map.set(twitterMediaUrl(toReactTweetSrc(item.src)), item.src);
     }
   }
   return map;

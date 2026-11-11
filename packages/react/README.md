@@ -54,7 +54,7 @@ not shipped** — that's your product and your taste. Build it from the hooks ab
 
 Connect a platform from **your own button**, in your own app — no redirect, no
 second click. `<Connect>` runs the OAuth popup in-page and, for multi-account
-platforms (Meta Ads, Facebook Pages), hands you the discoverable accounts to draw
+platforms (Facebook Pages), hands you the discoverable accounts to draw
 your own picker. It's headless: you render every pixel.
 
 ```tsx
@@ -116,18 +116,92 @@ dedicated button but would mint one per platform in a "pick a network" list. Set
 (`onPointerEnter`/`onFocus`) so only the platform the user is about to click mints:
 
 ```tsx
-<Connect profileId={id} platform="meta_ads" prepareOnMount={false} onConnected={refetch}>
+<Connect profileId={id} platform="facebook_page" prepareOnMount={false} onConnected={refetch}>
   {({ state, start, prepare, select }) =>
     state.phase === 'picking' ? (
       <Picker accounts={state.accounts} onPick={select} />
     ) : (
       <button onPointerEnter={prepare} onFocus={prepare} onClick={start}>
-        Connect Meta
+        Connect Facebook
       </button>
     )
   }
 </Connect>
 ```
+
+## Post previews
+
+Show how a post will look on each network before it publishes, rendered from
+the same variant you send to `useCreatePost`:
+
+| Component | Network |
+| --- | --- |
+| `XPostPreview` | X (built on `react-tweet`, so your bundler must load its CSS modules; Next.js and Vite do) |
+| `LinkedInPostPreview` | LinkedIn |
+| `InstagramPostPreview` · `ReelPreview` | Instagram feed · Reels |
+| `TikTokPostPreview` | TikTok (always dark; takes `creatorInfo` from `useTikTokCreatorInfo`) |
+| `TikTokPublishPanel` | TikTok's required pre-publish panel (caption, audience, disclosures) |
+
+```tsx
+import { XPostPreview, useMediaUpload } from '@postrun/react';
+
+const { ready } = useMediaUpload();
+
+<XPostPreview
+  variant={variant}            // a draft you're composing, or a post you fetched
+  connection={connection}      // from useConnections(); supplies name, @handle, avatar
+  media={ready}                // drafts only: fetched posts carry their media inline
+  theme={isDark ? 'dark' : 'light'}
+/>;
+```
+
+- **Media** comes from the Postrun media API. A preview shows the exact
+  rendition each network will receive, with a "Processing media…" tile until it
+  is ready. Local files are not previewed.
+- **Theme**: `auto` (the default) follows the **OS** color scheme, not your app.
+  If your app has its own light/dark toggle, pass `theme` explicitly.
+- `MediaResource` is exported here for typing the `media` prop.
+
+### Compose your own
+
+Every preview is built from parts you can reorder, drop, or replace. Render the
+network's `Root` with the same props as the preview, then any parts you want:
+
+```tsx
+import {
+  LinkedInPreviewRoot,
+  LinkedInPreviewHeader,
+  LinkedInPreviewContent,
+  LinkedInPreviewActions,
+  useLinkedInPreview,
+} from '@postrun/react';
+
+function MyBody() {
+  const { variant } = useLinkedInPreview(); // the same data our parts read
+  return <MyEditor value={variant.body} />;
+}
+
+<LinkedInPreviewRoot variant={variant} connection={connection} media={ready}>
+  <LinkedInPreviewHeader />
+  <MyBody />
+  <LinkedInPreviewContent />
+  <LinkedInPreviewActions />
+</LinkedInPreviewRoot>;
+```
+
+| Network | Root | Parts | Data hook |
+| --- | --- | --- | --- |
+| X | `XPreviewRoot` | `Header` · `Body` · `Content` · `Actions` (prefixed `XPreview…`) | `useXPreview()` |
+| LinkedIn | `LinkedInPreviewRoot` | `Header` · `Body` · `Content` · `Actions` | `useLinkedInPreview()` |
+| Instagram | `InstagramPreviewRoot` | `Header` · `Content` · `Actions` · `Body` | `useInstagramPreview()` |
+| TikTok | `TikTokPreviewRoot` | `Content` · `Body` · `Actions` | `useTikTokPreview()` |
+
+`Body` is the post text, `Content` is what sits with it (media, poll, article,
+quoted post), and `Actions` is the static engagement row. A part throws if it is
+rendered outside its `Root`. The Instagram `Root` renders the feed card; a single
+video is a reel, so use `<ReelPreview>` for it (`<InstagramPostPreview>` switches
+for you). TikTok's `Body` and `Actions` sit on top of the video, so a replacement
+positions itself.
 
 ## License
 

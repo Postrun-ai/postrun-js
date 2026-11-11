@@ -1,11 +1,13 @@
 'use client';
 
 import { memo, useMemo } from 'react';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import type { MediaResource } from '@postrun/js';
 
 import { MediaPlaceholder } from '../MediaPlaceholder';
+import { authorName } from '../author';
+import { createPreviewContext } from '../context';
 import { resolveVariantMedia } from '../media-resolver';
 import {
   isReadyMedia,
@@ -13,12 +15,10 @@ import {
   type PreviewConnection,
   type ReadyMedia,
 } from '../types';
-import { authorName } from '../author';
 import { ArticleCard } from './ArticleCard';
 import { DocumentCard } from './DocumentCard';
 import { EngagementBar } from './EngagementBar';
-import { Header } from './Header';
-import type { LinkedInVisibility } from './Header';
+import { Header, type LinkedInAuthor, type LinkedInVisibility } from './Header';
 import { Media } from './Media';
 import { Poll } from './Poll';
 import { PostBody } from './PostBody';
@@ -37,13 +37,12 @@ import {
  * audience icon, an entity-highlighted body with the "…more" fold, the
  * 1/2/3/4/+N image mosaic (or a video), and a static action bar.
  *
- * Renders every `content_kind`: text, single/multi image, video, plus the rich
- * units — article share card, poll, and document — each driven from
- * `settings.{article,poll,document}`. Media pixels come from the resolved
- * per-platform renditions; a still-processing asset shows the shared
- * "Processing media…" tile.
+ * Composable: `<LinkedInPostPreview>` is `<LinkedInPreviewRoot>` wrapping the
+ * Header, Body, Content, and Actions parts. Render the Root yourself to reorder,
+ * drop, or replace any part; your own parts read the same data through
+ * `useLinkedInPreview()`.
  */
-export interface LinkedInPostPreviewProps {
+export interface LinkedInPreviewRootProps {
   /** The LinkedIn variant — compose-time write OR fetched read (carries assets
    * inline). */
   variant: LinkedInPreviewVariant;
@@ -61,13 +60,39 @@ export interface LinkedInPostPreviewProps {
   theme?: LinkedInTheme;
   /** Relative time label shown in the header. Default "Now". */
   time?: string;
-  /** Show the static action bar (Like/Comment/Repost/Send). Default true. */
-  showActions?: boolean;
   /** Class applied to the card — your hook for sizing, shadows, etc. */
   className?: string;
   /** Inline styles on the card — including `--pr-li-*` variable overrides. */
   style?: CSSProperties;
+  /** The parts to render, in order: ours, yours, or a mix. */
+  children: ReactNode;
 }
+
+export interface LinkedInPostPreviewProps
+  extends Omit<LinkedInPreviewRootProps, 'children'> {
+  /** Show the static action bar (Like/Comment/Repost/Send). Default true. */
+  showActions?: boolean;
+}
+
+/** What every LinkedIn part renders from — read it in your own parts with
+ * `useLinkedInPreview()`. */
+export interface LinkedInPreviewData {
+  variant: LinkedInPreviewVariant;
+  author: LinkedInAuthor;
+  visibility: LinkedInVisibility;
+  time?: string;
+  mentionNames: readonly string[];
+  /** The attached media whose LinkedIn rendition is ready to show. */
+  media: readonly ReadyMedia[];
+  /** Media is attached, but none of it has a LinkedIn rendition yet. */
+  mediaPending: boolean;
+  /** The post has commentary, media, or a rich unit (article, poll, document). */
+  hasContent: boolean;
+}
+
+const [LinkedInPreviewProvider, useLinkedInPreview] =
+  createPreviewContext<LinkedInPreviewData>('LinkedInPreviewRoot');
+export { useLinkedInPreview };
 
 const FONT_STACK =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
@@ -77,7 +102,8 @@ const BODY_COLORS = {
   muted: varRef(LI_VAR.muted),
 };
 
-function LinkedInPostPreviewImpl({
+/** The card frame (theme + palette) and the data every part reads. */
+export function LinkedInPreviewRoot({
   variant,
   connection,
   media,
@@ -85,36 +111,49 @@ function LinkedInPostPreviewImpl({
   verified,
   theme = 'auto',
   time,
-  showActions = true,
   className,
   style,
-}: LinkedInPostPreviewProps) {
+  children,
+}: LinkedInPreviewRootProps) {
   const resolved = useMemo(
     () => resolveVariantMedia(variant.media, 'linkedin', media),
     [variant.media, media],
   );
-  const readyMedia = useMemo(() => resolved.filter(isReadyMedia), [resolved]);
-  // Media referenced, but no pixels resolved yet → still processing.
-  const mediaPending = resolved.length > 0 && readyMedia.length === 0;
 
-  const author = useMemo(
-    () => ({
-      name: authorName(connection),
-      avatar_url: connection.avatar_url,
-      headline,
-      verified,
-    }),
-    [connection, headline, verified],
+  const data = useMemo<LinkedInPreviewData>(() => {
+    const settings = variant.settings;
+    const ready = resolved.filter(isReadyMedia);
+    return {
+      variant,
+      author: {
+        name: authorName(connection),
+        avatar_url: connection.avatar_url,
+        headline,
+        verified,
+      },
+      visibility: settings?.visibility ?? 'PUBLIC',
+      time,
+      mentionNames: (settings?.mentions ?? []).map((m) => m.name),
+      media: ready,
+      mediaPending: resolved.length > 0 && ready.length === 0,
+      hasContent:
+        Boolean(variant.body) ||
+        resolved.length > 0 ||
+        Boolean(settings?.article || settings?.poll || settings?.document),
+    };
+  }, [variant, resolved, connection, headline, verified, time]);
+
+  return (
+    <LinkedInPreviewProvider value={data}>
+      <div className={className} style={{ ...cardStyle(theme), ...style }}>
+        {children}
+      </div>
+    </LinkedInPreviewProvider>
   );
+}
 
-  const visibility: LinkedInVisibility =
-    variant.settings?.visibility ?? 'PUBLIC';
-  const mentionNames = useMemo(
-    () => (variant.settings?.mentions ?? []).map((m) => m.name),
-    [variant.settings?.mentions],
-  );
-
-  const cardStyle: CSSProperties = {
+function cardStyle(theme: LinkedInTheme): CSSProperties {
+  return {
     ...paletteVars(),
     colorScheme: colorSchemeFor(theme),
     background: varRef(LI_VAR.bg),
@@ -126,44 +165,32 @@ function LinkedInPostPreviewImpl({
     boxSizing: 'border-box',
     overflow: 'hidden',
     fontFamily: FONT_STACK,
-    ...style,
   };
+}
 
-  // A post with no commentary, media, or rich unit would render as just a header
-  // + action bar — a hollow card. Show LinkedIn's "Start a post" prompt instead.
-  const hasContent =
-    Boolean(variant.body) ||
-    resolved.length > 0 ||
-    Boolean(
-      variant.settings?.article ||
-        variant.settings?.poll ||
-        variant.settings?.document,
+/** Avatar, name, headline, time, and the audience icon. */
+export function LinkedInPreviewHeader() {
+  const { author, visibility, time } = useLinkedInPreview();
+  return <Header author={author} visibility={visibility} time={time} />;
+}
+
+/** The commentary, or LinkedIn's "What do you want to talk about?" prompt when
+ * the post is empty (a header + action bar alone reads as a broken card). */
+export function LinkedInPreviewBody() {
+  const { variant, mentionNames, hasContent } = useLinkedInPreview();
+  if (variant.body) {
+    return (
+      <div style={{ padding: '8px 16px 0' }}>
+        <PostBody
+          text={variant.body}
+          mentionNames={mentionNames}
+          colors={BODY_COLORS}
+        />
+      </div>
     );
-
-  return (
-    <div className={className} style={cardStyle}>
-      <Header
-        author={author}
-        visibility={visibility}
-        time={time}
-      />
-      {variant.body ? (
-        <div style={{ padding: '8px 16px 0' }}>
-          <PostBody
-            text={variant.body}
-            mentionNames={mentionNames}
-            colors={BODY_COLORS}
-          />
-        </div>
-      ) : null}
-      {renderContent(variant, readyMedia, mediaPending)}
-      {hasContent ? null : (
-        <p style={{ ...emptyBodyStyle, color: BODY_COLORS.muted }}>
-          What do you want to talk about?
-        </p>
-      )}
-      {showActions ? <EngagementBar /> : null}
-    </div>
+  }
+  return hasContent ? null : (
+    <p style={emptyBodyStyle}>What do you want to talk about?</p>
   );
 }
 
@@ -172,22 +199,18 @@ const emptyBodyStyle: CSSProperties = {
   padding: '8px 16px 4px',
   fontSize: 14,
   lineHeight: 1.4,
+  color: BODY_COLORS.muted,
 };
 
 /**
- * The content unit below the commentary. The LinkedIn content shape is
- * server-derived (read-only); here we dispatch on the rich sub-object the
- * customer attached (article / poll / document — mutually exclusive with media in
- * the contract), else the media mosaic. Article and document thumbnails come from
- * the first ready media item. Rich cards sit in the text column; media is
- * edge-to-edge. When media is attached but not yet resolved, a processing tile
- * holds the slot.
+ * The unit below the commentary: the article, poll, or document the customer
+ * attached (mutually exclusive with media in the contract), else the media
+ * mosaic. Article and document thumbnails come from the first ready media item.
+ * Rich cards sit in the text column; media is edge-to-edge. Media that is
+ * attached but not yet resolved holds the slot with a processing tile.
  */
-function renderContent(
-  variant: LinkedInPreviewVariant,
-  media: readonly ReadyMedia[],
-  pending: boolean,
-) {
+export function LinkedInPreviewContent() {
+  const { variant, media, mediaPending } = useLinkedInPreview();
   const settings = variant.settings;
   const [firstMedia] = media;
 
@@ -219,7 +242,7 @@ function renderContent(
       </div>
     );
   }
-  if (pending) {
+  if (mediaPending) {
     return (
       <div style={processingFrameStyle}>
         <MediaPlaceholder
@@ -242,6 +265,23 @@ const processingFrameStyle: CSSProperties = {
   height: 272,
   marginTop: 12,
 };
+
+/** The static Like / Comment / Repost / Send bar. */
+export const LinkedInPreviewActions = EngagementBar;
+
+function LinkedInPostPreviewImpl({
+  showActions = true,
+  ...rootProps
+}: LinkedInPostPreviewProps) {
+  return (
+    <LinkedInPreviewRoot {...rootProps}>
+      <LinkedInPreviewHeader />
+      <LinkedInPreviewBody />
+      <LinkedInPreviewContent />
+      {showActions ? <LinkedInPreviewActions /> : null}
+    </LinkedInPreviewRoot>
+  );
+}
 
 /** Memoized: re-renders only when its props change. */
 export const LinkedInPostPreview = memo(LinkedInPostPreviewImpl);

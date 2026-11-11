@@ -3,8 +3,11 @@
 import { memo, useMemo } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 
+import type { TikTokCreatorInfo } from '@postrun/js';
+
+import { createPreviewContext } from '../context';
 import { resolveVariantMedia } from '../media-resolver';
-import { isReadyMedia } from '../types';
+import { isReadyMedia, type ReadyMedia, type TikTokPreviewVariant } from '../types';
 import { Caption } from './Caption';
 import { Media } from './Media';
 import {
@@ -15,7 +18,7 @@ import {
   PlusIcon,
   ShareIcon,
 } from './icons';
-import type { TikTokPostPreviewProps } from './types';
+import type { TikTokPostPreviewProps, TikTokPreviewRootProps } from './types';
 
 /**
  * A faithful preview of how a TikTok post will look, rendered straight from our
@@ -27,15 +30,41 @@ import type { TikTokPostPreviewProps } from './types';
  * The commercial label ("Paid partnership" / "Promotional content") and the AIGC
  * label ("Creator labeled as AI-generated") are derived from the post's
  * `settings`; counts read `‑‑‑` (the post isn't live — never fabricated numbers).
+ *
+ * Composable: `<TikTokPostPreview>` is `<TikTokPreviewRoot>` wrapping the
+ * Content, Body, and Actions parts. Render the Root yourself to reorder, drop, or
+ * replace any part; your own parts read the same data through
+ * `useTikTokPreview()`. Body and Actions are positioned over the media, so a
+ * replacement positions itself.
  */
-
 /** TikTok shows dashes for engagement counts in its pre-post preview. */
 const DASH = '‑‑‑';
+
+/** What every TikTok part renders from — read it in your own parts with
+ * `useTikTokPreview()`. */
+export interface TikTokPreviewData {
+  variant: TikTokPreviewVariant;
+  creator: TikTokCreatorInfo['creator'];
+  /** The @handle shown on the post (username, else nickname). */
+  handle: string;
+  /** "Paid partnership" / "Promotional content", from the disclosure settings. */
+  commercialLabel: string | null;
+  /** The creator labeled the post as AI-generated. */
+  isAigc: boolean;
+  /** The attached media whose TikTok rendition is ready to show. */
+  media: readonly ReadyMedia[];
+  /** Media is attached, but none of it has a TikTok rendition yet. */
+  mediaPending: boolean;
+}
+
+const [TikTokPreviewProvider, useTikTokPreview] =
+  createPreviewContext<TikTokPreviewData>('TikTokPreviewRoot');
+export { useTikTokPreview };
 
 /** The commercial-content label TikTok stamps on a disclosed post, derived from
  * the disclosure toggles in our Post object. Paid partnership wins over own-brand. */
 function commercialLabel(
-  settings: TikTokPostPreviewProps['variant']['settings'],
+  settings: TikTokPreviewVariant['settings'],
 ): string | null {
   if (settings?.is_branded_content) {
     return 'Paid partnership';
@@ -46,65 +75,108 @@ function commercialLabel(
   return null;
 }
 
-function TikTokPostPreviewImpl({
+/** The 9:16 phone frame and the data every part reads. */
+export function TikTokPreviewRoot({
   variant,
   creatorInfo,
   media,
   className,
   style,
-}: TikTokPostPreviewProps) {
+  children,
+}: TikTokPreviewRootProps) {
   const resolved = useMemo(
     () => resolveVariantMedia(variant.media, 'tiktok', media),
     [variant.media, media],
   );
-  const readyMedia = useMemo(() => resolved.filter(isReadyMedia), [resolved]);
 
-  const { creator } = creatorInfo;
-  const handle = creator.username || creator.nickname;
-  const label = commercialLabel(variant.settings);
-  const isAigc = Boolean(variant.settings?.is_ai_generated);
-  // Media referenced but not yet resolved to pixels → still processing.
-  const pending = resolved.length > 0 && readyMedia.length === 0;
+  const data = useMemo<TikTokPreviewData>(() => {
+    const { creator } = creatorInfo;
+    const ready = resolved.filter(isReadyMedia);
+    return {
+      variant,
+      creator,
+      handle: creator.username || creator.nickname,
+      commercialLabel: commercialLabel(variant.settings),
+      isAigc: Boolean(variant.settings?.is_ai_generated),
+      media: ready,
+      mediaPending: resolved.length > 0 && ready.length === 0,
+    };
+  }, [variant, resolved, creatorInfo]);
 
   return (
-    <div className={className} style={{ ...cardStyle, ...style }}>
-      <style>{KEYFRAMES}</style>
-      <Media media={readyMedia} pending={pending} />
-      <div style={scrimStyle} />
-
-      {/* bottom-left: username, caption, labels, music row */}
-      <div style={infoStyle}>
-        <div style={usernameStyle}>{handle}</div>
-        {variant.body ? <Caption body={variant.body} /> : null}
-        {label || isAigc ? (
-          <div style={labelsStyle}>
-            {label ? <span style={pillStyle}>{label}</span> : null}
-            {isAigc ? (
-              <span style={pillStyle}>Creator labeled as AI-generated</span>
-            ) : null}
-          </div>
-        ) : null}
-        <div style={musicRowStyle}>
-          <MusicNoteIcon size={13} />
-          <span>Original sound - {creator.nickname}</span>
-        </div>
+    <TikTokPreviewProvider value={data}>
+      <div className={className} style={{ ...cardStyle, ...style }}>
+        <style>{KEYFRAMES}</style>
+        {children}
       </div>
+    </TikTokPreviewProvider>
+  );
+}
 
-      {/* action rail — overlaid on the right of the video (mobile) */}
-      <div style={railStyle}>
-        <div style={avatarWrapStyle}>
-          <Avatar url={creator.avatar_url} name={creator.nickname} />
-          <span style={followBadgeStyle}>
-            <PlusIcon size={14} />
-          </span>
+/** The full-bleed video or photo carousel (or its processing tile), with the
+ * bottom scrim that keeps the overlaid text readable. */
+export function TikTokPreviewContent() {
+  const { media, mediaPending } = useTikTokPreview();
+  return (
+    <>
+      <Media media={media} pending={mediaPending} />
+      <div style={scrimStyle} />
+    </>
+  );
+}
+
+/** Bottom-left overlay: handle, caption, disclosure labels, and the sound row. */
+export function TikTokPreviewBody() {
+  const { variant, creator, handle, commercialLabel: label, isAigc } =
+    useTikTokPreview();
+  return (
+    <div style={infoStyle}>
+      <div style={usernameStyle}>{handle}</div>
+      {variant.body ? <Caption body={variant.body} /> : null}
+      {label || isAigc ? (
+        <div style={labelsStyle}>
+          {label ? <span style={pillStyle}>{label}</span> : null}
+          {isAigc ? (
+            <span style={pillStyle}>Creator labeled as AI-generated</span>
+          ) : null}
         </div>
-        <RailAction icon={<HeartIcon size={30} />} count={DASH} />
-        <RailAction icon={<CommentIcon size={30} />} count={DASH} />
-        <RailAction icon={<BookmarkIcon size={28} />} count={DASH} />
-        <RailAction icon={<ShareIcon size={28} />} count={DASH} />
-        <Disc url={creator.avatar_url} />
+      ) : null}
+      <div style={musicRowStyle}>
+        <MusicNoteIcon size={13} />
+        <span>Original sound - {creator.nickname}</span>
       </div>
     </div>
+  );
+}
+
+/** The right-hand rail: avatar + follow badge, the count-less actions, and the
+ * spinning sound disc. Overlaid on the media, as on mobile. */
+export function TikTokPreviewActions() {
+  const { creator } = useTikTokPreview();
+  return (
+    <div style={railStyle}>
+      <div style={avatarWrapStyle}>
+        <Avatar url={creator.avatar_url} name={creator.nickname} />
+        <span style={followBadgeStyle}>
+          <PlusIcon size={14} />
+        </span>
+      </div>
+      <RailAction icon={<HeartIcon size={30} />} count={DASH} />
+      <RailAction icon={<CommentIcon size={30} />} count={DASH} />
+      <RailAction icon={<BookmarkIcon size={28} />} count={DASH} />
+      <RailAction icon={<ShareIcon size={28} />} count={DASH} />
+      <Disc url={creator.avatar_url} />
+    </div>
+  );
+}
+
+function TikTokPostPreviewImpl(props: TikTokPostPreviewProps) {
+  return (
+    <TikTokPreviewRoot {...props}>
+      <TikTokPreviewContent />
+      <TikTokPreviewBody />
+      <TikTokPreviewActions />
+    </TikTokPreviewRoot>
   );
 }
 
@@ -288,5 +360,5 @@ const discImgStyle: CSSProperties = {
 
 const KEYFRAMES = `@keyframes pr-tt-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`;
 
-/** Memoized: the resolved-media hook absorbs unstable media arrays. */
+/** Memoized: re-renders only when its props change. */
 export const TikTokPostPreview = memo(TikTokPostPreviewImpl);

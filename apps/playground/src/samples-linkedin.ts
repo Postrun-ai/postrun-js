@@ -38,7 +38,7 @@ export const LI_SAMPLES: LiSample[] = [
     id: 'article',
     label: 'Article',
     variant: v({
-      body: 'Wrote up everything we learned shipping our preview SDK. The "match the real platform" rule changed how we build. 👇',
+      body: 'Wrote up everything we learned shipping our preview SDK. The "match the real platform" rule changed how we build. We stopped reviewing mockups. We started comparing screenshots side by side. Every gap became a ticket. #engineering #design 👇',
       media: [{ media_id: 'med_li_thumb' }],
       settings: {
         visibility: 'PUBLIC',

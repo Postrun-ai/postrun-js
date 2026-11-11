@@ -32,7 +32,7 @@ import type { PreviewMediaKind, ResolvedMedia } from './types';
  * (enriched, carries the full `MediaResource` inline) shape. Both are derived
  * from the SDK variant unions, never re-declared. The read member's inline asset
  * IS the shared `Media` component (same type as `MediaResource`), so no bridge. */
-type VariantMediaRef =
+export type VariantMediaRef =
   | NonNullable<PostVariantInput['media']>[number]
   | NonNullable<PostVariant['media']>[number];
 

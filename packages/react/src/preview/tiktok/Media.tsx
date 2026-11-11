@@ -18,7 +18,7 @@ export function Media({
   media,
   pending = false,
 }: {
-  media: ReadyMedia[];
+  media: readonly ReadyMedia[];
   /** Media is referenced but its pixels aren't resolved yet (still processing). */
   pending?: boolean;
 }) {
@@ -50,7 +50,7 @@ export function Media({
   return <PhotoCarousel media={media} />;
 }
 
-function PhotoCarousel({ media }: { media: ReadyMedia[] }) {
+function PhotoCarousel({ media }: { media: readonly ReadyMedia[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     align: 'start',

@@ -1,17 +1,15 @@
 'use client';
 
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 
+import { ExpandableText } from '../ExpandableText';
+
 /**
- * The LinkedIn post body: entity-highlighted text with the platform's faithful
- * "…more" fold. LinkedIn truncates a long post to a few lines with an inline
- * "…more" toggle; we mirror that. Hashtags, URLs, and supplied @mention names
+ * The LinkedIn post body: entity-highlighted text folded at LinkedIn's three
+ * lines behind an inline "… more". Hashtags, URLs, and supplied @mention names
  * render in the accent color, exactly as they appear in-feed.
  */
-
-/** Roughly the in-feed fold point — long posts collapse here behind "…more". */
-const FOLD_CHARS = 200;
 
 export interface PostBodyColors {
   accent: string;
@@ -26,21 +24,9 @@ export interface PostBodyProps {
 }
 
 const BODY_STYLE: CSSProperties = {
-  whiteSpace: 'pre-wrap',
-  wordBreak: 'break-word',
   fontSize: 14,
   lineHeight: 1.43,
 };
-
-/** Truncate to at most `max` characters, backing up to the last word boundary. */
-function truncateAtWord(text: string, max: number): string {
-  if (text.length <= max) {
-    return text;
-  }
-  const slice = text.slice(0, max);
-  const lastSpace = slice.lastIndexOf(' ');
-  return slice.slice(0, lastSpace > 0 ? lastSpace : max);
-}
 
 /** Escape a string for safe use inside a RegExp. */
 function escapeRegExp(value: string): string {
@@ -126,43 +112,14 @@ function linkify(
 }
 
 export function PostBody({ text, mentionNames = [], colors }: PostBodyProps) {
-  const [expanded, setExpanded] = useState(false);
-  const isLong = text.length > FOLD_CHARS;
-  const shown = isLong && !expanded ? truncateAtWord(text, FOLD_CHARS) : text;
-
-  // Recompute the entity-highlighted nodes only when the rendered text/colors/
-  // mentions change — not on every parent re-render.
-  const nodes = useMemo(
-    () => linkify(shown, colors, mentionNames),
-    [shown, colors, mentionNames],
-  );
-
-  const toggleStyle: CSSProperties = {
-    background: 'none',
-    border: 'none',
-    padding: 0,
-    cursor: 'pointer',
-    color: colors.muted,
-    fontWeight: 600,
-    fontSize: 14,
-  };
-
   return (
-    <div style={BODY_STYLE}>
-      {nodes}
-      {isLong ? (
-        <>
-          {!expanded ? '… ' : ' '}
-          <button
-            type="button"
-            aria-expanded={expanded}
-            onClick={() => setExpanded((v) => !v)}
-            style={toggleStyle}
-          >
-            {expanded ? 'see less' : 'more'}
-          </button>
-        </>
-      ) : null}
-    </div>
+    <ExpandableText
+      text={text}
+      render={(shown) => linkify(shown, colors, mentionNames)}
+      lines={3}
+      lessLabel="see less"
+      toggleColor={colors.muted}
+      style={BODY_STYLE}
+    />
   );
 }

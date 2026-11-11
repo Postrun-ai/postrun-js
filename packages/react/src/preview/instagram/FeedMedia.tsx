@@ -96,18 +96,18 @@ function Carousel({ media }: { media: readonly ReadyMedia[] }) {
   );
 }
 
+/** Instagram's own media-loading grey (theme-aware). It is also the frame fill:
+ * media is `object-fit: cover`, so the frame only shows before pixels land, and
+ * black there flashed dark on a light card. */
+const EMPTY_BG = 'light-dark(#efefef, #1c1c1c)';
+
 const frameStyle: CSSProperties = {
   position: 'relative',
   width: '100%',
   aspectRatio: '1 / 1',
-  background: '#000',
+  background: EMPTY_BG,
   overflow: 'hidden',
 };
-
-/** Instagram's own media-loading placeholder grey (theme-aware) — present enough
- * to read as a deliberate "media goes here" slot, NOT the pure black used to
- * letterbox real media. */
-const EMPTY_BG = 'light-dark(#efefef, #1c1c1c)';
 
 const mediaStyle: CSSProperties = {
   position: 'absolute',

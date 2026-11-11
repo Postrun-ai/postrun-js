@@ -189,6 +189,10 @@ current content-publishing policy for its own Required-UX before building.
 - [ ] If Required-UX applies: panel complete + consent gate fires only on click +
       disabled-until-valid + verbatim strings verified against live docs.
 - [ ] Theming (card dark, panel light/dark/auto); loading/empty/processing states.
+- [ ] Composable: a `<Network>PreviewRoot` (frame + data via `createPreviewContext`
+      in `preview/context.ts`), prop-less parts (`Header`/`Body`/`Content`/`Actions`
+      as the layout has them), a `use<Network>Preview()` data hook, and the default
+      `<Network>PostPreview` is just the Root composing those parts.
 - [ ] Exported from `preview/index.ts` + package root; changeset added.
 - [ ] Tests pin the **behaviors**, not just "renders": consent gate, caps,
       no-default audience, greyed forbidden options, label derivation. A test that

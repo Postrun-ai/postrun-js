@@ -107,6 +107,25 @@ describe('<XPostPreview>', () => {
     expect(img.getAttribute('src')).toBe('https://cdn.customer.com/photo.jpg');
   });
 
+  it('renders a relative rendition url instead of crashing', () => {
+    const asset = mediaAsset('m1', {
+      per_platform: {
+        x: {
+          status: 'ready',
+          url: '/uploads/photo.jpg',
+          width: 1200,
+          height: 800,
+          bytes: 1,
+          warnings: [],
+          errors: [],
+        },
+      },
+    });
+    render(<XPostPreview variant={withImage()} connection={conn} media={[asset]} />);
+    const img = screen.getByAltText('Image');
+    expect(img.getAttribute('src')).toBe('/uploads/photo.jpg');
+  });
+
   it("uses the variant media's alt_text_override over the asset alt_text", () => {
     render(
       <XPostPreview

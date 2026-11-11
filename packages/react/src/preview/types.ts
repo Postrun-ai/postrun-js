@@ -1,12 +1,12 @@
 import type {
   Connection,
-  InstagramPostVariant,
-  LinkedInPostVariant,
   MediaKind,
+  PostPlatform,
   PostVariant,
-  TikTokPostVariant,
-  XPostVariant,
+  SettingsFor,
 } from '@postrun/js';
+
+import type { VariantMediaRef } from './media-resolver';
 
 /**
  * A platform's FETCHED (read) variant — one member of a stored `Post`'s
@@ -23,23 +23,25 @@ export type ReadPostVariant<P extends PostVariant['platform']> = Extract<
 >;
 
 /**
- * What a preview's `variant` prop accepts: EITHER the compose-time **write**
- * variant (`XPostVariant`, …) OR the fetched **read** variant. Both expose the
- * typed `settings`, `body`, and ordered `media` refs the cards read — so you can
- * hand a preview a post you just built OR one you fetched, with no transform. The
- * cards derive the visual shape from the media + settings (the post shape itself
- * is server-derived, present only on the read variant). A read variant
- * additionally carries each media's full asset inline; a write/draft variant
- * references media by id (resolve it via the `media` prop).
+ * What a preview's `variant` prop accepts: only what the cards read. A draft
+ * (`XPostVariant`, …), a fetched variant, a half-built draft, or a fetched
+ * variant with new draft media all fit. Publish-only fields such as
+ * `connection_id` and LinkedIn's `visibility` (the card defaults it to `PUBLIC`)
+ * are not required. `platform` stays so one network's variant can't be handed to
+ * another network's preview. Fetched media carries its asset inline; draft media
+ * is resolved by id against the `media` prop.
  */
-export type XPreviewVariant = XPostVariant | ReadPostVariant<'x'>;
-export type LinkedInPreviewVariant =
-  | LinkedInPostVariant
-  | ReadPostVariant<'linkedin'>;
-export type TikTokPreviewVariant = TikTokPostVariant | ReadPostVariant<'tiktok'>;
-export type InstagramPreviewVariant =
-  | InstagramPostVariant
-  | ReadPostVariant<'instagram'>;
+type PreviewVariant<P extends PostPlatform> = {
+  platform: P;
+  body?: PostVariant['body'];
+  media?: readonly VariantMediaRef[];
+  settings?: Partial<NonNullable<SettingsFor<P>>>;
+};
+
+export type XPreviewVariant = PreviewVariant<'x'>;
+export type LinkedInPreviewVariant = PreviewVariant<'linkedin'>;
+export type TikTokPreviewVariant = PreviewVariant<'tiktok'>;
+export type InstagramPreviewVariant = PreviewVariant<'instagram'>;
 
 /**
  * The author a preview header renders. It is DERIVED from the SDK `Connection`

@@ -1,11 +1,22 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { fakeTextLayout } from '../test-helpers';
 import { PostBody } from './PostBody';
 
 const colors = { accent: 'rgb(10,102,194)', muted: '#666' };
 
+/** LinkedIn folds at 3 lines: 3 × 40 chars, less the 6 of "… more". */
+const LEAD = `${'word '.repeat(21)}the order`;
+
 describe('<PostBody>', () => {
+  beforeEach(() => {
+    fakeTextLayout(40);
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('renders short text in full with no "…more" control', () => {
     render(<PostBody text="Quick update for the team." colors={colors} />);
 
@@ -38,6 +49,19 @@ describe('<PostBody>', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /see less/i }));
     expect(screen.queryByText(new RegExp(tail))).toBeNull();
+  });
+
+  it('folds at three lines on a word, with no "." before "… more"', () => {
+    const { container } = render(
+      <PostBody text={`${LEAD}. Then it ships tomorrow with tracking.`} colors={colors} />,
+    );
+    expect(container.textContent).toBe(`${LEAD}… more`);
+  });
+
+  it('keeps a hashtag highlighted inside the folded text', () => {
+    render(<PostBody text={`#launch ${LEAD}. Then it ships tomorrow.`} colors={colors} />);
+    expect(screen.getByRole('button', { name: 'more' })).toBeDefined();
+    expect(screen.getByText('#launch').tagName.toLowerCase()).toBe('a');
   });
 
   it('highlights a hashtag as a styled link', () => {

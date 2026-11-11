@@ -1,5 +1,13 @@
-export { TikTokPostPreview } from './TikTokPostPreview';
-export type { TikTokPostPreviewProps } from './types';
+export {
+  TikTokPostPreview,
+  TikTokPreviewRoot,
+  TikTokPreviewContent,
+  TikTokPreviewBody,
+  TikTokPreviewActions,
+  useTikTokPreview,
+} from './TikTokPostPreview';
+export type { TikTokPreviewData } from './TikTokPostPreview';
+export type { TikTokPostPreviewProps, TikTokPreviewRootProps } from './types';
 export { TikTokPublishPanel } from './PublishPanel';
 export type { TikTokPublishPanelProps } from './PublishPanel';
 export {

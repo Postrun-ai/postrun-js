@@ -1,6 +1,28 @@
 import type { MediaResource, MediaTarget } from '@postrun/js';
+import { vi } from 'vitest';
 
 import type { PreviewConnection } from './types';
+
+const LINE_PX = 20;
+
+/**
+ * jsdom has no layout, so fake one for the caption fold: text wraps every
+ * `charsPerLine` characters into 20px lines, and `offsetHeight` follows. The
+ * returned `resize` changes the wrap width (a narrower or wider card).
+ */
+export function fakeTextLayout(charsPerLine: number) {
+  let perLine = charsPerLine;
+  vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockImplementation(
+    function (this: HTMLElement) {
+      return Math.ceil((this.textContent ?? '').length / perLine) * LINE_PX;
+    },
+  );
+  return {
+    resize(next: number) {
+      perLine = next;
+    },
+  };
+}
 
 /**
  * Shared preview-test fixtures. Builds real SDK shapes (`MediaResource`,

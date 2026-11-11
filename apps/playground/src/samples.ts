@@ -41,7 +41,7 @@ const CONN = 'conn_sample0000000000000000';
 export const videoVariant: TikTokPostVariant = {
   platform: 'tiktok',
   connection_id: CONN,
-  body: 'Behind the scenes of our spring shoot 🌸 #bts #studio @acmestudio',
+  body: 'Behind the scenes of our spring shoot 🌸 Six looks, one rooftop, zero rain. The crew set up before sunrise. Full lookbook drops Friday. #bts #studio @acmestudio',
   media: [{ media_id: 'med_video' }],
   settings: {
     disable_comment: false,

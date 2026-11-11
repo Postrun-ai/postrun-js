@@ -1,5 +1,5 @@
 import type { MediaResource, TikTokCreatorInfo } from '@postrun/js';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import type { TikTokPreviewVariant } from '../types';
 
@@ -26,4 +26,10 @@ export interface TikTokPostPreviewProps {
   className?: string;
   /** Inline styles on the frame. */
   style?: CSSProperties;
+}
+
+/** Props for `<TikTokPreviewRoot>`: the preview's props plus the parts to
+ * render, in order (ours, yours, or a mix). */
+export interface TikTokPreviewRootProps extends TikTokPostPreviewProps {
+  children: ReactNode;
 }

@@ -3,8 +3,8 @@
 import { type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { connectionsConnect, connectionsDelete, connectionsGet, connectionsGetAnalytics, connectionsListAccounts, connectionsListByProfile, connectionsSelect, logsGet, logsList, mediaAbort, mediaComplete, mediaCreate, mediaDelete, mediaGet, mediaList, mediaListParts, mediaSignPart, mediaUpdate, type Options, postsCreate, postsDelete, postsGet, postsGetAnalytics, postsList, postsRetry, postsUpdate, postsValidate, profilesCreate, profilesDelete, profilesGet, profilesList, profilesUpdate, tiktokCreatorInfo, tokensMint, webhooksCreateEndpoint, webhooksCreatePortal, webhooksDeleteEndpoint, webhooksGetEndpoint, webhooksListEndpoints, webhooksListEventTypes, webhooksPing, webhooksUpdateEndpoint } from '../sdk.gen';
-import type { ConnectionsConnectData, ConnectionsConnectError, ConnectionsConnectResponse, ConnectionsDeleteData, ConnectionsDeleteError, ConnectionsDeleteResponse, ConnectionsGetAnalyticsData, ConnectionsGetAnalyticsError, ConnectionsGetAnalyticsResponse, ConnectionsGetData, ConnectionsGetError, ConnectionsGetResponse, ConnectionsListAccountsData, ConnectionsListAccountsError, ConnectionsListAccountsResponse, ConnectionsListByProfileData, ConnectionsListByProfileError, ConnectionsListByProfileResponse, ConnectionsSelectData, ConnectionsSelectError, ConnectionsSelectResponse, LogsGetData, LogsGetError, LogsGetResponse, LogsListData, LogsListError, LogsListResponse, MediaAbortData, MediaAbortError, MediaAbortResponse, MediaCompleteData, MediaCompleteError, MediaCompleteResponse, MediaCreateData, MediaCreateError, MediaCreateResponse, MediaDeleteData, MediaDeleteError, MediaDeleteResponse, MediaGetData, MediaGetError, MediaGetResponse, MediaListData, MediaListError, MediaListPartsData, MediaListPartsError, MediaListPartsResponse, MediaListResponse, MediaSignPartData, MediaSignPartError, MediaSignPartResponse, MediaUpdateData, MediaUpdateError, MediaUpdateResponse, PostsCreateData, PostsCreateError, PostsCreateResponse, PostsDeleteData, PostsDeleteError, PostsDeleteResponse, PostsGetAnalyticsData, PostsGetAnalyticsError, PostsGetAnalyticsResponse, PostsGetData, PostsGetError, PostsGetResponse, PostsListData, PostsListError, PostsListResponse, PostsRetryData, PostsRetryError, PostsRetryResponse, PostsUpdateData, PostsUpdateError, PostsUpdateResponse, PostsValidateData, PostsValidateError, PostsValidateResponse, ProfilesCreateData, ProfilesCreateError, ProfilesCreateResponse, ProfilesDeleteData, ProfilesDeleteError, ProfilesDeleteResponse, ProfilesGetData, ProfilesGetError, ProfilesGetResponse, ProfilesListData, ProfilesListError, ProfilesListResponse, ProfilesUpdateData, ProfilesUpdateError, ProfilesUpdateResponse, TiktokCreatorInfoData, TiktokCreatorInfoError, TiktokCreatorInfoResponse, TokensMintData, TokensMintError, TokensMintResponse, WebhooksCreateEndpointData, WebhooksCreateEndpointError, WebhooksCreateEndpointResponse, WebhooksCreatePortalData, WebhooksCreatePortalError, WebhooksCreatePortalResponse, WebhooksDeleteEndpointData, WebhooksDeleteEndpointError, WebhooksDeleteEndpointResponse, WebhooksGetEndpointData, WebhooksGetEndpointError, WebhooksGetEndpointResponse, WebhooksListEndpointsData, WebhooksListEndpointsError, WebhooksListEndpointsResponse, WebhooksListEventTypesData, WebhooksListEventTypesError, WebhooksListEventTypesResponse, WebhooksPingData, WebhooksPingError, WebhooksPingResponse, WebhooksUpdateEndpointData, WebhooksUpdateEndpointError, WebhooksUpdateEndpointResponse } from '../types.gen';
+import { connectionsConnect, connectionsDelete, connectionsGet, connectionsGetAnalytics, connectionsListAccounts, connectionsListByProfile, connectionsSelect, logsGet, logsList, mediaAbort, mediaComplete, mediaCreate, mediaDelete, mediaGet, mediaList, mediaListParts, mediaSignPart, mediaUpdate, type Options, postsApprove, postsCreate, postsDelete, postsGet, postsGetAnalytics, postsList, postsReject, postsRetry, postsUpdate, postsValidate, profilesCreate, profilesDelete, profilesGet, profilesList, profilesSetApprovalSteps, profilesUpdate, tiktokCreatorInfo, tokensMint, webhooksCreateEndpoint, webhooksCreatePortal, webhooksDeleteEndpoint, webhooksGetEndpoint, webhooksListEndpoints, webhooksListEventTypes, webhooksPing, webhooksUpdateEndpoint } from '../sdk.gen';
+import type { ConnectionsConnectData, ConnectionsConnectError, ConnectionsConnectResponse, ConnectionsDeleteData, ConnectionsDeleteError, ConnectionsDeleteResponse, ConnectionsGetAnalyticsData, ConnectionsGetAnalyticsError, ConnectionsGetAnalyticsResponse, ConnectionsGetData, ConnectionsGetError, ConnectionsGetResponse, ConnectionsListAccountsData, ConnectionsListAccountsError, ConnectionsListAccountsResponse, ConnectionsListByProfileData, ConnectionsListByProfileError, ConnectionsListByProfileResponse, ConnectionsSelectData, ConnectionsSelectError, ConnectionsSelectResponse, LogsGetData, LogsGetError, LogsGetResponse, LogsListData, LogsListError, LogsListResponse, MediaAbortData, MediaAbortError, MediaAbortResponse, MediaCompleteData, MediaCompleteError, MediaCompleteResponse, MediaCreateData, MediaCreateError, MediaCreateResponse, MediaDeleteData, MediaDeleteError, MediaDeleteResponse, MediaGetData, MediaGetError, MediaGetResponse, MediaListData, MediaListError, MediaListPartsData, MediaListPartsError, MediaListPartsResponse, MediaListResponse, MediaSignPartData, MediaSignPartError, MediaSignPartResponse, MediaUpdateData, MediaUpdateError, MediaUpdateResponse, PostsApproveData, PostsApproveError, PostsApproveResponse, PostsCreateData, PostsCreateError, PostsCreateResponse, PostsDeleteData, PostsDeleteError, PostsDeleteResponse, PostsGetAnalyticsData, PostsGetAnalyticsError, PostsGetAnalyticsResponse, PostsGetData, PostsGetError, PostsGetResponse, PostsListData, PostsListError, PostsListResponse, PostsRejectData, PostsRejectError, PostsRejectResponse, PostsRetryData, PostsRetryError, PostsRetryResponse, PostsUpdateData, PostsUpdateError, PostsUpdateResponse, PostsValidateData, PostsValidateError, PostsValidateResponse, ProfilesCreateData, ProfilesCreateError, ProfilesCreateResponse, ProfilesDeleteData, ProfilesDeleteError, ProfilesDeleteResponse, ProfilesGetData, ProfilesGetError, ProfilesGetResponse, ProfilesListData, ProfilesListError, ProfilesListResponse, ProfilesSetApprovalStepsData, ProfilesSetApprovalStepsError, ProfilesSetApprovalStepsResponse, ProfilesUpdateData, ProfilesUpdateError, ProfilesUpdateResponse, TiktokCreatorInfoData, TiktokCreatorInfoError, TiktokCreatorInfoResponse, TokensMintData, TokensMintError, TokensMintResponse, WebhooksCreateEndpointData, WebhooksCreateEndpointError, WebhooksCreateEndpointResponse, WebhooksCreatePortalData, WebhooksCreatePortalError, WebhooksCreatePortalResponse, WebhooksDeleteEndpointData, WebhooksDeleteEndpointError, WebhooksDeleteEndpointResponse, WebhooksGetEndpointData, WebhooksGetEndpointError, WebhooksGetEndpointResponse, WebhooksListEndpointsData, WebhooksListEndpointsError, WebhooksListEndpointsResponse, WebhooksListEventTypesData, WebhooksListEventTypesError, WebhooksListEventTypesResponse, WebhooksPingData, WebhooksPingError, WebhooksPingResponse, WebhooksUpdateEndpointData, WebhooksUpdateEndpointError, WebhooksUpdateEndpointResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -206,6 +206,27 @@ export const profilesUpdateMutation = (options?: Partial<Options<ProfilesUpdateD
     return mutationOptions;
 };
 
+/**
+ * Set a profile's approval steps
+ *
+ * **Authentication.** Secret `pr_` API key only — this endpoint cannot be called with a browser token.
+ *
+ * Replaces the profile's ordered approval steps; send an empty list to clear them. Requires a secret key. Steps apply to posts whose approval round starts after the change (a post created, or its content edited). Clearing the steps does not release posts already waiting for approval: PATCH them with `publish`.
+ */
+export const profilesSetApprovalStepsMutation = (options?: Partial<Options<ProfilesSetApprovalStepsData>>): UseMutationOptions<ProfilesSetApprovalStepsResponse, ProfilesSetApprovalStepsError, Options<ProfilesSetApprovalStepsData>> => {
+    const mutationOptions: UseMutationOptions<ProfilesSetApprovalStepsResponse, ProfilesSetApprovalStepsError, Options<ProfilesSetApprovalStepsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await profilesSetApprovalSteps({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const connectionsListByProfileQueryKey = (options: Options<ConnectionsListByProfileData>) => createQueryKey('connectionsListByProfile', options);
 
 /**
@@ -264,7 +285,7 @@ export const connectionsListByProfileInfiniteOptions = (options: Options<Connect
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `connections:delete` scoped to the profile that owns the connection.
  *
- * Disconnects a connection. Returns a deletion marker; returns 404 if it does not exist in your account. Disconnect is unconditional — any scheduled posts that target this connection are not blocked; they fail gracefully at publish time with a `connection_removed` error until you reconnect and reschedule.
+ * Disconnects a connection. Returns a deletion marker; returns 404 if it does not exist in your account. Disconnect is unconditional — any scheduled posts that target this connection are not blocked; they fail gracefully at publish time with a `connection_removed` error until you reconnect and reschedule. Disconnecting YouTube also revokes Postrun’s Google access to that channel (unless another connection still uses it) and deletes what YouTube returned for this connection’s posts: each variant’s `result` becomes null, and an `error` keeps its `code` without YouTube’s detail.
  */
 export const connectionsDeleteMutation = (options?: Partial<Options<ConnectionsDeleteData>>): UseMutationOptions<ConnectionsDeleteResponse, ConnectionsDeleteError, Options<ConnectionsDeleteData>> => {
     const mutationOptions: UseMutationOptions<ConnectionsDeleteResponse, ConnectionsDeleteError, Options<ConnectionsDeleteData>> = {
@@ -669,7 +690,7 @@ export const postsListInfiniteOptions = (options?: Options<PostsListData>) => in
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:write` scoped to the target profile.
  *
- * Composes a post + its per-channel variants. `publish` decides the outcome: `now` publishes immediately, `schedule` publishes at `schedule_at`, `draft` just stores it. The response is the post in its current state. A post with a YouTube variant publishes in the background, and the request waits up to 4 minutes for it; if it is still `publishing` after the wait, use the `post.*` webhooks or poll `GET /v1/posts/{id}`.
+ * Composes a post + its per-channel variants. `publish` decides the outcome: `now` publishes immediately, `schedule` publishes at `schedule_at`, `draft` just stores it. A post with a YouTube variant publishes in the background, so the response shows it `publishing` — use the `post.*` webhooks or poll `GET /v1/posts/{id}`. A YouTube variant turns `published` once YouTube accepts the upload; its `platform_status` then follows YouTube’s processing (`post.platform_status_changed`), and a video YouTube rejects later turns the variant `failed`.
  */
 export const postsCreateMutation = (options?: Partial<Options<PostsCreateData>>): UseMutationOptions<PostsCreateResponse, PostsCreateError, Options<PostsCreateData>> => {
     const mutationOptions: UseMutationOptions<PostsCreateResponse, PostsCreateError, Options<PostsCreateData>> = {
@@ -733,7 +754,7 @@ export const postsGetOptions = (options: Options<PostsGetData>) => queryOptions<
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:write` scoped to the profile that owns the post.
  *
- * Edits a post and/or transitions its publish state (`draft` / `schedule` / `now`). Valid only while the post is draft or scheduled. Send only the fields to change; providing `variants` replaces the whole set. The response is the post in its current state. A post with a YouTube variant publishes in the background, and the request waits up to 4 minutes for it; if it is still `publishing` after the wait, use the `post.*` webhooks or poll `GET /v1/posts/{id}`.
+ * Edits a post and/or transitions its publish state (`draft` / `schedule` / `now`). Allowed while every variant is `draft`, `scheduled` or `failed`; a post with any `publishing` or `published` variant (including a partial publish) is locked and returns 409. Send only the fields to change; providing `variants` replaces the whole set, so a `failed` post is fixed by sending corrected `variants`. `publish: "now"` without new `variants` re-sends only failed variants whose `error.retryable` is `true`. A post with a YouTube variant publishes in the background, so the response shows it `publishing` — use the `post.*` webhooks or poll `GET /v1/posts/{id}`. A YouTube variant turns `published` once YouTube accepts the upload; its `platform_status` then follows YouTube’s processing (`post.platform_status_changed`), and a video YouTube rejects later turns the variant `failed`.
  */
 export const postsUpdateMutation = (options?: Partial<Options<PostsUpdateData>>): UseMutationOptions<PostsUpdateResponse, PostsUpdateError, Options<PostsUpdateData>> => {
     const mutationOptions: UseMutationOptions<PostsUpdateResponse, PostsUpdateError, Options<PostsUpdateData>> = {
@@ -754,7 +775,7 @@ export const postsUpdateMutation = (options?: Partial<Options<PostsUpdateData>>)
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:write` scoped to the profile that owns the post.
  *
- * Re-publishes the post’s failed variants now, through the same path as `publish: "now"`. Published variants are never touched, and a failure that may already be live on the platform (e.g. `x_publish_failed`) is never re-sent, so a retry can’t post twice. Failed attempts are never billed. The response is the post in its current state. A post with a YouTube variant publishes in the background, and the request waits up to 4 minutes for it; if it is still `publishing` after the wait, use the `post.*` webhooks or poll `GET /v1/posts/{id}`.
+ * Re-publishes the post’s failed variants now, through the same path as `publish: "now"` — only those whose `error.retryable` is `true` and whose connection still exists, so each variant’s error tells you in advance whether a retry re-sends it. A published variant, or a failure that may already be live on the platform (e.g. `x_publish_failed`), is never re-sent, so a retry can’t post twice. When no failed variant can be re-sent unchanged — say only `youtube_invalid_metadata` is left, which you fix with `PATCH /v1/posts/{id}` — it refuses with 409 `post_not_retryable`. Before a variant settles `failed`, the publish run has already re-attempted a transient failure by itself (a rate limit on X, Instagram, Facebook or TikTok, a failed X or LinkedIn media upload, LinkedIn or Instagram media still processing, or an internal error) up to 3 more times, 1 s, 2 s and 4 s apart; `post.failed` fires once per variant per publish run, after those attempts. Failed attempts are never billed. A post with a YouTube variant publishes in the background, so the response shows it `publishing` — use the `post.*` webhooks or poll `GET /v1/posts/{id}`. A YouTube variant turns `published` once YouTube accepts the upload; its `platform_status` then follows YouTube’s processing (`post.platform_status_changed`), and a video YouTube rejects later turns the variant `failed`.
  */
 export const postsRetryMutation = (options?: Partial<Options<PostsRetryData>>): UseMutationOptions<PostsRetryResponse, PostsRetryError, Options<PostsRetryData>> => {
     const mutationOptions: UseMutationOptions<PostsRetryResponse, PostsRetryError, Options<PostsRetryData>> = {
@@ -771,11 +792,53 @@ export const postsRetryMutation = (options?: Partial<Options<PostsRetryData>>): 
 };
 
 /**
+ * Approve a post
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:approve` scoped to the profile that owns the post.
+ *
+ * Approves the current step of the post’s approval chain. The final approval releases the post: it publishes right away if its `schedule_at` has passed or is under 5 s away (a scheduled run that found it unapproved published nothing and left it waiting; `publish: "now"` waits the same way), otherwise at `schedule_at`. The release runs in the background, so the response may still show the post `scheduled` — use the `post.*` webhooks or poll `GET /v1/posts/{id}`. Send the `approval.revision` you reviewed: if the content changed since, the call returns 409 `approval_revision_stale`, so nobody decides on content they never saw. There is no `step` field: the server knows the current step, and steps resolve in order. Requires the `posts:approve` scope, which `posts:write` does not grant. A token minted with `approver_steps` may decide only those steps (403 `approval_step_not_allowed`), and its `sub` is recorded as the step’s `decided_by`; `decided_by: null` means a secret key decided. A content edit (PATCH with `variants`) starts a new round at step 1; changing the schedule, `tags`, `notes`, `metadata` or `external_id` does not. A post with no approval steps returns 409 `approval_not_required`, and a round already decided (or a step another approver decided first) returns 409 `approval_not_pending`. Example: `POST /v1/posts/{id}/approve` with `{ "revision": 2 }`.
+ */
+export const postsApproveMutation = (options?: Partial<Options<PostsApproveData>>): UseMutationOptions<PostsApproveResponse, PostsApproveError, Options<PostsApproveData>> => {
+    const mutationOptions: UseMutationOptions<PostsApproveResponse, PostsApproveError, Options<PostsApproveData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postsApprove({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Reject a post
+ *
+ * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:approve` scoped to the profile that owns the post.
+ *
+ * Rejects the current step of the post’s approval chain, which ends the round: nothing publishes until a content edit (PATCH with `variants`) starts a new one at step 1. Send the `approval.revision` you reviewed: if the content changed since, the call returns 409 `approval_revision_stale`, so nobody decides on content they never saw. There is no `step` field: the server knows the current step, and steps resolve in order. Requires the `posts:approve` scope, which `posts:write` does not grant. A token minted with `approver_steps` may decide only those steps (403 `approval_step_not_allowed`), and its `sub` is recorded as the step’s `decided_by`; `decided_by: null` means a secret key decided. A content edit (PATCH with `variants`) starts a new round at step 1; changing the schedule, `tags`, `notes`, `metadata` or `external_id` does not. A post with no approval steps returns 409 `approval_not_required`, and a round already decided (or a step another approver decided first) returns 409 `approval_not_pending`. Example: `POST /v1/posts/{id}/reject` with `{ "revision": 2 }`.
+ */
+export const postsRejectMutation = (options?: Partial<Options<PostsRejectData>>): UseMutationOptions<PostsRejectResponse, PostsRejectError, Options<PostsRejectData>> => {
+    const mutationOptions: UseMutationOptions<PostsRejectResponse, PostsRejectError, Options<PostsRejectData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await postsReject({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
  * Validate a post
  *
  * **Authentication.** Secret `pr_` API key, or a browser-safe frontend token granting `posts:read` scoped to the target profile.
  *
- * Runs the exact ownership + publish-readiness checks the create path runs under dry_run, with no side effects. Returns a per-issue verdict (`publishable` + `issues[]`) on 200; a reference to a connection/media outside the profile is a typed 422.
+ * Runs the exact ownership + publish-readiness checks the create path runs under dry_run, with no side effects. Returns a per-issue verdict (`publishable` + `issues[]`) on 200; a profile outside your account is a 404, and a reference to a connection/media outside the profile is a typed 422.
  */
 export const postsValidateMutation = (options?: Partial<Options<PostsValidateData>>): UseMutationOptions<PostsValidateResponse, PostsValidateError, Options<PostsValidateData>> => {
     const mutationOptions: UseMutationOptions<PostsValidateResponse, PostsValidateError, Options<PostsValidateData>> = {

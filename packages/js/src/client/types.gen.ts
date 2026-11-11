@@ -9,7 +9,7 @@ export type ClientOptions = {
  *
  * The closed set of machine-readable Postrun error codes. Branch on this. Each links to https://docs.postrun.ai/errors/<code>.
  */
-export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+export type ErrorCode = 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
 
 /**
  * Structured detail from the wrapped platform: its own error code, the offending field path + value, and its request id (for that platform’s support).
@@ -176,6 +176,28 @@ export type Connection = {
      * ISO-8601 last-update time.
      */
     updated_at: string | null;
+    /**
+     * What the connected YouTube channel can publish right now. null when the connection isn’t YouTube, isn’t `active`, or YouTube couldn’t say right now.
+     */
+    capabilities: ConnectionCapabilities | null;
+};
+
+/**
+ * What the connected YouTube channel can publish right now.
+ */
+export type ConnectionCapabilities = {
+    /**
+     * Whether the channel can upload videos longer than 15 minutes: `allowed`; `needs_verification` (the channel owner unlocks them by verifying the channel by phone in YouTube Studio, under Settings → Channel → Feature eligibility); or `not_allowed` (YouTube isn’t allowing them on this channel — the same page says why).
+     */
+    long_uploads: 'allowed' | 'needs_verification' | 'not_allowed';
+    /**
+     * The longest video the channel can upload, in milliseconds: 12 hours when long uploads are `allowed`, 15 minutes otherwise.
+     */
+    max_video_duration_ms: number;
+    /**
+     * Whether the channel can set a custom thumbnail. It follows phone verification: the same verification that unlocks long uploads unlocks custom thumbnails.
+     */
+    custom_thumbnails: boolean;
 };
 
 export type Profile = {
@@ -201,6 +223,7 @@ export type Profile = {
     metadata: {
         [key: string]: string | number | boolean;
     };
+    approval_steps: ApprovalSteps;
     /**
      * ISO-8601 creation time.
      */
@@ -221,7 +244,7 @@ export type Post = {
      */
     status: 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
     /**
-     * Shared schedule (ISO-8601). null = draft/publish-now.
+     * Shared schedule (ISO-8601). null = draft or published now. While a post awaits approval, the earliest time it may publish — for `publish: "now"`, the time it was submitted; it publishes on final approval.
      */
     schedule_at: string | null;
     tags: Array<string>;
@@ -232,6 +255,10 @@ export type Post = {
     metadata: {
         [key: string]: string | number | boolean;
     };
+    /**
+     * Approval-chain progress on the current revision. null when the post has no approval steps.
+     */
+    approval: PostApproval | null;
     variants: Array<PostVariant>;
     /**
      * ISO-8601 creation time.
@@ -243,6 +270,20 @@ export type Post = {
     updated_at: string;
 };
 
+export type PostApproval = {
+    status: 'pending' | 'approved' | 'rejected';
+    revision: number;
+    current_step: string | null;
+    steps: Array<{
+        name: string;
+        status: 'approved' | 'rejected' | 'pending' | 'waiting';
+        decided_by: string | null;
+        decided_at: string | null;
+    }>;
+};
+
+export type ApprovalSteps = Array<string>;
+
 export type PostWriteResult = {
     id: string;
     object: 'post';
@@ -253,7 +294,7 @@ export type PostWriteResult = {
      */
     status: 'draft' | 'scheduled' | 'publishing' | 'partially_published' | 'published' | 'failed';
     /**
-     * Shared schedule (ISO-8601). null = draft/publish-now.
+     * Shared schedule (ISO-8601). null = draft or published now. While a post awaits approval, the earliest time it may publish — for `publish: "now"`, the time it was submitted; it publishes on final approval.
      */
     schedule_at: string | null;
     tags: Array<string>;
@@ -264,6 +305,10 @@ export type PostWriteResult = {
     metadata: {
         [key: string]: string | number | boolean;
     };
+    /**
+     * Approval-chain progress on the current revision. null when the post has no approval steps.
+     */
+    approval: PostApproval | null;
     variants: Array<PostVariant>;
     /**
      * ISO-8601 creation time.
@@ -384,19 +429,19 @@ export type PostVariant = {
      */
     schedule_at: string | null;
     result: {
+        /**
+         * The post’s id on the platform. For a TikTok post whose id TikTok hasn’t provided yet (`platform_status.state` is `processing`), its publish id (`v_pub_url~…`), and `permalink` is null.
+         */
         platform_post_id: string;
         permalink: string | null;
         published_at: string;
     } | null;
-    error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
-        message: string;
-        source?: ErrorSource;
-        /**
-         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-         */
-        display_error: string;
-    } | null;
+    error: PostVariantError | null;
+    /**
+     * A non-fatal partial success on a published variant: the post is live, but part of it (a thread reply, a first comment, a custom thumbnail) did not complete. null when there is none.
+     */
+    warning?: PostVariantError | null;
+    platform_status?: PlatformStatus | null;
     media: Array<{
         media_id: string;
         /**
@@ -505,19 +550,19 @@ export type PostVariant = {
      */
     schedule_at: string | null;
     result: {
+        /**
+         * The post’s id on the platform. For a TikTok post whose id TikTok hasn’t provided yet (`platform_status.state` is `processing`), its publish id (`v_pub_url~…`), and `permalink` is null.
+         */
         platform_post_id: string;
         permalink: string | null;
         published_at: string;
     } | null;
-    error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
-        message: string;
-        source?: ErrorSource;
-        /**
-         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-         */
-        display_error: string;
-    } | null;
+    error: PostVariantError | null;
+    /**
+     * A non-fatal partial success on a published variant: the post is live, but part of it (a thread reply, a first comment, a custom thumbnail) did not complete. null when there is none.
+     */
+    warning?: PostVariantError | null;
+    platform_status?: PlatformStatus | null;
     media: Array<{
         media_id: string;
         /**
@@ -566,19 +611,19 @@ export type PostVariant = {
      */
     schedule_at: string | null;
     result: {
+        /**
+         * The post’s id on the platform. For a TikTok post whose id TikTok hasn’t provided yet (`platform_status.state` is `processing`), its publish id (`v_pub_url~…`), and `permalink` is null.
+         */
         platform_post_id: string;
         permalink: string | null;
         published_at: string;
     } | null;
-    error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
-        message: string;
-        source?: ErrorSource;
-        /**
-         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-         */
-        display_error: string;
-    } | null;
+    error: PostVariantError | null;
+    /**
+     * A non-fatal partial success on a published variant: the post is live, but part of it (a thread reply, a first comment, a custom thumbnail) did not complete. null when there is none.
+     */
+    warning?: PostVariantError | null;
+    platform_status?: PlatformStatus | null;
     media: Array<{
         media_id: string;
         /**
@@ -660,19 +705,19 @@ export type PostVariant = {
      */
     schedule_at: string | null;
     result: {
+        /**
+         * The post’s id on the platform. For a TikTok post whose id TikTok hasn’t provided yet (`platform_status.state` is `processing`), its publish id (`v_pub_url~…`), and `permalink` is null.
+         */
         platform_post_id: string;
         permalink: string | null;
         published_at: string;
     } | null;
-    error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
-        message: string;
-        source?: ErrorSource;
-        /**
-         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-         */
-        display_error: string;
-    } | null;
+    error: PostVariantError | null;
+    /**
+     * A non-fatal partial success on a published variant: the post is live, but part of it (a thread reply, a first comment, a custom thumbnail) did not complete. null when there is none.
+     */
+    warning?: PostVariantError | null;
+    platform_status?: PlatformStatus | null;
     media: Array<{
         media_id: string;
         /**
@@ -757,19 +802,19 @@ export type PostVariant = {
      */
     schedule_at: string | null;
     result: {
+        /**
+         * The post’s id on the platform. For a TikTok post whose id TikTok hasn’t provided yet (`platform_status.state` is `processing`), its publish id (`v_pub_url~…`), and `permalink` is null.
+         */
         platform_post_id: string;
         permalink: string | null;
         published_at: string;
     } | null;
-    error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
-        message: string;
-        source?: ErrorSource;
-        /**
-         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-         */
-        display_error: string;
-    } | null;
+    error: PostVariantError | null;
+    /**
+     * A non-fatal partial success on a published variant: the post is live, but part of it (a thread reply, a first comment, a custom thumbnail) did not complete. null when there is none.
+     */
+    warning?: PostVariantError | null;
+    platform_status?: PlatformStatus | null;
     media: Array<{
         media_id: string;
         /**
@@ -802,19 +847,19 @@ export type PostVariant = {
      */
     schedule_at: string | null;
     result: {
+        /**
+         * The post’s id on the platform. For a TikTok post whose id TikTok hasn’t provided yet (`platform_status.state` is `processing`), its publish id (`v_pub_url~…`), and `permalink` is null.
+         */
         platform_post_id: string;
         permalink: string | null;
         published_at: string;
     } | null;
-    error: {
-        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
-        message: string;
-        source?: ErrorSource;
-        /**
-         * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
-         */
-        display_error: string;
-    } | null;
+    error: PostVariantError | null;
+    /**
+     * A non-fatal partial success on a published variant: the post is live, but part of it (a thread reply, a first comment, a custom thumbnail) did not complete. null when there is none.
+     */
+    warning?: PostVariantError | null;
+    platform_status?: PlatformStatus | null;
     media: Array<{
         media_id: string;
         /**
@@ -827,6 +872,42 @@ export type PostVariant = {
         alt_text_override: string | null;
         media: Media;
     }>;
+};
+
+export type PostVariantError = {
+    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+    message: string;
+    source?: ErrorSource;
+    /**
+     * When the limit behind this error resets, so a retry can succeed (ISO 8601). Present only when the platform publishes its reset time.
+     */
+    retry_at?: string;
+    /**
+     * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
+     */
+    display_error: string;
+    /**
+     * `true`: the post itself is fine — sending it again unchanged can succeed once the platform recovers (an outage, rate limit, quota or timeout) or something outside the post is fixed (reconnect the account, select it, verify the channel, billing). `POST /v1/posts/{id}/retry` re-sends only these failures. `false`: the post must change first (the platform refused its content, media or settings), or a re-send could post it twice or harm the account (it may already be live, or the account is flagged). Fixed per `code`.
+     */
+    retryable: boolean;
+};
+
+/**
+ * The platform’s own status for the published post, which can change after publish. null for platforms Postrun doesn’t track (every platform but YouTube).
+ */
+export type PlatformStatus = {
+    /**
+     * `processing`: the platform accepted the post and is still processing it, so it isn’t watchable yet. `ready`: processed, and visible as its privacy allows. `rejected`: the platform rejected it (e.g. a duplicate or a copyright claim), and the variant failed. `failed`: the platform could not process it, and the variant failed. `removed`: it no longer exists on the platform.
+     */
+    state: 'processing' | 'ready' | 'rejected' | 'failed' | 'removed';
+    /**
+     * The platform’s own reason for `rejected` or `failed` (YouTube’s `rejectionReason` or `failureReason`, e.g. `duplicate` or `codec`). null otherwise.
+     */
+    reason: string | null;
+    /**
+     * When Postrun last saw the state change (ISO 8601).
+     */
+    updated_at: string;
 };
 
 /**
@@ -842,7 +923,7 @@ export type YouTubePostSettings = {
      */
     privacy_status?: 'public' | 'unlisted' | 'private';
     /**
-     * Whether the video is made for kids. Omit it and no declaration is sent.
+     * Whether the video is made for kids (YouTube’s legal declaration). Required to publish.
      */
     self_declared_made_for_kids?: boolean;
     /**
@@ -861,6 +942,34 @@ export type YouTubePostSettings = {
      * Optional custom thumbnail, referenced by OUR media id.
      */
     thumbnail_media_id?: string;
+    /**
+     * Whether YouTube notifies the channel’s subscribers about the new video. Omitted: YouTube notifies them.
+     */
+    notify_subscribers?: boolean;
+    /**
+     * The video’s license. Omitted: the standard YouTube license (`youtube`).
+     */
+    license?: 'youtube' | 'creativeCommon';
+    /**
+     * Whether other websites can embed the video. Omitted: YouTube’s default applies.
+     */
+    embeddable?: boolean;
+    /**
+     * Whether the watch page shows the video’s extended statistics publicly. Omitted: YouTube shows them.
+     */
+    public_stats_viewable?: boolean;
+    /**
+     * The language of the title and description, as a BCP-47 tag (`en`, `pt-BR`). Omitted: not set.
+     */
+    default_language?: string;
+    /**
+     * The language spoken in the video’s default audio track, as a BCP-47 tag. Omitted: not set.
+     */
+    default_audio_language?: string;
+    /**
+     * When the video was recorded. Omitted: not set.
+     */
+    recording_date?: string;
 };
 
 /**
@@ -908,6 +1017,10 @@ export type PostVariantAnalytics = {
     error: {
         code: 'analytics_not_supported' | 'analytics_no_data';
         message: string;
+        /**
+         * When the limit behind this error resets, so a retry can succeed (ISO 8601). Present only when the platform publishes its reset time.
+         */
+        retry_at?: string;
         /**
          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade; this is the display string.
          */
@@ -1854,7 +1967,7 @@ export type CreatePostBody = {
      */
     profile_id: string;
     /**
-     * now = publish immediately — the response is the post in its current state; if it is still `publishing`, use the `post.*` webhooks or poll `GET /v1/posts/{id}`. schedule = publish at schedule_at. draft = store only.
+     * now = publish immediately; schedule = publish at schedule_at; draft = store only.
      */
     publish?: 'now' | 'schedule' | 'draft';
     /**
@@ -2980,6 +3093,215 @@ export type ProfilesUpdateResponses = {
 };
 
 export type ProfilesUpdateResponse = ProfilesUpdateResponses[keyof ProfilesUpdateResponses];
+
+export type ProfilesSetApprovalStepsData = {
+    body: {
+        approval_steps: ApprovalSteps;
+    };
+    headers?: {
+        /**
+         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+         */
+        'Idempotency-Key'?: string;
+    };
+    path: {
+        /**
+         * Profile id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/profiles/{id}/approval-steps';
+};
+
+export type ProfilesSetApprovalStepsErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type ProfilesSetApprovalStepsError = ProfilesSetApprovalStepsErrors[keyof ProfilesSetApprovalStepsErrors];
+
+export type ProfilesSetApprovalStepsResponses = {
+    /**
+     * OK
+     */
+    200: Profile;
+};
+
+export type ProfilesSetApprovalStepsResponse = ProfilesSetApprovalStepsResponses[keyof ProfilesSetApprovalStepsResponses];
 
 export type ConnectionsListByProfileData = {
     body?: never;
@@ -7129,7 +7451,7 @@ export type PostsCreateErrors = {
         /**
          * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
          */
-        code: 'idempotency_key_reused' | 'invalid_connection' | 'invalid_media' | 'internal_error' | 'not_publishable';
+        code: 'idempotency_key_reused' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'not_publishable';
         display_error: string;
         detail?: string;
         request_id?: string;
@@ -7590,9 +7912,6 @@ export type PostsGetResponse = PostsGetResponses[keyof PostsGetResponses];
 
 export type PostsUpdateData = {
     body?: {
-        /**
-         * now = publish immediately — the response is the post in its current state; if it is still `publishing`, use the `post.*` webhooks or poll `GET /v1/posts/{id}`. schedule = publish at schedule_at. draft = store only.
-         */
         publish?: 'now' | 'schedule' | 'draft';
         schedule_at?: string | null;
         external_id?: string | null;
@@ -7759,7 +8078,7 @@ export type PostsUpdateErrors = {
         /**
          * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
          */
-        code: 'idempotency_key_reused' | 'invalid_connection' | 'invalid_media' | 'internal_error' | 'not_publishable';
+        code: 'idempotency_key_reused' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'not_publishable';
         display_error: string;
         detail?: string;
         request_id?: string;
@@ -8024,6 +8343,438 @@ export type PostsRetryResponses = {
 
 export type PostsRetryResponse = PostsRetryResponses[keyof PostsRetryResponses];
 
+export type PostsApproveData = {
+    body: {
+        /**
+         * The `approval.revision` the approver reviewed. If the post’s content changed since, the decision is refused with 409 `approval_revision_stale`.
+         */
+        revision: number;
+        /**
+         * Preview the post as it would read after this decision, without recording it or publishing anything.
+         */
+        dry_run?: boolean;
+    };
+    headers?: {
+        /**
+         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+         */
+        'Idempotency-Key'?: string;
+    };
+    path: {
+        /**
+         * The post id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/posts/{id}/approve';
+};
+
+export type PostsApproveErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'approval_step_not_allowed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type PostsApproveError = PostsApproveErrors[keyof PostsApproveErrors];
+
+export type PostsApproveResponses = {
+    /**
+     * OK
+     */
+    200: PostWriteResult;
+};
+
+export type PostsApproveResponse = PostsApproveResponses[keyof PostsApproveResponses];
+
+export type PostsRejectData = {
+    body: {
+        /**
+         * The `approval.revision` the approver reviewed. If the post’s content changed since, the decision is refused with 409 `approval_revision_stale`.
+         */
+        revision: number;
+        /**
+         * Preview the post as it would read after this decision, without recording it or publishing anything.
+         */
+        dry_run?: boolean;
+    };
+    headers?: {
+        /**
+         * Optional. A unique key (1–255 chars; a UUID is ideal) that makes this write safe to retry: the first request executes and its outcome is stored; an identical retry replays that exact outcome instead of re-executing. A retry with the same key but a different body returns 422; a retry while the first is still in flight returns 409. See https://docs.postrun.ai/idempotency.
+         */
+        'Idempotency-Key'?: string;
+    };
+    path: {
+        /**
+         * The post id.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/posts/{id}/reject';
+};
+
+export type PostsRejectErrors = {
+    /**
+     * An RFC 9457 problem response.
+     */
+    400: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_invalid';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    401: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'unauthorized';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    403: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'forbidden' | 'approval_step_not_allowed';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    404: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'not_found';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    409: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'conflict' | 'idempotency_request_in_progress' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    422: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'idempotency_key_reused';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+    /**
+     * An RFC 9457 problem response.
+     */
+    429: {
+        type: string;
+        title: string;
+        status: number;
+        /**
+         * The machine-readable error code — branch on this. Narrowed to the codes this endpoint can return at this status.
+         */
+        code: 'rate_limited';
+        display_error: string;
+        detail?: string;
+        request_id?: string;
+        source?: ErrorSource;
+        errors?: Array<{
+            field: string;
+            code: string;
+            detail: string;
+            display_error: string;
+            hint?: string;
+            allowed?: Array<string>;
+            got?: string;
+        }>;
+    };
+};
+
+export type PostsRejectError = PostsRejectErrors[keyof PostsRejectErrors];
+
+export type PostsRejectResponses = {
+    /**
+     * OK
+     */
+    200: PostWriteResult;
+};
+
+export type PostsRejectResponse = PostsRejectResponses[keyof PostsRejectResponses];
+
 export type PostsValidateData = {
     body: {
         /**
@@ -8228,12 +8979,16 @@ export type PostsValidateResponses = {
         object: 'validation';
         publishable: boolean;
         issues: Array<{
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
             message: string;
             hint?: string;
             allowed?: Array<string>;
             got?: string;
             source?: ErrorSource;
+            /**
+             * When the limit behind this error resets, so a retry can succeed (ISO 8601). Present only when the platform publishes its reset time.
+             */
+            retry_at?: string;
             variant_index: number;
             path: Array<string | number>;
             /**
@@ -8244,6 +8999,20 @@ export type PostsValidateResponses = {
              * Short, friendly, render-this end-user line (the Plaid display_message model). The `code` stays the branch key for customer branching; `message` stays developer-grade. Populated centrally — never at construction sites.
              */
             display_error: string;
+        }>;
+        /**
+         * One entry per submitted variant, in order.
+         */
+        variants: Array<{
+            /**
+             * The variant’s position in the submitted `variants`.
+             */
+            index: number;
+            platform: PostPlatform;
+            /**
+             * The post shape this variant publishes as, derived from its media exactly as publishing derives it (a YouTube video is a `short` or a `video`). null when no shape can be derived — e.g. the media is missing, not yet probed, or doesn’t fit the platform (an issue says why).
+             */
+            post_type: PostType | null;
         }>;
     };
 };
@@ -8990,7 +9759,7 @@ export type LogsListResponses = {
                 /**
                  * Stable, machine-readable error code from the closed registry.
                  */
-                code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+                code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
                 /**
                  * Human-readable, non-sensitive message.
                  */
@@ -9022,13 +9791,21 @@ export type LogsListResponses = {
                         /**
                          * The typed error code the variant carries.
                          */
-                        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+                        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
                         message: string;
                         source?: ErrorSource;
+                        /**
+                         * When the limit behind this error resets, so a retry can succeed (ISO 8601). Present only when the platform publishes its reset time.
+                         */
+                        retry_at?: string;
                         /**
                          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
                          */
                         display_error: string;
+                        /**
+                         * `true`: the post itself is fine — sending it again unchanged can succeed once the platform recovers or something outside the post is fixed (reconnect, billing), and `POST /v1/posts/{id}/retry` re-sends it. `false`: the post must change first, or a re-send could post it twice or harm the account.
+                         */
+                        retryable?: boolean;
                     } | null;
                     /**
                      * A non-fatal partial-success detail on a published variant (the post is live, but part of it — e.g. a thread continuation — did not complete). Absent on a clean success.
@@ -9037,14 +9814,23 @@ export type LogsListResponses = {
                         /**
                          * The typed error code the variant carries.
                          */
-                        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+                        code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
                         message: string;
                         source?: ErrorSource;
+                        /**
+                         * When the limit behind this error resets, so a retry can succeed (ISO 8601). Present only when the platform publishes its reset time.
+                         */
+                        retry_at?: string;
                         /**
                          * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
                          */
                         display_error: string;
+                        /**
+                         * `true`: the post itself is fine — sending it again unchanged can succeed once the platform recovers or something outside the post is fixed (reconnect, billing), and `POST /v1/posts/{id}/retry` re-sends it. `false`: the post must change first, or a re-send could post it twice or harm the account.
+                         */
+                        retryable?: boolean;
                     };
+                    platform_status?: PlatformStatus;
                 }>;
             } | null;
             /**
@@ -9349,7 +10135,7 @@ export type LogsGetResponses = {
             /**
              * Stable, machine-readable error code from the closed registry.
              */
-            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+            code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
             /**
              * Human-readable, non-sensitive message.
              */
@@ -9381,13 +10167,21 @@ export type LogsGetResponses = {
                     /**
                      * The typed error code the variant carries.
                      */
-                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
                     message: string;
                     source?: ErrorSource;
+                    /**
+                     * When the limit behind this error resets, so a retry can succeed (ISO 8601). Present only when the platform publishes its reset time.
+                     */
+                    retry_at?: string;
                     /**
                      * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
                      */
                     display_error: string;
+                    /**
+                     * `true`: the post itself is fine — sending it again unchanged can succeed once the platform recovers or something outside the post is fixed (reconnect, billing), and `POST /v1/posts/{id}/retry` re-sends it. `false`: the post must change first, or a re-send could post it twice or harm the account.
+                     */
+                    retryable?: boolean;
                 } | null;
                 /**
                  * A non-fatal partial-success detail on a published variant (the post is live, but part of it — e.g. a thread continuation — did not complete). Absent on a clean success.
@@ -9396,14 +10190,23 @@ export type LogsGetResponses = {
                     /**
                      * The typed error code the variant carries.
                      */
-                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'invalid_connection' | 'invalid_media' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
+                    code: 'unauthorized' | 'forbidden' | 'not_found' | 'conflict' | 'validation_failed' | 'unknown_field' | 'invalid_value' | 'invalid_field' | 'rate_limited' | 'internal_error' | 'idempotency_key_invalid' | 'idempotency_key_reused' | 'idempotency_request_in_progress' | 'account_not_available' | 'connection_reauth_required' | 'connection_not_pending' | 'not_implemented' | 'connection_discovery_failed' | 'tiktok_creator_info_unavailable' | 'tiktok_analytics_unavailable' | 'instagram_analytics_unavailable' | 'facebook_analytics_unavailable' | 'media_processing' | 'media_upload_init_failed' | 'media_upload_incomplete' | 'media_upload_invalid_parts' | 'not_publishable' | 'post_not_retryable' | 'approval_not_required' | 'approval_not_pending' | 'approval_revision_stale' | 'approval_step_not_allowed' | 'invalid_connection' | 'invalid_media' | 'schedule_in_past' | 'profile_scope_invalid' | 'media_unprobeable' | 'media_too_large' | 'media_aspect_ratio_unsupported' | 'media_resolution_too_low' | 'media_gif_unsupported' | 'media_format_recompressed' | 'media_resolution_downscaled' | 'video_container_unsupported' | 'video_codec_unsupported' | 'video_audio_codec_unsupported' | 'video_too_large' | 'video_too_small' | 'video_dimensions_unsupported' | 'video_dimensions_too_large' | 'video_fps_unsupported' | 'video_fps_too_low' | 'video_aspect_unsupported' | 'video_duration_too_short' | 'video_duration_exceeds_max' | 'video_transform_failed' | 'media_fetch_failed' | 'document_format_unsupported' | 'document_too_large' | 'document_too_many_pages' | 'media_format_indeterminate' | 'media_format_unsupported' | 'media_count_invalid' | 'body_too_long' | 'content_missing' | 'content_conflict' | 'content_incomplete' | 'media_type_mismatch' | 'tag_limit_exceeded' | 'reel_field_on_non_reel' | 'field_placement_invalid' | 'title_too_long' | 'characters_not_allowed' | 'media_not_ready' | 'media_failed' | 'media_unsupported' | 'media_kind_mismatch' | 'variant_unparseable' | 'publishing_unavailable' | 'x_duplicate_content' | 'x_not_authorized' | 'x_access_not_permitted' | 'x_rate_limited' | 'x_publish_failed' | 'x_media_upload_failed' | 'x_thread_incomplete' | 'linkedin_duplicate_content' | 'linkedin_auth_expired' | 'linkedin_permission_denied' | 'linkedin_rate_limited' | 'linkedin_media_processing' | 'linkedin_media_failed' | 'linkedin_media_upload_failed' | 'linkedin_publish_failed' | 'instagram_media_processing' | 'instagram_container_expired' | 'instagram_container_failed' | 'instagram_rate_limited' | 'instagram_daily_limit_reached' | 'instagram_aspect_ratio_unsupported' | 'instagram_media_unsupported' | 'instagram_not_authorized' | 'instagram_publish_failed' | 'instagram_comment_failed' | 'facebook_reel_processing' | 'facebook_reel_failed' | 'facebook_rate_limited' | 'facebook_duplicate_content' | 'facebook_temporarily_blocked' | 'facebook_not_authorized' | 'facebook_publish_failed' | 'facebook_comment_failed' | 'tiktok_privacy_not_allowed' | 'tiktok_interaction_not_allowed' | 'tiktok_thumbnail_offset_invalid' | 'tiktok_duration_exceeds_max' | 'tiktok_media_processing' | 'tiktok_not_authorized' | 'tiktok_rate_limited' | 'tiktok_spam_risk' | 'tiktok_file_format_invalid' | 'tiktok_duration_invalid' | 'tiktok_frame_rate_invalid' | 'tiktok_resolution_invalid' | 'tiktok_media_pull_failed' | 'tiktok_server_error' | 'tiktok_publish_failed' | 'youtube_long_upload_not_allowed' | 'youtube_not_authorized' | 'youtube_daily_limit_reached' | 'youtube_upload_failed' | 'youtube_invalid_metadata' | 'youtube_upload_unconfirmed' | 'youtube_video_rejected' | 'youtube_processing_failed' | 'youtube_thumbnail_failed' | 'post_publish_failed' | 'post_partially_published' | 'connection_platform_mismatch' | 'connection_removed' | 'connection_pending' | 'publish_interrupted' | 'publish_outcome_unknown' | 'plan_limit_reached' | 'billing_required' | 'x_link_requires_paid_plan' | 'analytics_not_supported' | 'analytics_no_data';
                     message: string;
                     source?: ErrorSource;
+                    /**
+                     * When the limit behind this error resets, so a retry can succeed (ISO 8601). Present only when the platform publishes its reset time.
+                     */
+                    retry_at?: string;
                     /**
                      * A short, friendly end-user line for `code` (render verbatim). `message` stays developer-grade.
                      */
                     display_error: string;
+                    /**
+                     * `true`: the post itself is fine — sending it again unchanged can succeed once the platform recovers or something outside the post is fixed (reconnect, billing), and `POST /v1/posts/{id}/retry` re-sends it. `false`: the post must change first, or a re-send could post it twice or harm the account.
+                     */
+                    retryable?: boolean;
                 };
+                platform_status?: PlatformStatus;
             }>;
         } | null;
         /**
@@ -9719,7 +10522,7 @@ export type WebhooksCreateEndpointData = {
         /**
          * Event types to deliver to this endpoint. An empty array delivers all events.
          */
-        event_types: Array<'webhook.ping' | 'post.published' | 'post.failed' | 'post.completed' | 'connection.needs_reauth' | 'connection.restored'>;
+        event_types: Array<'webhook.ping' | 'post.published' | 'post.failed' | 'post.completed' | 'post.platform_status_changed' | 'post.approval_updated' | 'connection.needs_reauth' | 'connection.restored'>;
     };
     headers?: {
         /**
@@ -10411,7 +11214,7 @@ export type WebhooksUpdateEndpointData = {
         /**
          * Replace the subscription. Omit to leave unchanged; an empty array delivers all events.
          */
-        event_types?: Array<'webhook.ping' | 'post.published' | 'post.failed' | 'post.completed' | 'connection.needs_reauth' | 'connection.restored'>;
+        event_types?: Array<'webhook.ping' | 'post.published' | 'post.failed' | 'post.completed' | 'post.platform_status_changed' | 'post.approval_updated' | 'connection.needs_reauth' | 'connection.restored'>;
     };
     path: {
         /**
@@ -11277,7 +12080,15 @@ export type TokensMintData = {
         /**
          * What the token grants — coarse `resource:read` / `resource:write` per business area. At least one is required (a token with no scopes can do nothing). Money/structural writes are not a scope: those endpoints are server-side only and a browser token simply cannot reach them.
          */
-        scopes: Array<'profiles:read' | 'profiles:write' | 'profiles:delete' | 'connections:read' | 'connections:write' | 'connections:delete' | 'posts:read' | 'posts:write' | 'posts:delete' | 'media:read' | 'media:write' | 'media:delete'>;
+        scopes: Array<'profiles:read' | 'profiles:write' | 'profiles:delete' | 'connections:read' | 'connections:write' | 'connections:delete' | 'posts:read' | 'posts:write' | 'posts:delete' | 'posts:approve' | 'media:read' | 'media:write' | 'media:delete'>;
+        /**
+         * Your user's id, recorded as `decided_by` on approval decisions. Required with `posts:approve`.
+         */
+        sub?: string;
+        /**
+         * Limits which approval steps this token may decide, e.g. `["client"]`. Omit to allow any step; `[]` allows none.
+         */
+        approver_steps?: ApprovalSteps;
         /**
          * Token lifetime in seconds. Default 900 (15 min), max 1800 (30 min). Short TTL is the revocation model — there is no revocation store.
          */

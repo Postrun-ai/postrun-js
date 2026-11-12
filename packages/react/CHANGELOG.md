@@ -1,5 +1,16 @@
 # @postrun/react
 
+## 4.4.0
+
+### Minor Changes
+
+- 1ea3350: Post approval chains. `postsApprove` and `postsReject` (plus their TanStack Query mutation options) approve or reject a post's current approval step, and `profilesSetApprovalSteps` sets a profile's default steps. Posts and profiles gain `approval_steps`, and tokens gain the `posts:approve` scope. `zTokensMintBodyChecked` adds the one rule the spec can't express: a token with `posts:approve` must name its `sub`.
+
+### Patch Changes
+
+- Updated dependencies [1ea3350]
+  - @postrun/js@4.4.0
+
 ## 4.3.0
 
 ### Minor Changes

@@ -25,6 +25,7 @@ const PENDING_CONN: Connection = {
   currency: null,
   created_at: null,
   updated_at: null,
+  capabilities: null,
 };
 
 const ACTIVE_CONN: Connection = {

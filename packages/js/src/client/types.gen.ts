@@ -272,6 +272,9 @@ export type Post = {
 
 export type PostApproval = {
     status: 'pending' | 'approved' | 'rejected';
+    /**
+     * Opaque version of the post's content for this approval round. It increases on every content edit (by more than 1). Echo it back to approve or reject; never compute it.
+     */
     revision: number;
     current_step: string | null;
     steps: Array<{
@@ -12078,7 +12081,7 @@ export type TokensMintData = {
             type: 'all';
         };
         /**
-         * What the token grants — coarse `resource:read` / `resource:write` per business area. At least one is required (a token with no scopes can do nothing). Money/structural writes are not a scope: those endpoints are server-side only and a browser token simply cannot reach them.
+         * What the token grants — coarse `resource:read` / `resource:write` / `resource:delete` per business area, plus `posts:approve` (lets the token approve or reject posts; requires `sub`). At least one is required (a token with no scopes can do nothing). Money/structural writes are not a scope: those endpoints are server-side only and a browser token simply cannot reach them.
          */
         scopes: Array<'profiles:read' | 'profiles:write' | 'profiles:delete' | 'connections:read' | 'connections:write' | 'connections:delete' | 'posts:read' | 'posts:write' | 'posts:delete' | 'posts:approve' | 'media:read' | 'media:write' | 'media:delete'>;
         /**
